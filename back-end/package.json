@@ -1,0 +1,35 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "Beautiful map for save the planet and the dolphin/koala bear",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "build:watch": "tsc --watch",
+    "start:watch": "nodemon dist/index.js",
+    "dev": "npm run build && (npm run build:watch & npm run start:watch)"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cookie": "^0.6.0",
+    "@types/express": "^4.17.17",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.10.0",
+    "bcrypt": "^5.1.1",
+    "class-validator": "^0.14.1",
+    "cookie": "^0.6.0",
+    "express": "^4.18.2",
+    "graphql": "^16.8.1",
+    "graphql-scalars": "^1.22.4",
+    "reflect-metadata": "^0.2.1",
+    "type-graphql": "^2.0.0-beta.3",
+    "typeorm": "^0.3.17"
+  }
+}
