@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   back-end:
-    container_name : back_end_circul_app
+    container_name : back_end_eco_city_guide
     build: ./back-end
     environment:
       - DATABASE_URL=postgres://postgres:password@database:5432/postgres
@@ -19,7 +19,7 @@ services:
           path: back-end/package.json
 
   web-app:
-    container_name : web_app_circul_app
+    container_name : web_app_eco_city_guide
     build: ./web-app
     ports:
       - 3000:3000
@@ -32,7 +32,7 @@ services:
           path: web-app/package.json
 
   database:
-    container_name : postgres_circul_app
+    container_name : database_eco_city_guide
     image: postgres:15
     volumes:
       - database-data:/var/lib/postgresql/data
