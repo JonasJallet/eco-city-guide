@@ -6,6 +6,7 @@ Run app in watch mode:
 
 ```
 docker compose build && docker compose watch
+<!-- npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch -->
 ```
 
 In parallel, follow log output with:
