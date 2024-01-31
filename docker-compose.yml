@@ -2,10 +2,10 @@ version: "3.8"
 
 services:
   back-end:
-    container_name : back_end_circul_app
+    container_name : back_end
     build: ./back-end
     environment:
-      - DATABASE_URL=postgres://postgres:password@database:5432/postgres
+      - DATABASE_URL=postgres://root:root@database:5432/ecocityguide
     depends_on:
       - database
     ports:
@@ -19,7 +19,7 @@ services:
           path: back-end/package.json
 
   web-app:
-    container_name : web_app_circul_app
+    container_name : web_app
     build: ./web-app
     ports:
       - 3000:3000
@@ -32,12 +32,23 @@ services:
           path: web-app/package.json
 
   database:
-    container_name : postgres_circul_app
+    container_name : database
     image: postgres:15
+    restart: always
     volumes:
       - database-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ecocityguide
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+
+  adminer:
+    image: adminer
+    depends_on:
+      - database
+    restart: always
+    ports:
+      - 8080:8080
 
 volumes:
   database-data:
