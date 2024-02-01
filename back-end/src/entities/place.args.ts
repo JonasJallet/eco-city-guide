@@ -1,13 +1,12 @@
 import { Field, Float, Int, ArgsType } from "type-graphql";
 import { Min, MinLength } from "class-validator";
-import { Point } from "typeorm";
+import { Geometry, Point } from "typeorm";
+import { GeoJSONPoint } from "./scalar/geoJSONPoint";
 
-
-// type PointP {
-//   longittude : Float,
-//   latitude : Float;
+// type Point {
+//   Latitude: Float!
+//   Longitude: Float!
 // }
-
 
 @ArgsType()
 export class CreatePlace {
@@ -21,13 +20,8 @@ export class CreatePlace {
 //   @Field(() => [String])
 //   categoryIds!: string[];
 
-  // @Field(() => [])
-    // type: "point";
-    // coordinates!: number[];
-    // point!: Point[];
-
-//   @Field(() => [Number])
-//   notes!: number[];
+  @Field(() => GeoJSONPoint)
+  coordinates!: Geometry;
 }
 
 @ArgsType()
@@ -42,8 +36,6 @@ export class UpdatePlace {
 //   @Field(() => [String])
 //   categoryIds?: string[];
 
-  // @Field(() => [])
-    // type: "point";
-    // coordinates!: number[];
-    // point!: Point[];
+  @Field(() => GeoJSONPoint)
+  coordinates!: Geometry;
 }

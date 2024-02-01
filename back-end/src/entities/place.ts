@@ -11,10 +11,13 @@ import {
     Point,
     PrimaryGeneratedColumn,
   } from "typeorm";
+  import { Geometry } from 'geojson';
   import { ObjectType, Field, ID, Float } from "type-graphql";
+
   
 //   import Category from "./category";
   import { CreatePlace, UpdatePlace } from "./place.args";
+  import { GeoJSONPoint } from "./scalar/geoJSONPoint";
     
   // import Note from "./note";
   
@@ -43,6 +46,13 @@ import {
     // @Field(() => [Category])
     // categories!: Category[];
   
+
+    @Column({
+      type: 'geometry',
+      spatialFeatureType: 'Point'
+    })
+    coordinates!: Geometry;
+
     // @Column()
     // @Field(() => [Float])
     // point!: Point[];
@@ -75,10 +85,10 @@ import {
         this.description = place.description;
 
         // this.categories = place.categoryIds;
-        // if (!place.point) {
-        //   throw new Error("Place coordinates cannot be empty.");
-        // }
-        // this.point = place.point;
+        if (!place.coordinates) {
+          throw new Error("Place coordinates cannot be empty.");
+        }
+        this.coordinates = place.coordinates;
         // this.notes = place.notes;
       }
     }
@@ -132,7 +142,7 @@ import {
     }
   
     getStringRepresentation(): string {
-      return `${this.id} | ${this.name} | ${this.description}}`;
+      return `${this.id} | ${this.name} | ${this.description} | ${this.coordinates}`;
     }
   }
   

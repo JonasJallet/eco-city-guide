@@ -33,7 +33,7 @@ services:
 
   database:
     container_name : database
-    image: postgres:15
+    image: postgis/postgis:15-3.4
     restart: always
     volumes:
       - database-data:/var/lib/postgresql/data
