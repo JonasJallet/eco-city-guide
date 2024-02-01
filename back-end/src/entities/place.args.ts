@@ -10,7 +10,7 @@ import { Point } from "typeorm";
 
 
 @ArgsType()
-export class CreateOrUpdatePlace {
+export class CreatePlace {
   @Field()
   @MinLength(2)
   name!: string;
@@ -21,11 +21,29 @@ export class CreateOrUpdatePlace {
 //   @Field(() => [String])
 //   categoryIds!: string[];
 
-  @Field(() => [])
+  // @Field(() => [])
     // type: "point";
     // coordinates!: number[];
-    point!: Point[];
+    // point!: Point[];
 
 //   @Field(() => [Number])
 //   notes!: number[];
+}
+
+@ArgsType()
+export class UpdatePlace {
+  @Field()
+  @MinLength(2)
+  name!: string;
+
+  @Field()
+  description!: string;
+
+//   @Field(() => [String])
+//   categoryIds?: string[];
+
+  // @Field(() => [])
+    // type: "point";
+    // coordinates!: number[];
+    // point!: Point[];
 }

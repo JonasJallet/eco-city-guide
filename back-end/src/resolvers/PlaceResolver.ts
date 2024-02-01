@@ -9,7 +9,7 @@ import {
     Resolver,
   } from "type-graphql";
   import Place from "../entities/place";
-  import { CreateOrUpdatePlace } from "../entities/place.args";
+  import { CreatePlace, UpdatePlace } from "../entities/place.args";
 //   import { Context } from "..";
 //   import User from "../entities/user";
   
@@ -27,14 +27,16 @@ import {
     }
   
     // @Authorized()
-    // @Mutation(() => Place)
-    // createPlace(@Args() args: CreateOrUpdatePlace, @Ctx() { user }: Context) {
+    @Mutation(() => Place)
+    // createPlace(@Args() args: CreatePlace, @Ctx() { user }: Context) {
     //   return Place.saveNewPlace({ ...args, user: user as User });
-    // }
+    createPlace(@Args() args: CreatePlace) {
+      return Place.saveNewPlace({ ...args });
+    }
   
     // @Authorized()
     @Mutation(() => Place)
-    updatePlace(@Arg("id", () => ID) id: string, @Args() args: CreateOrUpdatePlace) {
+    updatePlace(@Arg("id", () => ID) id: string, @Args() args: UpdatePlace) {
       return Place.updatePlace(id, args);
     }
   

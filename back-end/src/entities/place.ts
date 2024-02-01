@@ -14,7 +14,7 @@ import {
   import { ObjectType, Field, ID, Float } from "type-graphql";
   
 //   import Category from "./category";
-  import { CreateOrUpdatePlace } from "./place.args";
+  import { CreatePlace, UpdatePlace } from "./place.args";
     
   // import Note from "./note";
   
@@ -43,9 +43,9 @@ import {
     // @Field(() => [Category])
     // categories!: Category[];
   
-    @Column()
-    @Field(() => [Float])
-    point!: Point[];
+    // @Column()
+    // @Field(() => [Float])
+    // point!: Point[];
 
     // @OneToMany(() => Note, (note) => note.place)
     // @Field(() => [Note])
@@ -60,7 +60,7 @@ import {
     createdAt!: Date;
   
   
-    constructor(place?: CreateOrUpdatePlace) {
+    constructor(place?: CreatePlace) {
       super();
   
       if (place) {
@@ -75,15 +75,15 @@ import {
         this.description = place.description;
 
         // this.categories = place.categoryIds;
-        if (!place.point) {
-          throw new Error("Place coordinates cannot be empty.");
-        }
-        this.point = place.point;
+        // if (!place.point) {
+        //   throw new Error("Place coordinates cannot be empty.");
+        // }
+        // this.point = place.point;
         // this.notes = place.notes;
       }
     }
   
-    static async saveNewPlace(placeData: CreateOrUpdatePlace): Promise<Place> {
+    static async saveNewPlace(placeData: CreatePlace): Promise<Place> {
       const newPlace = new Place(placeData);
 
       // if (placeData.categoryIds) {
@@ -118,7 +118,7 @@ import {
       return place;
     }
   
-    static async updatePlace(id: string, partialPlace: CreateOrUpdatePlace): Promise<Place> {
+    static async updatePlace(id: string, partialPlace: UpdatePlace): Promise<Place> {
       const place = await Place.getPlaceById(id);
       Object.assign(place, partialPlace);
 
@@ -132,7 +132,7 @@ import {
     }
   
     getStringRepresentation(): string {
-      return `${this.id} | ${this.name} | ${this.description} | ${this.point}`;
+      return `${this.id} | ${this.name} | ${this.description}}`;
     }
   }
   
