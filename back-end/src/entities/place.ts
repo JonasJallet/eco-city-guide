@@ -47,10 +47,6 @@ import {
     @Field(() => [Float])
     point!: Point[];
 
-    // @Column()
-    // @Field(() => Float)
-    // coordinates2!: MultiPoint;
-    
     // @OneToMany(() => Note, (note) => note.place)
     // @Field(() => [Note])
     // notes!: Note[];
@@ -68,72 +64,76 @@ import {
       super();
   
       if (place) {
+        if (!place.name) {
+          throw new Error("Place name cannot be empty.");
+        }
         this.name = place.name;
+
+        if (!place.description) {
+          throw new Error("Place description cannot be empty.");
+        }
         this.description = place.description;
+
         // this.categories = place.categoryIds;
+        if (!place.point) {
+          throw new Error("Place coordinates cannot be empty.");
+        }
         this.point = place.point;
         // this.notes = place.notes;
       }
     }
   
-    // static async saveNewPlace(placeData: CreateOrUpdatePlace): Promise<Place> {
-    //   const newPlace = new Place(PlaceData);
-    //   if (PlaceData.categoryId) {
-    //     const category = await Category.getCategoryById(PlaceData.categoryId);
-    //     newPlace.category = category;
-    //   }
-//       if (PlaceData.tagIds) {
-//         // Promise.all will call each function in array passed as argument and resolve when all are resolved
-//         newPlace.tags = await Promise.all(PlaceData.tagIds.map(Tag.getTagById));
-//       }
-//       const savedPlace = await newPlace.save();
-//       console.log(`New Place saved: ${savedPlace.getStringRepresentation()}.`);
-//       return savedPlace;
-//     }
+    static async saveNewPlace(placeData: CreateOrUpdatePlace): Promise<Place> {
+      const newPlace = new Place(placeData);
+
+      // if (placeData.categoryIds) {
+      //   newPlace.categories = await Promise.all(placeData.categoryIds.map(Category.getCategoryById));
+      // }
+
+      const savedPlace = await newPlace.save();
+      console.log(`New Place saved: ${savedPlace.getStringRepresentation()}.`);
+      return savedPlace;
+    }
   
-//     static async getPlaces(categoryId?: number): Promise<Place[]> {
-//       const Places = await Place.find({
-//         where: { category: { id: categoryId } },
-//         order: { createdAt: "DESC" },
-//       });
-//       return Places;
-//     }
+    static async getPlaces(): Promise<Place[]> {
+      const places = await Place.find();
+      // const places = await Place.find({
+      //   where: { category: { id: categoryId } },
+      //   order: { createdAt: "DESC" },
+      // });
+      return places;
+    }
   
-//     static async getPlaceById(id: string): Promise<Place> {
-//       const Place = await Place.findOne({
-//         where: { id },
-//       });
-//       if (!Place) {
-//         throw new Error(`Place with ID ${id} does not exist.`);
-//       }
-//       return Place;
-//     }
+    static async getPlaceById(id: string): Promise<Place> {
+      const place = await Place.findOneBy({ id });
+      if (!place) {
+        throw new Error(`Place with ID ${id} does not exist.`);
+      }
+      return place;
+    }
   
-//     static async deletePlace(id: string): Promise<Place> {
-//       const Place = await Place.getPlaceById(id);
-//       await Place.delete(id);
-//       return Place;
-//     }
+    static async deletePlace(id: string): Promise<Place> {
+      const place = await Place.getPlaceById(id);
+      await Place.delete(id);
+      return place;
+    }
   
-//     static async updatePlace(id: string, partialPlace: CreateOrUpdatePlace): Promise<Place> {
-//       const Place = await Place.getPlaceById(id);
-//       Object.assign(Place, partialPlace);
+    static async updatePlace(id: string, partialPlace: CreateOrUpdatePlace): Promise<Place> {
+      const place = await Place.getPlaceById(id);
+      Object.assign(place, partialPlace);
+
+      // if (partialPlace.categoryIds) {
+      //   place.categories = await Promise.all(partialPlace.categoryIds.map(Category.getCategoryById));
+      // }
   
-//       if (partialPlace.categoryId) {
-//         Place.category = await Category.getCategoryById(partialPlace.categoryId);
-//       }
-//       if (partialPlace.tagIds) {
-//         Place.tags = await Promise.all(partialPlace.tagIds.map(Tag.getTagById));
-//       }
+      await place.save();
+      place.reload();
+      return place;
+    }
   
-//       await Place.save();
-//       Place.reloPlace();
-//       return Place;
-//     }
-  
-//     getStringRepresentation(): string {
-//       return `${this.id} | ${this.title} | ${this.owner} | ${this.price} €`;
-//     }
+    getStringRepresentation(): string {
+      return `${this.id} | ${this.name} | ${this.description} | ${this.point}`;
+    }
   }
   
   export default Place;
