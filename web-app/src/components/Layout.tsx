@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import Head from "next/head";
-import Header from "./Header";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
@@ -12,9 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           content="Une magnifique carte pour sauver la planète et les dauphins."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
     </>
   );
 }
