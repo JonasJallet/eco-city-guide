@@ -24,11 +24,11 @@ export class CreatePlace {
     @MinLength(2)
     name!: string;
 
-//   @Field()
-//   description!: string;
+  @Field()
+  description!: string;
 
-//   @Field((type) => GeoJSONPoint)
-//   coordinates!: Geometry;
+  @Field((type) => GeoJSONPoint)
+  coordinates!: Geometry;
 
 //   @Field(() => [String])
 //   categoryIds?: string[];
