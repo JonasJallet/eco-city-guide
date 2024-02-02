@@ -6,19 +6,14 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
-    MultiPoint,
     OneToMany,
-    Point,
     PrimaryGeneratedColumn,
   } from "typeorm";
   import { Geometry } from 'geojson';
-  import { ObjectType, Field, ID, Float } from "type-graphql";
-
-  
-//   import Category from "./category";
-  import { CreatePlace, UpdatePlace } from "./place.args";
-  import { GeoJSONPoint } from "./scalar/geoJSONPoint";
-    
+  import { ObjectType, Field, ID } from "type-graphql";
+  import { CreatePlace, UpdatePlace } from "./place.args";  
+  import { GeoJSONPoint } from "./scalar/geoJSONPoint"
+  // import Category from "./category";
   // import Note from "./note";
   
   
@@ -36,7 +31,22 @@ import {
     @Column()
     @Field()
     description!: string;
-    
+
+    @Column({
+      type: 'geometry',
+      spatialFeatureType: 'Point'
+    })
+    @Field((type) => GeoJSONPoint)
+    coordinates!: Geometry;
+
+    // @OneToMany(() => Note, (note) => note.place)
+    // @Field(() => [Note])
+    // notes!: Note[];
+
+    // @Column({ default: "" })
+    // @Field()
+    // picture!: string;
+
     // @ManyToOne(() => User, (user) => user.Places, { eager: true })
     // @Field()
     // owner!: User;
@@ -46,29 +56,9 @@ import {
     // @Field(() => [Category])
     // categories!: Category[];
   
-
-    @Column({
-      type: 'geometry',
-      spatialFeatureType: 'Point'
-    })
-    coordinates!: Geometry;
-
-    // @Column()
-    // @Field(() => [Float])
-    // point!: Point[];
-
-    // @OneToMany(() => Note, (note) => note.place)
-    // @Field(() => [Note])
-    // notes!: Note[];
-
-    // @Column({ default: "" })
-    // @Field()
-    // picture!: string;
-  
     @CreateDateColumn()
     @Field()
     createdAt!: Date;
-  
   
     constructor(place?: CreatePlace) {
       super();
@@ -84,11 +74,12 @@ import {
         }
         this.description = place.description;
 
-        // this.categories = place.categoryIds;
         if (!place.coordinates) {
           throw new Error("Place coordinates cannot be empty.");
         }
         this.coordinates = place.coordinates;
+
+        // this.categories = place.categoryIds;
         // this.notes = place.notes;
       }
     }

@@ -1,8 +1,6 @@
 import {
     Arg,
     Args,
-    Authorized,
-    Ctx,
     ID,
     Mutation,
     Query,

@@ -1,6 +1,5 @@
 import { DataSource } from "typeorm";
 import "reflect-metadata";
-import { Response } from "express";
 
 import Place from "./entities/place";
 // import User from "./entities/user";
@@ -53,26 +52,6 @@ const startApolloServer = async () => {
   // await dataSource.synchronize();
 
   console.log(`🚀  Server ready at: ${url}`);
-
-  const place = new Place({
-    name: "London",
-    description: "Pluvieux",
-    coordinates: { type: "Point", coordinates: [1.1, 1.1] },
-  });
-
-  await place.save();
 };
 
 startApolloServer();
-
-// import express from 'express';
-
-// const app = express();
-// const PORT = 4000;
-
-// const startApp = () => {
-//     app.listen(PORT, () =>
-//     console.log(`Server is listening on PORT ${PORT}`))
-// };
-
-// startApp();
