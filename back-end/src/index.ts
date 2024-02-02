@@ -47,10 +47,6 @@ const startApolloServer = async () => {
 
   await dataSource.initialize();
 
-  // await dataSource.query("CREATE EXTENSION IF NOT EXISTS postgis;");
-
-  // await dataSource.synchronize();
-
   console.log(`🚀  Server ready at: ${url}`);
 };
 

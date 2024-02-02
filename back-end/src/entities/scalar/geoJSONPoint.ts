@@ -13,12 +13,10 @@ export const GeoJSONPoint = new GraphQLScalarType({
   },
 
   serialize(value) {
-    console.log('serialize');
     return value;
   },
 
   parseLiteral(ast: ValueNode) {
-    console.log('parseLiteral');
 
     const geometryData = {
       type: 'Point',
