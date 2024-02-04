@@ -43,6 +43,7 @@ services:
       - POSTGRES_USER=root
 
   adminer:
+    container_name : adminer
     image: adminer
     depends_on:
       - database

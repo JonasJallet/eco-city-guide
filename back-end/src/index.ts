@@ -8,7 +8,7 @@ import Place from "./entities/place";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { AuthChecker, buildSchema } from "type-graphql";
-import { PlaceResolver } from "./resolvers/PlaceResolver";
+import { PlaceResolver } from "./resolvers/placeResolver";
 // import { UserResolver } from "./resolvers/UserResolver";
 // import { getUserSessionIdFromCookie } from "./utils/cookie";
 
@@ -20,6 +20,8 @@ const dataSource = new DataSource({
   entities: [Place],
   synchronize: true,
 });
+
+export { dataSource };
 
 // const authChecker: AuthChecker<Context> = ({ context }) => {
 //   return Boolean(context.user);
