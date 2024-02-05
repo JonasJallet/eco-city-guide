@@ -1,12 +1,18 @@
 import { DeepPartial } from 'typeorm';
 import { TypeFactory } from 'interface-forge';
 import { faker } from '@faker-js/faker';
-import PlaceInterface from "../entities/place";
+import { Geometry } from 'geojson';
 
 const minLatitude = 48.85499;
 const maxLatitude = 48.86251;
 const minLongitude = 2.225056;
 const maxLongitude = 2.415;
+
+interface PlaceInterface {
+  name: string;
+  description: string;
+  coordinates: Geometry;
+}
 
 export class PlaceFactory {
   private typeFactory: TypeFactory<DeepPartial<PlaceInterface>>;

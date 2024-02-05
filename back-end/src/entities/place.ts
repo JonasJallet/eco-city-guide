@@ -138,9 +138,3 @@ import {
   }
   
   export default Place;
-  
-  export interface PlaceInterface {
-  name: string;
-  description: string;
-  coordinates: Geometry;
-}
