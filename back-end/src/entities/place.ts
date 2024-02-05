@@ -138,8 +138,7 @@ import {
   }
   
   export default Place;
-
-  // Create an interface for the Place entity
+  
   export interface PlaceInterface {
   name: string;
   description: string;

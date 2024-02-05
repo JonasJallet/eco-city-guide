@@ -1,27 +1,18 @@
-import { DataSource } from "typeorm";
 import "reflect-metadata";
-
-import Place from "./entities/place";
 // import User from "./entities/user";
 // import UserSession from "./entities/userSession";
 
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { AuthChecker, buildSchema } from "type-graphql";
+import DataSource from "./data-source";
 import { PlaceResolver } from "./resolvers/placeResolver";
+import { PlaceFactory } from "./factory/placeFactory";
+import Place from "./entities/place";
 // import { UserResolver } from "./resolvers/UserResolver";
 // import { getUserSessionIdFromCookie } from "./utils/cookie";
 
 // export type Context = { res: Response; user: User | null };
-
-const dataSource = new DataSource({
-  type: "postgres",
-  url: process.env.DATABASE_URL,
-  entities: [Place],
-  synchronize: true,
-});
-
-export { dataSource };
 
 // const authChecker: AuthChecker<Context> = ({ context }) => {
 //   return Boolean(context.user);
@@ -47,7 +38,17 @@ const startApolloServer = async () => {
     //     },
   });
 
-  await dataSource.initialize();
+  await DataSource.initialize();
+  const entities = DataSource.entityMetadatas;
+
+  for (const entity of entities) {
+    const repository = DataSource.getRepository(entity.name);
+    await repository.clear(); 
+  }
+  
+  const placeRepository = DataSource.getRepository(Place);
+  const placeData = await new PlaceFactory().createMany(10);
+  await placeRepository.save(placeData);
 
   console.log(`🚀  Server ready at: ${url}`);
 };
