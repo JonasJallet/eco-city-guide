@@ -14,7 +14,7 @@ interface PlaceInterface {
   coordinates: Geometry;
 }
 
-export class PlaceFactory {
+export class PlaceMockFactory {
   private typeFactory: TypeFactory<DeepPartial<PlaceInterface>>;
 
   constructor() {
