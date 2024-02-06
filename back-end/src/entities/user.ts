@@ -68,7 +68,7 @@ import {
     // @OneToMany(() => Comment, (comment) => comment.userID)
     // comments!: Comment[];
 
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!session User!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\
+    //!!session User!!\\
     // @OneToMany(() => UserSession, (session) => session.user)
     // sessions!: UserSession[];
   
@@ -88,7 +88,7 @@ import {
         this.hashedPassword = user.password;
         this.role = user.role;
        
-        //thise.bookmarks = user.bookmarks
+        //this.bookmarks = user.bookmarks
         // this.comments = user.categoryIds;
         // this.notes = user.notes;
         //this.places = user.places
@@ -107,10 +107,6 @@ import {
   
     static async getUsers(): Promise<User[]> {
       const users = await User.find();
-      // const places = await Place.find({
-      //   where: { category: { id: categoryId } },
-      //   order: { createdAt: "DESC" },
-      // });
       return users;
     }
   
@@ -131,10 +127,6 @@ import {
     static async updateUser(id: string, partialUser: UpdateUser): Promise<User> {
       const user = await User.getUserById(id);
       Object.assign(user, partialUser);
-
-      // if (partialPlace.categoryIds) {
-      //   place.categories = await Promise.all(partialPlace.categoryIds.map(Category.getCategoryById));
-      // }
   
       await user.save();
       user.reload();
