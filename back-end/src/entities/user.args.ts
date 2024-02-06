@@ -52,3 +52,13 @@ export class UpdateUser {
 //   @Field(() => [String])
 //   placeIds!: string[];
 }
+
+@ArgsType()
+export class SignInUser {
+  @Field()
+  @IsEmail()
+  email!: string;
+
+  @Field()
+  password!: string;
+}
