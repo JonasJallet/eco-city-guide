@@ -6,9 +6,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { AuthChecker, buildSchema } from "type-graphql";
 import DataSource from "./data-source";
-import { PlaceResolver } from "./resolvers/placeResolver";
-import { PlaceMockFactory } from "./factories/placeMockFactory";
-import Place from "./entities/place";
+import { PlaceResolver } from "./resolvers/PlaceResolver";
 // import { UserResolver } from "./resolvers/UserResolver";
 // import { getUserSessionIdFromCookie } from "./utils/cookie";
 
@@ -39,16 +37,6 @@ const startApolloServer = async () => {
   });
 
   await DataSource.initialize();
-  const entities = DataSource.entityMetadatas;
-
-  for (const entity of entities) {
-    const repository = DataSource.getRepository(entity.name);
-    await repository.clear(); 
-  }
-  
-  const placeRepository = DataSource.getRepository(Place);
-  const placeData = await new PlaceMockFactory().createMany(10);
-  await placeRepository.save(placeData);
 
   console.log(`🚀  Server ready at: ${url}`);
 };
