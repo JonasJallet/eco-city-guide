@@ -6,7 +6,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { AuthChecker, buildSchema } from "type-graphql";
 import DataSource from "./data-source";
-import { PlaceResolver } from "./resolvers/PlaceResolver";
+import { PlaceResolver } from "./resolvers/placeResolver";
 // import { UserResolver } from "./resolvers/UserResolver";
 // import { getUserSessionIdFromCookie } from "./utils/cookie";
 
