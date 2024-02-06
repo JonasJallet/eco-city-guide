@@ -10,8 +10,9 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { CreateUser, UpdateUser } from "./user.args";
+import { CreateUser, UpdateUser, SignInUser } from "./user.args";
 import { compare, hash } from "bcrypt";
+import UserSession from "./userSession";
 // import Comment from "./comment";
 // import Note from "./note";
 
@@ -56,6 +57,9 @@ class User extends BaseEntity {
   @Field()
   hashedPassword!: string;
 
+  @OneToMany(() => UserSession, (session) => session.user)
+  sessions!: UserSession[];
+
   // @OneToMany(() => Bookmark, (bookmark) => bookmark.userID)
   // bookmarks!: Bookmark[];
 
@@ -67,10 +71,6 @@ class User extends BaseEntity {
 
   // @OneToMany(() => Comment, (comment) => comment.userID)
   // comments!: Comment[];
-
-  //!!session User!!\\
-  // @OneToMany(() => UserSession, (session) => session.user)
-  // sessions!: UserSession[];
 
   @CreateDateColumn()
   @Field()
@@ -127,6 +127,37 @@ class User extends BaseEntity {
     await user.save();
     user.reload();
     return user;
+  }
+
+  static async getUserWithEmailAndPassword({
+    email,
+    password,
+  }: SignInUser): Promise<User> {
+    const user = await User.findOne({ where: { email } });
+    if (!user || !(await compare(password, user.hashedPassword))) {
+      throw new Error("INVALID_CREDENTIALS");
+    }
+    return user;
+  }
+
+  static async signIn({
+    email,
+    password,
+  }: SignInUser): Promise<{ user: User; session: UserSession }> {
+    const user = await this.getUserWithEmailAndPassword({ email, password });
+    const session = await UserSession.saveNewSession(user);
+    return { user, session };
+  }
+
+  static async getUserWithSessionId(sessionId: string): Promise<User | null> {
+    const session = await UserSession.findOne({
+      where: { id: sessionId },
+      relations: { user: true },
+    });
+    if (!session) {
+      return null;
+    }
+    return session.user;
   }
 
   getStringRepresentation(): string {
