@@ -2,14 +2,14 @@ import { DataSource } from "typeorm";
 import "reflect-metadata";
 
 import Place from "./entities/place";
-// import User from "./entities/user";
+import User from "./entities/user";
 // import UserSession from "./entities/userSession";
 
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { AuthChecker, buildSchema } from "type-graphql";
 import { PlaceResolver } from "./resolvers/PlaceResolver";
-// import { UserResolver } from "./resolvers/UserResolver";
+import { UserResolver } from "./resolvers/UserResolver";
 // import { getUserSessionIdFromCookie } from "./utils/cookie";
 
 // export type Context = { res: Response; user: User | null };
@@ -17,7 +17,7 @@ import { PlaceResolver } from "./resolvers/PlaceResolver";
 const dataSource = new DataSource({
   type: "postgres",
   url: process.env.DATABASE_URL,
-  entities: [Place],
+  entities: [Place, User],
   synchronize: true,
 });
 
@@ -28,7 +28,7 @@ const dataSource = new DataSource({
 const PORT = 4000;
 const startApolloServer = async () => {
   const schema = await buildSchema({
-    resolvers: [PlaceResolver],
+    resolvers: [PlaceResolver,UserResolver],
     validate: true,
     // authChecker,
   });
