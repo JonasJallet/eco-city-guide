@@ -1,11 +1,11 @@
 import User from "../entities/user";
-import DataSource from "../data-source";
+import { dataSource } from "../data-source";
 import { hash } from "bcrypt";
 import { UserMockFactory } from "../factories/userMockFactory";
 
 export async function createUserMock() {
-  await DataSource.initialize();
-  const userRepository = DataSource.getRepository(User);
+  await dataSource.initialize();
+  const userRepository = dataSource.getRepository(User);
   const webAdministrator = await new UserMockFactory().create(
     "Ganondorf",
     "Dragmire",
