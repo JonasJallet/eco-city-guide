@@ -1,6 +1,6 @@
 import { ID, Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import Category from "../entities/category";
-import { CreateCategory } from "../types/category.args";
+import { CreateCategory, UpdateCategory } from "../types/category.args";
 
 @Resolver()
 export class CategoryResolver {
@@ -17,5 +17,13 @@ export class CategoryResolver {
   @Mutation(() => Category)
   async deleteCategory(@Arg("id", () => ID) id: string) {
     return Category.deleteCategory(id);
+  }
+
+  @Mutation(() => Category)
+  async updateCategory(
+    @Arg("id", () => ID) id: string,
+    @Args() args: UpdateCategory
+  ) {
+    return Category.updateCategory(id, args);
   }
 }

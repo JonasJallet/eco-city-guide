@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { CreateCategory } from "../types/category.args";
+import { CreateCategory, UpdateCategory } from "../types/category.args";
 
 @Entity()
 @ObjectType()
@@ -9,7 +9,7 @@ export class Category extends BaseEntity {
   @Field(() => ID)
   id!: string;
 
-  @Column()
+  @Column({ unique: true })
   @Field()
   name!: string;
 
@@ -35,6 +35,18 @@ export class Category extends BaseEntity {
     if (!category) {
       throw new Error(`Category with ID ${id} does not exist.`);
     }
+    return category;
+  }
+
+  static async updateCategory(
+    id: string,
+    categoryData: UpdateCategory
+  ): Promise<Category> {
+    const category = await Category.getCategoryById(id);
+    Object.assign(category, categoryData);
+
+    await category.save();
+    category.reload();
     return category;
   }
 
