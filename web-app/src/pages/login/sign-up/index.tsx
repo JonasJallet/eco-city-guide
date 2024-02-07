@@ -1,7 +1,7 @@
 import React from "react";
 export default function index() {
   return (
-    <div className="h-screen bg-midnight flex justify-center items-center">
+    <div className="h-screen bg-tahiti flex justify-center items-center">
       <div className="lg:w-2/5 md:w-1/2 w-2/3">
         <form className="bg-white p-10 rounded-lg shadow-lg min-w-full">
           <h1 className="text-center text-2xl mb-4 text-gray-600 font-bold font-sans">
@@ -9,7 +9,7 @@ export default function index() {
           </h1>
           <div>
             <input
-              className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none mb-2"
+              className="w-full bg-silver px-4 py-2 rounded-lg focus:outline-none mb-2"
               type="text"
               name="firstname"
               id="firstname"
@@ -18,7 +18,7 @@ export default function index() {
           </div>
           <div>
             <input
-              className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none mb-2"
+              className="w-full bg-silver px-4 py-2 rounded-lg focus:outline-none mb-2"
               type="text"
               name="lastname"
               id="lastname"
@@ -27,7 +27,7 @@ export default function index() {
           </div>
           <div>
             <input
-              className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none mb-2"
+              className="w-full bg-silver px-4 py-2 rounded-lg focus:outline-none mb-2"
               type="text"
               name="email"
               id="email"
@@ -36,7 +36,7 @@ export default function index() {
           </div>
           <div>
             <input
-              className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none mb-2"
+              className="w-full bg-silver px-4 py-2 rounded-lg focus:outline-none mb-2"
               type="text"
               name="password"
               id="password"
@@ -45,7 +45,7 @@ export default function index() {
           </div>
           <div>
             <input
-              className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none mb-4"
+              className="w-full bg-silver px-4 py-2 rounded-lg focus:outline-none mb-4"
               type="text"
               name="confirm"
               id="confirm"
@@ -80,7 +80,7 @@ export default function index() {
           </div>
           <button
             type="submit"
-            className="w-full mt-4 bg-indigo-600 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
+            className="w-full mt-4 bg-tahiti rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
           >
             S'inscrire
           </button>
