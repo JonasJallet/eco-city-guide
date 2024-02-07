@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { CreateCategory } from "./category.args";
+import { CreateCategory } from "../types/category.args";
 
 @Entity()
 @ObjectType()

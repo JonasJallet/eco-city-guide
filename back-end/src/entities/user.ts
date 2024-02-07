@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { CreateUser, UpdateUser, SignInUser } from "./user.args";
+import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { compare, hash } from "bcrypt";
 import UserSession from "./userSession";
 // import Comment from "./comment";

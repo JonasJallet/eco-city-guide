@@ -1,6 +1,15 @@
-import { ID, Arg, Args, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import {
+  ID,
+  Arg,
+  Args,
+  Authorized,
+  Ctx,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import User from "../entities/user";
-import { CreateUser, UpdateUser, SignInUser } from "../entities/user.args";
+import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { Context } from "..";
 import { setUserSessionIdInCookie } from "../utils/cookie";
 
@@ -22,9 +31,9 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-    async deleteUser(@Arg("id", () => ID) id: string) {
-      return User.deleteUser(id);
-    }
+  async deleteUser(@Arg("id", () => ID) id: string) {
+    return User.deleteUser(id);
+  }
 
   @Mutation(() => User)
   async signIn(

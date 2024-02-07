@@ -11,8 +11,8 @@ import {
 } from "typeorm";
 import { Geometry } from "geojson";
 import { ObjectType, Field, ID } from "type-graphql";
-import { CreatePlace, UpdatePlace } from "./place.args";
-import { GeoJSONPoint } from "./scalar/geoJSONPoint";
+import { CreatePlace, UpdatePlace } from "../types/place.args";
+import { GeoJSONPoint } from "../types/scalar/geoJSONPoint";
 // import Category from "./category";
 // import Note from "./note";
 

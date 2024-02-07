@@ -1,6 +1,6 @@
 import { ID, Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import Category from "../entities/category";
-import { CreateCategory } from "../entities/category.args";
+import { CreateCategory } from "../types/category.args";
 
 @Resolver()
 export class CategoryResolver {

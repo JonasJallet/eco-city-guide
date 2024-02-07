@@ -1,6 +1,6 @@
 import { Field, ArgsType } from "type-graphql";
 import { MinLength, IsEmail } from "class-validator";
-import { UserRole } from "./user";
+import { UserRole } from "../entities/user";
 
 @ArgsType()
 export class CreateUser {
@@ -23,10 +23,9 @@ export class CreateUser {
   @Field()
   role!: UserRole;
 
-//   @Field(() => [String])
-//   placeIds!: string[];
+  //   @Field(() => [String])
+  //   placeIds!: string[];
 }
-
 
 @ArgsType()
 export class UpdateUser {
@@ -46,11 +45,11 @@ export class UpdateUser {
   @MinLength(12)
   password!: string;
 
-//   @Field()
-//   role!: string;
+  //   @Field()
+  //   role!: string;
 
-//   @Field(() => [String])
-//   placeIds!: string[];
+  //   @Field(() => [String])
+  //   placeIds!: string[];
 }
 
 @ArgsType()

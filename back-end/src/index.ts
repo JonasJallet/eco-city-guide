@@ -1,29 +1,19 @@
-import { DataSource } from "typeorm";
 import { Response } from "express";
+import { dataSource } from "./data-source";
 import "reflect-metadata";
 
-import Place from "./entities/place";
 import User from "./entities/user";
-import UserSession from "./entities/userSession";
-import Category from "./entities/category";
 
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { AuthChecker, buildSchema } from "type-graphql";
-import { PlaceResolver } from "./resolvers/PlaceResolver";
-import { UserResolver } from "./resolvers/UserResolver";
-import { CategoryResolver } from "./resolvers/CategoryResolver";
+import { PlaceResolver } from "./resolvers/placeResolver";
+import { UserResolver } from "./resolvers/userResolver";
+import { CategoryResolver } from "./resolvers/categoryResolver";
 
 import { getUserSessionIdFromCookie } from "./utils/cookie";
 
 export type Context = { res: Response; user: User | null };
-
-const dataSource = new DataSource({
-  type: "postgres",
-  url: process.env.DATABASE_URL,
-  entities: [Place, User, UserSession, Category],
-  synchronize: true,
-});
 
 const authChecker: AuthChecker<Context> = ({ context }) => {
   return Boolean(context.user);
