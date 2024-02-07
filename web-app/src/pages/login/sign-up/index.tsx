@@ -1,7 +1,7 @@
 import React from "react";
 export default function index() {
   return (
-    <div className="h-screen bg-indigo-200 flex justify-center items-center">
+    <div className="h-screen bg-midnight flex justify-center items-center">
       <div className="lg:w-2/5 md:w-1/2 w-2/3">
         <form className="bg-white p-10 rounded-lg shadow-lg min-w-full">
           <h1 className="text-center text-2xl mb-4 text-gray-600 font-bold font-sans">
