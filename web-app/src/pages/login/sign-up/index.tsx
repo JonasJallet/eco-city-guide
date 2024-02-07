@@ -1,5 +1,63 @@
 import React from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+
+// const SIGN_UP_FORM = gql`
+//   mutation SignUp(
+//     $firstName: String!
+//     $lastName: String!
+//     $email: String!
+//     $password: String!
+//     $role: String!
+//   ) {
+//     signUp(
+//       firstName: $firstName
+//       lastName: $lastName
+//       email: $email
+//       password: $password
+//       role: $role
+//     ) {
+//       firstName
+//       lastName
+//       email
+//       role
+//       hashedPassword
+//     }
+//   }
+// `;
+
 export default function index() {
+  const [formData, setFormData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const router = useRouter();
+
+  const updateFormData = (partialFormData: any) => {
+    setFormData({ ...formData, ...partialFormData });
+  };
+
+  console.log(formData);
+  // const [signUpMutation, { loading, error }] = useMutation<
+  //   SignUpFormMutation,
+  //   SignUpFormMutationVariables
+  // >(SIGN_UP_FORM);
+
+  // const signUp = async () => {
+  //   console.log("formulaire envoyé");
+  //   const { data } = await signUpMutation({
+  //     variables: formData,
+  //   });
+
+  // if (data && data.signUp) {
+  //   router.push("/sign-in");
+  // }
+  //};
+
   return (
     <div className="h-screen bg-tahiti flex justify-center items-center">
       <div className="lg:w-2/5 md:w-1/2 w-2/3">
@@ -14,6 +72,9 @@ export default function index() {
               name="firstname"
               id="firstname"
               placeholder="Prénom"
+              // onChange={(event) => {
+              //   updateFormData({ firstName: event.target.value });
+              // }}
             />
           </div>
           <div>
@@ -23,6 +84,9 @@ export default function index() {
               name="lastname"
               id="lastname"
               placeholder="Nom de famille"
+              // onChange={(event) => {
+              //   updateFormData({ lastName: event.target.value });
+              // }}
             />
           </div>
           <div>
@@ -32,6 +96,9 @@ export default function index() {
               name="email"
               id="email"
               placeholder="@email"
+              // onChange={(event) => {
+              //   updateFormData({ email: event.target.value });
+              // }}
             />
           </div>
           <div>
@@ -41,6 +108,9 @@ export default function index() {
               name="password"
               id="password"
               placeholder="Mot de passe"
+              // onChange={(event) => {
+              //   updateFormData({ password: event.target.value });
+              // }}
             />
           </div>
           <div>
@@ -50,6 +120,9 @@ export default function index() {
               name="confirm"
               id="confirm"
               placeholder="Confirmer le mot de passe"
+              // onChange={(event) => {
+              //   updateFormData({ confirmPassword: event.target.value });
+              // }}
             />
           </div>
           <div className="flex items-start">
@@ -81,6 +154,7 @@ export default function index() {
           <button
             type="submit"
             className="w-full mt-4 bg-tahiti rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
+            // onSubmit={() => signUp()}
           >
             S'inscrire
           </button>
