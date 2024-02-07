@@ -3,4 +3,5 @@ module.exports = {
   testPathIgnorePatterns: ["<rootDir>/dist"],
   preset: "ts-jest",
   testEnvironment: "node",
+  maxWorkers: 1,
 };

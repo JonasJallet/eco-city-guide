@@ -38,7 +38,7 @@ class Place extends BaseEntity {
   coordinates!: Geometry;
 
   @ManyToOne(() => User, (user) => user.places, { eager: true })
-  @Field()
+  @Field(() => User)
   owner!: User;
 
   @JoinTable({ name: "CategoriesForPlaces" })

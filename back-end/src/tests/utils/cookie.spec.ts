@@ -1,5 +1,5 @@
 import { IncomingMessage } from "node:http";
-import { getUserSessionIdFromCookie } from "./cookie";
+import { getUserSessionIdFromCookie } from "../../utils/cookie";
 
 describe("getUserSessionIdFromCookie", () => {
   describe("when request has no cookie", () => {

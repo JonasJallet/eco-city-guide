@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { dataSource } from "./data-source";
+import { getDataSource } from "./database";
 import "reflect-metadata";
 
 import User from "./entities/user";
@@ -39,7 +39,7 @@ const startApolloServer = async () => {
     },
   });
 
-  await dataSource.initialize();
+  await getDataSource();
 
   console.log(`🚀  Server ready at: ${url}`);
 };
