@@ -4,7 +4,8 @@
   "description": "Beautiful map for save the planet and the dolphin/koala bear",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "tsc",
     "start": "node dist/index.js",
     "build:watch": "tsc --watch",
