@@ -1,6 +1,14 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
 import { CreateCategory, UpdateCategory } from "../types/category.args";
+import Place from "./place";
 
 @Entity()
 @ObjectType()
@@ -12,6 +20,9 @@ export class Category extends BaseEntity {
   @Column({ unique: true })
   @Field()
   name!: string;
+
+  @ManyToMany(() => Place, (place) => place.categories)
+  places!: Place[];
 
   constructor(category?: CreateCategory) {
     super();
