@@ -1,9 +1,9 @@
 import React from "react";
 export default function index() {
   return (
-    <div className="h-screen bg-tahiti flex justify-center items-center">
+    <div className="h-screen bg-indigo-500 flex justify-center items-center">
       <div className="lg:w-2/5 md:w-1/2 w-2/3">
-        <form className="bg-white p-10 rounded-lg shadow-lg min-w-full">
+        <form className="bg-secondary_color p-10 rounded-lg shadow-lg min-w-full">
           <h1 className="text-center text-2xl mb-4 text-gray-600 font-bold font-sans">
             Se connecter
           </h1>
@@ -27,7 +27,7 @@ export default function index() {
           </div>
           <button
             type="submit"
-            className="w-full mt-4 bg-tahiti rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
+            className="w-full mt-4 bg-tertiary_color rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
           >
             Se connecter
           </button>
