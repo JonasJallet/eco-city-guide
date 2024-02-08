@@ -125,9 +125,6 @@ export default function index() {
               name="confirm"
               id="confirm"
               placeholder="Confirmer le mot de passe"
-              // onChange={(event) => {
-              //   updateFormData({ confirmPassword: event.target.value });
-              // }}
             />
           </div>
           <div className="flex items-start">
