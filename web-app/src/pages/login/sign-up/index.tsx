@@ -109,7 +109,7 @@ export default function index() {
           <div>
             <input
               className="w-full bg-silver px-4 py-2 rounded-lg focus:outline-none mb-2"
-              type="text"
+              type="password"
               name="password"
               id="password"
               placeholder="Mot de passe"
@@ -121,12 +121,24 @@ export default function index() {
           <div>
             <input
               className="w-full bg-silver px-4 py-2 rounded-lg focus:outline-none mb-4"
+              type="password"
+              name="confirm"
+              id="confirm"
+              placeholder="Confirmer le mot de passe"
+              pattern={formData.password} // Utilisez le mot de passe entré pour le champ de confirmation
+              title="Les mots de passe ne correspondent pas" // Message d'erreur affiché si la vérification échoue
+              required
+            />
+          </div>
+          {/* <div>
+            <input
+              className="w-full bg-silver px-4 py-2 rounded-lg focus:outline-none mb-4"
               type="text"
               name="confirm"
               id="confirm"
               placeholder="Confirmer le mot de passe"
-            />
-          </div>
+            /> */}
+          {/* </div> */}
           <div className="flex items-start">
             <div className="flex items-center h-5">
               <input
