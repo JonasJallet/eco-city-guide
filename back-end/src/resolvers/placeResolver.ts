@@ -7,7 +7,7 @@ import {
     Resolver,
   } from "type-graphql";
   import Place from "../entities/place";
-  import { CreatePlace, UpdatePlace } from "../entities/place.args";
+  import { CreatePlace, UpdatePlace } from "../types/place.args";
 //   import { Context } from "..";
 //   import User from "../entities/user";
   
