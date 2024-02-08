@@ -76,14 +76,6 @@ class Place extends BaseEntity {
 
     if (placeData.categoryIds) {
       newPlace.categories = await Promise.all(
-        placeData.categoryIds.map((categoryId) =>
-          Category.getCategoryById(categoryId)
-        )
-      );
-    }
-
-    if (placeData.categoryIds) {
-      newPlace.categories = await Promise.all(
         placeData.categoryIds.map(Category.getCategoryById)
       );
     }
@@ -128,9 +120,11 @@ class Place extends BaseEntity {
     const place = await Place.getPlaceById(id);
     Object.assign(place, partialPlace);
 
-    // if (partialPlace.categoryIds) {
-    //   place.categories = await Promise.all(partialPlace.categoryIds.map(Category.getCategoryById));
-    // }
+    if (partialPlace.categoryIds) {
+      place.categories = await Promise.all(
+        partialPlace.categoryIds.map(Category.getCategoryById)
+      );
+    }
 
     await place.save();
     place.reload();

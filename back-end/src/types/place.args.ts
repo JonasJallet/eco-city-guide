@@ -33,6 +33,6 @@ export class UpdatePlace {
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
 
-  //   @Field(() => [String])
-  //   categoryIds?: string[];
+  @Field(() => [String], { nullable: true })
+  categoryIds?: string[];
 }
