@@ -3,9 +3,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -13,8 +10,7 @@ import { ObjectType, Field, ID } from "type-graphql";
 import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { compare, hash } from "bcrypt";
 import UserSession from "./userSession";
-// import Comment from "./comment";
-// import Note from "./note";
+import Place from "./place";
 
 export enum UserRole {
   webAdminitrator = "webAdministrator",
@@ -37,19 +33,15 @@ class User extends BaseEntity {
   @Field()
   lastName!: string;
 
-  // @Column()
-  // @Field()
-  // role! :
-
   @Column({
     type: "enum",
     enum: UserRole,
     default: UserRole.user,
   })
   @Field()
-  role!: UserRole;
+  role: UserRole = UserRole.user;
 
-  @Column()
+  @Column({ unique: true })
   @Field()
   email!: string;
 
@@ -60,17 +52,8 @@ class User extends BaseEntity {
   @OneToMany(() => UserSession, (session) => session.user)
   sessions!: UserSession[];
 
-  // @OneToMany(() => Bookmark, (bookmark) => bookmark.userID)
-  // bookmarks!: Bookmark[];
-
-  // @OneToMany(() => Place, (place) => place.userID)
-  // places!: Place[];
-
-  // @OneToMany(() => Note, (note) => note.userID)
-  // notes!: Note[];
-
-  // @OneToMany(() => Comment, (comment) => comment.userID)
-  // comments!: Comment[];
+  @OneToMany(() => Place, (place) => place.owner)
+  places!: Place[];
 
   @CreateDateColumn()
   @Field()
@@ -84,12 +67,6 @@ class User extends BaseEntity {
       this.lastName = user.lastName;
       this.email = user.email;
       this.hashedPassword = user.password;
-      this.role = user.role;
-
-      //this.bookmarks = user.bookmarks
-      // this.comments = user.categoryIds;
-      // this.notes = user.notes;
-      //this.places = user.places
     }
   }
 

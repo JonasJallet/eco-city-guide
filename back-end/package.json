@@ -4,7 +4,9 @@
   "description": "Beautiful map for save the planet and the dolphin/koala bear",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage",
     "build": "tsc",
     "start": "node dist/index.js",
     "build:watch": "tsc --watch",
@@ -14,11 +16,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie": "^0.6.0",
     "@types/express": "^4.17.17",
     "@types/geojson": "^7946.0.14",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
     "nodemon": "^3.0.1",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.2.2"
   },
   "dependencies": {

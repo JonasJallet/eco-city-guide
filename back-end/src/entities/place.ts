@@ -6,15 +6,14 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Geometry } from "geojson";
 import { ObjectType, Field, ID } from "type-graphql";
 import { CreatePlace, UpdatePlace } from "../types/place.args";
 import { GeoJSONPoint } from "../types/scalar/geoJSONPoint";
-// import Category from "./category";
-// import Note from "./note";
+import Category from "./category";
+import User from "./user";
 
 @Entity()
 @ObjectType()
@@ -38,22 +37,14 @@ class Place extends BaseEntity {
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
 
-  // @OneToMany(() => Note, (note) => note.place)
-  // @Field(() => [Note])
-  // notes!: Note[];
+  @ManyToOne(() => User, (user) => user.places, { eager: true })
+  @Field(() => User)
+  owner!: User;
 
-  // @Column({ default: "" })
-  // @Field()
-  // picture!: string;
-
-  // @ManyToOne(() => User, (user) => user.Places, { eager: true })
-  // @Field()
-  // owner!: User;
-
-  // @JoinTable({ name: "CategoryForPlaces" })
-  // @ManyToMany(() => Category, (category) => category.places, { eager: true })
-  // @Field(() => [Category])
-  // categories!: Category[];
+  @JoinTable({ name: "CategoriesForPlaces" })
+  @ManyToMany(() => Category, (category) => category.places, { eager: true })
+  @Field(() => [Category])
+  categories!: Category[];
 
   @CreateDateColumn()
   @Field()
@@ -77,30 +68,34 @@ class Place extends BaseEntity {
         throw new Error("Place coordinates cannot be empty.");
       }
       this.coordinates = place.coordinates;
-
-      // this.categories = place.categoryIds;
-      // this.notes = place.notes;
     }
   }
 
   static async saveNewPlace(placeData: CreatePlace): Promise<Place> {
     const newPlace = new Place(placeData);
 
-    // if (placeData.categoryIds) {
-    //   newPlace.categories = await Promise.all(placeData.categoryIds.map(Category.getCategoryById));
-    // }
+    if (placeData.categoryIds) {
+      newPlace.categories = await Promise.all(
+        placeData.categoryIds.map(Category.getCategoryById)
+      );
+    }
 
     const savedPlace = await newPlace.save();
     console.log(`New Place saved: ${savedPlace.getStringRepresentation()}.`);
     return savedPlace;
   }
 
-  static async getPlaces(): Promise<Place[]> {
-    const places = await Place.find();
-    // const places = await Place.find({
-    //   where: { category: { id: categoryId } },
-    //   order: { createdAt: "DESC" },
-    // });
+  static async getPlaces(categoryIds?: string[]): Promise<Place[]> {
+    let places: any = [];
+    if (categoryIds) {
+      places = await Promise.all(
+        categoryIds.map((categoryId: string) =>
+          Place.find({
+            where: { categories: { id: categoryId } },
+          })
+        )
+      );
+    }
     return places;
   }
 
@@ -125,9 +120,11 @@ class Place extends BaseEntity {
     const place = await Place.getPlaceById(id);
     Object.assign(place, partialPlace);
 
-    // if (partialPlace.categoryIds) {
-    //   place.categories = await Promise.all(partialPlace.categoryIds.map(Category.getCategoryById));
-    // }
+    if (partialPlace.categoryIds) {
+      place.categories = await Promise.all(
+        partialPlace.categoryIds.map(Category.getCategoryById)
+      );
+    }
 
     await place.save();
     place.reload();
