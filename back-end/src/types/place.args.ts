@@ -2,7 +2,6 @@ import { Field, ArgsType } from "type-graphql";
 import { MinLength } from "class-validator";
 import { Geometry } from "typeorm";
 import { GeoJSONPoint } from "./scalar/geoJSONPoint";
-import Category from "../entities/category";
 
 @ArgsType()
 export class CreatePlace {
@@ -14,11 +13,22 @@ export class CreatePlace {
   @MinLength(10)
   description!: string;
 
+  @Field()
+  @MinLength(10)
+  address!: string;
+
+  @Field()
+  @MinLength(10)
+  city!: string;
+
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
 
-  @Field(() => [String], { nullable: true })
-  categoryIds?: string[];
+  @Field(() => [String])
+  categoryIds!: string[];
+
+  @Field(() => String, { nullable: true })
+  ownerId!: string | null;
 }
 @ArgsType()
 export class UpdatePlace {

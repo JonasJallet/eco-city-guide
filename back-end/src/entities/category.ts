@@ -4,7 +4,6 @@ import {
   Entity,
   ManyToMany,
   PrimaryGeneratedColumn,
-  Unique,
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
 import { CreateCategory, UpdateCategory } from "../types/category.args";
