@@ -70,15 +70,7 @@ class User extends BaseEntity {
     }
   }
 
-  static validatePassword(password: string): boolean {
-    const passwordRegex = /^(?=.*\d)[A-Za-z\d]+$/;
-    return passwordRegex.test(password);
-  }
-
   static async saveNewUser(userData: CreateUser): Promise<User> {
-    if (!User.validatePassword(userData.password)) {
-      throw new Error("Password must contain one number.");
-    }
     userData.password = await hash(userData.password, 10);
     const newUser = new User(userData);
     const existingEmail = await User.getUserByEmail(userData.email);
