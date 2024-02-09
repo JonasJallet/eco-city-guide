@@ -30,6 +30,14 @@ class Place extends BaseEntity {
   @Field()
   description!: string;
 
+  @Column()
+  @Field()
+  address!: string;
+
+  @Column()
+  @Field()
+  city!: string;
+
   @Column({
     type: "geometry",
     spatialFeatureType: "Point",
@@ -37,9 +45,9 @@ class Place extends BaseEntity {
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
 
-  @ManyToOne(() => User, (user) => user.places, { eager: true })
-  @Field(() => User)
-  owner!: User;
+  @ManyToOne(() => User, (user) => user.places, { eager: true, nullable: true })
+  @Field(() => User, { nullable: true })
+  owner!: User | null;
 
   @JoinTable({ name: "CategoriesForPlaces" })
   @ManyToMany(() => Category, (category) => category.places, { eager: true })
@@ -68,16 +76,29 @@ class Place extends BaseEntity {
         throw new Error("Place coordinates cannot be empty.");
       }
       this.coordinates = place.coordinates;
+
+      if (!place.address) {
+        throw new Error("Place address cannot be empty.");
+      }
+      this.address = place.address;
+
+      if (!place.city) {
+        throw new Error("Place city cannot be empty.");
+      }
+      this.city = place.city;
     }
   }
 
   static async saveNewPlace(placeData: CreatePlace): Promise<Place> {
     const newPlace = new Place(placeData);
 
-    if (placeData.categoryIds) {
-      newPlace.categories = await Promise.all(
-        placeData.categoryIds.map(Category.getCategoryById)
-      );
+    newPlace.categories = await Promise.all(
+      placeData.categoryIds.map(Category.getCategoryById)
+    );
+
+    if (placeData.ownerId) {
+      const user = await User.getUserById(placeData.ownerId);
+      newPlace.owner = user;
     }
 
     const savedPlace = await newPlace.save();
@@ -132,7 +153,7 @@ class Place extends BaseEntity {
   }
 
   getStringRepresentation(): string {
-    return `${this.id} | ${this.name} | ${this.description} | ${this.coordinates}`;
+    return `${this.id} | ${this.name} | ${this.description} | ${this.address} | ${this.city} | ${this.coordinates}`;
   }
 }
 

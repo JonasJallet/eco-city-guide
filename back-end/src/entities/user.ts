@@ -70,10 +70,21 @@ class User extends BaseEntity {
     }
   }
 
+  static validatePassword(password: string): boolean {
+    const passwordRegex = /^(?=.*\d)[A-Za-z\d]+$/;
+    return passwordRegex.test(password);
+  }
+
   static async saveNewUser(userData: CreateUser): Promise<User> {
+    if (!User.validatePassword(userData.password)) {
+      throw new Error("Password must contain one number.");
+    }
     userData.password = await hash(userData.password, 10);
     const newUser = new User(userData);
-    // TODO: return user-friendly error message when email already used
+    const existingEmail = await User.getUserByEmail(userData.email);
+    if (existingEmail) {
+      throw new Error("Account with this email already exist.");
+    }
     const savedUser = await newUser.save();
     return savedUser;
   }
@@ -89,6 +100,10 @@ class User extends BaseEntity {
       throw new Error(`User with ID ${id} does not exist.`);
     }
     return user;
+  }
+
+  private static async getUserByEmail(email: string): Promise<User | null> {
+    return await User.findOneBy({ email });
   }
 
   static async deleteUser(id: string): Promise<User> {

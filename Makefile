@@ -5,6 +5,10 @@ run:
 test-backend:
 	docker compose exec back-end npm run test:watch
 
+
+test-specific:
+	docker-compose exec back-end node "node_modules/jest/bin/jest.js" "src/tests/$(directory)/$(name).test.ts" -c "jest.config.js" -t
+
 coverage-test:
 	docker compose exec back-end npm run test:coverage
 
