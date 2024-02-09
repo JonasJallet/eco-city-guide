@@ -7,4 +7,7 @@ RUN npm install
 
 COPY . .
 
-CMD npm run dev
+#CMD [ "executable", "npm run dev", "npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch"]
+
+ENTRYPOINT npm run dev && \
+npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch 
