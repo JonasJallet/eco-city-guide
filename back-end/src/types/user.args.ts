@@ -24,19 +24,19 @@ export class CreateUser {
 export class UpdateUser {
   @Field()
   @MinLength(3)
-  firstName!: string;
+  firstName?: string;
 
   @Field()
   @MinLength(3)
-  lastName!: string;
+  lastName?: string;
 
   @Field()
   @IsEmail()
-  email!: string;
+  email?: string;
 
   @Field()
   @MinLength(12)
-  password!: string;
+  password?: string;
 }
 
 @ArgsType()
