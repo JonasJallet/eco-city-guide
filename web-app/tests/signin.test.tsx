@@ -112,98 +112,105 @@ const mockWithInvalidData_SignInForm = [
     },
   },
 ];
-////Test si un utilisateur est déjà connecté
-test("redirects to home page if user is already signed in", async () => {
-  render(
-    <MockedProvider mocks={mockWithData_GetMyProfile} addTypename={false}>
-      <SignInPage />
-    </MockedProvider>
-  );
-  await waitFor(() => {
-    expect(mockRouterPush).toHaveBeenCalledWith("/home");
-  });
-});
 
-////Test si un utilisateur n'est pas déjà connecté
-test("renders login page with input fields if user is not signed in", async () => {
-  render(
-    <MockedProvider mocks={mocksWithNullData_GetMyProfile} addTypename={false}>
-      <SignInPage />
-    </MockedProvider>
-  );
-  await waitFor(() => {
-    expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
-  });
-  await waitFor(() => {
-    const emailInput = screen.getByPlaceholderText("@email");
-    const submitButton = screen.getByRole("button", { name: /se connecter/i });
-    const passWordInput = screen.getByPlaceholderText("Mot de passe");
-    expect(submitButton).toBeInTheDocument();
-    expect(emailInput).toHaveAttribute("type", "email");
-    expect(emailInput).toHaveAttribute("name", "email");
-    expect(emailInput).toHaveAttribute("id", "email");
-    expect(emailInput).toHaveAttribute("autoComplete", "username");
-    expect(passWordInput).toHaveAttribute("type", "password");
-    expect(passWordInput).toHaveAttribute("name", "password");
-    expect(passWordInput).toHaveAttribute("id", "password");
-    expect(passWordInput).toHaveAttribute("autoComplete", "current-password");
-  });
-});
-
-//Test pour la connexion d'un utilisateur qui est enregistré en base de données
-test("redirects to home page if user is recorded in dataBase and successfully connected", async () => {
-  render(
-    <MockedProvider
-      mocks={[
-        ...mockWithData_SignInForm,
-        ...mockWithoutData_GetMyProfile,
-        ...mockWithoutData_GetMyProfile,
-      ]}
-      addTypename={false}
-    >
-      <SignInPage />
-    </MockedProvider>
-  );
-
-  fireEvent.change(screen.getByPlaceholderText(/@email/i), {
-    target: { value: "jj@jj.com" },
-  });
-  fireEvent.change(screen.getByPlaceholderText(/mot de passe/i), {
-    target: { value: "123456789012" },
+describe("SignIn Page", () => {
+  ////Test si un utilisateur est déjà connecté
+  test("redirects to home page if user is already signed in", async () => {
+    render(
+      <MockedProvider mocks={mockWithData_GetMyProfile} addTypename={false}>
+        <SignInPage />
+      </MockedProvider>
+    );
+    await waitFor(() => {
+      expect(mockRouterPush).toHaveBeenCalledWith("/home");
+    });
   });
 
-  fireEvent.click(screen.getByRole("button", { name: /se connecter/i }));
-
-  await waitFor(() => {
-    expect(mockRouterPush).toHaveBeenCalledWith("/home");
+  ////Test si un utilisateur n'est pas déjà connecté
+  test("renders login page with input fields if user is not signed in", async () => {
+    render(
+      <MockedProvider
+        mocks={mocksWithNullData_GetMyProfile}
+        addTypename={false}
+      >
+        <SignInPage />
+      </MockedProvider>
+    );
+    await waitFor(() => {
+      expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
+    });
+    await waitFor(() => {
+      const emailInput = screen.getByPlaceholderText("@email");
+      const submitButton = screen.getByRole("button", {
+        name: /se connecter/i,
+      });
+      const passWordInput = screen.getByPlaceholderText("Mot de passe");
+      expect(submitButton).toBeInTheDocument();
+      expect(emailInput).toHaveAttribute("type", "email");
+      expect(emailInput).toHaveAttribute("name", "email");
+      expect(emailInput).toHaveAttribute("id", "email");
+      expect(emailInput).toHaveAttribute("autoComplete", "username");
+      expect(passWordInput).toHaveAttribute("type", "password");
+      expect(passWordInput).toHaveAttribute("name", "password");
+      expect(passWordInput).toHaveAttribute("id", "password");
+      expect(passWordInput).toHaveAttribute("autoComplete", "current-password");
+    });
   });
-});
 
-//Test pour la connexion d'un utilisateur qui est enregistré en base de données
-test("redirects to home page if user is recorded in dataBase and successfully connected", async () => {
-  render(
-    <MockedProvider
-      mocks={[
-        ...mockWithInvalidData_SignInForm,
-        ...mockWithoutData_GetMyProfile,
-        ...mockWithoutData_GetMyProfile,
-      ]}
-      addTypename={false}
-    >
-      <SignInPage />
-    </MockedProvider>
-  );
+  //Test pour la connexion d'un utilisateur qui est enregistré en base de données
+  test("redirects to home page if user is recorded in dataBase and successfully connected", async () => {
+    render(
+      <MockedProvider
+        mocks={[
+          ...mockWithData_SignInForm,
+          ...mockWithoutData_GetMyProfile,
+          ...mockWithoutData_GetMyProfile,
+        ]}
+        addTypename={false}
+      >
+        <SignInPage />
+      </MockedProvider>
+    );
 
-  fireEvent.change(screen.getByPlaceholderText(/@email/i), {
-    target: { value: "axhje@lpdhdue.com" },
+    fireEvent.change(screen.getByPlaceholderText(/@email/i), {
+      target: { value: "jj@jj.com" },
+    });
+    fireEvent.change(screen.getByPlaceholderText(/mot de passe/i), {
+      target: { value: "123456789012" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /se connecter/i }));
+
+    await waitFor(() => {
+      expect(mockRouterPush).toHaveBeenCalledWith("/home");
+    });
   });
-  fireEvent.change(screen.getByPlaceholderText(/mot de passe/i), {
-    target: { value: "123456789012" },
-  });
 
-  fireEvent.click(screen.getByRole("button", { name: /se connecter/i }));
+  //Test pour la connexion d'un utilisateur qui est enregistré en base de données
+  test("redirects to home page if user is recorded in dataBase and successfully connected", async () => {
+    render(
+      <MockedProvider
+        mocks={[
+          ...mockWithInvalidData_SignInForm,
+          ...mockWithoutData_GetMyProfile,
+          ...mockWithoutData_GetMyProfile,
+        ]}
+        addTypename={false}
+      >
+        <SignInPage />
+      </MockedProvider>
+    );
 
-  await waitFor(() => {
-    expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
+    fireEvent.change(screen.getByPlaceholderText(/@email/i), {
+      target: { value: "axhje@lpdhdue.com" },
+    });
+    fireEvent.change(screen.getByPlaceholderText(/mot de passe/i), {
+      target: { value: "123456789012" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /se connecter/i }));
+
+    await waitFor(() => {
+      expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
+    });
   });
 });
