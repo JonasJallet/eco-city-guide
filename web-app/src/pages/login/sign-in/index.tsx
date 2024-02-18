@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
 
-const SIGN_IN_FORM = gql`
+export const SIGN_IN_FORM = gql`
   mutation SignInForm($email: String!, $password: String!) {
     signIn(email: $email, password: $password) {
       id
@@ -20,7 +20,7 @@ const SIGN_IN_FORM = gql`
   }
 `;
 
-const GET_MY_PROFILE_SIGN_IN = gql`
+export const GET_MY_PROFILE_SIGN_IN = gql`
   query GetMyProfileSignIn {
     myProfile {
       id
@@ -37,6 +37,7 @@ export default function SignInPage() {
   const { data: myProfileData, refetch } = useQuery<GetMyProfileSignInQuery>(
     GET_MY_PROFILE_SIGN_IN
   );
+
   useEffect(() => {
     if (myProfileData?.myProfile) {
       router.push("/home");
