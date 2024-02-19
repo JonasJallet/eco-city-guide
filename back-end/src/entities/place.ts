@@ -92,9 +92,11 @@ class Place extends BaseEntity {
   static async saveNewPlace(placeData: CreatePlace): Promise<Place> {
     const newPlace = new Place(placeData);
 
-    newPlace.categories = await Promise.all(
-      placeData.categoryIds.map(Category.getCategoryById)
-    );
+    if (placeData.categoryIds) {
+      newPlace.categories = await Promise.all(
+        placeData.categoryIds.map(Category.getCategoryById)
+      );
+    }
 
     if (placeData.ownerId) {
       const user = await User.getUserById(placeData.ownerId);
