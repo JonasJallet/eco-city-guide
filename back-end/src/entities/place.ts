@@ -7,6 +7,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from "typeorm";
 import { Geometry } from "geojson";
 import { ObjectType, Field, ID } from "type-graphql";
@@ -17,6 +18,7 @@ import User from "./user";
 
 @Entity()
 @ObjectType()
+@Unique("custom_unique_constraint", ["name", "coordinates"])
 class Place extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
