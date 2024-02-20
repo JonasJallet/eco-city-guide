@@ -101,8 +101,7 @@ class Place extends BaseEntity {
     }
 
     if (placeData.ownerId) {
-      const user = await User.getUserById(placeData.ownerId);
-      newPlace.owner = user;
+      newPlace.owner = await User.getUserById(placeData.ownerId);
     }
 
     const savedPlace = await newPlace.save();
@@ -152,7 +151,7 @@ class Place extends BaseEntity {
     }
 
     await place.save();
-    place.reload();
+    await place.reload();
     return place;
   }
 
