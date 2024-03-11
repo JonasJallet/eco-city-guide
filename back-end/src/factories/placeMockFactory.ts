@@ -1,7 +1,7 @@
 import { DeepPartial } from "typeorm";
 import { TypeFactory } from "interface-forge";
-import { faker } from "@faker-js/faker";
 import { Geometry } from "geojson";
+import { faker } from "@faker-js/faker";
 
 const minLatitude = 48.85499;
 const maxLatitude = 48.86251;
@@ -12,6 +12,8 @@ interface PlaceInterface {
   name: string;
   description: string;
   coordinates: Geometry;
+  address: string;
+  city: string;
 }
 
 export class PlaceMockFactory {
@@ -22,8 +24,6 @@ export class PlaceMockFactory {
       async () => ({
         name: "Eco-" + faker.commerce.department(),
         description: faker.lorem.lines(),
-        address: faker.location.city(),
-        city: faker.location.streetAddress({ useFullAddress: true }),
         coordinates: {
           type: "Point",
           coordinates: [
@@ -31,6 +31,8 @@ export class PlaceMockFactory {
             faker.location.longitude({ min: minLongitude, max: maxLongitude }),
           ],
         },
+        address: faker.location.streetAddress({ useFullAddress: true }),
+        city: faker.location.city(),
       })
     );
   }

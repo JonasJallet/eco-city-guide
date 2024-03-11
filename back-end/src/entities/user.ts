@@ -77,7 +77,10 @@ class User extends BaseEntity {
     if (existingEmail) {
       throw new Error("Account with this email already exist.");
     }
-    return await newUser.save();
+
+    const savedUser = await newUser.save();
+    console.log(`New User saved: ${savedUser.getStringRepresentation()}.`);
+    return savedUser
   }
 
   static async getUsers(): Promise<User[]> {

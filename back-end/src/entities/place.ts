@@ -2,7 +2,7 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
-  Entity,
+  Entity, In,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -110,17 +110,15 @@ class Place extends BaseEntity {
   }
 
   static async getPlaces(categoryIds?: string[]): Promise<Place[]> {
-    let places: any = [];
-    if (categoryIds) {
-      places = await Promise.all(
-        categoryIds.map((categoryId: string) =>
-          Place.find({
-            where: { categories: { id: categoryId } },
-          })
-        )
-      );
+    let whereClause: any = {};
+
+    if (categoryIds && categoryIds.length > 0) {
+      whereClause.categories = { id: In(categoryIds) };
     }
-    return places;
+
+    return await Place.find({
+      where: whereClause,
+    });
   }
 
   static async getPlaceById(id: string): Promise<Place> {
@@ -137,10 +135,7 @@ class Place extends BaseEntity {
     return place;
   }
 
-  static async updatePlace(
-    id: string,
-    partialPlace: UpdatePlace
-  ): Promise<Place> {
+  static async updatePlace(id: string, partialPlace: UpdatePlace): Promise<Place> {
     const place = await Place.getPlaceById(id);
     Object.assign(place, partialPlace);
 
