@@ -3,24 +3,24 @@ import { getDataSource } from "../database";
 import { CategoryMockFactory} from "../factories/categoryMockFactory";
 
 const categories: string[] = [
-    "Eco-Friendly Goods",
-    "Green Ventures",
-    "Sustainable Solutions",
-    "Earth's Emporium",
-    "Nature's Nook",
-    "Planet-Safe Products",
-    "Bio-Friendly Bargains",
+    "Parc",
+    "Association",
+    "Marketplace",
+    "Vehicle",
+    "Vegan",
+    "Plants",
+    "Discharge",
     "Organic Outlets",
-    "Eco-Conscious Commerce",
-    "Green Living Marketplace"
+    "Food",
+    "Technology"
 ];
 
-export async function createCategoryMock(numberOfCategories: number): Promise<Category[]> {
+export async function createCategoryMock(): Promise<Category[]> {
     const database = await getDataSource();
     const categoryRepository = database.getRepository(Category);
     const createdCategories: Category[] = [];
 
-    for (const categoryName of categories.slice(0, numberOfCategories)) {
+    for (const categoryName of categories) {
         const categoryData = await new CategoryMockFactory().create(categoryName);
         const savedCategory = await categoryRepository.save(categoryData);
         createdCategories.push(savedCategory);
@@ -29,7 +29,7 @@ export async function createCategoryMock(numberOfCategories: number): Promise<Ca
     return createdCategories;
 }
 
-createCategoryMock(10)
+createCategoryMock()
     .then(() => {
         process.stdout.write("Generated Categories Data saved to the database.");
     })

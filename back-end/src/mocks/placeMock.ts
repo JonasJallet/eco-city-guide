@@ -10,13 +10,12 @@ async function categories(): Promise<Category[]> {
     return await categoryRepository.find();
 }
 
-export async function createPlacesWithCategories() {
-    const numberOfPlaces = 20;
+export async function createPlacesWithCategory() {
     const placeFactory = new PlaceMockFactory();
 
     for (const category of await categories()) {
         const placesData: DeepPartial<PlaceInterface>[] = [];
-        for (let i = 0; i < numberOfPlaces; i++) {
+        for (let i = 0; i < 20; i++) {
             const placeData: DeepPartial<PlaceInterface> = await placeFactory.create([category.id]);
             placesData.push(placeData);
         }
@@ -27,7 +26,7 @@ export async function createPlacesWithCategories() {
     }
 }
 
-createPlacesWithCategories()
+createPlacesWithCategory()
     .then(() => {
         process.stdout.write("Generated Places Data saved to the database.");
     })
