@@ -2,6 +2,7 @@ import User from "../entities/user";
 import { getDataSource } from "../database";
 import { hash } from "bcrypt";
 import { UserMockFactory } from "../factories/userMockFactory";
+import {createPlaceMock} from "./placeMock";
 
 export async function createUserMock() {
   const database = await getDataSource();
@@ -44,7 +45,12 @@ export async function createUserMock() {
   }
 
   await userRepository.save([webAdministrator, cityAdministrator, user]);
-  process.stdout.write("Generated Users Data saved to the database.");
 }
 
-createUserMock();
+createUserMock()
+    .then(() => {
+      process.stdout.write("Generated Users Data saved to the database.");
+    })
+    .catch((error) => {
+      process.stdout.write("Error creating users:", error);
+    });
