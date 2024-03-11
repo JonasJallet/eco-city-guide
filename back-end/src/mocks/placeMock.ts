@@ -1,18 +1,36 @@
 import Place from "../entities/place";
 import { getDataSource } from "../database";
-import { PlaceMockFactory } from "../factories/placeMockFactory";
+import { PlaceInterface, PlaceMockFactory} from "../factories/placeMockFactory";
+import { DeepPartial } from "typeorm";
+import Category from "../entities/category";
 
-export async function createPlaceMock(numberOfPlaces: number) {
-  const database = await getDataSource();
-  const placeRepository = database.getRepository(Place);
-  const placeData = await new PlaceMockFactory().createMany(numberOfPlaces);
-  await placeRepository.save(placeData);
+async function categories(): Promise<Category[]> {
+    const database = await getDataSource();
+    const categoryRepository = database.getRepository(Category);
+    return await categoryRepository.find();
 }
 
-createPlaceMock(20)
+export async function createPlacesWithCategories() {
+    const numberOfPlaces = 20;
+    const placeFactory = new PlaceMockFactory();
+
+    for (const category of await categories()) {
+        const placesData: DeepPartial<PlaceInterface>[] = [];
+        for (let i = 0; i < numberOfPlaces; i++) {
+            const placeData: DeepPartial<PlaceInterface> = await placeFactory.create([category.id]);
+            placesData.push(placeData);
+        }
+
+        const database = await getDataSource();
+        const placeRepository = database.getRepository(Place);
+        await placeRepository.save(placesData);
+    }
+}
+
+createPlacesWithCategories()
     .then(() => {
-      process.stdout.write("Generated Places Data saved to the database.");
+        process.stdout.write("Generated Places Data saved to the database.");
     })
     .catch((error) => {
-      process.stdout.write("Error creating places:", error);
+        process.stdout.write("Error creating places:", error);
     });

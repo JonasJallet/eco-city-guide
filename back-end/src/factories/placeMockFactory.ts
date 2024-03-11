@@ -2,18 +2,20 @@ import { DeepPartial } from "typeorm";
 import { TypeFactory } from "interface-forge";
 import { Geometry } from "geojson";
 import { faker } from "@faker-js/faker";
+import Category from "../entities/category";
 
 const minLatitude = 48.85499;
 const maxLatitude = 48.86251;
 const minLongitude = 2.225056;
 const maxLongitude = 2.415;
 
-interface PlaceInterface {
+export interface PlaceInterface {
   name: string;
   description: string;
   coordinates: Geometry;
   address: string;
   city: string;
+  categories?: DeepPartial<Category>[];
 }
 
 export class PlaceMockFactory {
@@ -37,17 +39,11 @@ export class PlaceMockFactory {
     );
   }
 
-  async create(): Promise<DeepPartial<PlaceInterface>> {
-    return await this.typeFactory.build();
-  }
-
-  async createMany(number: number): Promise<DeepPartial<PlaceInterface>[]> {
-    const places = [];
-    for (let i = 0; i < number; i++) {
-      const placeData = await this.create();
-      places.push(placeData);
+  async create(categoryIds?: string[]): Promise<DeepPartial<PlaceInterface>> {
+    const placeData = await this.typeFactory.build();
+    if (categoryIds && categoryIds.length > 0) {
+      placeData.categories = categoryIds.map(categoryId => ({ id: categoryId }));
     }
-
-    return places;
+    return placeData;
   }
 }

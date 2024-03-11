@@ -1,10 +1,10 @@
 import User from "../entities/user";
 import { getDataSource } from "../database";
 import { hash } from "bcrypt";
-import { UserMockFactory } from "../factories/userMockFactory";
-import {createPlaceMock} from "./placeMock";
+import { UserInterface, UserMockFactory } from "../factories/userMockFactory";
+import { DeepPartial } from "typeorm";
 
-export async function createUserMock() {
+export async function createUserMock(): Promise<DeepPartial<UserInterface>[]> {
   const database = await getDataSource();
   const userRepository = database.getRepository(User);
   const webAdministrator = await new UserMockFactory().create(
@@ -43,8 +43,10 @@ export async function createUserMock() {
   if (user.hashedPassword) {
     user.hashedPassword = await hash(user.hashedPassword, 10);
   }
+  const createdUsers : DeepPartial<UserInterface>[] = [webAdministrator, cityAdministrator, user];
+  await userRepository.save(createdUsers);
 
-  await userRepository.save([webAdministrator, cityAdministrator, user]);
+  return createdUsers;
 }
 
 createUserMock()
