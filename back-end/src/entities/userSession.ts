@@ -21,11 +21,6 @@ class UserSession extends BaseEntity {
   }
 
   static async saveNewSession(user: User): Promise<UserSession> {
-    /////test pour vérifier que l'email n'est pas vide, est-ce utile ? Si oui, ajouter d'autres vérifications + test ?
-    if (user.email == "" || user.email == undefined) {
-      throw new Error("The email must be specified");
-    }
-    ////
     const newSession = new UserSession(user);
     const savedSession = await newSession.save();
     return savedSession;

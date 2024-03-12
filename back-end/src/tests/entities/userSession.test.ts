@@ -27,20 +27,11 @@ describe("User", () => {
         email: "me@test.com",
         password: "123456712345",
       });
-      const savedSession = await UserSession.saveNewSession(user);
-      expect(savedSession).toBeDefined();
-    });
-
-    it("if email is not define, it shouldn't save a newSession", async () => {
-      const user: User = new User({
-        firstName: "test",
-        lastName: "Test",
-        email: "",
-        password: "123456712345",
-      });
-      await expect(UserSession.saveNewSession(user)).rejects.toThrow(
-        "The email must be specified"
-      );
+      await UserSession.saveNewSession(user);
+      await UserSession.saveNewSession(user);
+      expect(
+        await UserSession.find({ where: { user: { id: user.id } } })
+      ).toHaveLength(2);
     });
   });
 });
