@@ -1,24 +1,10 @@
-import { getDataSource } from "../../database";
+import { Point } from "typeorm";
 import Place from "../../entities/place";
 import { places } from "./place.dataset";
-import { Point } from "typeorm";
+import { resetDatabase } from "../resetDatabase";
 
 describe("Place", () => {
-  beforeEach(async () => {
-    const database = await getDataSource();
-    for (const entity of database.entityMetadatas) {
-      const repository = database.getRepository(entity.name);
-      await repository.query(
-          `TRUNCATE "${entity.tableName}" RESTART IDENTITY CASCADE;`
-      );
-    }
-  });
-
-  afterAll(async () => {
-    const database = await getDataSource();
-    await database.destroy();
-  });
-
+  resetDatabase();
   const createNewPlace = async (placeData: {
     name: string;
     description: string;
