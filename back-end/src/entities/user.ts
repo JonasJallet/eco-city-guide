@@ -33,6 +33,11 @@ class User extends BaseEntity {
   @Field()
   lastName!: string;
 
+  @Field()
+  get initials(): string {
+    return `${this.firstName[0].toUpperCase()}${this.lastName[0].toUpperCase()}`;
+  }
+
   @Column({
     type: "enum",
     enum: UserRole,
@@ -80,7 +85,7 @@ class User extends BaseEntity {
 
     const savedUser = await newUser.save();
     console.log(`New User saved: ${savedUser.getStringRepresentation()}.`);
-    return savedUser
+    return savedUser;
   }
 
   static async getUsers(): Promise<User[]> {
