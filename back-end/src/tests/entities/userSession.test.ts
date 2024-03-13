@@ -1,27 +1,13 @@
-import { getDataSource } from "../../database";
 import User from "../../entities/user";
 import UserSession from "../../entities/userSession";
+import { resetDatabase } from "../resetDatabase";
 
 describe("User", () => {
-  beforeEach(async () => {
-    const database = await getDataSource();
-    for (const entity of database.entityMetadatas) {
-      const repository = database.getRepository(entity.name);
-      await repository.query(
-        `TRUNCATE "${entity.tableName}" RESTART IDENTITY CASCADE;`
-      );
-    }
-  });
-
-  afterAll(async () => {
-    const database = await getDataSource();
-    await database.destroy();
-  });
+  resetDatabase();
 
   describe("saveNewSession", () => {
     it("should save a new user session", async () => {
       const user: User = new User({
-        // propriétés du constructor user, pourquoi n'a t-il pas besoin de toutes les propriétés User ?
         firstName: "test",
         lastName: "Test",
         email: "me@test.com",
@@ -29,11 +15,10 @@ describe("User", () => {
       });
       await UserSession.saveNewSession(user);
       await UserSession.saveNewSession(user);
-      const newLocal = await UserSession.find({
+      const sessions = await UserSession.find({
         where: { user: { id: user.id } },
       });
-      console.log(newLocal);
-      expect(newLocal).toHaveLength(2);
+      expect(sessions).toHaveLength(2);
     });
   });
 });
