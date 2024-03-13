@@ -29,9 +29,11 @@ describe("User", () => {
       });
       await UserSession.saveNewSession(user);
       await UserSession.saveNewSession(user);
-      expect(
-        await UserSession.find({ where: { user: { id: user.id } } })
-      ).toHaveLength(2);
+      const newLocal = await UserSession.find({
+        where: { user: { id: user.id } },
+      });
+      console.log(newLocal);
+      expect(newLocal).toHaveLength(2);
     });
   });
 });
