@@ -6,7 +6,7 @@ describe("User", () => {
   resetDatabase();
 
   describe("saveNewSession", () => {
-    it("should save a new user session", async () => {
+    it("should save as many sessions as requested.", async () => {
       const user: User = new User({
         firstName: "test",
         lastName: "Test",
