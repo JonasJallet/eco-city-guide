@@ -81,8 +81,9 @@ export default function SignInPage() {
             className="bg-form_color p-10 rounded-lg shadow-lg shadow-gray-300 min-w-full"
             onSubmit={(event) => {
               event.preventDefault();
-              //signIn();
+              signIn();
             }}
+            aria-label="form"
           >
             <h1 className="text-center text-2xl mb-4 text-gray-600 font-bold font-sans">
               Se connecter
