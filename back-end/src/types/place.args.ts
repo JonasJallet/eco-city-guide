@@ -13,18 +13,18 @@ export class CreatePlace {
   @MinLength(10)
   description!: string;
 
-  @Field()
-  @MinLength(10)
-  address!: string;
-
-  @Field()
-  @MinLength(10)
-  city!: string;
-
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
 
-  @Field(() => [String])
+  @Field()
+  @MinLength(8)
+  address!: string;
+
+  @Field()
+  @MinLength(1)
+  city!: string;
+
+  @Field(() => [String], { nullable: true })
   categoryIds!: string[];
 
   @Field(() => String, { nullable: true })
@@ -34,14 +34,22 @@ export class CreatePlace {
 export class UpdatePlace {
   @Field()
   @MinLength(3)
-  name!: string;
+  name?: string;
 
   @Field()
   @MinLength(10)
-  description!: string;
+  description?: string;
 
   @Field((type) => GeoJSONPoint)
-  coordinates!: Geometry;
+  coordinates?: Geometry;
+
+  @Field()
+  @MinLength(8)
+  address?: string;
+
+  @Field()
+  @MinLength(1)
+  city?: string;
 
   @Field(() => [String], { nullable: true })
   categoryIds?: string[];
