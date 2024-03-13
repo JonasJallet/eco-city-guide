@@ -1,6 +1,7 @@
 import { GET_MY_PROFILE_SIGN_IN, SIGN_IN_FORM } from "@/pages/login/sign-in";
 import { MockedResponse } from "@apollo/client/testing";
 
+///mock + firewent
 export const mockWithData_GetMyProfile: MockedResponse[] = [
   {
     request: {
