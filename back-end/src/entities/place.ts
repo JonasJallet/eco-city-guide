@@ -2,11 +2,12 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
-  Entity,
+  Entity, In,
   JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from "typeorm";
 import { Geometry } from "geojson";
 import { ObjectType, Field, ID } from "type-graphql";
@@ -17,6 +18,7 @@ import User from "./user";
 
 @Entity()
 @ObjectType()
+@Unique("custom_unique_constraint", ["name", "coordinates"])
 class Place extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
@@ -92,13 +94,14 @@ class Place extends BaseEntity {
   static async saveNewPlace(placeData: CreatePlace): Promise<Place> {
     const newPlace = new Place(placeData);
 
-    newPlace.categories = await Promise.all(
-      placeData.categoryIds.map(Category.getCategoryById)
-    );
+    if (placeData.categoryIds) {
+      newPlace.categories = await Promise.all(
+        placeData.categoryIds.map(Category.getCategoryById)
+      );
+    }
 
     if (placeData.ownerId) {
-      const user = await User.getUserById(placeData.ownerId);
-      newPlace.owner = user;
+      newPlace.owner = await User.getUserById(placeData.ownerId);
     }
 
     const savedPlace = await newPlace.save();
@@ -107,17 +110,15 @@ class Place extends BaseEntity {
   }
 
   static async getPlaces(categoryIds?: string[]): Promise<Place[]> {
-    let places: any = [];
-    if (categoryIds) {
-      places = await Promise.all(
-        categoryIds.map((categoryId: string) =>
-          Place.find({
-            where: { categories: { id: categoryId } },
-          })
-        )
-      );
+    let whereClause: any = {};
+
+    if (categoryIds && categoryIds.length > 0) {
+      whereClause.categories = { id: In(categoryIds) };
     }
-    return places;
+
+    return await Place.find({
+      where: whereClause,
+    });
   }
 
   static async getPlaceById(id: string): Promise<Place> {
@@ -134,10 +135,7 @@ class Place extends BaseEntity {
     return place;
   }
 
-  static async updatePlace(
-    id: string,
-    partialPlace: UpdatePlace
-  ): Promise<Place> {
+  static async updatePlace(id: string, partialPlace: UpdatePlace): Promise<Place> {
     const place = await Place.getPlaceById(id);
     Object.assign(place, partialPlace);
 
@@ -148,7 +146,7 @@ class Place extends BaseEntity {
     }
 
     await place.save();
-    place.reload();
+    await place.reload();
     return place;
   }
 
