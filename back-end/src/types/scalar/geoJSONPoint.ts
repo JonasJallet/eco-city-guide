@@ -1,15 +1,13 @@
-import { GraphQLScalarType, ValueNode  } from 'graphql';
+import {GraphQLScalarType, ValueNode} from 'graphql';
 
 export const GeoJSONPoint = new GraphQLScalarType({
   name: 'Geometry',
   description: 'Geometry scalar type',
   parseValue(value) {
-    const geometryData = {
-      type: 'Point', 
+    return {
+      type: 'Point',
       coordinates: value,
     };
-
-    return geometryData;
   },
 
   serialize(value) {
@@ -18,11 +16,9 @@ export const GeoJSONPoint = new GraphQLScalarType({
 
   parseLiteral(ast: ValueNode) {
 
-    const geometryData = {
+    return {
       type: 'Point',
       coordinates: ast,
     };
-
-    return geometryData;
   },
 });

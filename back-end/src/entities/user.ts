@@ -77,13 +77,14 @@ class User extends BaseEntity {
     if (existingEmail) {
       throw new Error("Account with this email already exist.");
     }
+
     const savedUser = await newUser.save();
-    return savedUser;
+    console.log(`New User saved: ${savedUser.getStringRepresentation()}.`);
+    return savedUser
   }
 
   static async getUsers(): Promise<User[]> {
-    const users = await User.find();
-    return users;
+    return await User.find();
   }
 
   static async getUserById(id: string): Promise<User> {
@@ -109,7 +110,7 @@ class User extends BaseEntity {
     Object.assign(user, partialUser);
 
     await user.save();
-    user.reload();
+    await user.reload();
     return user;
   }
 

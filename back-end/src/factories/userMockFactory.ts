@@ -1,7 +1,7 @@
 import { DeepPartial } from "typeorm";
 import { TypeFactory } from "interface-forge";
 
-interface UserInterface {
+export interface UserInterface {
   firstName: string;
   lastName: string;
   email: string;
