@@ -1,10 +1,13 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-
-import { MockedProvider, MockedResponse } from "@apollo/client/testing";
-import SignInPage, {
-  GET_MY_PROFILE_SIGN_IN,
-  SIGN_IN_FORM,
-} from "@/pages/login/sign-in";
+import { MockedProvider } from "@apollo/client/testing";
+import {
+  mockWithData_GetMyProfile,
+  mockWithoutData_GetMyProfile,
+  mocksWithNullData_GetMyProfile,
+  mockWithData_SignInForm,
+  mockWithInvalidData_SignInForm,
+} from "./signin.dataset";
+import SignInPage from "@/pages/login/sign-in";
 
 const mockRouterPush = jest.fn();
 
@@ -14,107 +17,7 @@ jest.mock("next/router", () => ({
   }),
 }));
 
-//simuler un utilisateur connecté
-const mockWithData_GetMyProfile: MockedResponse[] = [
-  {
-    request: {
-      query: GET_MY_PROFILE_SIGN_IN,
-    },
-    result: {
-      data: {
-        myProfile: {
-          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
-          email: "jj@jj.com",
-          firstName: "jjj",
-          lastName: "JJJ",
-        },
-      },
-    },
-  },
-];
-
-//mock pour le refetch
-const mockWithoutData_GetMyProfile: MockedResponse[] = [
-  {
-    request: {
-      query: GET_MY_PROFILE_SIGN_IN,
-      variables: {},
-    },
-    result: {
-      data: {
-        myProfile: {
-          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
-          email: "jj@jj.com",
-          firstName: "jjj",
-          lastName: "JJJ",
-        },
-      },
-    },
-  },
-];
-
-//Simuler l'abscence d'utilisateur connecté
-const mocksWithNullData_GetMyProfile: MockedResponse[] = [
-  {
-    request: {
-      query: GET_MY_PROFILE_SIGN_IN,
-    },
-    result: {
-      data: {
-        myProfile: null,
-      },
-    },
-  },
-];
-
-//Simuler la connexion d'un utilisateur inscrit en base de données
-const mockWithData_SignInForm = [
-  {
-    request: {
-      query: SIGN_IN_FORM,
-      variables: {
-        email: "jj@jj.com",
-        password: "123456789012",
-      },
-    },
-    result: {
-      data: {
-        signIn: {
-          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
-          email: "jj@jj.com",
-          firstName: "jjj",
-          lastName: "JJJ",
-        },
-      },
-    },
-  },
-];
-
-//mock pour la connexion d'un utilisateur avec des identifiants invalides
-const mockWithInvalidData_SignInForm = [
-  {
-    request: {
-      query: SIGN_IN_FORM,
-      variables: {
-        email: "axhje@lpdhdue.com",
-        password: "123456789012",
-      },
-    },
-    result: {
-      data: {
-        signIn: {
-          id: "",
-          email: "",
-          firstName: "",
-          lastName: "",
-        },
-      },
-    },
-  },
-];
-
 describe("SignIn Page", () => {
-  ////Test si un utilisateur est déjà connecté
   test("redirects to home page if user is already signed in", async () => {
     render(
       <MockedProvider mocks={mockWithData_GetMyProfile} addTypename={false}>
@@ -126,8 +29,7 @@ describe("SignIn Page", () => {
     });
   });
 
-  ////Test si un utilisateur n'est pas déjà connecté
-  test("renders login page with input fields if user is not signed in", async () => {
+  test("renders login page with input fields if user is not connected", async () => {
     render(
       <MockedProvider
         mocks={mocksWithNullData_GetMyProfile}
@@ -157,7 +59,6 @@ describe("SignIn Page", () => {
     });
   });
 
-  //Test pour la connexion d'un utilisateur qui est enregistré en base de données
   test("redirects to home page if user is recorded in dataBase and successfully connected", async () => {
     render(
       <MockedProvider
@@ -185,7 +86,6 @@ describe("SignIn Page", () => {
     });
   });
 
-  //Test pour la connexion d'un utilisateur qui est enregistré en base de données
   test("redirects to home page if user is recorded in dataBase and successfully connected", async () => {
     render(
       <MockedProvider
