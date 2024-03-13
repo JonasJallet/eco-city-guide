@@ -104,9 +104,7 @@ class Place extends BaseEntity {
       newPlace.owner = await User.getUserById(placeData.ownerId);
     }
 
-    const savedPlace = await newPlace.save();
-    console.log(`New Place saved: ${savedPlace.getStringRepresentation()}.`);
-    return savedPlace;
+    return await newPlace.save();
   }
 
   static async getPlaces(categoryIds?: string[]): Promise<Place[]> {

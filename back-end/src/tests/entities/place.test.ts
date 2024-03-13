@@ -2,6 +2,7 @@ import { Point } from "typeorm";
 import Place from "../../entities/place";
 import { places } from "./place.dataset";
 import { resetDatabase } from "../resetDatabase";
+import {categories} from "./category.dataset";
 
 describe("Place", () => {
   resetDatabase();
@@ -19,15 +20,6 @@ describe("Place", () => {
     });
   };
 
-  describe("saveNewPlace", () => {
-    it("create place and returns it", async () => {
-      const createdPlace = await createNewPlace(places[0]);
-      expect(createdPlace).toMatchObject(places[0]);
-      const place = await Place.getPlaceById(createdPlace.id);
-      expect(place.id).toEqual(createdPlace.id);
-    });
-  });
-
   describe("getPlaces", () => {
     it("should return all places", async () => {
       const createdPlaces = await Promise.all(places.map(createNewPlace));
@@ -43,6 +35,21 @@ describe("Place", () => {
       const place = await Place.getPlaceById(placeId);
       expect(place).toBeDefined();
       expect(place.id).toEqual(createdPlace.id);
+    });
+  });
+
+  describe("saveNewPlace", () => {
+    it("create place and returns it", async () => {
+      const createdPlace = await createNewPlace(places[0]);
+      expect(createdPlace).toMatchObject(places[0]);
+      const place = await Place.getPlaceById(createdPlace.id);
+      expect(place.id).toEqual(createdPlace.id);
+    });
+
+    it("should throw error if trying to create place with same name and coordinates", async () => {
+      await createNewPlace(places[0]);
+      const duplicatePlace = createNewPlace(places[0]); // Creating a duplicate place
+      await expect(duplicatePlace).rejects.toThrow(); // Expecting any error to be thrown
     });
   });
 

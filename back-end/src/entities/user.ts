@@ -13,7 +13,7 @@ import UserSession from "./userSession";
 import Place from "./place";
 
 export enum UserRole {
-  webAdminitrator = "webAdministrator",
+  webAdministrator = "webAdministrator",
   cityAdministrator = "cityAdministrator",
   user = "user",
 }
@@ -78,9 +78,7 @@ class User extends BaseEntity {
       throw new Error("Account with this email already exist.");
     }
 
-    const savedUser = await newUser.save();
-    console.log(`New User saved: ${savedUser.getStringRepresentation()}.`);
-    return savedUser
+    return await newUser.save();
   }
 
   static async getUsers(): Promise<User[]> {
