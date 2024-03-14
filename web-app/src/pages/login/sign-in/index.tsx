@@ -55,19 +55,23 @@ export default function SignInPage() {
     setFormData({ ...formData, ...partialFormData });
   };
 
-  const [signInMutation] = useMutation<
+  const [signInMutation, { error }] = useMutation<
     SignInFormMutation,
     SignInFormMutationVariables
   >(SIGN_IN_FORM);
 
   const signIn = async () => {
-    const { data } = await signInMutation({
-      variables: formData,
-    });
+    try {
+      const { data } = await signInMutation({
+        variables: formData,
+      });
 
-    if (data && data.signIn) {
-      refetch();
-      router.push("/home");
+      if (data && data.signIn) {
+        refetch();
+        router.push("/home");
+      }
+    } catch (error) {
+      console.error("Une erreur s'est produite lors de la connexion:", error);
     }
   };
 
@@ -115,6 +119,9 @@ export default function SignInPage() {
                   updateFormData({ password: event.target.value });
                 }}
               />
+            </div>
+            <div className="w-full mt-4 text-md text-red-600">
+              {error && error.message}
             </div>
             <button
               type="submit"

@@ -24,9 +24,7 @@ export const mocksWithUndefinedData_GetMyProfile: MockedResponse[] = [
     request: {
       query: GET_MY_PROFILE_SIGN_IN,
     },
-    result: {
-      data: undefined,
-    },
+    result: undefined,
   },
 ];
 
@@ -61,8 +59,6 @@ export const mockWithInvalidData_SignInForm = [
         password: "123456789012",
       },
     },
-    result: {
-      data: undefined,
-    },
+    error: new Error("Email ou mot de passe incorrect."),
   },
 ];

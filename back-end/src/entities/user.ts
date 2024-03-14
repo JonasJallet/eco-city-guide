@@ -119,7 +119,7 @@ class User extends BaseEntity {
   }: SignInUser): Promise<User> {
     const user = await User.findOne({ where: { email } });
     if (!user || !(await compare(password, user.hashedPassword))) {
-      throw new Error("INVALID_CREDENTIALS");
+      throw new Error("Email ou mot de passe incorrect.");
     }
     return user;
   }

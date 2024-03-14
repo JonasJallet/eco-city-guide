@@ -84,6 +84,9 @@ describe("SignIn Page", () => {
       target: { value: "123456789012" },
     });
     fireEvent.submit(screen.getByRole("form"));
+    await screen.findByText(/Email ou mot de passe incorrect\./i);
+    const errorText = screen.getByText(/Email ou mot de passe incorrect\./i);
+    expect(errorText).toBeInTheDocument();
     await waitFor(() => {
       expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
     });
