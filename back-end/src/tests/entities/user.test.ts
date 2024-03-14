@@ -1,10 +1,45 @@
 import User from "../../entities/user";
 import { newUsers } from "./user.dataset";
 import { resetDatabase } from "../resetDatabase";
+import Place from "../../entities/place";
 import { Point } from "typeorm";
+import { faker } from "@faker-js/faker";
+import { getDataSource } from "../../database";
+import Category from "../../entities/category";
 
 describe("User", () => {
   resetDatabase();
+
+  const createNewCategory = async (categoryData: {
+    name: string;
+  }): Promise<Category> => {
+    const database = await getDataSource();
+    const categoryRepository = database.getRepository(Category);
+    return await categoryRepository.save(
+      categoryRepository.create(categoryData)
+    );
+  };
+
+  const newPlace = {
+    name: "Plastic Outfit",
+    description: "lorem ipsum blablabla",
+    city: "Paris",
+    address: "12 rue du chemin",
+    coordinates: {
+      type: "Point",
+      coordinates: [48, 2],
+    } as Point,
+    categoryIds: [],
+    ownerId: null,
+  };
+
+  const createNewPlace = async () => {
+    return await Place.saveNewPlace({
+      ...newPlace,
+      categoryIds: [(await createNewCategory({ name: faker.lorem.word() })).id],
+      ownerId: null,
+    });
+  };
 
   describe("getUserWithEmailAndPassword", () => {
     const { email, password } = {
@@ -123,16 +158,41 @@ describe("User", () => {
     });
   });
 
-  const newPlace = {
-    name: "Plastic Oufit",
-    description: "lorem ipsum blablabla",
-    city: "Paris",
-    address: "12 rue du chemin",
-    coordinates: {
-      type: "Point",
-      coordinates: [48, 2],
-    } as Point,
-    categoryIds: [],
-    ownerId: null,
-  };
+  describe("addFavoritePlace", () => {
+    it("should add a favorite place for the user", async () => {
+      const user = await User.saveNewUser(newUsers[0]);
+      const place = await createNewPlace();
+      const updatedUser = await User.addFavoritePlace(user.id, place.id);
+      expect(updatedUser.favoritesPlaces).toContainEqual(place);
+    });
+
+    it("should throw error if user ID is invalid", async () => {
+      const invalidUserId = "58d566a1-faf3-4fd1-9640-85f27c1a117a";
+      const place = await createNewPlace();
+
+      await expect(
+        User.addFavoritePlace(invalidUserId, place.id)
+      ).rejects.toThrow(`User with ID ${invalidUserId} does not exist.`);
+    });
+
+    it("should throw error if place ID is invalid", async () => {
+      const user = await User.saveNewUser(newUsers[0]);
+      const invalidPlaceId = "7d8ad5a8-d51a-4ac5-aa81-3993db97ba17";
+
+      await expect(
+        User.addFavoritePlace(user.id, invalidPlaceId)
+      ).rejects.toThrow(`Place with ID ${invalidPlaceId} does not exist.`);
+    });
+  });
+
+  describe("deleteFavoritePlace", () => {
+    it("should remove a favorite place for the user", async () => {
+      const user = await User.saveNewUser(newUsers[0]);
+      const place = await createNewPlace();
+      await User.addFavoritePlace(user.id, place.id);
+
+      const updatedUser = await User.deleteFavoritePlace(user.id, place.id);
+      expect(updatedUser.favoritesPlaces).not.toContainEqual(place);
+    });
+  });
 });
