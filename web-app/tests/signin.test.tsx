@@ -17,7 +17,7 @@ jest.mock("next/router", () => ({
 }));
 
 describe("SignIn Page", () => {
-  test("redirects to home page if user is already signed in", async () => {
+  test("Redirection to home page if user is already signed in", async () => {
     render(
       <MockedProvider mocks={mockWithData_GetMyProfile} addTypename={false}>
         <SignInPage />
@@ -27,7 +27,7 @@ describe("SignIn Page", () => {
       expect(mockRouterPush).toHaveBeenCalledWith("/home");
     });
   });
-  test("renders login page with input fields if user is not connected", async () => {
+  test("Renders login page with input fields if user is not connected", async () => {
     render(
       <MockedProvider
         mocks={mocksWithUndefinedData_GetMyProfile}
@@ -40,7 +40,7 @@ describe("SignIn Page", () => {
       expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
     });
   });
-  test("redirects to home page if user is recorded in dataBase and successfully connected", async () => {
+  test("Redirection to home page if user is recorded in dataBase and successfully connected", async () => {
     render(
       <MockedProvider
         mocks={[
