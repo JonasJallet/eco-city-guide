@@ -3,6 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -24,6 +26,10 @@ class User extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
   id!: string;
+
+  @CreateDateColumn()
+  @Field()
+  createdAt!: Date;
 
   @Column()
   @Field()
@@ -53,11 +59,12 @@ class User extends BaseEntity {
   sessions!: UserSession[];
 
   @OneToMany(() => Place, (place) => place.owner)
-  places!: Place[];
+  ownedPlaces!: Place[];
 
-  @CreateDateColumn()
-  @Field()
-  createdAt!: Date;
+  @JoinTable({ name: "UserFavoritesPlaces" })
+  @ManyToMany(() => Place, (place) => place.users, { eager: true })
+  @Field(() => [Place])
+  favoritesPlaces!: Place[];
 
   constructor(user?: CreateUser) {
     super();
@@ -143,8 +150,29 @@ class User extends BaseEntity {
     return session.user;
   }
 
-  getStringRepresentation(): string {
-    return `${this.id} | ${this.firstName} | ${this.lastName} | ${this.email}`;
+  static async addFavoritePlace(
+    userId: string,
+    placeId: string
+  ): Promise<User> {
+    const user = await this.getUserById(userId);
+    const place = await Place.getPlaceById(placeId);
+    (user.favoritesPlaces as Place[]).push(place);
+    await user.save();
+
+    return user;
+  }
+
+  static async removeFavoritePlace(
+    userId: string,
+    placeId: string
+  ): Promise<User> {
+    const user = await this.getUserById(userId);
+    user.favoritesPlaces = user.favoritesPlaces.filter(
+      (place) => place.id !== placeId
+    );
+    await user.save();
+
+    return user;
   }
 }
 

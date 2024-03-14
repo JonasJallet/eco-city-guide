@@ -2,7 +2,8 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
-  Entity, In,
+  Entity,
+  In,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -23,6 +24,10 @@ class Place extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
   id!: string;
+
+  @CreateDateColumn()
+  @Field()
+  createdAt!: Date;
 
   @Column()
   @Field()
@@ -47,18 +52,19 @@ class Place extends BaseEntity {
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
 
-  @ManyToOne(() => User, (user) => user.places, { eager: true, nullable: true })
+  @ManyToOne(() => User, (user) => user.ownedPlaces, {
+    nullable: true,
+  })
   @Field(() => User, { nullable: true })
   owner!: User | null;
 
   @JoinTable({ name: "CategoriesForPlaces" })
-  @ManyToMany(() => Category, (category) => category.places, { eager: true })
+  @ManyToMany(() => Category, (category) => category.places)
   @Field(() => [Category])
   categories!: Category[];
 
-  @CreateDateColumn()
-  @Field()
-  createdAt!: Date;
+  @ManyToMany(() => User, (user) => user.favoritesPlaces)
+  users!: User[];
 
   constructor(place?: CreatePlace) {
     super();
@@ -107,11 +113,18 @@ class Place extends BaseEntity {
     return await newPlace.save();
   }
 
-  static async getPlaces(categoryIds?: string[]): Promise<Place[]> {
+  static async getPlaces(
+    city?: string,
+    categoryIds?: string[]
+  ): Promise<Place[]> {
     let whereClause: any = {};
 
     if (categoryIds && categoryIds.length > 0) {
       whereClause.categories = { id: In(categoryIds) };
+    }
+
+    if (city) {
+      whereClause.city = city;
     }
 
     return await Place.find({
@@ -133,7 +146,10 @@ class Place extends BaseEntity {
     return place;
   }
 
-  static async updatePlace(id: string, partialPlace: UpdatePlace): Promise<Place> {
+  static async updatePlace(
+    id: string,
+    partialPlace: UpdatePlace
+  ): Promise<Place> {
     const place = await Place.getPlaceById(id);
     Object.assign(place, partialPlace);
 
@@ -146,10 +162,6 @@ class Place extends BaseEntity {
     await place.save();
     await place.reload();
     return place;
-  }
-
-  getStringRepresentation(): string {
-    return `${this.id} | ${this.name} | ${this.description} | ${this.address} | ${this.city} | ${this.coordinates}`;
   }
 }
 

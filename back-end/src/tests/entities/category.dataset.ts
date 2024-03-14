@@ -1,13 +1,7 @@
-import { faker } from "@faker-js/faker";
-
-export function createCategoryDataset(numberOfCategories: number) {
-    const categories = [];
-    for (let i = 0; i < numberOfCategories; i++) {
-        categories.push({
-            name: faker.commerce.department(),
-        });
-    }
-    return categories;
+export function createCategoryDataset(names: string[]) {
+  const categories = names.map((name) => ({ name }));
+  return categories;
 }
 
-export const categories = createCategoryDataset(3);
+export const sampleListOfCategories = ["Parc", "Clothing", "Food"];
+export const categories = createCategoryDataset(sampleListOfCategories);
