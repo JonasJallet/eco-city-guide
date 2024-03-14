@@ -70,9 +70,7 @@ export default function SignInPage() {
         refetch();
         router.push("/home");
       }
-    } catch (error) {
-      console.error("Une erreur s'est produite lors de la connexion:", error);
-    }
+    } catch (error) {}
   };
 
   return (
