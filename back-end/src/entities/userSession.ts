@@ -22,8 +22,7 @@ class UserSession extends BaseEntity {
 
   static async saveNewSession(user: User): Promise<UserSession> {
     const newSession = new UserSession(user);
-    const savedSession = await newSession.save();
-    return savedSession;
+    return await newSession.save();
   }
 }
 

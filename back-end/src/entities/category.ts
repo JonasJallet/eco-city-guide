@@ -36,8 +36,7 @@ export class Category extends BaseEntity {
   }
 
   static async getCategories(): Promise<Category[]> {
-    const categories = await Category.find();
-    return categories;
+    return await Category.find();
   }
 
   static async getCategoryById(id: string): Promise<Category> {
@@ -56,7 +55,7 @@ export class Category extends BaseEntity {
     Object.assign(category, categoryData);
 
     await category.save();
-    category.reload();
+    await category.reload();
     return category;
   }
 
