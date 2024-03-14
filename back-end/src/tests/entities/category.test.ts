@@ -1,6 +1,6 @@
-import Category from "../../entities/category";
-import { categories } from "./category.dataset";
 import { resetDatabase } from "../resetDatabase";
+import Category from "../../entities/category";
+import { newCategoriesDataset } from "./category.dataset";
 
 describe("Category", () => {
   resetDatabase();
@@ -13,7 +13,7 @@ describe("Category", () => {
   describe("getCategories", () => {
     it("should return all categories", async () => {
       const createdCategories = await Promise.all(
-        categories.map(createNewCategory)
+        newCategoriesDataset.map(createNewCategory)
       );
       const getCategories = await Category.getCategories();
       expect(getCategories.length).toEqual(createdCategories.length);
@@ -22,7 +22,7 @@ describe("Category", () => {
 
   describe("getCategoryById", () => {
     it("should return one category by id", async () => {
-      const createdCategory = await createNewCategory(categories[0]);
+      const createdCategory = await createNewCategory(newCategoriesDataset[0]);
       const categoryId = createdCategory.id;
       const category = await Category.getCategoryById(categoryId);
       expect(category).toBeDefined();
@@ -32,22 +32,22 @@ describe("Category", () => {
 
   describe("saveNewCategory", () => {
     it("should create category and returns it", async () => {
-      const createdCategory = await createNewCategory(categories[0]);
-      expect(createdCategory).toMatchObject(categories[0]);
+      const createdCategory = await createNewCategory(newCategoriesDataset[0]);
+      expect(createdCategory).toMatchObject(newCategoriesDataset[0]);
       const category = await Category.getCategoryById(createdCategory.id);
       expect(category.id).toEqual(createdCategory.id);
     });
 
     it("should throw error if trying to create category with same name", async () => {
-      await createNewCategory(categories[1]);
-      const duplicateCategoryName = createNewCategory(categories[1]);
+      await createNewCategory(newCategoriesDataset[1]);
+      const duplicateCategoryName = createNewCategory(newCategoriesDataset[1]);
       await expect(duplicateCategoryName).rejects.toThrow();
     });
   });
 
   describe("deleteCategory", () => {
     it("should delete category by id", async () => {
-      const createdCategory = await createNewCategory(categories[1]);
+      const createdCategory = await createNewCategory(newCategoriesDataset[1]);
       const categoryId = createdCategory.id;
       const deletedCategory = await Category.deleteCategory(categoryId);
       expect(deletedCategory).toBeDefined();
@@ -57,7 +57,7 @@ describe("Category", () => {
 
   describe("updateCategory", () => {
     it("should return updated place", async () => {
-      const createdCategory = await createNewCategory(categories[2]);
+      const createdCategory = await createNewCategory(newCategoriesDataset[2]);
       const categoryId = createdCategory.id;
       const partialCategory = { name: "updated-name" };
       const updatedCategory = await Category.updateCategory(

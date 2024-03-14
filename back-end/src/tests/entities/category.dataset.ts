@@ -4,4 +4,6 @@ export function createCategoryDataset(names: string[]) {
 }
 
 export const sampleListOfCategories = ["Parc", "Clothing", "Food"];
-export const categories = createCategoryDataset(sampleListOfCategories);
+export const newCategoriesDataset = createCategoryDataset(
+  sampleListOfCategories
+);

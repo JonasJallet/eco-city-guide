@@ -1,4 +1,4 @@
-export const newUsers = [
+export const newUsersDataset = [
   {
     email: "mail-user1@test.com",
     firstName: "UserName1",

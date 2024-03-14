@@ -1,10 +1,10 @@
 import { Point } from "typeorm";
-import Place from "../../entities/place";
-import { places } from "./place.dataset";
-import { resetDatabase } from "../resetDatabase";
-import Category from "../../entities/category";
-import { getDataSource } from "../../database";
 import { faker } from "@faker-js/faker";
+import { resetDatabase } from "../resetDatabase";
+import { getDataSource } from "../../database";
+import Place from "../../entities/place";
+import Category from "../../entities/category";
+import { newPlacesDataset } from "./place.dataset";
 
 describe("Place", () => {
   resetDatabase();
@@ -35,7 +35,9 @@ describe("Place", () => {
 
   describe("getPlaces", () => {
     it("should return all places", async () => {
-      const createdPlaces = await Promise.all(places.map(createNewPlace));
+      const createdPlaces = await Promise.all(
+        newPlacesDataset.map(createNewPlace)
+      );
       const getPlaces = await Place.getPlaces();
       expect(getPlaces.length).toEqual(createdPlaces.length);
     });
@@ -43,7 +45,7 @@ describe("Place", () => {
 
   describe("getPlaceById", () => {
     it("should return one place by id", async () => {
-      const createdPlace = await createNewPlace(places[0]);
+      const createdPlace = await createNewPlace(newPlacesDataset[0]);
       const placeId = createdPlace.id;
       const place = await Place.getPlaceById(placeId);
       expect(place).toBeDefined();
@@ -53,22 +55,22 @@ describe("Place", () => {
 
   describe("saveNewPlace", () => {
     it("create place and returns it", async () => {
-      const createdPlace = await createNewPlace(places[0]);
-      expect(createdPlace).toMatchObject(places[0]);
+      const createdPlace = await createNewPlace(newPlacesDataset[0]);
+      expect(createdPlace).toMatchObject(newPlacesDataset[0]);
       const place = await Place.getPlaceById(createdPlace.id);
       expect(place.id).toEqual(createdPlace.id);
     });
 
     it("should throw error if trying to create place with same name and coordinates", async () => {
-      await createNewPlace(places[0]);
-      const duplicatePlace = createNewPlace(places[0]);
+      await createNewPlace(newPlacesDataset[0]);
+      const duplicatePlace = createNewPlace(newPlacesDataset[0]);
       await expect(duplicatePlace).rejects.toThrow();
     });
   });
 
   describe("deletePlace", () => {
     it("should delete place by id", async () => {
-      const createdPlace = await createNewPlace(places[1]);
+      const createdPlace = await createNewPlace(newPlacesDataset[1]);
       const placeId = createdPlace.id;
       const deletedPlace = await Place.deletePlace(placeId);
       expect(deletedPlace).toBeDefined();
@@ -78,7 +80,7 @@ describe("Place", () => {
 
   describe("updatePlace", () => {
     it("should return updated place", async () => {
-      const createdPlace = await createNewPlace(places[2]);
+      const createdPlace = await createNewPlace(newPlacesDataset[2]);
       const placeId = createdPlace.id;
       const partialPlace = { name: "updated-name" };
       const updatedPlace = await Place.updatePlace(placeId, partialPlace);

@@ -21,4 +21,4 @@ export function createPlaceDataset(numberOfPlaces: number) {
   return places;
 }
 
-export const places = createPlaceDataset(3);
+export const newPlacesDataset = createPlaceDataset(3);
