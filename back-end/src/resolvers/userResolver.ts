@@ -67,7 +67,7 @@ export class UserResolver {
     @Arg("placeId") placeId: string,
     @Ctx() { user }: Context
   ): Promise<User> {
-    return User.removeFavoritePlace((user as User).id, placeId);
+    return User.deleteFavoritePlace((user as User).id, placeId);
   }
 
   @Authorized()

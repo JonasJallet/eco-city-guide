@@ -59,7 +59,7 @@ class Place extends BaseEntity {
   owner!: User | null;
 
   @JoinTable({ name: "CategoriesForPlaces" })
-  @ManyToMany(() => Category, (category) => category.places)
+  @ManyToMany(() => Category, (category) => category.places, { eager: true })
   @Field(() => [Category])
   categories!: Category[];
 
@@ -100,11 +100,13 @@ class Place extends BaseEntity {
   static async saveNewPlace(placeData: CreatePlace): Promise<Place> {
     const newPlace = new Place(placeData);
 
-    if (placeData.categoryIds) {
-      newPlace.categories = await Promise.all(
-        placeData.categoryIds.map(Category.getCategoryById)
-      );
+    if (placeData.categoryIds.length === 0) {
+      throw new Error("Vous devez sélectionner au moins une catégorie.");
     }
+
+    newPlace.categories = await Promise.all(
+      placeData.categoryIds.map(Category.getCategoryById)
+    );
 
     if (placeData.ownerId) {
       newPlace.owner = await User.getUserById(placeData.ownerId);

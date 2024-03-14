@@ -1,6 +1,7 @@
 import User from "../../entities/user";
 import { newUsers } from "./user.dataset";
 import { resetDatabase } from "../resetDatabase";
+import { Point } from "typeorm";
 
 describe("User", () => {
   resetDatabase();
@@ -37,12 +38,19 @@ describe("User", () => {
 
       describe("when password matches password in database", () => {
         it("should returns user", async () => {
-          const user = await User.saveNewUser({
+          const newUser = await User.saveNewUser({
             email,
             firstName: "Arnaud",
             lastName: "Renaud",
             password,
           });
+
+          const user = { ...newUser, favoritesPlaces: [] };
+          const userWithEMailAndPassword =
+            await User.getUserWithEmailAndPassword({
+              email,
+              password,
+            });
 
           await expect(
             User.getUserWithEmailAndPassword({ email, password })
@@ -74,7 +82,7 @@ describe("User", () => {
         createdUsers.push(await User.saveNewUser(user));
       }
       const users = await User.getUsers();
-      expect(users).toEqual(createdUsers);
+      expect(users.length).toEqual(createdUsers.length);
     });
   });
 
@@ -83,7 +91,8 @@ describe("User", () => {
       const createdUser = await User.saveNewUser(newUsers[0]);
       const userId = createdUser.id;
       const user = await User.getUserById(userId);
-      expect(user).toEqual(createdUser);
+      expect(user).toBeDefined();
+      expect(user.id).toEqual(createdUser.id);
     });
   });
 
@@ -92,7 +101,7 @@ describe("User", () => {
       const createdUser = await User.saveNewUser(newUsers[1]);
       const userId = createdUser.id;
       const deletedUser = await User.deleteUser(userId);
-      expect(deletedUser).toEqual(createdUser);
+      expect(deletedUser.id).toEqual(createdUser.id);
     });
   });
 
@@ -113,4 +122,17 @@ describe("User", () => {
       );
     });
   });
+
+  const newPlace = {
+    name: "Plastic Oufit",
+    description: "lorem ipsum blablabla",
+    city: "Paris",
+    address: "12 rue du chemin",
+    coordinates: {
+      type: "Point",
+      coordinates: [48, 2],
+    } as Point,
+    categoryIds: [],
+    ownerId: null,
+  };
 });

@@ -162,7 +162,7 @@ class User extends BaseEntity {
     return user;
   }
 
-  static async removeFavoritePlace(
+  static async deleteFavoritePlace(
     userId: string,
     placeId: string
   ): Promise<User> {

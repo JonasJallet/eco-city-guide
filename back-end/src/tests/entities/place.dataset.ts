@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Point } from "typeorm"
+import { Point } from "typeorm";
 
 export function createPlaceDataset(numberOfPlaces: number) {
   const places = [];
@@ -11,7 +11,10 @@ export function createPlaceDataset(numberOfPlaces: number) {
       address: faker.location.streetAddress({ useFullAddress: true }),
       coordinates: {
         type: "Point",
-        coordinates: [48, 2],
+        coordinates: [
+          faker.location.latitude({ min: 2, max: 45 }),
+          faker.location.longitude({ min: 2, max: 56 }),
+        ],
       } as Point,
     });
   }

@@ -2,10 +2,23 @@ import { Point } from "typeorm";
 import Place from "../../entities/place";
 import { places } from "./place.dataset";
 import { resetDatabase } from "../resetDatabase";
-import { categories } from "./category.dataset";
+import Category from "../../entities/category";
+import { getDataSource } from "../../database";
+import { faker } from "@faker-js/faker";
 
 describe("Place", () => {
   resetDatabase();
+
+  const createNewCategory = async (categoryData: {
+    name: string;
+  }): Promise<Category> => {
+    const database = await getDataSource();
+    const categoryRepository = database.getRepository(Category);
+    return await categoryRepository.save(
+      categoryRepository.create(categoryData)
+    );
+  };
+
   const createNewPlace = async (placeData: {
     name: string;
     description: string;
@@ -15,7 +28,7 @@ describe("Place", () => {
   }) => {
     return await Place.saveNewPlace({
       ...placeData,
-      categoryIds: [],
+      categoryIds: [(await createNewCategory({ name: faker.lorem.word() })).id],
       ownerId: null,
     });
   };
@@ -48,8 +61,8 @@ describe("Place", () => {
 
     it("should throw error if trying to create place with same name and coordinates", async () => {
       await createNewPlace(places[0]);
-      const duplicatePlace = createNewPlace(places[0]); // Creating a duplicate place
-      await expect(duplicatePlace).rejects.toThrow(); // Expecting any error to be thrown
+      const duplicatePlace = createNewPlace(places[0]);
+      await expect(duplicatePlace).rejects.toThrow();
     });
   });
 
