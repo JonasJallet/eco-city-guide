@@ -21,12 +21,13 @@ export default function Initials() {
   return (
     <>
       {!loading && (
-        <button className="w-16 h-16 mt-4 ml-4 mr-4 bg-button_bg_color rounded-lg px-1 py-1 text-3xl text-black tracking-wide font-semibold font-sans">
+        <button className="h-16 mt-4 ml-4 mr-4 bg-button_bg_color rounded-full px-1 py-1 text-3xl text-black tracking-wide font-semibold font-sans">
           {data?.myProfile ? (
             data.myProfile.initials
           ) : (
             <a href="/login/sign-in">
-              <Image src={user} alt="user login icon" />
+              {data?.myProfile ? data.myProfile.initials : "Me connecter"}
+              {/* <Image src={user} alt="user login icon" /> */}
             </a>
           )}
           {/* {data?.myProfile ? data.myProfile.initials : "Me connecter"} */}
