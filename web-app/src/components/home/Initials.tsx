@@ -20,17 +20,13 @@ export default function Initials() {
   console.log(GET_MY_PROFILE_INITIALS);
   return (
     <>
-      {!loading && (
-        <button className="h-16 mt-4 ml-4 mr-4 bg-button_bg_color rounded-full px-1 py-1 text-3xl text-black tracking-wide font-semibold font-sans">
-          {data?.myProfile ? (
-            data.myProfile.initials
-          ) : (
-            <a href="/login/sign-in">
-              {data?.myProfile ? data.myProfile.initials : "Me connecter"}
-              {/* <Image src={user} alt="user login icon" /> */}
-            </a>
-          )}
-          {/* {data?.myProfile ? data.myProfile.initials : "Me connecter"} */}
+      {!loading && data?.myProfile ? (
+        <button className="w-16 h-16 mt-4 ml-4 mr-4 bg-button_bg_color rounded-full px-1 py-1 text-3xl text-black tracking-wide font-semibold font-sans">
+          <a href="/login/my-profile">{data.myProfile.initials}</a>
+        </button>
+      ) : (
+        <button className="h-16 mt-4 ml-4 mr-4 bg-secondary_color rounded-full px-1 py-1 text-3xl button_text_color tracking-wide font-semibold font-sans">
+          <a href="/login/sign-in">{"Me connecter"}</a>
         </button>
       )}
     </>
