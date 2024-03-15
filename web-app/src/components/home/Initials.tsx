@@ -55,15 +55,6 @@ export default function Initials() {
           <a href="/login/sign-in">{"Se connecter"}</a>
         </button>
       )}
-      {/* <Container> */}
-      {/* <button onClick={toggleModal}>Afficher la modale</button>
-      {isModalOpen && (
-        <Modal onClose={toggleModal}>
-          <h1>Bienvenue {data.myProfile.firstName}</h1>
-          <h1>Bienvenue {data.myProfile.lastName}</h1>
-        </Modal>
-      )} */}
-      {/* </Container> */}
     </>
   );
 }
