@@ -9,9 +9,10 @@ export const mockWithData_GetMyProfile: MockedResponse[] = [
     result: {
       data: {
         myProfile: {
-          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
+          _typename: "User",
           email: "jj@jj.com",
           firstName: "jjj",
+          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
           lastName: "JJJ",
         },
       },
@@ -40,9 +41,10 @@ export const mockWithData_SignInForm = [
     result: {
       data: {
         signIn: {
-          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
+          _typename: "User",
           email: "jj@jj.com",
           firstName: "jjj",
+          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
           lastName: "JJJ",
         },
       },
