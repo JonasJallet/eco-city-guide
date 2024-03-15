@@ -11,7 +11,7 @@ const CREATE_PLACE = gql`
     $coordinates: Geometry!
     $address: String!
     $city: String!
-    $categoryIds: [String!]
+    $categoryIds: [String!]!
   ) {
     createPlace(
       name: $name
@@ -82,6 +82,7 @@ export default function CreatePlaceForm() {
     const { data } = await createPlaceMutation({
       variables: formData,
     });
+    console.log(data);
   };
 
   const updateFormData = (
