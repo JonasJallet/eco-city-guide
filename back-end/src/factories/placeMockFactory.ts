@@ -34,7 +34,7 @@ export class PlaceMockFactory {
           ],
         },
         address: faker.location.streetAddress({ useFullAddress: true }),
-        city: faker.location.city(),
+        city: faker.helpers.arrayElement(["Paris", "Lyon"]),
       })
     );
   }
@@ -42,7 +42,9 @@ export class PlaceMockFactory {
   async create(categoryIds?: string[]): Promise<DeepPartial<PlaceInterface>> {
     const placeData = await this.typeFactory.build();
     if (categoryIds && categoryIds.length > 0) {
-      placeData.categories = categoryIds.map(categoryId => ({ id: categoryId }));
+      placeData.categories = categoryIds.map((categoryId) => ({
+        id: categoryId,
+      }));
     }
     return placeData;
   }

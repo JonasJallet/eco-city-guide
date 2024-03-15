@@ -1,18 +1,14 @@
+import { resetDatabase } from "../resetDatabase";
 import User from "../../entities/user";
 import UserSession from "../../entities/userSession";
-import { resetDatabase } from "../resetDatabase";
+import { newUsersDataset } from "./user.dataset";
 
 describe("User", () => {
   resetDatabase();
 
   describe("saveNewSession", () => {
     it("should save as many sessions as requested.", async () => {
-      const user: User = new User({
-        firstName: "test",
-        lastName: "Test",
-        email: "me@test.com",
-        password: "123456712345",
-      });
+      const user: User = new User(newUsersDataset[0]);
       await UserSession.saveNewSession(user);
       await UserSession.saveNewSession(user);
       const sessions = await UserSession.find({
