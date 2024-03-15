@@ -33,30 +33,26 @@ export default function Initials() {
       {!loading && data?.myProfile ? (
         <button
           onClick={toggleModal}
-          className="w-12 h-12 mt-4 ml-4 mr-4 bg-button_bg_color rounded-full px-1 py-1 text-xl text-black tracking-wide font-semibold font-sans"
+          className="w-12 h-12 mt-3 ml-4 mr-16 bg-button_bg_color rounded-full px-1 py-1 text-lg border-2 border-black text-black tracking-wide font-semibold font-sans"
         >
           {data.myProfile.initials}
           {isModalOpen && (
             <UserModal onClose={toggleModal}>
-              {/* <div className="fixed top-20 right-4 bg-button_bg_color rounded-lg"> */}
-              <div className="fixed grid grid-cols-2 gap-4 w-60 h-40 text-sm border-2 border-black top-20 right-4 bg-button_bg_color rounded-lg">
-                <h2 className="text-xl col-span-2">
+              <div className="fixed grid grid-cols-2 gap-4 w-70 h-40 text-md border-2 border-black top-20 right-3 bg-primary_color bg-opacity-90 rounded-lg">
+                <h2 className="text-2xl col-span-2 flex justify-center items-center">
                   Bienvenue {data.myProfile.firstName}
                 </h2>
-                <Image
-                  className="flex justify-center w-16 h-16 col-span-2"
-                  src={user}
-                  alt="logo user-icon"
-                />
                 <a href="/my-profile">Mon compte</a>
-                <p>Se déconnecter</p>
+                <p className="mr-4">Se déconnecter</p>
+                <a className="text-xs" href="https://www.cnil.fr/fr" target="_blank">Confidentialité</a>
+                <p className="text-xs mr-4">Conditions d'utilisation</p>
               </div>
             </UserModal>
           )}
         </button>
       ) : (
-        <button className="h-16 mt-4 ml-4 mr-4 bg-secondary_color rounded-full px-1 py-1 text-3xl button_text_color tracking-wide font-semibold font-sans">
-          <a href="/login/sign-in">{"Me connecter"}</a>
+        <button className="h-12 mt-3 ml-4 mr-16 bg-secondary_color rounded-full px-3 text-lg border-2 border-black button_text_color tracking-wide font-semibold font-sans">
+          <a href="/login/sign-in">{"Se connecter"}</a>
         </button>
       )}
       {/* <Container> */}
