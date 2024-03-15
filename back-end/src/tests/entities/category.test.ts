@@ -56,7 +56,7 @@ describe("Category", () => {
   });
 
   describe("updateCategory", () => {
-    it("should return updated place", async () => {
+    it("should return updated category", async () => {
       const createdCategory = await createNewCategory(newCategoriesDataset[2]);
       const categoryId = createdCategory.id;
       const partialCategory = { name: "updated-name" };
