@@ -73,13 +73,11 @@ export default function index() {
   >(SIGN_UP_FORM);
 
   const signUp = async () => {
-    console.log("formulaire envoyé");
     const { data } = await signUpMutation({
       variables: formData,
     });
 
     if (data && data.signUp) {
-      console.log(data);
       router.push("/login/sign-in");
     }
   };
