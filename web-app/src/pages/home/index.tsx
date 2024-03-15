@@ -8,14 +8,14 @@ export default function index() {
   return (
     <>
       <div className=" flex justify-end">
-        <div className="absolute z-10">
+        <div className="absolute z-20">
           <Initials />
         </div>
       </div>
-        <div className="relative z-0" className="flex h-full w-full relative">
-          <Main />
-      <SideBar />
-        </div>
+      <div className="flex h-full w-full relative">
+        <Main />
+        <SideBar />
+      </div>
     </>
   );
 }
