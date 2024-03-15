@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
 
-const SIGN_IN_FORM = gql`
+export const SIGN_IN_FORM = gql`
   mutation SignInForm($email: String!, $password: String!) {
     signIn(email: $email, password: $password) {
       id
@@ -20,7 +20,7 @@ const SIGN_IN_FORM = gql`
   }
 `;
 
-const GET_MY_PROFILE_SIGN_IN = gql`
+export const GET_MY_PROFILE_SIGN_IN = gql`
   query GetMyProfileSignIn {
     myProfile {
       id
@@ -37,6 +37,7 @@ export default function SignInPage() {
   const { data: myProfileData, refetch } = useQuery<GetMyProfileSignInQuery>(
     GET_MY_PROFILE_SIGN_IN
   );
+
   useEffect(() => {
     if (myProfileData?.myProfile) {
       router.push("/home");
@@ -54,25 +55,25 @@ export default function SignInPage() {
     setFormData({ ...formData, ...partialFormData });
   };
 
-  const [signInMutation] = useMutation<
+  const [signInMutation, { error }] = useMutation<
     SignInFormMutation,
     SignInFormMutationVariables
   >(SIGN_IN_FORM);
 
   const signIn = async () => {
-    const { data } = await signInMutation({
-      variables: formData,
-    });
-
-    if (data && data.signIn) {
-      refetch();
-      router.push("/home");
-    }
+    try {
+      const { data } = await signInMutation({
+        variables: formData,
+      });
+      if (data && data.signIn) {
+        refetch();
+        router.push("/home");
+      }
+    } catch (error) {}
   };
 
   return (
     <div className="h-screen bg-primary_color flex justify-center items-center">
-      {/* <Image src="../../../../public/images/logo.png" className="w-40 h-16" /> */}
       <div className="flex flex-col items-center">
         <Image src={logo} alt="logo eco-city-guide" />
         <div>
@@ -82,6 +83,7 @@ export default function SignInPage() {
               event.preventDefault();
               signIn();
             }}
+            aria-label="form"
           >
             <h1 className="text-center text-2xl mb-4 text-gray-600 font-bold font-sans">
               Se connecter
@@ -114,6 +116,11 @@ export default function SignInPage() {
                 }}
               />
             </div>
+            {error && (
+              <div className="w-full mt-4 text-md text-red-600">
+                {error.message}
+              </div>
+            )}
             <button
               type="submit"
               className="w-full mt-4 bg-button_bg_color rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
