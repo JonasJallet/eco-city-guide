@@ -66,6 +66,11 @@ describe("Category", () => {
       );
       expect(updatedCategory).toBeDefined();
       expect(updatedCategory.name).toEqual(partialCategory.name);
+
+      const updatedCategoryFromDatabase = await Category.getCategoryById(
+        categoryId
+      );
+      expect(updatedCategoryFromDatabase.name).toEqual(partialCategory.name);
     });
 
     it("should throw error if category does not exist", async () => {

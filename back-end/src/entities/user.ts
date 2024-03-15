@@ -61,8 +61,8 @@ class User extends BaseEntity {
   @OneToMany(() => Place, (place) => place.owner)
   ownedPlaces!: Place[];
 
-  @JoinTable({ name: "UserFavoritesPlaces" })
-  @ManyToMany(() => Place, (place) => place.users, { eager: true })
+  @JoinTable({ name: "UserFavoritePlaces" })
+  @ManyToMany(() => Place, (place) => place.usersWithFavorite, { eager: true })
   @Field(() => [Place])
   favoritesPlaces!: Place[];
 

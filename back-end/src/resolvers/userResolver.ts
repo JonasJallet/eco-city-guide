@@ -69,10 +69,4 @@ export class UserResolver {
   ): Promise<User> {
     return User.deleteFavoritePlace((user as User).id, placeId);
   }
-
-  @Authorized()
-  @Query(() => User)
-  async userFavoritesPlaces(@Ctx() { user }: Context): Promise<Place[]> {
-    return (user as User).favoritesPlaces;
-  }
 }

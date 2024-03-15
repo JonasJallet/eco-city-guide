@@ -64,7 +64,7 @@ class Place extends BaseEntity {
   categories!: Category[];
 
   @ManyToMany(() => User, (user) => user.favoritesPlaces)
-  users!: User[];
+  usersWithFavorite!: User[];
 
   constructor(place?: CreatePlace) {
     super();
