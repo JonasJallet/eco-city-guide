@@ -1,30 +1,94 @@
-import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import Page from "../src/pages/login/sign-in";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { MockedProvider } from "@apollo/client/testing";
+import {
+  mockWithData_GetMyProfile,
+  mocksWithUndefinedData_GetMyProfile,
+  mockWithData_SignInForm,
+  mockWithInvalidData_SignInForm,
+} from "./signin.dataset";
+import SignInPage from "@/pages/login/sign-in";
 
-describe("Page", () => {
-  it("renders a link", () => {
-    render(<Page />);
+const mockRouterPush = jest.fn();
 
-    expect(screen.getByRole("link", { name: "ici" })).toHaveAttribute(
-      "href",
-      "sign-up"
+jest.mock("next/router", () => ({
+  useRouter: () => ({
+    push: mockRouterPush,
+  }),
+}));
+
+describe("SignIn Page", () => {
+  test("Redirection to home page if user is already signed in", async () => {
+    render(
+      <MockedProvider mocks={mockWithData_GetMyProfile} addTypename={false}>
+        <SignInPage />
+      </MockedProvider>
     );
+    await waitFor(() => {
+      expect(mockRouterPush).toHaveBeenCalledWith("/home");
+    });
   });
-
-  it("checks the presence of a <h1> title", () => {
-    render(<Page />);
-
-    const heading = screen.getByRole("heading", { level: 1 });
-
-    expect(heading).toBeInTheDocument();
+  test("Renders login page with input fields if user is not connected", async () => {
+    render(
+      <MockedProvider
+        mocks={mocksWithUndefinedData_GetMyProfile}
+        addTypename={false}
+      >
+        <SignInPage />
+      </MockedProvider>
+    );
+    await waitFor(() => {
+      expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
+    });
   });
-
-  it("checks the content of the <h1> title", () => {
-    render(<Page />);
-
-    const heading = screen.getByRole("heading", { level: 1 });
-
-    expect(heading.textContent).toBe("Se connecter");
+  test("Redirection to home page if user is recorded in dataBase and successfully connected", async () => {
+    render(
+      <MockedProvider
+        mocks={[
+          ...mocksWithUndefinedData_GetMyProfile,
+          ...mocksWithUndefinedData_GetMyProfile,
+          ...mockWithData_SignInForm,
+        ]}
+        addTypename={false}
+      >
+        <SignInPage />
+      </MockedProvider>
+    );
+    fireEvent.change(screen.getByPlaceholderText(/@email/i), {
+      target: { value: "jj@jj.com" },
+    });
+    fireEvent.change(screen.getByPlaceholderText(/mot de passe/i), {
+      target: { value: "123456789012" },
+    });
+    fireEvent.submit(screen.getByRole("form"));
+    await waitFor(() => {
+      expect(mockRouterPush).toHaveBeenCalledWith("/home");
+    });
+  });
+  test("No redirection if user is not recorded in dataBase and not successfully connected", async () => {
+    render(
+      <MockedProvider
+        mocks={[
+          ...mocksWithUndefinedData_GetMyProfile,
+          ...mocksWithUndefinedData_GetMyProfile,
+          ...mockWithInvalidData_SignInForm,
+        ]}
+        addTypename={false}
+      >
+        <SignInPage />
+      </MockedProvider>
+    );
+    fireEvent.change(screen.getByPlaceholderText(/@email/i), {
+      target: { value: "axhje@lpdhdue.com" },
+    });
+    fireEvent.change(screen.getByPlaceholderText(/mot de passe/i), {
+      target: { value: "123456789012" },
+    });
+    fireEvent.submit(screen.getByRole("form"));
+    await screen.findByText(/Email ou mot de passe incorrect\./i);
+    const errorText = screen.getByText(/Email ou mot de passe incorrect\./i);
+    expect(errorText).toBeInTheDocument();
+    await waitFor(() => {
+      expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
+    });
   });
 });

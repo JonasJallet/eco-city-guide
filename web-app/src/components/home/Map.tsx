@@ -10,23 +10,13 @@ import {
 
 export default function Map() {
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <div className="flex h-full w-full z-10">
       <MapContainer
         center={[51.505, -0.09]}
         zoom={14}
         scrollWheelZoom={true}
-        style={{
-          height: "700px",
-          width: "700px",
-          borderRadius: "10px",
-        }}
+        className="h-full w-full"
+        style={{ height: "100vh", width: "100vw" }}
       >
         <LayersControl />
         <TileLayer

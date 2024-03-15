@@ -2,7 +2,8 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
-  Entity, In,
+  Entity,
+  In,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -23,6 +24,10 @@ class Place extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
   id!: string;
+
+  @CreateDateColumn()
+  @Field()
+  createdAt!: Date;
 
   @Column()
   @Field()
@@ -47,7 +52,9 @@ class Place extends BaseEntity {
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
 
-  @ManyToOne(() => User, (user) => user.places, { eager: true, nullable: true })
+  @ManyToOne(() => User, (user) => user.ownedPlaces, {
+    nullable: true,
+  })
   @Field(() => User, { nullable: true })
   owner!: User | null;
 
@@ -56,9 +63,8 @@ class Place extends BaseEntity {
   @Field(() => [Category])
   categories!: Category[];
 
-  @CreateDateColumn()
-  @Field()
-  createdAt!: Date;
+  @ManyToMany(() => User, (user) => user.favoritesPlaces)
+  usersWithFavorite!: User[];
 
   constructor(place?: CreatePlace) {
     super();
@@ -94,26 +100,33 @@ class Place extends BaseEntity {
   static async saveNewPlace(placeData: CreatePlace): Promise<Place> {
     const newPlace = new Place(placeData);
 
-    if (placeData.categoryIds) {
-      newPlace.categories = await Promise.all(
-        placeData.categoryIds.map(Category.getCategoryById)
-      );
+    if (placeData.categoryIds.length === 0) {
+      throw new Error("Vous devez sélectionner au moins une catégorie.");
     }
+
+    newPlace.categories = await Promise.all(
+      placeData.categoryIds.map(Category.getCategoryById)
+    );
 
     if (placeData.ownerId) {
       newPlace.owner = await User.getUserById(placeData.ownerId);
     }
 
-    const savedPlace = await newPlace.save();
-    console.log(`New Place saved: ${savedPlace.getStringRepresentation()}.`);
-    return savedPlace;
+    return await newPlace.save();
   }
 
-  static async getPlaces(categoryIds?: string[]): Promise<Place[]> {
+  static async getPlaces(
+    city?: string,
+    categoryIds?: string[]
+  ): Promise<Place[]> {
     let whereClause: any = {};
 
     if (categoryIds && categoryIds.length > 0) {
       whereClause.categories = { id: In(categoryIds) };
+    }
+
+    if (city) {
+      whereClause.city = city;
     }
 
     return await Place.find({
@@ -135,7 +148,10 @@ class Place extends BaseEntity {
     return place;
   }
 
-  static async updatePlace(id: string, partialPlace: UpdatePlace): Promise<Place> {
+  static async updatePlace(
+    id: string,
+    partialPlace: UpdatePlace
+  ): Promise<Place> {
     const place = await Place.getPlaceById(id);
     Object.assign(place, partialPlace);
 
@@ -148,10 +164,6 @@ class Place extends BaseEntity {
     await place.save();
     await place.reload();
     return place;
-  }
-
-  getStringRepresentation(): string {
-    return `${this.id} | ${this.name} | ${this.description} | ${this.address} | ${this.city} | ${this.coordinates}`;
   }
 }
 

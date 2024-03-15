@@ -24,7 +24,7 @@ export class CreatePlace {
   @MinLength(1)
   city!: string;
 
-  @Field(() => [String], { nullable: true })
+  @Field(() => [String])
   categoryIds!: string[];
 
   @Field(() => String, { nullable: true })

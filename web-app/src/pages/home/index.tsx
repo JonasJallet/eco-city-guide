@@ -2,6 +2,7 @@
 
 import Initials from "@/components/home/Initials";
 import { Main } from "@/components/home/Main";
+import SideBar from "@/components/home/SideBar";
 
 export default function index() {
   return (
@@ -11,8 +12,9 @@ export default function index() {
           <Initials />
         </div>
       </div>
-        <div className="relative z-0" style={{ height: "100%", width: "100%" }}>
+        <div className="relative z-0" className="flex h-full w-full relative">
           <Main />
+      <SideBar />
         </div>
     </>
   );
