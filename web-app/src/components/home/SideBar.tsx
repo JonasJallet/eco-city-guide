@@ -5,7 +5,7 @@ import { MdAddCircleOutline } from "react-icons/md";
 import Image from "next/image";
 
 import SideBarContent from "./SideBarContent";
-import logo from "../../styles/earth-logo.png";
+import logo from "../../../public/images/earth-logo.png";
 import { SideBarContentEnum } from "./sideBarContent.type";
 
 export default function SideBar() {
