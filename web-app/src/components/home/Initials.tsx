@@ -3,6 +3,8 @@ import { GetMyProfileInitialsQuery } from "@/gql/graphql";
 import { useState } from "react";
 import { Modal } from "../modals/Modal.styled";
 import UserModal from "../modals/UserModal";
+import user from "../../../public/images/user.png";
+import Image from "next/image";
 
 const GET_MY_PROFILE_INITIALS = gql`
   query GetMyProfileInitials {
@@ -36,12 +38,18 @@ export default function Initials() {
           {data.myProfile.initials}
           {isModalOpen && (
             <UserModal onClose={toggleModal}>
-              <div className="h-15 fixed top-20 right-4 bg-secondary_color rounded-lg">
-                {/* <h2>Bienvenue {data.myProfile.firstName}</h2> */}
-                <div className="flex justify-between m-5 p-10">
-                  <a href="/my-profile">Accéder à mon compte</a>
-                  <p>Se déconnecter</p>
-                </div>
+              {/* <div className="fixed top-20 right-4 bg-button_bg_color rounded-lg"> */}
+              <div className="fixed grid grid-cols-2 gap-4 w-60 h-40 text-sm border-2 border-black top-20 right-4 bg-button_bg_color rounded-lg">
+                <h2 className="text-xl col-span-2">
+                  Bienvenue {data.myProfile.firstName}
+                </h2>
+                <Image
+                  className="flex justify-center w-16 h-16 col-span-2"
+                  src={user}
+                  alt="logo user-icon"
+                />
+                <a href="/my-profile">Mon compte</a>
+                <p>Se déconnecter</p>
               </div>
             </UserModal>
           )}
