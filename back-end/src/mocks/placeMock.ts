@@ -1,16 +1,27 @@
 import Place from "../entities/place";
+import Category from "../entities/category";
+import City from "../entities/city";
 import { getDataSource } from "../database";
 import {
   PlaceInterface,
   PlaceMockFactory,
 } from "../factories/placeMockFactory";
 import { DeepPartial } from "typeorm";
-import Category from "../entities/category";
 
 async function categories(): Promise<Category[]> {
   const database = await getDataSource();
   const categoryRepository = database.getRepository(Category);
   return await categoryRepository.find();
+}
+
+async function randomCity(): Promise<City> {
+  const database = await getDataSource();
+  const cityRepository = database.getRepository(City);
+  const cities = await cityRepository.find();
+  const randomIndex = Math.floor(Math.random() * cities.length);
+  const randomCity = cities[randomIndex];
+
+  return randomCity;
 }
 
 export async function createPlacesWithCategory() {
@@ -22,6 +33,7 @@ export async function createPlacesWithCategory() {
       const placeData: DeepPartial<PlaceInterface> = await placeFactory.create([
         category.id,
       ]);
+      placeData.city = await randomCity();
       placesData.push(placeData);
     }
 

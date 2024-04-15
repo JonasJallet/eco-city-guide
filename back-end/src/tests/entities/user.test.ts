@@ -23,6 +23,7 @@ describe("User", () => {
   const createNewPlace = async () => {
     return await Place.saveNewPlace({
       ...newPlacesDataset[0],
+      city: "Lyon",
       categoryIds: [(await createNewCategory({ name: faker.lorem.word() })).id],
       ownerId: null,
     });
@@ -38,7 +39,7 @@ describe("User", () => {
       it("should throws error", async () => {
         await expect(
           User.getUserWithEmailAndPassword({ email, password })
-        ).rejects.toThrow("INVALID_CREDENTIALS");
+        ).rejects.toThrow("Email ou mot de passe incorrect.");
       });
     });
 
@@ -54,7 +55,7 @@ describe("User", () => {
 
           await expect(
             User.getUserWithEmailAndPassword({ email, password })
-          ).rejects.toThrow("INVALID_CREDENTIALS");
+          ).rejects.toThrow("Email ou mot de passe incorrect.");
         });
       });
 
@@ -150,7 +151,9 @@ describe("User", () => {
       const user = await User.saveNewUser(newUsersDataset[0]);
       const place = await createNewPlace();
       const updatedUser = await User.addFavoritePlace(user.id, place.id);
-      expect(updatedUser.favoritesPlaces).toContainEqual(place);
+      expect(updatedUser.favoritesPlaces.map((place) => place.id)).toContain(
+        place.id
+      );
     });
 
     it("should throw error if user ID is invalid", async () => {

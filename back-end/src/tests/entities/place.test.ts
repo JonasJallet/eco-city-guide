@@ -22,12 +22,12 @@ describe("Place", () => {
   const createNewPlace = async (placeData: {
     name: string;
     description: string;
-    city: string;
     address: string;
     coordinates: Point;
   }) => {
     return await Place.saveNewPlace({
       ...placeData,
+      city: "Lyon",
       categoryIds: [(await createNewCategory({ name: faker.lorem.word() })).id],
       ownerId: null,
     });

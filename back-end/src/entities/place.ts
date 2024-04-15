@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   In,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -16,10 +17,11 @@ import { CreatePlace, UpdatePlace } from "../types/place.args";
 import { GeoJSONPoint } from "../types/scalar/geoJSONPoint";
 import Category from "./category";
 import User from "./user";
+import City from "./city";
 
 @Entity()
 @ObjectType()
-@Unique("custom_unique_constraint", ["name", "coordinates"])
+@Unique("custom_unique_place", ["name", "coordinates"])
 class Place extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
@@ -41,16 +43,19 @@ class Place extends BaseEntity {
   @Field()
   address!: string;
 
-  @Column()
-  @Field()
-  city!: string;
-
   @Column({
     type: "geometry",
     spatialFeatureType: "Point",
   })
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
+
+  @ManyToOne(() => City, (city) => city.places, {
+    nullable: true,
+  })
+  @JoinColumn({ name: "city" })
+  @Field(() => City, { nullable: false })
+  city!: City;
 
   @ManyToOne(() => User, (user) => user.ownedPlaces, {
     nullable: true,
@@ -89,11 +94,6 @@ class Place extends BaseEntity {
         throw new Error("Place address cannot be empty.");
       }
       this.address = place.address;
-
-      if (!place.city) {
-        throw new Error("Place city cannot be empty.");
-      }
-      this.city = place.city;
     }
   }
 
@@ -112,6 +112,14 @@ class Place extends BaseEntity {
       newPlace.owner = await User.getUserById(placeData.ownerId);
     }
 
+    let city = await City.getCityByName(placeData.city);
+
+    if (!city) {
+      city = await City.saveNewCity(placeData.city);
+    }
+
+    newPlace.city = city;
+
     return await newPlace.save();
   }
 
@@ -126,7 +134,7 @@ class Place extends BaseEntity {
     }
 
     if (city) {
-      whereClause.city = city;
+      whereClause.city = { name: city };
     }
 
     return await Place.find({

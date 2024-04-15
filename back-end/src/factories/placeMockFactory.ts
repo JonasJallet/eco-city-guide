@@ -2,6 +2,7 @@ import { DeepPartial } from "typeorm";
 import { TypeFactory } from "interface-forge";
 import { Geometry } from "geojson";
 import { faker } from "@faker-js/faker";
+import City from "../entities/city";
 import Category from "../entities/category";
 
 const minLatitude = 48.85499;
@@ -14,7 +15,7 @@ export interface PlaceInterface {
   description: string;
   coordinates: Geometry;
   address: string;
-  city: string;
+  city: DeepPartial<City>;
   categories?: DeepPartial<Category>[];
 }
 

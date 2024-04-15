@@ -17,6 +17,7 @@ logs:
 
 insert-mocks:
 	docker-compose exec back-end npx ts-node src/mocks/categoryMock.ts
+	docker-compose exec back-end npx ts-node src/mocks/cityMock.ts
 	docker-compose exec back-end npx ts-node src/mocks/placeMock.ts
 	docker-compose exec back-end npx ts-node src/mocks/userMock.ts
 
