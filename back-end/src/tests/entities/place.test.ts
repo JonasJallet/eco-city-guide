@@ -2,9 +2,9 @@ import { Point } from "typeorm";
 import { faker } from "@faker-js/faker";
 import { resetDatabase } from "../resetDatabase";
 import { getDataSource } from "../../database";
+import { newPlacesDataset } from "./place.dataset";
 import Place from "../../entities/place";
 import Category from "../../entities/category";
-import { newPlacesDataset } from "./place.dataset";
 
 describe("Place", () => {
   resetDatabase();
@@ -35,9 +35,18 @@ describe("Place", () => {
 
   describe("getPlaces", () => {
     it("should return all places", async () => {
-      const createdPlaces = await Promise.all(
-        newPlacesDataset.map(createNewPlace)
-      );
+      const cityList = ["Marseille", "Lyon", "Paris"];
+      const createdPlaces = [];
+
+      for (let i = 0; i < cityList.length; i++) {
+        const datasetIndex = i % newPlacesDataset.length;
+        const placeData = newPlacesDataset[datasetIndex];
+        const city = cityList[i];
+        const createdPlace = await createNewPlace(placeData);
+        createdPlace.city.name = city;
+        createdPlaces.push(createdPlace);
+      }
+
       const getPlaces = await Place.getPlaces();
       expect(getPlaces.length).toEqual(createdPlaces.length);
     });
