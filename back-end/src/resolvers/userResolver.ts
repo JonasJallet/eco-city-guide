@@ -9,7 +9,6 @@ import {
   Resolver,
 } from "type-graphql";
 import User from "../entities/user";
-import Place from "../entities/place";
 import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { Context } from "..";
 import { setUserSessionIdInCookie } from "../utils/cookie";
