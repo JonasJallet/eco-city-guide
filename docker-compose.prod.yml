@@ -1,0 +1,31 @@
+services:
+  back-end:
+    build:
+      context: ./back-end
+      target: prod
+    environment:
+      - DATABASE_URL=postgres://postgres:password@database:5432/postgres
+      - NODE_ENV=production
+    depends_on:
+      - database
+    pexpose:
+      - 4000
+
+  web-app:
+    build:
+      context: ./web-app
+      target: prod
+    environment:
+      - NODE_ENV=production
+    expose:
+      - 3000
+
+  database:
+    image: postgis/postgis:15-3.4
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+
+volumes:
+  database-data:

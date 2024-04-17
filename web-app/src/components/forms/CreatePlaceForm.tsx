@@ -3,6 +3,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { AddressInterface } from "@/interfaces/Address";
 
 const CREATE_PLACE = gql`
   mutation CreatePlace(
@@ -91,7 +92,7 @@ export default function CreatePlaceForm() {
     setFormData({ ...formData, ...partialFormData });
   };
 
-  const handleAddressAutoComplete = (address) => {
+  const handleAddressAutoComplete = (address: AddressInterface) => {
     setSearchAddress(address.properties.name);
     setCity(address.properties.city);
     updateFormData({
@@ -158,7 +159,7 @@ export default function CreatePlaceForm() {
             />
             {addressList.length > 0 && (
               <div className="flex flex-col absolute z-20 top-10 w-full py-1 rounded-b-3xl border border-border_color bg-white">
-                {addressList.map((address, index) => (
+                {addressList.map((address: AddressInterface, index) => (
                   <>
                     {index !== 0 && (
                       <span className="border-0 border-t border-border_color"></span>

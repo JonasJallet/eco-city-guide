@@ -1,10 +1,12 @@
-run:
+run-dev:
 	docker-compose build
 	docker-compose watch
 
+run-prod:
+	docker compose -f docker-compose.prod.yml up --build --detach
+
 test-backend:
 	docker compose exec back-end npm run test:watch
-
 
 test-specific:
 	docker-compose exec back-end node "node_modules/jest/bin/jest.js" "src/tests/$(directory)/$(name).test.ts" -c "jest.config.js" -t
