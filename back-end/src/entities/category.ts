@@ -49,7 +49,7 @@ export class Category extends BaseEntity {
 
   static async updateCategory(
     id: string,
-    categoryData: UpdateCategory
+    categoryData: UpdateCategory,
   ): Promise<Category> {
     const category = await Category.getCategoryById(id);
     Object.assign(category, categoryData);

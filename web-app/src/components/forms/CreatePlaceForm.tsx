@@ -87,7 +87,7 @@ export default function CreatePlaceForm() {
   };
 
   const updateFormData = (
-    partialFormData: Partial<MutationCreatePlaceArgs>
+    partialFormData: Partial<MutationCreatePlaceArgs>,
   ) => {
     setFormData({ ...formData, ...partialFormData });
   };
@@ -214,8 +214,8 @@ export default function CreatePlaceForm() {
                     setSelectedCategories(
                       selectedCategories.filter(
                         (selectedCategory) =>
-                          selectedCategory.id !== category.id
-                      )
+                          selectedCategory.id !== category.id,
+                      ),
                     );
                   }}
                 >
@@ -236,7 +236,7 @@ export default function CreatePlaceForm() {
                   className="text-text_color"
                   onClick={() => {
                     setSelectedCategories(
-                      selectedCategories.concat([category])
+                      selectedCategories.concat([category]),
                     );
                   }}
                   value={category.id}

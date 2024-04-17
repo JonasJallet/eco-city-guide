@@ -46,7 +46,7 @@ export default function index() {
   const router = useRouter();
 
   const { data: myProfileData } = useQuery<GetMyProfileSignInQuery>(
-    GET_MY_PROFILE_SIGN_IN
+    GET_MY_PROFILE_SIGN_IN,
   );
   useEffect(() => {
     if (myProfileData?.myProfile) {
@@ -62,7 +62,7 @@ export default function index() {
   });
 
   const updateFormData = (
-    partialFormData: Partial<SignUpMutationVariables>
+    partialFormData: Partial<SignUpMutationVariables>,
   ) => {
     setFormData({ ...formData, ...partialFormData });
   };

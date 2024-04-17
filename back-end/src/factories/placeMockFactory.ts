@@ -36,7 +36,7 @@ export class PlaceMockFactory {
         },
         address: faker.location.streetAddress({ useFullAddress: true }),
         city: faker.helpers.arrayElement(["Paris", "Lyon"]),
-      })
+      }),
     );
   }
 

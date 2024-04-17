@@ -12,7 +12,7 @@ describe("City", () => {
   describe("getCities", () => {
     it("should return all categories", async () => {
       const createdCities = await Promise.all(
-        sampleListOfCities.map(createNewCity)
+        sampleListOfCities.map(createNewCity),
       );
       const getCities = await City.getCities();
       expect(getCities.length).toEqual(createdCities.length);

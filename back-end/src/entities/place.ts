@@ -105,7 +105,7 @@ class Place extends BaseEntity {
     }
 
     newPlace.categories = await Promise.all(
-      placeData.categoryIds.map(Category.getCategoryById)
+      placeData.categoryIds.map(Category.getCategoryById),
     );
 
     if (placeData.ownerId) {
@@ -125,7 +125,7 @@ class Place extends BaseEntity {
 
   static async getPlaces(
     city?: string,
-    categoryIds?: string[]
+    categoryIds?: string[],
   ): Promise<Place[]> {
     let whereClause: any = {};
 
@@ -158,14 +158,14 @@ class Place extends BaseEntity {
 
   static async updatePlace(
     id: string,
-    partialPlace: UpdatePlace
+    partialPlace: UpdatePlace,
   ): Promise<Place> {
     const place = await Place.getPlaceById(id);
     Object.assign(place, partialPlace);
 
     if (partialPlace.categoryIds) {
       place.categories = await Promise.all(
-        partialPlace.categoryIds.map(Category.getCategoryById)
+        partialPlace.categoryIds.map(Category.getCategoryById),
       );
     }
 

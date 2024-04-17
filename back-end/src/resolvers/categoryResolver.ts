@@ -22,7 +22,7 @@ export class CategoryResolver {
   @Mutation(() => Category)
   async updateCategory(
     @Arg("id", () => ID) id: string,
-    @Args() args: UpdateCategory
+    @Args() args: UpdateCategory,
   ) {
     return Category.updateCategory(id, args);
   }

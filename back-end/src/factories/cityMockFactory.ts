@@ -18,13 +18,13 @@ export class CityMockFactory {
           type: "Point",
           coordinates: [0, 0],
         },
-      })
+      }),
     );
   }
 
   async create(
     name: string,
-    coordinates: Point
+    coordinates: Point,
   ): Promise<DeepPartial<CityInterface>> {
     return await this.typeFactory.build({ name, coordinates });
   }
