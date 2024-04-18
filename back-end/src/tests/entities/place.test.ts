@@ -15,7 +15,7 @@ describe("Place", () => {
     const database = await getDataSource();
     const categoryRepository = database.getRepository(Category);
     return await categoryRepository.save(
-      categoryRepository.create(categoryData)
+      categoryRepository.create(categoryData),
     );
   };
 
@@ -101,7 +101,7 @@ describe("Place", () => {
       const placeId = "e66e6099-5c31-4e32-b5ec-fd0743730f18";
       const partialPlace = { name: "updated-name" };
       await expect(Place.updatePlace(placeId, partialPlace)).rejects.toThrow(
-        "Place with ID e66e6099-5c31-4e32-b5ec-fd0743730f18 does not exist."
+        "Place with ID e66e6099-5c31-4e32-b5ec-fd0743730f18 does not exist.",
       );
     });
   });

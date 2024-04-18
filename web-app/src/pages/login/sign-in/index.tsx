@@ -35,7 +35,7 @@ export default function SignInPage() {
   const router = useRouter();
 
   const { data: myProfileData, refetch } = useQuery<GetMyProfileSignInQuery>(
-    GET_MY_PROFILE_SIGN_IN
+    GET_MY_PROFILE_SIGN_IN,
   );
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function SignInPage() {
   });
 
   const updateFormData = (
-    partialFormData: Partial<SignInFormMutationVariables>
+    partialFormData: Partial<SignInFormMutationVariables>,
   ) => {
     setFormData({ ...formData, ...partialFormData });
   };

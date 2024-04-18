@@ -27,7 +27,7 @@ export default function CreateCategoriesForm() {
   };
 
   const updateFormData = (
-    partialFormData: Partial<MutationCreateCategoryArgs>
+    partialFormData: Partial<MutationCreateCategoryArgs>,
   ) => {
     setFormData({ ...formData, ...partialFormData });
   };

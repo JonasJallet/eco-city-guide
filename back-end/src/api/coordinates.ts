@@ -9,7 +9,7 @@ export const getCoordinates = async (address: string) => {
         params: {
           q: address,
         },
-      }
+      },
     );
     const coordinates = response.data.features[0].geometry.coordinates;
     const longitude = coordinates[0];
