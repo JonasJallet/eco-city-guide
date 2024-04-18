@@ -51,7 +51,8 @@ class Place extends BaseEntity {
   coordinates!: Geometry;
 
   @ManyToOne(() => City, (city) => city.places, {
-    nullable: true, eager: true
+    nullable: true,
+    eager: true,
   })
   @JoinColumn({ name: "city" })
   @Field(() => City, { nullable: false })
