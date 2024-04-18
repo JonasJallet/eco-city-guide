@@ -1,15 +1,16 @@
-version: "3.8"
-
 services:
   back-end:
-    container_name : back_end
-    build: ./back-end
+    container_name: back_end
+    build:
+      context: ./back-end
+      target: dev
     environment:
       - DATABASE_URL=postgres://root:root@database:5432/ecocityguide
+      - TEST_DATABASE_URL=postgres://postgres:password@test-database:5432/postgres
     depends_on:
       - database
     ports:
-      - 4000:4000
+      - "4000:4000"
     develop:
       watch:
         - action: sync
@@ -19,10 +20,12 @@ services:
           path: back-end/package.json
 
   web-app:
-    container_name : web_app
-    build: ./web-app
+    container_name: web_app
+    build:
+      context: ./web-app
+      target: dev
     ports:
-      - 3000:3000
+      - "3000:3000"
     develop:
       watch:
         - action: sync
@@ -32,23 +35,30 @@ services:
           path: web-app/package.json
 
   database:
-    container_name : database
-    image: postgres:15
+    container_name: database
+    image: postgis/postgis:15-3.4
     restart: always
     volumes:
       - database-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=test
+      - POSTGRES_DB=ecocityguide
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=root
 
+  test-database:
+    container_name: test-database
+    image: postgis/postgis:15-3.4
+    environment:
+      - POSTGRES_PASSWORD=password
+
   adminer:
+    container_name: adminer
     image: adminer
     depends_on:
       - database
     restart: always
     ports:
-      - 8080:8080
+      - "8080:8080"
 
 volumes:
   database-data:
