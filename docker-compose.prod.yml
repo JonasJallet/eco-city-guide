@@ -30,8 +30,8 @@ services:
   gateway:
     image: nginx
     depends_on:
-      - back_end
-      - web_app
+      - back-end
+      - web-app
     ports:
       - ${GATEWAY_PORT}:80
     volumes:
