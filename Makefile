@@ -14,8 +14,11 @@ test-specific:
 coverage-test:
 	docker compose exec back-end npm run test:coverage
 
-logs:
+logs-dev:
 	docker compose logs -f
+
+logs-prod:
+	docker compose -f docker-compose.prod.yml logs -f
 
 insert-mocks:
 	docker-compose exec back-end npx ts-node src/mocks/categoryMock.ts
