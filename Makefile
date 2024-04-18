@@ -1,10 +1,12 @@
-run:
+run-dev:
 	docker-compose build
 	docker-compose watch
 
+run-prod:
+	docker compose -f docker-compose.prod.yml up --build --detach
+
 test-backend:
 	docker compose exec back-end npm run test:watch
-
 
 test-specific:
 	docker-compose exec back-end node "node_modules/jest/bin/jest.js" "src/tests/$(directory)/$(name).test.ts" -c "jest.config.js" -t
@@ -12,11 +14,15 @@ test-specific:
 coverage-test:
 	docker compose exec back-end npm run test:coverage
 
-logs:
+logs-dev:
 	docker compose logs -f
+
+logs-prod:
+	docker compose -f docker-compose.prod.yml logs -f
 
 insert-mocks:
 	docker-compose exec back-end npx ts-node src/mocks/categoryMock.ts
+	docker-compose exec back-end npx ts-node src/mocks/cityMock.ts
 	docker-compose exec back-end npx ts-node src/mocks/placeMock.ts
 	docker-compose exec back-end npx ts-node src/mocks/userMock.ts
 

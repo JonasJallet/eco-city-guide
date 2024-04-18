@@ -2,9 +2,9 @@ import { Point } from "typeorm";
 import { faker } from "@faker-js/faker";
 import { resetDatabase } from "../resetDatabase";
 import { getDataSource } from "../../database";
+import { newPlacesDataset } from "./place.dataset";
 import Place from "../../entities/place";
 import Category from "../../entities/category";
-import { newPlacesDataset } from "./place.dataset";
 
 describe("Place", () => {
   resetDatabase();
@@ -15,19 +15,19 @@ describe("Place", () => {
     const database = await getDataSource();
     const categoryRepository = database.getRepository(Category);
     return await categoryRepository.save(
-      categoryRepository.create(categoryData)
+      categoryRepository.create(categoryData),
     );
   };
 
   const createNewPlace = async (placeData: {
     name: string;
     description: string;
-    city: string;
     address: string;
     coordinates: Point;
   }) => {
     return await Place.saveNewPlace({
       ...placeData,
+      city: "Lyon",
       categoryIds: [(await createNewCategory({ name: faker.lorem.word() })).id],
       ownerId: null,
     });
@@ -35,9 +35,18 @@ describe("Place", () => {
 
   describe("getPlaces", () => {
     it("should return all places", async () => {
-      const createdPlaces = await Promise.all(
-        newPlacesDataset.map(createNewPlace)
-      );
+      const cityList = ["Marseille", "Lyon", "Paris"];
+      const createdPlaces = [];
+
+      for (let i = 0; i < cityList.length; i++) {
+        const datasetIndex = i % newPlacesDataset.length;
+        const placeData = newPlacesDataset[datasetIndex];
+        const city = cityList[i];
+        const createdPlace = await createNewPlace(placeData);
+        createdPlace.city.name = city;
+        createdPlaces.push(createdPlace);
+      }
+
       const getPlaces = await Place.getPlaces();
       expect(getPlaces.length).toEqual(createdPlaces.length);
     });
@@ -92,7 +101,7 @@ describe("Place", () => {
       const placeId = "e66e6099-5c31-4e32-b5ec-fd0743730f18";
       const partialPlace = { name: "updated-name" };
       await expect(Place.updatePlace(placeId, partialPlace)).rejects.toThrow(
-        "Place with ID e66e6099-5c31-4e32-b5ec-fd0743730f18 does not exist."
+        "Place with ID e66e6099-5c31-4e32-b5ec-fd0743730f18 does not exist.",
       );
     });
   });

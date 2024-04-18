@@ -1,9 +1,9 @@
-version: "3.8"
-
 services:
   back-end:
     container_name: back_end
-    build: ./back-end
+    build:
+      context: ./back-end
+      target: dev
     environment:
       - DATABASE_URL=postgres://root:root@database:5432/ecocityguide
       - TEST_DATABASE_URL=postgres://postgres:password@test-database:5432/postgres
@@ -21,7 +21,9 @@ services:
 
   web-app:
     container_name: web_app
-    build: ./web-app
+    build:
+      context: ./web-app
+      target: dev
     ports:
       - "3000:3000"
     develop:

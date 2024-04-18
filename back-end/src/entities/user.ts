@@ -152,7 +152,7 @@ class User extends BaseEntity {
 
   static async addFavoritePlace(
     userId: string,
-    placeId: string
+    placeId: string,
   ): Promise<User> {
     const user = await this.getUserById(userId);
     const place = await Place.getPlaceById(placeId);
@@ -164,11 +164,11 @@ class User extends BaseEntity {
 
   static async deleteFavoritePlace(
     userId: string,
-    placeId: string
+    placeId: string,
   ): Promise<User> {
     const user = await this.getUserById(userId);
     user.favoritesPlaces = user.favoritesPlaces.filter(
-      (place) => place.id !== placeId
+      (place) => place.id !== placeId,
     );
     await user.save();
 

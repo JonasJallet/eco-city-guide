@@ -7,7 +7,6 @@ export function createPlaceDataset(numberOfPlaces: number) {
     places.push({
       name: "Eco-" + faker.commerce.department(),
       description: faker.lorem.lines(),
-      city: faker.location.city(),
       address: faker.location.streetAddress({ useFullAddress: true }),
       coordinates: {
         type: "Point",

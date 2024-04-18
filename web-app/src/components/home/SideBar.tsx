@@ -10,7 +10,7 @@ import { SideBarContentEnum } from "./sideBarContent.type";
 
 export default function SideBar() {
   const [enumValue, setEnumValue] = useState<SideBarContentEnum>(
-    SideBarContentEnum.NO_CONTENT
+    SideBarContentEnum.NO_CONTENT,
   );
   return (
     <div className="flex absolute z-20 right-0">

@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   In,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -16,10 +17,11 @@ import { CreatePlace, UpdatePlace } from "../types/place.args";
 import { GeoJSONPoint } from "../types/scalar/geoJSONPoint";
 import Category from "./category";
 import User from "./user";
+import City from "./city";
 
 @Entity()
 @ObjectType()
-@Unique("custom_unique_constraint", ["name", "coordinates"])
+@Unique("custom_unique_place", ["name", "coordinates"])
 class Place extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
@@ -41,16 +43,20 @@ class Place extends BaseEntity {
   @Field()
   address!: string;
 
-  @Column()
-  @Field()
-  city!: string;
-
   @Column({
     type: "geometry",
     spatialFeatureType: "Point",
   })
   @Field((type) => GeoJSONPoint)
   coordinates!: Geometry;
+
+  @ManyToOne(() => City, (city) => city.places, {
+    nullable: true,
+    eager: true,
+  })
+  @JoinColumn({ name: "city" })
+  @Field(() => City, { nullable: false })
+  city!: City;
 
   @ManyToOne(() => User, (user) => user.ownedPlaces, {
     nullable: true,
@@ -89,11 +95,6 @@ class Place extends BaseEntity {
         throw new Error("Place address cannot be empty.");
       }
       this.address = place.address;
-
-      if (!place.city) {
-        throw new Error("Place city cannot be empty.");
-      }
-      this.city = place.city;
     }
   }
 
@@ -105,19 +106,27 @@ class Place extends BaseEntity {
     }
 
     newPlace.categories = await Promise.all(
-      placeData.categoryIds.map(Category.getCategoryById)
+      placeData.categoryIds.map(Category.getCategoryById),
     );
 
     if (placeData.ownerId) {
       newPlace.owner = await User.getUserById(placeData.ownerId);
     }
 
+    let city = await City.getCityByName(placeData.city);
+
+    if (!city) {
+      city = await City.saveNewCity(placeData.city);
+    }
+
+    newPlace.city = city;
+
     return await newPlace.save();
   }
 
   static async getPlaces(
     city?: string,
-    categoryIds?: string[]
+    categoryIds?: string[],
   ): Promise<Place[]> {
     let whereClause: any = {};
 
@@ -126,7 +135,7 @@ class Place extends BaseEntity {
     }
 
     if (city) {
-      whereClause.city = city;
+      whereClause.city = { name: city };
     }
 
     return await Place.find({
@@ -150,14 +159,14 @@ class Place extends BaseEntity {
 
   static async updatePlace(
     id: string,
-    partialPlace: UpdatePlace
+    partialPlace: UpdatePlace,
   ): Promise<Place> {
     const place = await Place.getPlaceById(id);
     Object.assign(place, partialPlace);
 
     if (partialPlace.categoryIds) {
       place.categories = await Promise.all(
-        partialPlace.categoryIds.map(Category.getCategoryById)
+        partialPlace.categoryIds.map(Category.getCategoryById),
       );
     }
 

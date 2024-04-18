@@ -9,7 +9,9 @@
     "lint": "next lint",
     "graphql-codegen": "graphql-codegen --config graphql-codegen.ts",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "tailwind": "npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css",
+    "tailwind:watch": "npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch"
   },
   "dependencies": {
     "@apollo/client": "^3.8.7",
@@ -22,6 +24,7 @@
     "react-dom": "latest",
     "react-icons": "^5.0.1",
     "react-leaflet": "^4.2.1",
+    "sharp": "^0.33.3",
     "styled-components": "^6.0.8"
   },
   "devDependencies": {
