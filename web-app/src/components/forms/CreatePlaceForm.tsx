@@ -234,6 +234,7 @@ export default function CreatePlaceForm() {
               categoriesData.categories.map((category: Category) => (
                 <option
                   className="text-text_color"
+                  key={category.id}
                   onClick={() => {
                     setSelectedCategories(
                       selectedCategories.concat([category]),
