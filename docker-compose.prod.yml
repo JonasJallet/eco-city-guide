@@ -8,7 +8,7 @@ services:
       - NODE_ENV=production
     depends_on:
       - database
-    pexpose:
+    expose:
       - 4000
 
   web-app:
@@ -17,8 +17,8 @@ services:
       target: prod
     environment:
       - NODE_ENV=production
-    expose:
-      - 3000
+    ports:
+      - ${GATEWAY_PORT}:3000
 
   database:
     image: postgis/postgis:15-3.4
