@@ -12,6 +12,7 @@ import User from "../entities/user";
 import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { Context } from "..";
 import { setUserSessionIdInCookie } from "../utils/cookie";
+import Place from "../entities/place";
 
 @Resolver()
 export class UserResolver {
@@ -49,6 +50,17 @@ export class UserResolver {
   @Query(() => User)
   async myProfile(@Ctx() { user }: Context): Promise<User> {
     return user as User;
+  }
+
+  @Authorized()
+  @Query(() => User)
+  async myFavorites(@Ctx() { user }: Context): Promise<Place[]> {
+    if (!user) {
+      throw new Error("You must be logged in");
+    }
+    const loggedUser = await User.getUserById(user.id);
+
+    return loggedUser.favoritesPlaces;
   }
 
   @Authorized()

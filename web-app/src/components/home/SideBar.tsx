@@ -49,14 +49,14 @@ export default function SideBar() {
         </button>
         <button
           onClick={() =>
-            enumValue !== SideBarContentEnum.FAVORIES
-              ? setEnumValue(SideBarContentEnum.FAVORIES)
+            enumValue !== SideBarContentEnum.FAVORITES
+              ? setEnumValue(SideBarContentEnum.FAVORITES)
               : setEnumValue(SideBarContentEnum.NO_CONTENT)
           }
           className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
         >
           <FaRegStar className="w-6 h-6" />
-          favories
+          favorites
         </button>
       </div>
     </div>
