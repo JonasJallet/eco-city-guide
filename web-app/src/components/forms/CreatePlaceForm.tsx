@@ -26,7 +26,9 @@ const CREATE_PLACE = gql`
       description
       coordinates
       address
-      city
+      city {
+        name
+      }
       categories {
         name
       }
