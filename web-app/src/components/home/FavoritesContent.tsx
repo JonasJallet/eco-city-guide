@@ -63,7 +63,7 @@ export default function FavoritesContent() {
 
   const listOfCategories = (
     organizedFavorites: Record<string, Place[]>,
-    handleCategoryClick: (category: string) => void
+    handleCategoryClick: (category: string) => void,
   ) => {
     return (
       <div className="mt-16 mb-2">
