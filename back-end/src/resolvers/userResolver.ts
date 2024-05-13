@@ -49,18 +49,10 @@ export class UserResolver {
   @Authorized()
   @Query(() => User)
   async myProfile(@Ctx() { user }: Context): Promise<User> {
-    return user as User;
-  }
-
-  @Authorized()
-  @Query(() => User)
-  async myFavorites(@Ctx() { user }: Context): Promise<Place[]> {
     if (!user) {
       throw new Error("You must be logged in");
     }
-    const loggedUser = await User.getUserById(user.id);
-
-    return loggedUser.favoritesPlaces;
+    return await User.getUserById(user.id);
   }
 
   @Authorized()
