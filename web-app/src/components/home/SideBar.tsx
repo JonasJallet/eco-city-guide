@@ -16,7 +16,7 @@ export default function SideBar() {
     <div className="flex absolute z-20 right-0">
       <SideBarContent enumValue={enumValue} />
       <div
-        className={`flex flex-col items-center w-20 h-screen py-6 space-y-8 bg-white ${
+        className={`flex flex-col items-center w-20 h-screen z-10 py-6 space-y-8 bg-white ${
           enumValue === SideBarContentEnum.NO_CONTENT
             ? "shadow-lg shadow-gray-300"
             : "shadow-lg shadow-gray-300"

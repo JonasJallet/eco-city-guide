@@ -9,7 +9,7 @@ export default function FavoritesByCategoryContent({
   onBack: () => void;
 }) {
   return (
-    <div className="h-screen bg-white transition-all w-80 border-r-blue-100 shadow-lg shadow-gray-300 border-r-[1px]">
+    <div className="h-screen bg-white w-80 overflow-y-auto">
       <div className="flex items-center justify-between p-2 border-b border-gray-200">
         <button
           onClick={onBack}
