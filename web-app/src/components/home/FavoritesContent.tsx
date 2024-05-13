@@ -69,7 +69,7 @@ export default function FavoritesContent() {
       <div
         key={category}
         onClick={() => handleCategoryClick(category)}
-        className="p-3 cursor-pointer flex justify-content-center hover:bg-slate-100 hover:text-green-500"
+        className="mr-3 ml-3 mt-4 rounded-xl p-3 cursor-pointer flex justify-content-center hover:bg-slate-100 hover:text-green-500"
       >
         <div className="flex items-start w-full">
           <svg
@@ -100,33 +100,37 @@ export default function FavoritesContent() {
     organizedFavorites = organizeFavoritePlaceByCategories(favoritesPlaces);
   }
 
-  return (
+   return (
     <div className="flex flex-col h-screen bg-white transition-all w-80 border-r-blue-100 shadow-lg shadow-gray-300 border-r-[1px]">
-      <div className="flex items-center justify-center">
-        <h1 className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mt-4 mb-2">
-          My Favorites
-        </h1>
+      <div className="overflow-y-auto">
+        {!selectedCategory && (
+          <div className="flex items-center justify-center">
+            <h1 className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mt-4 mb-2">
+              My Favorites
+            </h1>
+          </div>
+        )}
+
+        {loading && <Loader />}
+        {data && data.myProfile.favoritesPlaces.length === 0 && (
+          <div className="flex justify-center m-8">
+            <p>You don't have any favorites yet.</p>
+          </div>
+        )}
+
+        {data && (
+          <>
+            {selectedCategory ? (
+              <FavoritesByCategory
+                favorites={organizedFavorites[selectedCategory]}
+                onBack={handleBackToList}
+              />
+            ) : (
+              listOfCategories(organizedFavorites, handleCategoryClick)
+            )}
+          </>
+        )}
       </div>
-
-      {loading && <Loader />}
-      {data && data.myProfile.favoritesPlaces.length === 0 && (
-        <div className="flex justify-center m-8">
-          <p>You don't have any favorites yet.</p>
-        </div>
-      )}
-
-      {data && (
-        <>
-          {selectedCategory ? (
-            <FavoritesByCategory
-              favorites={organizedFavorites[selectedCategory]}
-              onBack={handleBackToList}
-            />
-          ) : (
-            listOfCategories(organizedFavorites, handleCategoryClick)
-          )}
-        </>
-      )}
     </div>
   );
 }

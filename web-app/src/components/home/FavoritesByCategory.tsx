@@ -9,7 +9,7 @@ export default function FavoritesByCategoryContent({
   onBack: () => void;
 }) {
   return (
-    <div className="bg-white transition-all w-80 border-r-blue-100 shadow-lg shadow-gray-300 border-r-[1px]">
+    <div className="h-screen bg-white transition-all w-80 border-r-blue-100 shadow-lg shadow-gray-300 border-r-[1px]">
       <div className="flex items-center justify-between p-2 border-b border-gray-200">
         <button
           onClick={onBack}
@@ -32,12 +32,15 @@ export default function FavoritesByCategoryContent({
           <span>Back to Favorites</span>
         </button>
       </div>
-      {favorites.map((favorite, index) => (
-        <div key={index}>
-          <p>{favorite.name}</p>
-          {/* Render other details of the favorite */}
-        </div>
-      ))}
+      <div className="p-2">
+        {favorites.map((favorite, index) => (
+          <div key={index} className="bg-gray-100 p-4 rounded-md mb-2">
+            <p className="text-xl font-semibold mb-2">{favorite.name}</p>
+            <p className="text-gray-600 mb-1">City: {favorite.city.name}</p>
+            <p className="text-gray-600">Address: {favorite.address}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
