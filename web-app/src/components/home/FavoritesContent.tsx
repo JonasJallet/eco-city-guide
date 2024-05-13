@@ -100,7 +100,7 @@ export default function FavoritesContent() {
     organizedFavorites = organizeFavoritePlaceByCategories(favoritesPlaces);
   }
 
-   return (
+  return (
     <div className="flex flex-col h-screen bg-white transition-all w-80 border-r-blue-100 shadow-lg shadow-gray-300 border-r-[1px]">
       <div className="overflow-y-auto">
         {!selectedCategory && (

@@ -10,7 +10,7 @@ import { CreateCategory, UpdateCategory } from "../types/category.args";
 import Place from "./place";
 
 @Entity()
-@ObjectType() 
+@ObjectType()
 export class Category extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
