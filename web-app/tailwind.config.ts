@@ -14,7 +14,7 @@ export default {
       button_border_color: "",
       button_bg_color: "#50b33d",
       button_text_color: "",
-      border_color: " #8ce57a",
+      border_color: "#6b7280",
       //border_color: "#f70029",
       // #f70029
     },

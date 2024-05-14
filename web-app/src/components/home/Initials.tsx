@@ -39,17 +39,19 @@ export default function Initials() {
           {isModalOpen && (
             <UserModal onClose={toggleModal}>
               <div className="fixed block w-48 h-24 text-md border-2 border-gray-700 top-24 right-24 bg-white bg-opacity-90 rounded-lg text-center text-gray-700">
-                <p className="p-2 hover:bg-gray-200">
+                <p className="p-2 hover:text-green-500">
                   <a href="/settings">Mon compte</a>
                 </p>
-                <p className="p-2">Se déconnecter</p>
+                <p className="p-2 hover:text-green-500">Se déconnecter</p>
               </div>
             </UserModal>
           )}
         </button>
       ) : (
-        <button className="h-12 mt-3 ml-4 mr-24 bg-secondary_color rounded-full px-3 text-lg border-2 border-black button_text_color tracking-wide font-semibold font-sans">
-          <a href="/login/sign-in">{"Se connecter"}</a>
+        <button className="w-40 h-12 mt-8 ml-4 mr-24 bg-white bg-opacity-90 rounded-full px-3 text-lg border-2 border-gray-700 tracking-wide font-semibold font-sans text-gray-700 hover:text-green-500">
+          <p>
+            <a href="/login/sign-in">Se connecter</a>
+          </p>
         </button>
       )}
     </>
