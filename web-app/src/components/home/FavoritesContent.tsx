@@ -92,7 +92,9 @@ export default function FavoritesContent() {
                 </svg>
                 <div>
                   <h2>{category}</h2>
-                  <span className="text-gray-500">{places.length} places</span>
+                  <span className="text-gray-500">
+                  {places.length} {places.length > 1 ? 'lieux' : 'lieu'}
+                </span>
                 </div>
               </div>
             </div>
@@ -112,7 +114,7 @@ export default function FavoritesContent() {
         {!selectedCategory && (
           <div className="flex items-center justify-center fixed bg-white w-80 border-b border-gray-200">
             <h1 className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mt-4 mb-2">
-              My Favorites
+              Mes Favoris
             </h1>
           </div>
         )}
@@ -120,7 +122,7 @@ export default function FavoritesContent() {
         {loading && <Loader />}
         {data && data.myProfile.favoritesPlaces.length === 0 && (
           <div className="flex justify-center m-8">
-            <p>You don't have any favorites yet.</p>
+            <p>Vous n'avez pas encore de favoris.</p>
           </div>
         )}
 

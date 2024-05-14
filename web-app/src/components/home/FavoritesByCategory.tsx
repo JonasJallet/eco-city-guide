@@ -69,12 +69,14 @@ export default function FavoritesByCategoryContent({
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
             ></path>
           </svg>
-          <span>Back to Favorites</span>
+          <span>Retour aux favoris</span>
         </button>
       </div>
       <div className="flex flex-col px-8 py-2 border-b border-gray-200">
         <h2 className="text-xl">{selectedCategory}</h2>
-        <span className="text-gray-500">{favorites.length} places</span>
+        <span className="text-gray-500">
+          {favorites.length} {favorites.length > 1 ? 'lieux' : 'lieu'}
+        </span>
       </div>
       <div
         className="mt-2 mb-2
@@ -106,8 +108,8 @@ export default function FavoritesByCategoryContent({
                 </svg>
               </button>
             </div>
-            <p className="text-gray-600 mb-1">City : {favorite.city.name}</p>
-            <p className="text-gray-600">Address : {favorite.address}</p>
+            <p className="text-gray-600 mb-1">Ville : {favorite.city.name}</p>
+            <p className="text-gray-600">Addresse : {favorite.address}</p>
           </div>
         ))}
       </div>

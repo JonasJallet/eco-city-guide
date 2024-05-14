@@ -56,7 +56,7 @@ export default function SideBar() {
           className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
         >
           <FaRegStar className="w-6 h-6" />
-          favorites
+          favoris
         </button>
       </div>
     </div>
