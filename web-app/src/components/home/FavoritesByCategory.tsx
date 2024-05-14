@@ -25,10 +25,12 @@ export default function FavoritesByCategoryContent({
   favorites: initialFavorites,
   selectedCategory,
   onBack,
+  refetchFavorites,
 }: {
   favorites: Place[];
   selectedCategory: string | null;
   onBack: () => void;
+  refetchFavorites: () => void;
 }) {
   const [favorites, setFavorites] = useState(initialFavorites);
   const [removeFavoritePlaceMutation] = useMutation(REMOVE_FAVORITE_PLACE);
@@ -39,6 +41,8 @@ export default function FavoritesByCategoryContent({
         variables: { placeId },
       });
       setFavorites(favorites.filter((favorite) => favorite.id !== placeId));
+      refetchFavorites();
+      // TODO Snackbar Success removing favorite place
     } catch (error) {
       // TODO Snackbar Error removing favorite place
     }
@@ -81,8 +85,8 @@ export default function FavoritesByCategoryContent({
             key={index}
             className="hover:bg-gray-100 p-3 mr-3 ml-3 my-2 rounded-xl cursor-pointer hover:text-green-500"
           >
-            <div className="flex justify-between">
-              <p className="text-xl font-semibold mb-2 ">{favorite.name}</p>
+            <div className="flex justify-between items-center">
+              <p className="text-lg font-medium">{favorite.name}</p>
               <button
                 onClick={() => handleRemoveFavorite(favorite.id)}
                 className="text-red-600 hover:text-red-800 p-2"
@@ -102,8 +106,8 @@ export default function FavoritesByCategoryContent({
                 </svg>
               </button>
             </div>
-            <p className="text-gray-600 mb-1">City: {favorite.city.name}</p>
-            <p className="text-gray-600">Address: {favorite.address}</p>
+            <p className="text-gray-600 mb-1">City : {favorite.city.name}</p>
+            <p className="text-gray-600">Address : {favorite.address}</p>
           </div>
         ))}
       </div>

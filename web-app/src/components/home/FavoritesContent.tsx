@@ -31,7 +31,7 @@ const GET_FAVORITES = gql`
 export default function FavoritesContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const { data, loading } = useQuery<FavoritesQuery>(GET_FAVORITES);
+  const { data, loading, refetch } = useQuery<FavoritesQuery>(GET_FAVORITES);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -129,6 +129,7 @@ export default function FavoritesContent() {
                 favorites={organizedFavorites[selectedCategory]}
                 selectedCategory={selectedCategory}
                 onBack={handleBackToList}
+                refetchFavorites={refetch}
               />
             ) : (
               listOfCategories(organizedFavorites, handleCategoryClick)
