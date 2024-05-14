@@ -90,7 +90,7 @@ export default function FavoritesContent() {
               </svg>
               <div>
                 <h2>{category}</h2>
-                <span className="text-gray-500">{places.length} lieux</span>
+                <span className="text-gray-500">{places.length} places</span>
               </div>
             </div>
           </div>
@@ -127,6 +127,7 @@ export default function FavoritesContent() {
             {selectedCategory ? (
               <FavoritesByCategory
                 favorites={organizedFavorites[selectedCategory]}
+                selectedCategory={selectedCategory}
                 onBack={handleBackToList}
               />
             ) : (
