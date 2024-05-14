@@ -93,8 +93,8 @@ export default function FavoritesContent() {
                 <div>
                   <h2>{category}</h2>
                   <span className="text-gray-500">
-                  {places.length} {places.length > 1 ? 'lieux' : 'lieu'}
-                </span>
+                    {places.length} {places.length > 1 ? "lieux" : "lieu"}
+                  </span>
                 </div>
               </div>
             </div>

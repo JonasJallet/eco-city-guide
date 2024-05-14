@@ -75,7 +75,7 @@ export default function FavoritesByCategoryContent({
       <div className="flex flex-col px-8 py-2 border-b border-gray-200">
         <h2 className="text-xl">{selectedCategory}</h2>
         <span className="text-gray-500">
-          {favorites.length} {favorites.length > 1 ? 'lieux' : 'lieu'}
+          {favorites.length} {favorites.length > 1 ? "lieux" : "lieu"}
         </span>
       </div>
       <div
