@@ -12,7 +12,6 @@ import User from "../entities/user";
 import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { Context } from "..";
 import { setUserSessionIdInCookie } from "../utils/cookie";
-import Place from "../entities/place";
 
 @Resolver()
 export class UserResolver {
@@ -49,10 +48,7 @@ export class UserResolver {
   @Authorized()
   @Query(() => User)
   async myProfile(@Ctx() { user }: Context): Promise<User> {
-    if (!user) {
-      throw new Error("You must be logged in");
-    }
-    return await User.getUserById(user.id);
+    return User.getUserById((user as User).id);
   }
 
   @Authorized()
