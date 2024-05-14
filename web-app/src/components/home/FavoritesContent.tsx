@@ -67,34 +67,36 @@ export default function FavoritesContent() {
   ) => {
     return (
       <div className="mt-16 mb-2">
-        {Object.entries(organizedFavorites).sort().map(([category, places]) => (
-          <div
-            key={category}
-            onClick={() => handleCategoryClick(category)}
-            className="mr-3 ml-3 rounded-xl p-3 cursor-pointer flex justify-content-center hover:bg-gray-100 hover:text-green-500"
-          >
-            <div className="flex items-start w-full">
-              <svg
-                className="w-4 h-4 mt-2 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                ></path>
-              </svg>
-              <div>
-                <h2>{category}</h2>
-                <span className="text-gray-500">{places.length} places</span>
+        {Object.entries(organizedFavorites)
+          .sort()
+          .map(([category, places]) => (
+            <div
+              key={category}
+              onClick={() => handleCategoryClick(category)}
+              className="mr-3 ml-3 rounded-xl p-3 cursor-pointer flex justify-content-center hover:bg-gray-100 hover:text-green-500"
+            >
+              <div className="flex items-start w-full">
+                <svg
+                  className="w-4 h-4 mt-2 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  ></path>
+                </svg>
+                <div>
+                  <h2>{category}</h2>
+                  <span className="text-gray-500">{places.length} places</span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     );
   };
