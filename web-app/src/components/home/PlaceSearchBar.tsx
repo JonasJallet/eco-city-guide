@@ -49,7 +49,7 @@ export default function PlaceSearchBar({ city, category }: Props) {
     setSearchPlace(place.name);
     setSearchResults([]);
     setPlace(place);
-    
+
     // Test to display surrounding places
     // setSurroundingPlaces(
     //   getSurroundingPlacesAroundPoint(
