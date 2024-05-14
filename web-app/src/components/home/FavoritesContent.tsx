@@ -67,7 +67,7 @@ export default function FavoritesContent() {
   ) => {
     return (
       <div className="mt-16 mb-2">
-        {Object.entries(organizedFavorites).map(([category, places]) => (
+        {Object.entries(organizedFavorites).sort().map(([category, places]) => (
           <div
             key={category}
             onClick={() => handleCategoryClick(category)}

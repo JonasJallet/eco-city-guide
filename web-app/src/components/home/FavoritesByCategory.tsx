@@ -73,7 +73,7 @@ export default function FavoritesByCategoryContent({
         </button>
       </div>
       <div className="flex flex-col px-8 py-2 border-b border-gray-200">
-        <h2 className="text-lg">{selectedCategory}</h2>
+        <h2 className="text-xl">{selectedCategory}</h2>
         <span className="text-gray-500">{favorites.length} places</span>
       </div>
       <div
@@ -86,7 +86,7 @@ export default function FavoritesByCategoryContent({
             className="hover:bg-gray-100 p-3 mr-3 ml-3 my-2 rounded-xl cursor-pointer hover:text-green-500"
           >
             <div className="flex justify-between items-center">
-              <p className="text-lg font-medium">{favorite.name}</p>
+              <p className="text-md font-medium">{favorite.name}</p>
               <button
                 onClick={() => handleRemoveFavorite(favorite.id)}
                 className="text-red-600 hover:text-red-800 p-2"
