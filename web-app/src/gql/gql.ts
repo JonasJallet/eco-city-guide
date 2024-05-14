@@ -71,14 +71,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  mutation SignInForm($email: String!, $password: String!) {\n    signIn(email: $email, password: $password) {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n",
-): (typeof documents)["\n  mutation SignInForm($email: String!, $password: String!) {\n    signIn(email: $email, password: $password) {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: "\n  query GetMyProfileSignIn {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n",
-): (typeof documents)["\n  query GetMyProfileSignIn {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n"];
+  source: "\n  query favorites {\n    myProfile {\n      favoritesPlaces {\n        id\n        createdAt\n        address\n        coordinates\n        categories {\n          id\n          name\n        }\n        city {\n          id\n          name\n          coordinates\n        }\n        description\n        name\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query favorites {\n    myProfile {\n      favoritesPlaces {\n        id\n        createdAt\n        address\n        coordinates\n        categories {\n          id\n          name\n        }\n        city {\n          id\n          name\n          coordinates\n        }\n        description\n        name\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -135,7 +135,7 @@ export type Place = {
   __typename?: "Place";
   address: Scalars["String"]["output"];
   categories: Array<Category>;
-  city: City;
+  city: Scalars["String"]["output"];
   coordinates: Scalars["Geometry"]["output"];
   createdAt: Scalars["DateTimeISO"]["output"];
   description: Scalars["String"]["output"];
