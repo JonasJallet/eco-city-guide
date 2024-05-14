@@ -61,10 +61,13 @@ export default function FavoritesContent() {
     return organizedFavorites;
   };
 
-  const ListOfCategories = (
-    { organizedFavorites, handleCategoryClick }
-    : { organizedFavorites: Record<string, Place[]>, handleCategoryClick: (category: string) => void }
-  ) => {
+  const ListOfCategories = ({
+    organizedFavorites,
+    handleCategoryClick,
+  }: {
+    organizedFavorites: Record<string, Place[]>;
+    handleCategoryClick: (category: string) => void;
+  }) => {
     return (
       <div className="mt-16 mb-2">
         {Object.entries(organizedFavorites)
@@ -136,7 +139,10 @@ export default function FavoritesContent() {
                 refetchFavorites={refetch}
               />
             ) : (
-              <ListOfCategories organizedFavorites={organizedFavorites} handleCategoryClick={handleCategoryClick} />
+              <ListOfCategories
+                organizedFavorites={organizedFavorites}
+                handleCategoryClick={handleCategoryClick}
+              />
             )}
           </>
         )}
