@@ -1,7 +1,7 @@
 import { Place } from "@/gql/graphql";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import gql from "graphql-tag"; 
+import gql from "graphql-tag";
 
 const REMOVE_FAVORITE_PLACE = gql`
   mutation RemoveFavoritePlace($placeId: String!) {
@@ -72,12 +72,17 @@ export default function FavoritesByCategoryContent({
         <h2 className="text-lg">{selectedCategory}</h2>
         <span className="text-gray-500">{favorites.length} places</span>
       </div>
-      <div className="mt-2 mb-2
-      ">
+      <div
+        className="mt-2 mb-2
+      "
+      >
         {favorites.map((favorite, index) => (
-          <div key={index} className="hover:bg-gray-100 p-3 mr-3 ml-3 my-2 rounded-xl cursor-pointer hover:text-green-500">
+          <div
+            key={index}
+            className="hover:bg-gray-100 p-3 mr-3 ml-3 my-2 rounded-xl cursor-pointer hover:text-green-500"
+          >
             <div className="flex justify-between">
-            <p className="text-xl font-semibold mb-2 ">{favorite.name}</p>
+              <p className="text-xl font-semibold mb-2 ">{favorite.name}</p>
               <button
                 onClick={() => handleRemoveFavorite(favorite.id)}
                 className="text-red-600 hover:text-red-800 p-2"
