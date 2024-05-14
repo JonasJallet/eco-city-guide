@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18-alpine as base
 
 WORKDIR /app
 
@@ -6,8 +6,11 @@ COPY package*.json .
 RUN npm install
 
 COPY . .
+RUN touch ./src/styles/output.css
 
-#CMD [ "executable", "npm run dev", "npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch"]
+FROM base as dev
+CMD npm run dev
 
-ENTRYPOINT npm run dev && \
-npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch 
+FROM base as prod
+RUN npm run build && npm run tailwind
+CMD npm run start 

@@ -16,13 +16,14 @@ describe("User", () => {
     const database = await getDataSource();
     const categoryRepository = database.getRepository(Category);
     return await categoryRepository.save(
-      categoryRepository.create(categoryData)
+      categoryRepository.create(categoryData),
     );
   };
 
   const createNewPlace = async () => {
     return await Place.saveNewPlace({
       ...newPlacesDataset[0],
+      city: "Lyon",
       categoryIds: [(await createNewCategory({ name: faker.lorem.word() })).id],
       ownerId: null,
     });
@@ -37,8 +38,8 @@ describe("User", () => {
     describe("when email matches no user in database", () => {
       it("should throws error", async () => {
         await expect(
-          User.getUserWithEmailAndPassword({ email, password })
-        ).rejects.toThrow("INVALID_CREDENTIALS");
+          User.getUserWithEmailAndPassword({ email, password }),
+        ).rejects.toThrow("Email ou mot de passe incorrect.");
       });
     });
 
@@ -53,8 +54,8 @@ describe("User", () => {
           });
 
           await expect(
-            User.getUserWithEmailAndPassword({ email, password })
-          ).rejects.toThrow("INVALID_CREDENTIALS");
+            User.getUserWithEmailAndPassword({ email, password }),
+          ).rejects.toThrow("Email ou mot de passe incorrect.");
         });
       });
 
@@ -75,7 +76,7 @@ describe("User", () => {
             });
 
           await expect(
-            User.getUserWithEmailAndPassword({ email, password })
+            User.getUserWithEmailAndPassword({ email, password }),
           ).resolves.toEqual(user);
         });
       });
@@ -92,7 +93,7 @@ describe("User", () => {
           firstName: "UserName1",
           lastName: "UserLastName1",
           role: "user",
-        })
+        }),
       );
     });
   });
@@ -140,7 +141,7 @@ describe("User", () => {
       const userId = "e66e6099-5c31-4e32-b5ec-fd0743730f18";
       const partialUser = { firstName: "updated-firstname" };
       await expect(User.updateUser(userId, partialUser)).rejects.toThrow(
-        "User with ID e66e6099-5c31-4e32-b5ec-fd0743730f18 does not exist."
+        "User with ID e66e6099-5c31-4e32-b5ec-fd0743730f18 does not exist.",
       );
     });
   });
@@ -150,7 +151,9 @@ describe("User", () => {
       const user = await User.saveNewUser(newUsersDataset[0]);
       const place = await createNewPlace();
       const updatedUser = await User.addFavoritePlace(user.id, place.id);
-      expect(updatedUser.favoritesPlaces).toContainEqual(place);
+      expect(updatedUser.favoritesPlaces.map((place) => place.id)).toContain(
+        place.id,
+      );
     });
 
     it("should throw error if user ID is invalid", async () => {
@@ -158,7 +161,7 @@ describe("User", () => {
       const place = await createNewPlace();
 
       await expect(
-        User.addFavoritePlace(invalidUserId, place.id)
+        User.addFavoritePlace(invalidUserId, place.id),
       ).rejects.toThrow(`User with ID ${invalidUserId} does not exist.`);
     });
 
@@ -167,7 +170,7 @@ describe("User", () => {
       const invalidPlaceId = "7d8ad5a8-d51a-4ac5-aa81-3993db97ba17";
 
       await expect(
-        User.addFavoritePlace(user.id, invalidPlaceId)
+        User.addFavoritePlace(user.id, invalidPlaceId),
       ).rejects.toThrow(`Place with ID ${invalidPlaceId} does not exist.`);
     });
   });

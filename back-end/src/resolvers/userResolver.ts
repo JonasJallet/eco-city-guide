@@ -9,7 +9,6 @@ import {
   Resolver,
 } from "type-graphql";
 import User from "../entities/user";
-import Place from "../entities/place";
 import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { Context } from "..";
 import { setUserSessionIdInCookie } from "../utils/cookie";
@@ -39,7 +38,7 @@ export class UserResolver {
   @Mutation(() => User)
   async signIn(
     @Args() args: SignInUser,
-    @Ctx() context: Context
+    @Ctx() context: Context,
   ): Promise<User> {
     const { user, session } = await User.signIn(args);
     setUserSessionIdInCookie(context.res, session);
@@ -49,14 +48,14 @@ export class UserResolver {
   @Authorized()
   @Query(() => User)
   async myProfile(@Ctx() { user }: Context): Promise<User> {
-    return user as User;
+    return User.getUserById((user as User).id);
   }
 
   @Authorized()
   @Mutation(() => User)
   async addFavoritePlace(
     @Arg("placeId") placeId: string,
-    @Ctx() { user }: Context
+    @Ctx() { user }: Context,
   ): Promise<User> {
     return User.addFavoritePlace((user as User).id, placeId);
   }
@@ -65,7 +64,7 @@ export class UserResolver {
   @Mutation(() => User)
   async removeFavoritePlace(
     @Arg("placeId") placeId: string,
-    @Ctx() { user }: Context
+    @Ctx() { user }: Context,
   ): Promise<User> {
     return User.deleteFavoritePlace((user as User).id, placeId);
   }

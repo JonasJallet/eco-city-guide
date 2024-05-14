@@ -8,7 +8,7 @@ export class PlaceResolver {
   places(
     @Arg("categoryIds", () => [String], { nullable: true })
     categoryIds: string[] | undefined,
-    @Arg("city", () => String, { nullable: true }) city: string | undefined
+    @Arg("city", () => String, { nullable: true }) city: string | undefined,
   ) {
     return Place.getPlaces(city, categoryIds);
   }

@@ -1,4 +1,5 @@
 import { HiOutlineSearch } from "react-icons/hi";
+import { AddressInterface } from "@/interfaces/Address";
 
 export default function SearchBarForPlace({
   searchAddress,
@@ -11,7 +12,7 @@ export default function SearchBarForPlace({
   addressList: [];
   handleSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: () => void;
-  handleAutocomplete: (feature) => void;
+  handleAutocomplete: (address: AddressInterface) => void;
 }) {
   return (
     <div className="flex flex-col m-10 absolute z-10">
@@ -33,17 +34,17 @@ export default function SearchBarForPlace({
       </div>
       {addressList.length > 0 && (
         <div className="flex flex-col absolute z-10 top-10 w-full py-1 rounded-b-3xl border border-blue-200 bg-white">
-          {addressList.map((feature, index) => (
+          {addressList.map((address: AddressInterface, index) => (
             <>
               {index !== 0 && (
                 <span className="border-0 border-t border-blue-200"></span>
               )}
               <li className="list-none px-4 py-2 overflow-hidden text-ellipsis white-space-nowrap">
                 <button
-                  onClick={() => handleAutocomplete(feature)}
+                  onClick={() => handleAutocomplete(address)}
                   className="overflow-hidden text-ellipsis white-space-nowrap"
                 >
-                  {feature?.properties.label}
+                  {address?.properties.label}
                 </button>
               </li>
             </>

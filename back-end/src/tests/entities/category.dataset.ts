@@ -5,5 +5,5 @@ export function createCategoryDataset(names: string[]) {
 
 export const sampleListOfCategories = ["Parc", "Clothing", "Food"];
 export const newCategoriesDataset = createCategoryDataset(
-  sampleListOfCategories
+  sampleListOfCategories,
 );

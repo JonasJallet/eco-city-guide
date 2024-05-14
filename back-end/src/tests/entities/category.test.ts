@@ -13,7 +13,7 @@ describe("Category", () => {
   describe("getCategories", () => {
     it("should return all categories", async () => {
       const createdCategories = await Promise.all(
-        newCategoriesDataset.map(createNewCategory)
+        newCategoriesDataset.map(createNewCategory),
       );
       const getCategories = await Category.getCategories();
       expect(getCategories.length).toEqual(createdCategories.length);
@@ -62,14 +62,13 @@ describe("Category", () => {
       const partialCategory = { name: "updated-name" };
       const updatedCategory = await Category.updateCategory(
         categoryId,
-        partialCategory
+        partialCategory,
       );
       expect(updatedCategory).toBeDefined();
       expect(updatedCategory.name).toEqual(partialCategory.name);
 
-      const updatedCategoryFromDatabase = await Category.getCategoryById(
-        categoryId
-      );
+      const updatedCategoryFromDatabase =
+        await Category.getCategoryById(categoryId);
       expect(updatedCategoryFromDatabase.name).toEqual(partialCategory.name);
     });
 
@@ -77,9 +76,9 @@ describe("Category", () => {
       const categoryId = "e34e6099-5c31-4e32-b5ec-fd0743730f18";
       const partialCategory = { name: "updated-name" };
       await expect(
-        Category.updateCategory(categoryId, partialCategory)
+        Category.updateCategory(categoryId, partialCategory),
       ).rejects.toThrow(
-        "Category with ID e34e6099-5c31-4e32-b5ec-fd0743730f18 does not exist."
+        "Category with ID e34e6099-5c31-4e32-b5ec-fd0743730f18 does not exist.",
       );
     });
   });

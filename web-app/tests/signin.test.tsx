@@ -21,7 +21,7 @@ describe("SignIn Page", () => {
     render(
       <MockedProvider mocks={mockWithData_GetMyProfile} addTypename={false}>
         <SignInPage />
-      </MockedProvider>
+      </MockedProvider>,
     );
     await waitFor(() => {
       expect(mockRouterPush).toHaveBeenCalledWith("/home");
@@ -34,7 +34,7 @@ describe("SignIn Page", () => {
         addTypename={false}
       >
         <SignInPage />
-      </MockedProvider>
+      </MockedProvider>,
     );
     await waitFor(() => {
       expect(mockRouterPush).not.toHaveBeenCalledWith("/home");
@@ -51,7 +51,7 @@ describe("SignIn Page", () => {
         addTypename={false}
       >
         <SignInPage />
-      </MockedProvider>
+      </MockedProvider>,
     );
     fireEvent.change(screen.getByPlaceholderText(/@email/i), {
       target: { value: "jj@jj.com" },
@@ -75,7 +75,7 @@ describe("SignIn Page", () => {
         addTypename={false}
       >
         <SignInPage />
-      </MockedProvider>
+      </MockedProvider>,
     );
     fireEvent.change(screen.getByPlaceholderText(/@email/i), {
       target: { value: "axhje@lpdhdue.com" },

@@ -13,7 +13,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
 };
 export type MakeEmpty<
   T extends { [key: string]: unknown },
-  K extends keyof T
+  K extends keyof T,
 > = { [_ in K]?: never };
 export type Incremental<T> =
   | T
@@ -39,18 +39,31 @@ export type Category = {
   name: Scalars["String"]["output"];
 };
 
+export type City = {
+  __typename?: "City";
+  coordinates: Scalars["Geometry"]["output"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
+};
+
 export type Mutation = {
   __typename?: "Mutation";
+  addFavoritePlace: User;
   createCategory: Category;
   createPlace: Place;
   deleteCategory: Category;
   deletePlace: Place;
   deleteUser: User;
+  removeFavoritePlace: User;
   signIn: User;
   signUp: User;
   updateCategory: Category;
   updatePlace: Place;
   updateUser: User;
+};
+
+export type MutationAddFavoritePlaceArgs = {
+  placeId: Scalars["String"]["input"];
 };
 
 export type MutationCreateCategoryArgs = {
@@ -59,7 +72,7 @@ export type MutationCreateCategoryArgs = {
 
 export type MutationCreatePlaceArgs = {
   address: Scalars["String"]["input"];
-  categoryIds: InputMaybe<Array<Scalars["String"]["input"]>>;
+  categoryIds: Array<Scalars["String"]["input"]>;
   city: Scalars["String"]["input"];
   coordinates: Scalars["Geometry"]["input"];
   description: Scalars["String"]["input"];
@@ -77,6 +90,10 @@ export type MutationDeletePlaceArgs = {
 
 export type MutationDeleteUserArgs = {
   id: Scalars["ID"]["input"];
+};
+
+export type MutationRemoveFavoritePlaceArgs = {
+  placeId: Scalars["String"]["input"];
 };
 
 export type MutationSignInArgs = {
@@ -120,7 +137,7 @@ export type Place = {
   __typename?: "Place";
   address: Scalars["String"]["output"];
   categories: Array<Category>;
-  city: Scalars["String"]["output"];
+  city: City;
   coordinates: Scalars["Geometry"]["output"];
   createdAt: Scalars["DateTimeISO"]["output"];
   description: Scalars["String"]["output"];
@@ -132,6 +149,7 @@ export type Place = {
 export type Query = {
   __typename?: "Query";
   categories: Array<Category>;
+  cities: Array<City>;
   myProfile: User;
   place: Place;
   places: Array<Place>;
@@ -143,7 +161,8 @@ export type QueryPlaceArgs = {
 };
 
 export type QueryPlacesArgs = {
-  categoryIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  categoryIds?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  city?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type User = {
@@ -159,6 +178,7 @@ export type User = {
   __typename?: "User";
   createdAt: Scalars["DateTimeISO"]["output"];
   email: Scalars["String"]["output"];
+  favoritesPlaces: Array<Place>;
   firstName: Scalars["String"]["output"];
   hashedPassword: Scalars["String"]["output"];
   id: Scalars["ID"]["output"];
@@ -181,9 +201,7 @@ export type CreatePlaceMutationVariables = Exact<{
   coordinates: Scalars["Geometry"]["input"];
   address: Scalars["String"]["input"];
   city: Scalars["String"]["input"];
-  categoryIds: InputMaybe<
-    Array<Scalars["String"]["input"]> | Scalars["String"]["input"]
-  >;
+  categoryIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
 }>;
 
 export type CreatePlaceMutation = {
@@ -194,8 +212,8 @@ export type CreatePlaceMutation = {
     description: string;
     coordinates: any;
     address: string;
-    city: string;
-    categories: Array<{ __typename?: "Category"; id: string }>;
+    city: { __typename?: "City"; name: string };
+    categories: Array<{ __typename?: "Category"; name: string }>;
   };
 };
 
@@ -206,10 +224,25 @@ export type GetCategoriesQuery = {
   categories: Array<{ __typename?: "Category"; id: string; name: string }>;
 };
 
-export type GetMyProfileInitialsQueryVariables = Exact<{ [key: string]: never; }>;
+export type FavoritesQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type GetMyProfileInitialsQuery = { __typename?: 'Query', myProfile: { __typename?: 'User', id: string, firstName: string, lastName: string, initials: string } };
+export type FavoritesQuery = {
+  __typename?: "Query";
+  myProfile: {
+    __typename?: "User";
+    favoritesPlaces: Array<{
+      __typename?: "Place";
+      id: string;
+      createdAt: any;
+      address: string;
+      coordinates: any;
+      description: string;
+      name: string;
+      categories: Array<{ __typename?: "Category"; id: string; name: string }>;
+      city: { __typename?: "City"; id: string; name: string; coordinates: any };
+    }>;
+  };
+};
 
 export type SignInFormMutationVariables = Exact<{
   email: Scalars["String"]["input"];
@@ -389,12 +422,15 @@ export const CreatePlaceDocument = {
             name: { kind: "Name", value: "categoryIds" },
           },
           type: {
-            kind: "ListType",
+            kind: "NonNullType",
             type: {
-              kind: "NonNullType",
+              kind: "ListType",
               type: {
-                kind: "NamedType",
-                name: { kind: "Name", value: "String" },
+                kind: "NonNullType",
+                type: {
+                  kind: "NamedType",
+                  name: { kind: "Name", value: "String" },
+                },
               },
             },
           },
@@ -463,14 +499,23 @@ export const CreatePlaceDocument = {
                 { kind: "Field", name: { kind: "Name", value: "description" } },
                 { kind: "Field", name: { kind: "Name", value: "coordinates" } },
                 { kind: "Field", name: { kind: "Name", value: "address" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "city" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "categories" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
                     ],
                   },
                 },
@@ -508,6 +553,95 @@ export const GetCategoriesDocument = {
     },
   ],
 } as unknown as DocumentNode<GetCategoriesQuery, GetCategoriesQueryVariables>;
+export const FavoritesDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "favorites" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "myProfile" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "favoritesPlaces" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "createdAt" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "address" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "coordinates" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "categories" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "name" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "city" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "name" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "coordinates" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<FavoritesQuery, FavoritesQueryVariables>;
 export const SignInFormDocument = {
   kind: "Document",
   definitions: [
