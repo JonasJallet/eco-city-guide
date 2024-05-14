@@ -1,6 +1,6 @@
 import CreateCategoriesForm from "../forms/CreateCategoriesForm";
 import CreatePlaceForm from "../forms/CreatePlaceForm";
-import FavoriesContent from "./FavoriesContent";
+import FavoritesContent from "./FavoritesContent";
 import { SideBarContentEnum } from "./sideBarContent.type";
 
 export default function SideBarContent({
@@ -12,10 +12,10 @@ export default function SideBarContent({
     return null;
   }
 
-  if (enumValue === SideBarContentEnum.FAVORIES) {
+  if (enumValue === SideBarContentEnum.FAVORITES) {
     return (
       <div className=" bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300">
-        <FavoriesContent />
+        <FavoritesContent />
       </div>
     );
   }
