@@ -17,6 +17,8 @@ export default function CreateCategoriesForm() {
     name: "",
   });
 
+  const [inputValue, setInputValue] = useState("");
+
   const [createCategoryMutation] =
     useMutation<MutationCreateCategoryArgs>(CREATE_CATEGORY);
 
@@ -31,8 +33,9 @@ export default function CreateCategoriesForm() {
   ) => {
     setFormData({ ...formData, ...partialFormData });
   };
+
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-80">
       <div
         className="w-full px-8"
         onSubmit={(event) => {
@@ -42,25 +45,30 @@ export default function CreateCategoriesForm() {
       >
         <form className="pt-10">
           <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans cursor-default">
-            New category
+            Créer catégorie
           </h1>
           <input
             className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-border_color"
             type="text"
             name="name"
             id="name"
-            placeholder="Name"
+            placeholder="Nom"
             required
+            value={inputValue}
             onChange={(event) => {
+              setInputValue(event.target.value);
               updateFormData({ name: event.target.value });
             }}
           />
           <button
             type="submit"
+            onSubmit={() => {
+              setInputValue("");
+            }}
             className="flex items-center justify-center text-center w-full mt-4 border bg-button_bg_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-border_color hover:border hover:border-border_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
-            <p className="ms-4 text-lg">Save category</p>
+            <p className="ms-4 text-lg">Ajouter</p>
           </button>
         </form>
       </div>

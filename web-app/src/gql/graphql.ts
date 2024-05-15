@@ -209,15 +209,6 @@ export type CreatePlaceMutation = {
 
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetCategoriesQuery = {
-  __typename?: "Query";
-  categories: Array<{ __typename?: "Category"; id: string; name: string }>;
-};
-
-export type RemoveFavoritePlaceMutationVariables = Exact<{
-  placeId: Scalars["String"]["input"];
-}>;
-
 export type RemoveFavoritePlaceMutation = {
   __typename?: "Mutation";
   removeFavoritePlace: {
@@ -550,32 +541,6 @@ export const CreatePlaceDocument = {
     },
   ],
 } as unknown as DocumentNode<CreatePlaceMutation, CreatePlaceMutationVariables>;
-export const GetCategoriesDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "GetCategories" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "categories" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "name" } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetCategoriesQuery, GetCategoriesQueryVariables>;
 export const RemoveFavoritePlaceDocument = {
   kind: "Document",
   definitions: [

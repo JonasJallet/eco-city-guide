@@ -14,7 +14,7 @@ export default function SideBarContent({
 
   if (enumValue === SideBarContentEnum.FAVORITES) {
     return (
-      <div className=" bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300">
+      <div className="bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300 z-20">
         <FavoritesContent />
       </div>
     );
@@ -22,7 +22,7 @@ export default function SideBarContent({
 
   if (enumValue === SideBarContentEnum.CREATE_PLACE) {
     return (
-      <div className="bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300">
+      <div className="bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300 z-20">
         <CreatePlaceForm />
       </div>
     );
@@ -30,7 +30,7 @@ export default function SideBarContent({
 
   if (enumValue === SideBarContentEnum.CREATE_CATEGORY) {
     return (
-      <div className=" bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300">
+      <div className=" bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300 z-20">
         <CreateCategoriesForm />
       </div>
     );
