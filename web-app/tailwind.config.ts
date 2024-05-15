@@ -21,7 +21,7 @@ export default {
     },
     extend: {
       fontSize: {
-        fontSizeModale: "1rem", // Taille de texte extra-
+        fontSizeModale: "1rem",
       },
     },
   },

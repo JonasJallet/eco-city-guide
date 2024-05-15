@@ -9,7 +9,7 @@ const GET_MY_PROFILE_INITIALS = gql`
       id
       firstName
       lastName
-      initials
+      userInitials
     }
   }
 `;
@@ -32,7 +32,7 @@ export default function Initials() {
           onClick={toggleModal}
           className="p-3 mt-2 ml-4 mr-40 bg-tertiary_color rounded-full text-fontSizeModale shadow-lg shadow-secondary_color text-primary_color tracking-wide font-semibold font-sans"
         >
-          {data.myProfile.initials}
+          {data.myProfile.userInitials}
           {isModalOpen && (
             <UserModal onClose={toggleModal}>
               <div className="fixed block px-4 py-2 bg-primary_color border-2 text-fontSizeModale border-secondary_color top-20 right-40  border-opacity-30 rounded-lg text-center text-secondary_color">

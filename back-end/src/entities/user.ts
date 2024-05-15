@@ -40,7 +40,7 @@ class User extends BaseEntity {
   lastName!: string;
 
   @Field()
-  get initials(): string {
+  get userInitials(): string {
     return `${this.firstName[0].toUpperCase()}${this.lastName[0].toUpperCase()}`;
   }
 
