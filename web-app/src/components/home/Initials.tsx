@@ -30,12 +30,12 @@ export default function Initials() {
       {!loading && data?.myProfile ? (
         <button
           onClick={toggleModal}
-          className="w-12 h-12 mt-8 ml-4 mr-24 bg-green-500 rounded-full px-1 py-1 text-lg border-2 border-gray-700 text-gray-700 tracking-wide font-semibold font-sans"
+          className="w-12 h-12 mt-8 ml-4 mr-24 bg-green-500 rounded-full px-1 py-1 text-lg shadow-lg shadow-gray-400 text-white tracking-wide font-semibold font-sans"
         >
           {data.myProfile.initials}
           {isModalOpen && (
             <UserModal onClose={toggleModal}>
-              <div className="fixed block w-48 h-24 text-md border-2 border-gray-700 top-24 right-24 bg-white bg-opacity-90 rounded-lg text-center text-gray-700">
+              <div className="fixed block px-4 py-2 border-2 text-sm border-gray-500 top-24 right-24 bg-white bg-opacity-90 border-opacity-40 rounded-lg text-center text-gray-500">
                 <p className="p-2 hover:text-green-500">
                   <a href="/settings">Mon compte</a>
                 </p>
