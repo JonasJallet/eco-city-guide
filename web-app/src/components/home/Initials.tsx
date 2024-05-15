@@ -30,7 +30,7 @@ export default function Initials() {
       {!loading && data?.myProfile ? (
         <button
           onClick={toggleModal}
-          className="p-3 mt-4 ml-4 mr-40 bg-tertiary_color rounded-full text-fontSizeModale shadow-lg shadow-secondary_color text-primary_color tracking-wide font-semibold font-sans"
+          className="p-3 mt-2 ml-4 mr-40 bg-tertiary_color rounded-full text-fontSizeModale shadow-lg shadow-secondary_color text-primary_color tracking-wide font-semibold font-sans"
         >
           {data.myProfile.initials}
           {isModalOpen && (
@@ -45,7 +45,7 @@ export default function Initials() {
           )}
         </button>
       ) : (
-        <button className="px-4 py-2 mt-4 ml-4 mr-40 bg-primary_color border-2 text-fontSizeModale border-secondary_color top-20 right-40 rounded-full tracking-wide font-semibold font-sans text-secondary_color hover:text-tertiary_color">
+        <button className="px-4 py-2 mt-2 ml-4 mr-40 bg-primary_color border-2 text-fontSizeModale border-secondary_color top-20 right-40 rounded-full tracking-wide font-semibold font-sans text-secondary_color hover:text-tertiary_color">
           <p>
             <a href="/login/sign-in">Se connecter</a>
           </p>
