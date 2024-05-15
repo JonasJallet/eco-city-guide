@@ -35,7 +35,7 @@ export default function CreateCategoriesForm() {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-80">
       <div
         className="w-full px-8"
         onSubmit={(event) => {
