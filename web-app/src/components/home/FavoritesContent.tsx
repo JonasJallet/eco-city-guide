@@ -89,7 +89,7 @@ export default function FavoritesContent() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white transition-all w-80">
+    <div className="flex flex-col h-screen w-80">
       <div className="overflow-y-auto">
         {!selectedCategory && (
           <div className="flex items-center justify-center fixed bg-white w-80 border-b border-gray-200">

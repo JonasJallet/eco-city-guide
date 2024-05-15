@@ -13,6 +13,10 @@ import SurroundingPlacesContext, {
 } from "@/contexts/SurroundingPlacesContext";
 import { CenterOfTheMap } from "./CenterOfTheMap";
 import { LocateButton } from "./LocateButton";
+import { Place } from "@/gql/graphql";
+import PlaceContent from "./PlaceContent";
+import SideBarContent from "./SideBarContent";
+import { SideBarContentEnum } from "./sideBarContent.type";
 
 export default function Map() {
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
@@ -22,6 +26,7 @@ export default function Map() {
   const [mapRenderingCenterPoint, setMapRenderingCenterPoint] = useState([
     47.068703, 2.747125,
   ]);
+  const [selectedPlace, setSelectedPlace] = useState<Place>();
   const [zoom, setZoom] = useState(6);
 
   useEffect(() => {
@@ -58,6 +63,10 @@ export default function Map() {
     }
   }, [place]);
 
+  const handleMarkerClick = (place: Place) => {
+    setSelectedPlace(place);
+  };
+
   return (
     <>
       <div className="flex h-full w-full z-10">
@@ -83,20 +92,28 @@ export default function Map() {
                   place.coordinates.coordinates[0] as number,
                   place.coordinates.coordinates[1] as number,
                 ]}
-                icon={L.divIcon({
-                  iconSize: [20, 50],
-                  iconAnchor: [5, 6],
-                  iconUrl:
-                    "https://leafletjs.com/examples/custom-icons/leaf-green.png",
+                eventHandlers={{
+                  click: () => handleMarkerClick(place),
+                }}
+                icon={L.icon({
+                  iconSize: [40, 40],
+                  shadowSize: [50, 64],
+                  iconUrl: "/images/marker.png",
                 })}
               >
-                <Popup>
+                {/* <Popup>
                   Ceci est un nom
                   <br /> NOTE
-                </Popup>
+                </Popup> */}
               </Marker>
             ))}
         </MapContainer>
+        {selectedPlace && (
+          <SideBarContent
+            enumValue={SideBarContentEnum.PLACE}
+            selectedPlace={selectedPlace}
+          />
+        )}
       </div>
     </>
   );
