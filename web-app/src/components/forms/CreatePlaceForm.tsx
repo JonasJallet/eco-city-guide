@@ -1,42 +1,12 @@
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 import { Category, MutationCreatePlaceArgs, Place } from "@/gql/graphql";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import axios from "axios";
+import { useMutation, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { AddressInterface } from "@/interfaces/Address";
 import { GET_CATEGORIES } from "@/gql/queries";
-
-const CREATE_PLACE = gql`
-  mutation CreatePlace(
-    $name: String!
-    $description: String!
-    $coordinates: Geometry!
-    $address: String!
-    $city: String!
-    $categoryIds: [String!]!
-  ) {
-    createPlace(
-      name: $name
-      description: $description
-      coordinates: $coordinates
-      address: $address
-      city: $city
-      categoryIds: $categoryIds
-    ) {
-      name
-      description
-      coordinates
-      address
-      city {
-        name
-      }
-      categories {
-        name
-      }
-    }
-  }
-`;
+import { CREATE_PLACE } from "@/gql/mutations";
+import axios from "axios";
 
 export default function CreatePlaceForm() {
   const [searchAddress, setSearchAddress] = useState("");

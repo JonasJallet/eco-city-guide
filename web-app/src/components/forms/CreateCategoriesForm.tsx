@@ -1,16 +1,8 @@
 import { MutationCreateCategoryArgs } from "@/gql/graphql";
-import { gql, useMutation } from "@apollo/client";
+import { CREATE_CATEGORY } from "@/gql/mutations";
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
-
-const CREATE_CATEGORY = gql`
-  mutation CreateCategory($name: String!) {
-    createCategory(name: $name) {
-      id
-      name
-    }
-  }
-`;
 
 export default function CreateCategoriesForm() {
   const [formData, setFormData] = useState<MutationCreateCategoryArgs>({

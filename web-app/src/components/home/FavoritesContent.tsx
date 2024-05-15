@@ -1,32 +1,9 @@
 import { FavoritesQuery, Place } from "@/gql/graphql";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useState } from "react";
+import { GET_FAVORITES } from "@/gql/queries";
 import FavoritesByCategory from "./FavoritesByCategory";
 import Loader from "../loader/Loader";
-
-const GET_FAVORITES = gql`
-  query favorites {
-    myProfile {
-      favoritesPlaces {
-        id
-        createdAt
-        address
-        coordinates
-        categories {
-          id
-          name
-        }
-        city {
-          id
-          name
-          coordinates
-        }
-        description
-        name
-      }
-    }
-  }
-`;
 
 export default function FavoritesContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);

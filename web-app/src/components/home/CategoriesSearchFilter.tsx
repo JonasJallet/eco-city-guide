@@ -1,7 +1,7 @@
 import { Category } from "@/gql/graphql";
 import { GET_CATEGORIES } from "@/gql/queries";
 import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // TODO: Utilize this component and fix the style
 export function CategoriesSearchFilter() {

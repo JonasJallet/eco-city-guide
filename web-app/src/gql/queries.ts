@@ -32,3 +32,27 @@ export const GET_CATEGORIES = gql`
     }
   }
 `;
+
+export const GET_FAVORITES = gql`
+  query favorites {
+    myProfile {
+      favoritesPlaces {
+        id
+        createdAt
+        address
+        coordinates
+        categories {
+          id
+          name
+        }
+        city {
+          id
+          name
+          coordinates
+        }
+        description
+        name
+      }
+    }
+  }
+`;
