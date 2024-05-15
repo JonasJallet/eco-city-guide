@@ -64,7 +64,7 @@ export default function PlaceSearchBar({ city, category }: Props) {
     <>
       <div className="w-80 relative">
         <input
-          className={`w-full bg-white-200 px-4 py-3 cursor-pointer ${
+          className={`w-full bg-white-200 px-4 py-3 cursor-text ${
             searchResults?.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
           } border border-border_color focus:outline-none`}
           type="text"

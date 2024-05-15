@@ -18,11 +18,11 @@ export default function index() {
     >
       <PlaceContext.Provider value={{ place, setPlace }}>
         <div className="flex h-screen">
-          <div className="grid grid-cols-3 p-8 absolute z-20 w-full">
-            <div className="col-span-1 flex items-center justify-end">
+          <div className="flex justify-center absolute inset-0 mt-8 mx-auto z-20 w-2/3 h-20">
+            <div className="col-span-1 flex items-center justify-start">
               <CategoriesSearchFilter />
             </div>
-            <div className="col-span-1 flex justify-center">
+            <div className="col-span-1 mt-4 flex justify-center">
               <PlaceSearchBar />
             </div>
           </div>
