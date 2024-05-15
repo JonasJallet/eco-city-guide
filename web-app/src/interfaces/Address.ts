@@ -4,4 +4,7 @@ export interface AddressInterface {
     name: string;
     city: string;
   };
+  geometry: {
+    coordinates: number[];
+  };
 }

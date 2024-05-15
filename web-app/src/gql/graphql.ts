@@ -206,11 +206,22 @@ export type CreatePlaceMutation = {
   };
 };
 
-export type GetCategoriesQueryVariables = Exact<{ [key: string]: never }>;
+export type RemoveFavoritePlaceMutationVariables = Exact<{
+  placeId: Scalars["String"]["input"];
+}>;
 
-export type GetCategoriesQuery = {
-  __typename?: "Query";
-  categories: Array<{ __typename?: "Category"; id: string; name: string }>;
+export type RemoveFavoritePlaceMutation = {
+  __typename?: "Mutation";
+  removeFavoritePlace: {
+    __typename?: "User";
+    favoritesPlaces: Array<{
+      __typename: "Place";
+      id: string;
+      name: string;
+      address: string;
+      city: { __typename: "City"; id: string; name: string };
+    }>;
+  };
 };
 
 export type FavoritesQueryVariables = Exact<{ [key: string]: never }>;
@@ -516,24 +527,88 @@ export const CreatePlaceDocument = {
     },
   ],
 } as unknown as DocumentNode<CreatePlaceMutation, CreatePlaceMutationVariables>;
-export const GetCategoriesDocument = {
+export const RemoveFavoritePlaceDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "GetCategories" },
+      operation: "mutation",
+      name: { kind: "Name", value: "RemoveFavoritePlace" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "placeId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "categories" },
+            name: { kind: "Name", value: "removeFavoritePlace" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "placeId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "placeId" },
+                },
+              },
+            ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "name" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "favoritesPlaces" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "__typename" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "address" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "city" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "__typename" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "name" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -541,7 +616,10 @@ export const GetCategoriesDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<GetCategoriesQuery, GetCategoriesQueryVariables>;
+} as unknown as DocumentNode<
+  RemoveFavoritePlaceMutation,
+  RemoveFavoritePlaceMutationVariables
+>;
 export const FavoritesDocument = {
   kind: "Document",
   definitions: [
