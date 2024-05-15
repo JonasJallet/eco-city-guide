@@ -30,22 +30,22 @@ export default function Initials() {
       {!loading && data?.myProfile ? (
         <button
           onClick={toggleModal}
-          className="w-12 h-12 mt-8 ml-4 mr-24 bg-green-500 rounded-full px-1 py-1 text-lg shadow-lg shadow-gray-400 text-white tracking-wide font-semibold font-sans"
+          className="p-3 mt-4 ml-4 mr-40 bg-tertiary_color rounded-full text-fontSizeModale shadow-lg shadow-secondary_color text-primary_color tracking-wide font-semibold font-sans"
         >
           {data.myProfile.initials}
           {isModalOpen && (
             <UserModal onClose={toggleModal}>
-              <div className="fixed block px-4 py-2 border-2 text-sm border-gray-500 top-24 right-24 bg-white bg-opacity-90 border-opacity-40 rounded-lg text-center text-gray-500">
-                <p className="p-2 hover:text-green-500">
+              <div className="fixed block px-4 py-2 bg-primary_color border-2 text-fontSizeModale border-secondary_color top-20 right-40  border-opacity-30 rounded-lg text-center text-secondary_color">
+                <p className="p-2 hover:text-tertiary_color">
                   <a href="/settings">Mon compte</a>
                 </p>
-                <p className="p-2 hover:text-green-500">Se déconnecter</p>
+                <p className="p-2 hover:text-tertiary_color">Se déconnecter</p>
               </div>
             </UserModal>
           )}
         </button>
       ) : (
-        <button className="w-40 h-12 mt-8 ml-4 mr-24 bg-white bg-opacity-90 rounded-full px-3 text-lg border-2 border-gray-700 tracking-wide font-semibold font-sans text-gray-700 hover:text-green-500">
+        <button className="px-4 py-2 mt-4 ml-4 mr-40 bg-primary_color border-2 text-fontSizeModale border-secondary_color top-20 right-40 rounded-full tracking-wide font-semibold font-sans text-secondary_color hover:text-tertiary_color">
           <p>
             <a href="/login/sign-in">Se connecter</a>
           </p>
