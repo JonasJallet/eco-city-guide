@@ -1,10 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { GetMyProfileInitialsQuery } from "@/gql/graphql";
 import { useState } from "react";
-import { Modal } from "../modals/Modal.styled";
 import UserModal from "../modals/UserModal";
-import user from "../../../public/images/user.png";
-import Image from "next/image";
 
 const GET_MY_PROFILE_INITIALS = gql`
   query GetMyProfileInitials {
