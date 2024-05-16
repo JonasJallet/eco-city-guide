@@ -106,30 +106,20 @@ export default function settings() {
   return (
     <div>
       <div className="">
-        
-      {/* <button>
-       <a className="fixed p-2 top-0 left-0" href="/home">
-            <Image
-              src={logo as unknown as string}
-              alt="Eco City Guide logo"
-              sizes="20"
-            />
-          </a> 
-        </button> */}
       <SideBarSettings setActiveItemSideBarSettings={setActiveItemSideBarSettings} firstnameProfile={dataProfile.firstName}/>
-      <h1 className="mt-4 text-center font-medium text-xl text-button_bg_color">Bienvenue sur votre compte {dataProfile.firstName} </h1>
-      <div  className="flex items-center justify-center">
+      <div  className="">
         {activeItemSideBarSettings == "Profil" && (
           <div className="flex justify-center items-center flex-col mt-6">
             <div >
               <form
-                className="bg-form_color p-10 rounded-lg shadow-lg shadow-gray-300 min-w-full"
+                className="bg-form_color p-8 rounded-lg shadow-lg shadow-gray-300 min-w-full flex flex-col"
                 onSubmit={(event) => {
                   event.preventDefault();
                  UpdateProfileData(formData);
                 }}
                 aria-label="form"
               >
+                
                 <h1 className="font-medium text-2xl text-gray-600 text-center mb-4">
                   Informations personnelles
                 </h1>
@@ -140,17 +130,17 @@ export default function settings() {
                   <div className="flex">
                     {" "}
                     <input
-                      className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border"
+                      className="w-full p-1 bg-white-200 rounded-lg focus:outline-none mb-2 border"
                       name="lastname"
                       id="lastname"
-                     value={data ? data.myProfile?.lastName : ""}
-                      readOnly={isEditing !== "lastname"}
-                      style={{
-                        cursor: isEditing === "lastname" ? "text" : "default",
-                        marginRight: "10px",
-                      }}
+                     placeholder={data ? data.myProfile?.lastName : ""}
+                      //readOnly={isEditing !== "lastname"}
+                      // style={{
+                      //   cursor: isEditing === "lastname" ? "text" : "default",
+                      //   marginRight: "10px",
+                      // }}
                     />
-                    <button
+                    {/* <button
                      type="submit"
                       onClick={() => {
                         if (isEditing === "lastname") {
@@ -164,15 +154,15 @@ export default function settings() {
                       }}
                       className={`${
                         isEditing == "lastname"
-                          ? "bg-red-600"
-                          : "bg-button_bg_color"
+                          ? "bg-tertiary_color"
+                          : "bg-gray-400"
                       } rounded-lg text-white font-semibold font-sans px-4 py-2 mb-2`}
                     >
                       {isEditing === "lastname" ? "Valider" : "Modifier"}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
-                {showInputs == "lastname" && (
+                {/* {showInputs == "lastname" && (
                   <div
                     className="flex items-center"
                     style={{ marginLeft: "6px" }}
@@ -183,7 +173,7 @@ export default function settings() {
                       className="bg-white-200 px-4 py-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
                       style={{ width: "250px" }}
                       onChange={(event) => {
-                        updateFormData({ lastName: event.target.value });
+                        updateFormData({ lastName: event.target.placeholder });
                       }}
                     />
                     <button
@@ -199,7 +189,7 @@ export default function settings() {
                       />
                     </button>
                   </div>
-                )}
+                )} */}
                 <div>
                   <label className="text-gray-600 text-sm">
                     Prénom
@@ -207,18 +197,21 @@ export default function settings() {
                   <div className="flex">
                     {" "}
                     <input
-                      className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border "
+                      className="w-full p-1 bg-white-200 rounded-lg focus:outline-none mb-2 border"
                       type="text"
                       name="firstname"
                       id="firstname"
-                      value={data ? data.myProfile?.firstName : ""}
-                      readOnly={isEditing !== "firstname"}
-                      style={{
-                        cursor: isEditing === "firstname" ? "text" : "default",
-                        marginRight: "10px",
-                      }}
+                      placeholder={data ? data.myProfile?.firstName : ""}
+                     // readOnly={isEditing !== "firstname"}
+                      // style={{
+                      //   cursor: isEditing === "firstname" ? "text" : "default",
+                      //   marginRight: "10px",
+                      // }}
+                      onChange={(event) => {
+                        updateFormData({ firstName: event.target.placeholder });
+                     }}
                     />
-                    <button
+                    {/* <button
                       type="submit"
                       onClick={() => {
                         if (isEditing === "firstname") {
@@ -232,26 +225,27 @@ export default function settings() {
                       }}
                       className={`${
                         isEditing == "firstname"
-                          ? "bg-red-600"
-                          : "bg-button_bg_color"
+                          ? "bg-tertiary_color"
+                          : "bg-gray-400"
                       } rounded-lg text-white font-semibold font-sans px-4 py-2  mb-2`}
                     >
                       {isEditing === "firstname" ? "Valider" : "Modifier"}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
-                {showInputs == "firstname" && (
+                {/* {showInputs == "firstname" && (
                   <div
                     className="flex items-center"
                     style={{ marginLeft: "6px" }}
                   >
                     <input
                       type="text"
-                      placeholder="Nouveau prénom"
+                      // placeholder="Nouveau prénom"
+                      placeholder={data ? data.myProfile?.firstName : ""}
                       className="bg-white-200 px-4 py-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
                       style={{ width: "250px" }}
                       onChange={(event) => {
-                         updateFormData({ firstName: event.target.value });
+                         updateFormData({ firstName: event.target.placeholder });
                       }}
                     />
                     <button
@@ -267,7 +261,7 @@ export default function settings() {
                       />
                     </button>
                   </div>
-                )}
+                )} */}
                 <div>
                   <label className="text-gray-600 text-sm">
                     Email
@@ -275,19 +269,19 @@ export default function settings() {
                   <div className="flex">
                     {" "}
                     <input
-                      className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border "
+                      className="w-full p-1 bg-white-200 rounded-lg focus:outline-none mb-2 border"
                       type="text"
                       name="email"
                       id="email"
-                      defaultValue={data ? data.myProfile?.email : ""}
-                      readOnly={isEditing !== "email"}
-                      style={{
-                        cursor: isEditing === "email" ? "text" : "default",
-                        marginRight: "10px",
-                      }}
+                      placeholder={data ? data.myProfile?.email : ""}
+                     // readOnly={isEditing !== "email"}
+                      // style={{
+                      //   cursor: isEditing === "email" ? "text" : "default",
+                      //   marginRight: "10px",
+                      // }}
                     
                     />
-                    <button
+                    {/* <button
                       onClick={() => {
                         if (isEditing === "email") {
                           UpdateProfileData(formData); 
@@ -300,15 +294,15 @@ export default function settings() {
                       }}
                       className={`${
                         isEditing == "email"
-                          ? "bg-red-600"
-                          : "bg-button_bg_color"
+                          ? "bg-tertiary_color"
+                          : "bg-gray-400"
                       } rounded-lg text-white font-semibold font-sans px-4 py-2  mb-2`}
                     >
                       {isEditing === "email" ? "Valider" : "Modifier"}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
-                {showInputs == "email" && (
+                {/* {showInputs == "email" && (
                   <div
                     className="flex items-center"
                     style={{ marginLeft: "6px" }}
@@ -319,7 +313,7 @@ export default function settings() {
                       className="bg-white-200 px-4 py-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
                       style={{ width: "250px" }}
                       onChange={(event) => {
-                         updateFormData({ email: event.target.value });
+                         updateFormData({ email: event.target.placeholder });
                       }}
                     />
                     <button
@@ -335,7 +329,7 @@ export default function settings() {
                       />
                     </button>
                   </div>
-                )}
+                )} */}
                 <div>
                   <label className="text-gray-600 text-sm">
                     Mot de passe
@@ -343,19 +337,19 @@ export default function settings() {
                   <div className="flex">
                     {" "}
                     <input
-                      className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border "
+                      className="w-full p-1 bg-white-200 rounded-lg focus:outline-none mb-2 border"
                       name="password"
                       id="password"
                       placeholder="Modifier mon mot de passe"
-                      readOnly={isEditing !== "password"}
+                     // readOnly={isEditing !== "password"}
                       // style={{ cursor: isEditing === "password" ? "text" : "default" }}
-                      style={{
-                        cursor: "default",
-                        marginRight: "10px",
-                      }}
+                      // style={{
+                      //   cursor: "default",
+                      //   marginRight: "10px",
+                      // }}
                       
                     />
-                    <button
+                    {/* <button
                        onClick={() => {
                         if (isEditing === "password") {
                           UpdateProfileData(formData);
@@ -369,29 +363,29 @@ export default function settings() {
                       }}
                       className={`${
                         isEditing == "password"
-                          ? "bg-red-600"
-                          : "bg-button_bg_color"
+                          ? "bg-tertiary_color"
+                          : "bg-gray-400"
                       } rounded-lg text-white font-semibold font-sans px-4 py-2 mb-2`}
                     >
                       {" "}
                       {isEditing === "password" ? "Valider" : "Modifier"}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 {showInputs == "password" && (
                   <div className="flex flex-col">
                     <div
                       className="flex items-center"
-                      style={{ marginLeft: "6px" }}
+                      // style={{ marginLeft: "6px" }}
                     >
                       <input
                         type="password"
                         placeholder="Nouveau mot de passe"
-                        className="bg-white-200 px-4 py-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
-                        style={{ width: "250px" }}
+                        className="bg-white-200 w-full p-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
+                        // style={{ width: "250px" }}
                         minLength={12}
                         onChange={(event) => {
-                           updateFormData({ password: event.target.value });
+                           updateFormData({ password: event.target.placeholder });
                         }}
                        
                       />
@@ -414,61 +408,58 @@ export default function settings() {
                       className="flex-grow bg-white-200 px-4 py-1 rounded-lg focus:outline-none mb-9 border border-gray-300"
                       minLength={12}
                       style={{ width: "250px", marginLeft: "6px" }}
-                      // value={confirmPassword}
-                      // onChange={(e) => setConfirmPassword(e.target.value)}
+                      // placeholder={confirmPassword}
+                      // onChange={(e) => setConfirmPassword(e.target.placeholder)}
                     />
                   </div>
                 )}
+                <button className="bg-tertiary_color p-2 rounded-lg text-white w-36 self-center mt-4">Enregistrer</button>
               </form>
             </div>
+
           </div>
         )}
         {activeItemSideBarSettings == "Settings" && (
-          <div
-          className="flex flex-row"
-            //  className="w-96"
-             style={{ maxWidth: "60rem", margin: "0 auto" }}
-          >
-            <div className=""  style={{ maxWidth: "25rem", margin: "0 auto" }}>
-            <h1 className="font-medium text-xl text-gray-600 mt-14 mb-7 text-center">
+          <>
+            <div className="text-center ml-80 mr-80" >
+            <h1 className="font-medium text-xl text-gray-500 mt-8  text-center">
               Données et confidentialité
             </h1>
-            <p className="font-medium mb-4">
+            <p className="font-medium mt-4 text-warmGray-700">
               EcoCityGuide s'engage pour le respect de vos données.
             </p>
-            <p className="mb-4">
+            <p className="mt-2 text-warmGray-700 text-fontSizeText">
               Vos données personnelles sont confidentielles et ne sont jamais
               partagées avec des tiers privés ou partenaires professionnels.
             </p>
-            <p className="mb-4">
-          
+            <p className="mt-2 text-warmGray-700 text-fontSizeText">
               Vos données d'utilisation de l'application ne sont jamais
-              partagées ni à des tiers privés ni à des professionnels.Ces sont seulement utilisées à des fins statitiques pour le
-              propriétaire de l'application.
+              partagées ni à des tiers privés ni à des professionnels.
             </p>
-           
+            <p className="mt-2 text-warmGray-700 text-fontSizeText">Ces données sont seulement utilisées à des fins statistiques pour le
+              propriétaire de l'application.</p>
             </div>
-            <div>
-            <h1 className="font-medium text-xl text-gray-600 mt-14 mb-7 text-center">
+          
+            <div className="text-center ml-80 mr-80">
+            <h1 className="font-medium text-xl text-gray-500 mt-16 text-center">
               Supprimer mon compte
             </h1>
-            <p className="font-medium mb-4">
+            <p className="font-medium mt-4 text-warmGray-700">
               Attention, la suppression de votre compte est définitive.
             </p>
-            <p className="mb-4">
+            <p className="mt-2 text-warmGray-700 text-fontSizeText">
               Toutes les données personnelles et relatives à la gestion de votre
               application seront définitivement supprimées.
             </p>
-            <p className="mb-4">
+            <p className="mt-2 text-warmGray-700">
               Les commentaires que vous avez écris seront anonymisés mais toujours visibles sur EcoCityGuide. 
             </p>
-            <button className=" bg-red-600 text-white py-2 rounded-lg px-2">
+            <button className=" bg-red-600 text-white py-2 w-36 rounded-lg px-2 mt-4">
               {" "}
               Supprimer
             </button>
             </div>
-          </div>
-        
+          </>
         )}
         </div>
       </div>
