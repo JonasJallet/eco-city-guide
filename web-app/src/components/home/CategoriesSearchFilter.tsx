@@ -20,12 +20,12 @@ export function CategoriesSearchFilter() {
           categoriesList?.length > 0
             ? "rounded-t-3xl"
             : "rounded-3xl hover:bg-green-100 hover:text-green-500"
-        } border border-border_color focus:outline-none`}
+        } border border-tertiary_color focus:outline-none`}
       >
         Catégories
       </span>
       {categoriesList?.length > 0 && (
-        <div className="h-44 flex flex-col absolute z-20 top-7 rounded-b-3xl border border-border_color bg-white overflow-y-scroll">
+        <div className="h-44 flex flex-col absolute z-20 top-7 rounded-b-3xl border border-tertiary_color bg-white overflow-y-scroll">
           {categoriesList.map((category, index) => (
             <div
               className="w-full px-4 py-2 hover:bg-gray-200 cursor-pointer"
