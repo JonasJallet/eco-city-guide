@@ -8,7 +8,8 @@ services:
       - DATABASE_URL=postgres://root:root@database:5432/ecocityguide
       - TEST_DATABASE_URL=postgres://postgres:password@test-database:5432/postgres
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     ports:
       - "4000:4000"
     develop:
@@ -44,6 +45,8 @@ services:
       - POSTGRES_DB=ecocityguide
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=root
+    healthcheck:
+      test: pg_isready -U postgres
 
   test-database:
     container_name: test-database

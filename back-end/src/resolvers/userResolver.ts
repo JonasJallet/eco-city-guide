@@ -48,7 +48,7 @@ export class UserResolver {
   @Authorized()
   @Query(() => User)
   async myProfile(@Ctx() { user }: Context): Promise<User> {
-    return user as User;
+    return User.getUserById((user as User).id);
   }
 
   @Authorized()

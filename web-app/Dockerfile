@@ -9,8 +9,8 @@ COPY . .
 RUN touch ./src/styles/output.css
 
 FROM base as dev
-CMD npm run dev && npm run tailwind:watch
+CMD npm run dev
 
 FROM base as prod
-RUN npm run build
-CMD npm run start && npm run tailwind
+RUN npm run build && npm run tailwind
+CMD npm run start 

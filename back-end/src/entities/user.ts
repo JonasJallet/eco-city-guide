@@ -39,6 +39,11 @@ class User extends BaseEntity {
   @Field()
   lastName!: string;
 
+  @Field()
+  get userInitials(): string {
+    return `${this.firstName[0].toUpperCase()}${this.lastName[0].toUpperCase()}`;
+  }
+
   @Column({
     type: "enum",
     enum: UserRole,
