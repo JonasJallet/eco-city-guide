@@ -7,7 +7,7 @@ import {
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { RxCross1 } from "react-icons/rx";
 import Image from "next/image";
-import logo from "../../../public/images/logo.png";
+
 import SideBarSettings from "@/components/settings/SideBarSettings";
 
 const GET_MY_PROFILE = gql`
@@ -106,15 +106,18 @@ export default function settings() {
   return (
     <div>
       <div className="">
-      <a className="fixed p-2 top-0 left-0" href="/home">
+        
+      {/* <button>
+       <a className="fixed p-2 top-0 left-0" href="/home">
             <Image
               src={logo as unknown as string}
               alt="Eco City Guide logo"
               sizes="20"
             />
-          </a>
-      <SideBarSettings setActiveItemSideBarSettings={setActiveItemSideBarSettings}/>
-      <h1 className="mt-20 text-center font-medium text-xl text-gray-900">Bienvenue sur votre compte {dataProfile.firstName} </h1>
+          </a> 
+        </button> */}
+      <SideBarSettings setActiveItemSideBarSettings={setActiveItemSideBarSettings} firstnameProfile={dataProfile.firstName}/>
+      <h1 className="mt-4 text-center font-medium text-xl text-button_bg_color">Bienvenue sur votre compte {dataProfile.firstName} </h1>
       <div  className="flex items-center justify-center">
         {activeItemSideBarSettings == "Profil" && (
           <div className="flex justify-center items-center flex-col mt-6">
