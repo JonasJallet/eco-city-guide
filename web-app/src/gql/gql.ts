@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as types from './graphql';
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import * as types from "./graphql";
+import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 
 /**
  * Map of all GraphQL operations in the project.
@@ -13,12 +13,18 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation CreateCategory($name: String!) {\n    createCategory(name: $name) {\n      id\n      name\n    }\n  }\n": types.CreateCategoryDocument,
-    "\n  mutation SignInForm($email: String!, $password: String!) {\n    signIn(email: $email, password: $password) {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n": types.SignInFormDocument,
-    "\n  query GetMyProfileSignIn {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n": types.GetMyProfileSignInDocument,
-    "\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n    ) {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n": types.SignUpDocument,
-    "\n  query GetMyProfile {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n      hashedPassword\n    }\n  }\n": types.GetMyProfileDocument,
-    "\n  mutation UpdateUser(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n    $updateUserId: ID!\n  ) {\n    updateUser(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n      id: $updateUserId\n    ) {\n      id\n      firstName\n      lastName\n      email\n      hashedPassword\n    }\n  }\n": types.UpdateUserDocument,
+  "\n  mutation CreateCategory($name: String!) {\n    createCategory(name: $name) {\n      id\n      name\n    }\n  }\n":
+    types.CreateCategoryDocument,
+  "\n  mutation SignInForm($email: String!, $password: String!) {\n    signIn(email: $email, password: $password) {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n":
+    types.SignInFormDocument,
+  "\n  query GetMyProfileSignIn {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n":
+    types.GetMyProfileSignInDocument,
+  "\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n    ) {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n":
+    types.SignUpDocument,
+  "\n  query GetMyProfile {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n      hashedPassword\n    }\n  }\n":
+    types.GetMyProfileDocument,
+  "\n  mutation UpdateUser(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n    $updateUserId: ID!\n  ) {\n    updateUser(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n      id: $updateUserId\n    ) {\n      id\n      firstName\n      lastName\n      email\n      hashedPassword\n    }\n  }\n":
+    types.UpdateUserDocument,
 };
 
 /**
@@ -38,30 +44,43 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateCategory($name: String!) {\n    createCategory(name: $name) {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation CreateCategory($name: String!) {\n    createCategory(name: $name) {\n      id\n      name\n    }\n  }\n"];
+export function graphql(
+  source: "\n  mutation CreateCategory($name: String!) {\n    createCategory(name: $name) {\n      id\n      name\n    }\n  }\n",
+): (typeof documents)["\n  mutation CreateCategory($name: String!) {\n    createCategory(name: $name) {\n      id\n      name\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation SignInForm($email: String!, $password: String!) {\n    signIn(email: $email, password: $password) {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n"): (typeof documents)["\n  mutation SignInForm($email: String!, $password: String!) {\n    signIn(email: $email, password: $password) {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n"];
+export function graphql(
+  source: "\n  mutation SignInForm($email: String!, $password: String!) {\n    signIn(email: $email, password: $password) {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n",
+): (typeof documents)["\n  mutation SignInForm($email: String!, $password: String!) {\n    signIn(email: $email, password: $password) {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetMyProfileSignIn {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n"): (typeof documents)["\n  query GetMyProfileSignIn {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n"];
+export function graphql(
+  source: "\n  query GetMyProfileSignIn {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n",
+): (typeof documents)["\n  query GetMyProfileSignIn {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n    ) {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n"): (typeof documents)["\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n    ) {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n"];
+export function graphql(
+  source: "\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n    ) {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n",
+): (typeof documents)["\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n    ) {\n      id\n      firstName\n      lastName\n      email\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetMyProfile {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n      hashedPassword\n    }\n  }\n"): (typeof documents)["\n  query GetMyProfile {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n      hashedPassword\n    }\n  }\n"];
+export function graphql(
+  source: "\n  query GetMyProfile {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n      hashedPassword\n    }\n  }\n",
+): (typeof documents)["\n  query GetMyProfile {\n    myProfile {\n      id\n      email\n      firstName\n      lastName\n      hashedPassword\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateUser(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n    $updateUserId: ID!\n  ) {\n    updateUser(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n      id: $updateUserId\n    ) {\n      id\n      firstName\n      lastName\n      email\n      hashedPassword\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateUser(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n    $updateUserId: ID!\n  ) {\n    updateUser(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n      id: $updateUserId\n    ) {\n      id\n      firstName\n      lastName\n      email\n      hashedPassword\n    }\n  }\n"];
+export function graphql(
+  source: "\n  mutation UpdateUser(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n    $updateUserId: ID!\n  ) {\n    updateUser(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n      id: $updateUserId\n    ) {\n      id\n      firstName\n      lastName\n      email\n      hashedPassword\n    }\n  }\n",
+): (typeof documents)["\n  mutation UpdateUser(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n    $updateUserId: ID!\n  ) {\n    updateUser(\n      firstName: $firstName\n      lastName: $lastName\n      email: $email\n      password: $password\n      id: $updateUserId\n    ) {\n      id\n      firstName\n      lastName\n      email\n      hashedPassword\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
+  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;

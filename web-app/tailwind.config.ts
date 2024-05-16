@@ -22,7 +22,7 @@ export default {
     extend: {
       fontSize: {
         fontSizeModale: "1rem",
-        fontSizeText : "1rem"
+        fontSizeText: "1rem",
       },
     },
   },

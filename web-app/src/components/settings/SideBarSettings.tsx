@@ -9,15 +9,17 @@ import logo from "../../../public/images/logo.png";
 type ClickedItemSideBarType = string;
 
 interface SideBarSettingsProps {
- setActiveItemSideBarSettings: React.Dispatch<React.SetStateAction<ClickedItemSideBarType>>;
- firstnameProfile : string
+  setActiveItemSideBarSettings: React.Dispatch<
+    React.SetStateAction<ClickedItemSideBarType>
+  >;
+  firstnameProfile: string;
 }
 
 // export default function SideBarSettings({setClickedItemSideBarSettings} : {setClickedItemSideBarSettings : }) {
-  const SideBarSettings: React.FC<SideBarSettingsProps> = ({
-   setActiveItemSideBarSettings, firstnameProfile
-  }) => {
-  
+const SideBarSettings: React.FC<SideBarSettingsProps> = ({
+  setActiveItemSideBarSettings,
+  firstnameProfile,
+}) => {
   return (
     <div className="flex">
       <div
@@ -31,43 +33,44 @@ interface SideBarSettingsProps {
               alt="Eco City Guide logo"
               className=" w-auto h-12"
             />
-          </a> 
+          </a>
         </button>
-        <h1 className="text-center font-medium text-xl text-warmGray-700">Bienvenue sur votre compte {firstnameProfile}</h1>
+        <h1 className="text-center font-medium text-xl text-warmGray-700">
+          Bienvenue sur votre compte {firstnameProfile}
+        </h1>
         <div className="flex space-x-10 mr-6">
-        <button
-         onClick={()=>setActiveItemSideBarSettings("Profil")}
-          className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
-        >
-          <BsPersonCircle  className="w-8 h-8" />
-          {/* profil */}
-        </button>
-        <button
-         onClick={()=>setActiveItemSideBarSettings("Favoris")}
-          className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
-        >
-          <FaRegStar className="w-8 h-8" />
-          {/* favoris */}
-        </button>
-        <button
-         onClick={()=>setActiveItemSideBarSettings("Settings")}
-          className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
-        >
-          <IoSettingsOutline className="w-8 h-8"/>
-          {/* paramètres  */}
-        </button>
-        <button
-         onClick={()=>setActiveItemSideBarSettings("Logout")}
-          className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
-        >
-          <IoMdLogOut className="w-8 h-8"/>
-          {/* déconnexion  */}
-        </button>
+          <button
+            onClick={() => setActiveItemSideBarSettings("Profil")}
+            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
+          >
+            <BsPersonCircle className="w-8 h-8" />
+            {/* profil */}
+          </button>
+          <button
+            onClick={() => setActiveItemSideBarSettings("Favoris")}
+            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
+          >
+            <FaRegStar className="w-8 h-8" />
+            {/* favoris */}
+          </button>
+          <button
+            onClick={() => setActiveItemSideBarSettings("Settings")}
+            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
+          >
+            <IoSettingsOutline className="w-8 h-8" />
+            {/* paramètres  */}
+          </button>
+          <button
+            onClick={() => setActiveItemSideBarSettings("Logout")}
+            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
+          >
+            <IoMdLogOut className="w-8 h-8" />
+            {/* déconnexion  */}
+          </button>
         </div>
-       
       </div>
     </div>
   );
-}
+};
 
 export default SideBarSettings;
