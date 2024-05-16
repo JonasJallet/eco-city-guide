@@ -67,6 +67,17 @@ export default function Map() {
     setSelectedPlace(place);
   };
 
+  const layers = [
+    {
+      name: "Par défaut",
+      url: "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png",
+    },
+    {
+      name: "Satellite",
+      url: "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png",
+    },
+  ];
+
   return (
     <>
       <div className="flex h-full w-full z-10">
@@ -78,7 +89,19 @@ export default function Map() {
           scrollWheelZoom={true}
           className="h-full w-full"
         >
-          <LayersControl />
+          <LayersControl position="topright">
+            {layers.map((layer, index) => {
+              return (
+                <LayersControl.BaseLayer
+                  key={index}
+                  checked={index === 0 ? true : false}
+                  name={layer.name}
+                >
+                  <TileLayer url={layer.url} />
+                </LayersControl.BaseLayer>
+              );
+            })}
+          </LayersControl>
           <LocateButton />
           <CenterOfTheMap />
           <TileLayer

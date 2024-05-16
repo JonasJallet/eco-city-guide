@@ -7,7 +7,7 @@ export default function PlaceContent({
 }) {
   return (
     <div className="flex flex-col h-screen w-80">
-      {/* <p>Ville: {selectedPlace.city.name}</p> */}
+      <p>Ville: {selectedPlace.city.name}</p>
     </div>
   );
 }
