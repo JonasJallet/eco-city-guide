@@ -1,0 +1,50 @@
+a.leaflet-control-zoom-in,
+a.leaflet-control-zoom-out {
+  border-color: white !important;
+  background-color: #22c55e !important;
+  color: white !important;
+  width: 35px !important;
+  height: 35px !important;
+}
+
+a.leaflet-control-zoom-in {
+  border-radius: 12px 12px 0 0 !important;
+}
+
+a.leaflet-control-zoom-out {
+  border-radius: 0 0 12px 12px !important;
+}
+
+a.leaflet-control-zoom-in:hover,
+a.leaflet-control-zoom-out:hover,
+.leaflet-control-layers.leaflet-control:hover {
+  border-color: #22c55e !important;
+  background-color: white !important;
+  color: #22c55e !important;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  border-radius: 15px !important;
+  border-color: white;
+}
+
+.leaflet-control-layers.leaflet-control {
+  border-radius: 15px !important;
+  border-color: white !important;
+  background-color: #22c55e;
+}
+
+.leaflet-control-layers-selector {
+  accent-color: #22c55e;
+  color: red !important;
+}
+
+.leaflet-control-layers-toggle {
+  background-image: url(/images/layers.svg) !important;
+  width: 42px !important;
+  height: 42px !important;
+}
+
+.leaflet-control-layers-base > label > span {
+  color: rgb(107, 114, 128); /* Change this to the desired color */
+}

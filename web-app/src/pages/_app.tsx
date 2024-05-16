@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import type { AppProps } from "next/app";
 import "@/styles/output.css";
+import "@/styles/leaflet-style.css";
 import { ApolloProvider } from "@apollo/client";
 
 import createApolloClient from "../apollo-client";

@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
-import { FaMapMarkerAlt, FaTimes } from "react-icons/fa";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
 import { SideBarContentEnum } from "./sideBarContent.type";
+import { MdClose, MdLocationPin } from "react-icons/md";
 
 export default function PlaceContent() {
   const { place } = useContext(PlaceContext) as PlaceContextType;
@@ -17,20 +17,20 @@ export default function PlaceContent() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-80 pt-10 h-sreen">
+    <div className="flex flex-col h-screen w-80 h-sreen">
       <button
         onClick={handleCloseButton}
-        className="text-gray-400 hover:text-gray-600"
+        className="absolute text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-green-500 p-2 m-1"
       >
-        <FaTimes />
+        <MdClose />
       </button>
       {place && (
         <>
-          <div className="border-b border-gray-200">
-            <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mt-4 mb-2">
+          <div className="border-b border-gray-200 pt-10">
+            <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
               {place.name}
             </p>
-            <div className="flex flex-wrap gap-2 rounded-2xl mb-2 px-5">
+            <div className="flex flex-wrap gap-2 rounded-2xl mb-2 px-4">
               {place.categories.map((category) => (
                 <span
                   className="text-text_color text-xs bg-green-200 py-1 px-2 rounded-lg m-01"
@@ -41,16 +41,21 @@ export default function PlaceContent() {
               ))}
             </div>
           </div>
-          <div className="px-5 mt-5">
+          <div className="px-4 mt-5">
             <div className="flex items-center">
               <div className="text-lg text-green-500 mr-2">
-                <FaMapMarkerAlt />
+                <MdLocationPin />
               </div>
               <p>
                 {place.address}, {place.city.name}
               </p>
             </div>
-            <p className="mt-5">{place.description}</p>
+            <div className="mt-6">
+              <p className="border-b border-green-500 inline-block pl-1 pr-3">
+                Description
+              </p>
+              <p className="mt-1">{place.description}</p>
+            </div>
           </div>
         </>
       )}
