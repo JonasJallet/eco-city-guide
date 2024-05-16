@@ -66,7 +66,7 @@ export default function PlaceSearchBar({ city, category }: Props) {
         <input
           className={`w-full bg-white-200 px-4 py-3 cursor-text ${
             searchResults?.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
-          } border border-border_color focus:outline-none`}
+          } border border-tertiary_color focus:outline-none`}
           type="text"
           name="search"
           id="search"
@@ -83,7 +83,7 @@ export default function PlaceSearchBar({ city, category }: Props) {
         />
         <HiOutlineSearch className=" w-6 h-6 absolute right-3 top-3 text-gray-500" />
         {searchResults?.length > 0 && (
-          <div className="flex flex-col absolute z-20 top-10 w-80 rounded-b-3xl border border-border_color bg-white">
+          <div className="flex flex-col absolute z-20 top-10 w-80 rounded-b-3xl border border-tertiary_color bg-white">
             {searchResults.map((place, index) => (
               <button
                 key={index}

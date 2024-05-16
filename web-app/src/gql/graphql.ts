@@ -173,6 +173,7 @@ export type User = {
   id: Scalars["ID"]["output"];
   lastName: Scalars["String"]["output"];
   role: Scalars["String"]["output"];
+  userInitials: Scalars["String"]["output"];
 };
 
 export type CreateCategoryMutationVariables = Exact<{
@@ -241,6 +242,21 @@ export type FavoritesQuery = {
       categories: Array<{ __typename?: "Category"; id: string; name: string }>;
       city: { __typename?: "City"; id: string; name: string; coordinates: any };
     }>;
+  };
+};
+
+export type GetMyProfileInitialsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetMyProfileInitialsQuery = {
+  __typename?: "Query";
+  myProfile: {
+    __typename?: "User";
+    id: string;
+    firstName: string;
+    lastName: string;
+    userInitials: string;
   };
 };
 
@@ -709,6 +725,40 @@ export const FavoritesDocument = {
     },
   ],
 } as unknown as DocumentNode<FavoritesQuery, FavoritesQueryVariables>;
+export const GetMyProfileInitialsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetMyProfileInitials" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "myProfile" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "userInitials" },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetMyProfileInitialsQuery,
+  GetMyProfileInitialsQueryVariables
+>;
 export const SignInFormDocument = {
   kind: "Document",
   definitions: [
