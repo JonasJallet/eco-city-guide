@@ -123,7 +123,7 @@ export default function SignInPage() {
             )}
             <button
               type="submit"
-              className="w-full mt-4 bg-button_bg_color rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
+              className="w-full mt-4 bg-tertiary_color rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
             >
               Se connecter
             </button>

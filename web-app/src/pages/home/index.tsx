@@ -1,4 +1,5 @@
 "use client";
+import Initials from "@/components/home/Initials";
 import { Main } from "@/components/home/Main";
 import PlaceSearchBar from "@/components/home/PlaceSearchBar";
 import { CategoriesSearchFilter } from "@/components/home/CategoriesSearchFilter";
@@ -13,23 +14,30 @@ export default function index() {
   const [surroundingPlaces, setSurroundingPlaces] = useState<Place[] | []>([]);
 
   return (
-    <SurroundingPlacesContext.Provider
-      value={{ surroundingPlaces, setSurroundingPlaces }}
-    >
-      <PlaceContext.Provider value={{ place, setPlace }}>
-        <div className="flex h-screen">
-          <div className="flex justify-center absolute inset-0 mt-8 mx-auto z-20 w-2/3 h-20">
-            <div className="col-span-1 flex items-center justify-start">
-              <CategoriesSearchFilter />
-            </div>
-            <div className="col-span-1 mt-4 flex justify-center">
-              <PlaceSearchBar />
-            </div>
-          </div>
-          <Main />
-          <SideBar />
+    <>
+      <div className=" flex justify-end">
+        <div className="absolute z-20">
+          <Initials />
         </div>
-      </PlaceContext.Provider>
-    </SurroundingPlacesContext.Provider>
+      </div>
+      <SurroundingPlacesContext.Provider
+        value={{ surroundingPlaces, setSurroundingPlaces }}
+      >
+        <PlaceContext.Provider value={{ place, setPlace }}>
+          <div className="flex h-screen">
+            <div className="flex justify-center absolute inset-0 mt-8 mx-auto z-20 w-2/3 h-20">
+              <div className="col-span-1 flex items-center justify-start">
+                <CategoriesSearchFilter />
+              </div>
+              <div className="col-span-1 mt-4 flex justify-center">
+                <PlaceSearchBar />
+              </div>
+            </div>
+            <Main />
+            <SideBar />
+          </div>
+        </PlaceContext.Provider>
+      </SurroundingPlacesContext.Provider>
+    </>
   );
 }
