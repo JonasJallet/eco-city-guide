@@ -1,0 +1,32 @@
+name: Format Fix on PR Merge
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  format-fix:
+    name: Fix source code format with Prettier
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Prettier to fix format
+        run: npm run format:fix
+
+      - name: Stage changes
+        run: git add .
+
+      - name: Commit changes
+        run: git config --global user.email "<>"
+          git config --global user.name "GitHub Actions (format-fix)"
+          git commit -m "[AUTO] Fix source code format with Prettier" || echo "Files already correctly formatted."
+
+      - name: Push changes
+        run: git push
