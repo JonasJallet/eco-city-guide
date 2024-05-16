@@ -12,13 +12,17 @@ export const LocateButton = () => {
   });
   return (
     <div
-      className="leaflet-bar leaflet-control leaflet-control-custom mt-24"
-      style={{ marginLeft: "10px" }}
+      className="leaflet-bar leaflet-control mt-24"
+      style={{
+        marginLeft: "10px",
+        borderRadius: "15px",
+        borderColor: "white",
+      }}
     >
       <button
-        className="text-lg bg-white hover:bg-gray-100 rounded-sm flex justify-center items-center"
+        className="text-2xl text-white bg-green-500 hover:bg-white hover:text-green-500 rounded-xl flex justify-center items-center"
         onClick={() => map.locate()}
-        style={{ width: "30px", height: "30px", lineHeight: "30px" }}
+        style={{ width: "40px", height: "40px", lineHeight: "30px" }}
       >
         <FaMapMarkerAlt />
       </button>
