@@ -1,4 +1,4 @@
-import { FavoritesQuery, Place } from "@/gql/graphql";
+import { Place } from "@/gql/graphql";
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import { GET_FAVORITES } from "@/gql/queries";
@@ -8,7 +8,7 @@ import Loader from "../loader/Loader";
 export default function FavoritesContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const { data, loading, refetch } = useQuery<FavoritesQuery>(GET_FAVORITES);
+  const { data, loading, refetch } = useQuery(GET_FAVORITES);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -92,8 +92,8 @@ export default function FavoritesContent() {
     <div className="flex flex-col h-screen w-80">
       <div className="overflow-y-auto">
         {!selectedCategory && (
-          <div className="flex items-center justify-center fixed bg-white w-80 border-b border-gray-200">
-            <h1 className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mt-4 mb-2">
+          <div className="flex items-center justify-center fixed bg-white w-80 pt-10">
+            <h1 className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default">
               Mes Favoris
             </h1>
           </div>

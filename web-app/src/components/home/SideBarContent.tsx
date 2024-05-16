@@ -2,15 +2,12 @@ import CreateCategoriesForm from "../forms/CreateCategoriesForm";
 import CreatePlaceForm from "../forms/CreatePlaceForm";
 import FavoritesContent from "./FavoritesContent";
 import PlaceContent from "./PlaceContent";
-import { Place } from "@/gql/graphql";
 import { SideBarContentEnum } from "./sideBarContent.type";
 
 export default function SideBarContent({
   enumValue,
-  selectedPlace,
 }: {
   enumValue: SideBarContentEnum;
-  selectedPlace?: Place;
 }) {
   let contentComponent;
 
@@ -28,8 +25,7 @@ export default function SideBarContent({
       contentComponent = <CreateCategoriesForm />;
       break;
     case SideBarContentEnum.PLACE:
-      contentComponent = enumValue === SideBarContentEnum.PLACE &&
-        selectedPlace && <PlaceContent selectedPlace={selectedPlace} />;
+      contentComponent = <PlaceContent />;
       break;
     default:
       contentComponent = null;

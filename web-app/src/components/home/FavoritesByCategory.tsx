@@ -39,7 +39,7 @@ export default function FavoritesByCategoryContent({
   return (
     <div className="h-screen bg-white w-80 overflow-y-auto">
       {selectedFavorite ? (
-        <PlaceContent selectedPlace={selectedFavorite} />
+        <PlaceContent />
       ) : (
         <>
           <div className="flex items-center justify-between p-2 border-b border-gray-200">

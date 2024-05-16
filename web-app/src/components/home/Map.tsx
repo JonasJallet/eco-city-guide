@@ -13,27 +13,29 @@ import SurroundingPlacesContext, {
 } from "@/contexts/SurroundingPlacesContext";
 import { CenterOfTheMap } from "./CenterOfTheMap";
 import { LocateButton } from "./LocateButton";
-import { Place } from "@/gql/graphql";
-import PlaceContent from "./PlaceContent";
-import SideBarContent from "./SideBarContent";
 import { SideBarContentEnum } from "./sideBarContent.type";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
 
 export default function Map() {
-  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { place } = useContext(PlaceContext) as PlaceContextType;
+  const { setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
   const { surroundingPlaces, setSurroundingPlaces } = useContext(
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
   const [mapRenderingCenterPoint, setMapRenderingCenterPoint] = useState([
     47.068703, 2.747125,
   ]);
-  const [selectedPlace, setSelectedPlace] = useState<Place>();
   const [zoom, setZoom] = useState(6);
 
   useEffect(() => {
     if (place !== undefined) {
       const [longitude, latitude] = place.coordinates?.coordinates;
       setMapRenderingCenterPoint([longitude, latitude]);
-      setSurroundingPlaces([...surroundingPlaces, place]);
+      setSurroundingPlaces([place]);
       setZoom(15);
     }
   }, [place]);
@@ -63,8 +65,8 @@ export default function Map() {
     }
   }, [place]);
 
-  const handleMarkerClick = (place: Place) => {
-    setSelectedPlace(place);
+  const handleMarkerClick = () => {
+    setSideBarEnum(SideBarContentEnum.PLACE);
   };
 
   const layers = [
@@ -116,7 +118,7 @@ export default function Map() {
                   place.coordinates.coordinates[1] as number,
                 ]}
                 eventHandlers={{
-                  click: () => handleMarkerClick(place),
+                  click: () => handleMarkerClick(),
                 }}
                 icon={L.icon({
                   iconSize: [40, 40],
@@ -131,12 +133,6 @@ export default function Map() {
               </Marker>
             ))}
         </MapContainer>
-        {selectedPlace && (
-          <SideBarContent
-            enumValue={SideBarContentEnum.PLACE}
-            selectedPlace={selectedPlace}
-          />
-        )}
       </div>
     </>
   );

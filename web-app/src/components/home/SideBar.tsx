@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { TbCategory } from "react-icons/tb";
 import { MdAddCircleOutline } from "react-icons/md";
-import Image from "next/image";
-
-import SideBarContent from "./SideBarContent";
-import logo from "../../../public/images/earth-logo.png";
 import { SideBarContentEnum } from "./sideBarContent.type";
+import Image from "next/image";
+import logo from "../../../public/images/earth-logo.png";
+import SideBarContent from "./SideBarContent";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
 
 export default function SideBar() {
   const [enumValue, setEnumValue] = useState<SideBarContentEnum>(
     SideBarContentEnum.NO_CONTENT,
   );
+
+  const { sideBarEnum, setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
+
+  useEffect(() => {
+    if (sideBarEnum !== undefined) {
+      setEnumValue(sideBarEnum);
+    }
+
+    if (enumValue !== SideBarContentEnum.PLACE) {
+      setSideBarEnum(undefined);
+    }
+  }, [sideBarEnum]);
+
   return (
     <>
       <SideBarContent enumValue={enumValue} />

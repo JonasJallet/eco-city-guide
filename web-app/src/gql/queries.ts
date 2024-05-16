@@ -3,9 +3,11 @@ import { gql } from "@apollo/client";
 export const GET_PLACES = gql`
   query Places($city: String) {
     places(city: $city) {
+      id
       name
       coordinates
       address
+      description
       city {
         name
       }
