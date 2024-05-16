@@ -21,23 +21,23 @@ export default function index() {
         </div>
       </div>
       <SurroundingPlacesContext.Provider
-      value={{ surroundingPlaces, setSurroundingPlaces }}
-    >
-      <PlaceContext.Provider value={{ place, setPlace }}>
-        <div className="flex h-screen">
-          <div className="flex justify-center absolute inset-0 mt-8 mx-auto z-20 w-2/3 h-20">
-            <div className="col-span-1 flex items-center justify-start">
-              <CategoriesSearchFilter />
+        value={{ surroundingPlaces, setSurroundingPlaces }}
+      >
+        <PlaceContext.Provider value={{ place, setPlace }}>
+          <div className="flex h-screen">
+            <div className="flex justify-center absolute inset-0 mt-8 mx-auto z-20 w-2/3 h-20">
+              <div className="col-span-1 flex items-center justify-start">
+                <CategoriesSearchFilter />
+              </div>
+              <div className="col-span-1 mt-4 flex justify-center">
+                <PlaceSearchBar />
+              </div>
             </div>
-            <div className="col-span-1 mt-4 flex justify-center">
-              <PlaceSearchBar />
-            </div>
-          </div>
             <Main />
             <SideBar />
           </div>
-      </PlaceContext.Provider>
-    </SurroundingPlacesContext.Provider>
+        </PlaceContext.Provider>
+      </SurroundingPlacesContext.Provider>
     </>
   );
 }
