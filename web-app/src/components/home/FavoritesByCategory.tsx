@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
 import PlaceContent from "./PlaceContent";
+import { MdClose } from "react-icons/md";
+import { SideBarContentEnum } from "./sideBarContent.type";
 
 export default function FavoritesByCategoryContent({
   favorites: initialFavorites,
@@ -36,28 +38,41 @@ export default function FavoritesByCategoryContent({
     }
   };
 
+  const handleCloseButton = () => {
+    setSideBarEnum(SideBarContentEnum.NO_CONTENT);
+  };
+
   return (
     <div className="h-screen bg-white w-80 overflow-y-auto">
-      <button
-        onClick={onBack}
-        className="flex items-center mx-auto hover:bg-gray-100 rounded-xl space-x-2 text-gray-500 hover:text-tertiary_color p-2 m-1"
-      >
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-          ></path>
-        </svg>
-        <span>Retour aux favoris</span>
-      </button>
+      <div>
+        <div className="flex justify-between">
+          <button
+            onClick={handleCloseButton}
+            className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
+          >
+            <MdClose />
+          </button>
+          <button
+            onClick={onBack}
+            className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
       {selectedFavorite ? (
         <PlaceContent />
       ) : (
@@ -70,7 +85,7 @@ export default function FavoritesByCategoryContent({
               {favorites.length} {favorites.length > 1 ? "lieux" : "lieu"}
             </span>
           </div>
-          <div className="mt-2 mb-2">
+          <div className="mt-4 mb-2">
             {favorites.map((favorite, index) => (
               <div
                 key={index}
@@ -109,4 +124,7 @@ export default function FavoritesByCategoryContent({
       )}
     </div>
   );
+}
+function setSideBarEnum(NO_CONTENT: any) {
+  throw new Error("Function not implemented.");
 }

@@ -20,13 +20,13 @@ export default function PlaceContent() {
     <div className="flex flex-col h-screen w-80 h-sreen">
       <button
         onClick={handleCloseButton}
-        className="absolute text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
+        className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
       >
         <MdClose />
       </button>
       {place && (
         <>
-          <div className="border-b border-gray-200 pt-10">
+          <div className="border-b border-gray-200">
             <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
               {place.name}
             </p>

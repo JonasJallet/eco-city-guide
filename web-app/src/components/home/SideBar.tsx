@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { FaRegStar } from "react-icons/fa";
 import { TbCategory } from "react-icons/tb";
-import { MdAddCircleOutline } from "react-icons/md";
+import { MdAddCircleOutline, MdStarBorder } from "react-icons/md";
 import { SideBarContentEnum } from "./sideBarContent.type";
 import Image from "next/image";
 import logo from "../../../public/images/earth-logo.png";
@@ -73,7 +72,7 @@ export default function SideBar() {
             }
             className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-tertiary_color"
           >
-            <FaRegStar className="w-6 h-6" />
+            <MdStarBorder className="w-6 h-6" />
             favoris
           </button>
         </div>

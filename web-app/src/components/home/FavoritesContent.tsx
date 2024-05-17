@@ -57,7 +57,7 @@ export default function FavoritesContent() {
     handleCategoryClick: (category: string) => void;
   }) => {
     return (
-      <div className="mt-24 mb-2">
+      <div className="mt-14 mb-2">
         {Object.entries(organizedFavorites)
           .sort()
           .map(([category, places]) => (
@@ -102,17 +102,20 @@ export default function FavoritesContent() {
   return (
     <div className="flex flex-col h-screen w-80">
       <div className="overflow-y-auto">
-        <button
-          onClick={handleCloseButton}
-          className="absolute text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
-        >
-          <MdClose />
-        </button>
+        <div></div>
         {!selectedCategory && (
-          <div className="flex items-center justify-center fixed bg-white w-80 pt-10 border-b border-gray-200">
-            <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
-              Mes Favoris
-            </p>
+          <div>
+            <button
+              onClick={handleCloseButton}
+              className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+            >
+              <MdClose />
+            </button>
+            <div className="flex items-center justify-center fixed bg-white w-80 border-b border-gray-200">
+              <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+                Mes Favoris
+              </p>
+            </div>
           </div>
         )}
 

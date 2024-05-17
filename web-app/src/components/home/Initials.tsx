@@ -1,18 +1,8 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GetMyProfileInitialsQuery } from "@/gql/graphql";
 import { useState } from "react";
 import UserModal from "../modals/UserModal";
-
-const GET_MY_PROFILE_INITIALS = gql`
-  query GetMyProfileInitials {
-    myProfile {
-      id
-      firstName
-      lastName
-      userInitials
-    }
-  }
-`;
+import { GET_MY_PROFILE_INITIALS } from "@/gql/queries";
 
 export default function Initials() {
   const { data, loading } = useQuery<GetMyProfileInitialsQuery>(

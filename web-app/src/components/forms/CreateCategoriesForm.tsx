@@ -41,7 +41,7 @@ export default function CreateCategoriesForm() {
     <div className="flex flex-col items-center w-80">
       <button
         onClick={handleCloseButton}
-        className="absolute self-start text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+        className="self-start text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
       >
         <MdClose />
       </button>
@@ -52,7 +52,7 @@ export default function CreateCategoriesForm() {
           createCategory();
         }}
       >
-        <div className="pt-10 border-b border-gray-200">
+        <div className="border-b border-gray-200">
           <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
             Créer catégorie
           </p>
