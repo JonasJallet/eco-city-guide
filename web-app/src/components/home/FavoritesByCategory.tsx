@@ -1,10 +1,13 @@
 import { Place } from "@/gql/graphql";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
 import PlaceContent from "./PlaceContent";
 import { MdClose } from "react-icons/md";
 import { SideBarContentEnum } from "./sideBarContent.type";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
 
 export default function FavoritesByCategoryContent({
   favorites: initialFavorites,
@@ -20,6 +23,9 @@ export default function FavoritesByCategoryContent({
   const [favorites, setFavorites] = useState(initialFavorites);
   const [selectedFavorite, setSelectedFavorite] = useState<Place | null>(null);
   const [removeFavoritePlaceMutation] = useMutation(REMOVE_FAVORITE_PLACE);
+  const { setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
 
   const handleSelectedFavorite = (place: Place) => {
     setSelectedFavorite(place);
