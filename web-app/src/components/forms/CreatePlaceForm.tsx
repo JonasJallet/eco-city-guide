@@ -1,42 +1,17 @@
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 import { Category, MutationCreatePlaceArgs, Place } from "@/gql/graphql";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import axios from "axios";
+import { useMutation, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { AddressInterface } from "@/interfaces/Address";
 import { GET_CATEGORIES } from "@/gql/queries";
-
-const CREATE_PLACE = gql`
-  mutation CreatePlace(
-    $name: String!
-    $description: String!
-    $coordinates: Geometry!
-    $address: String!
-    $city: String!
-    $categoryIds: [String!]!
-  ) {
-    createPlace(
-      name: $name
-      description: $description
-      coordinates: $coordinates
-      address: $address
-      city: $city
-      categoryIds: $categoryIds
-    ) {
-      name
-      description
-      coordinates
-      address
-      city {
-        name
-      }
-      categories {
-        name
-      }
-    }
-  }
-`;
+import { CREATE_PLACE } from "@/gql/mutations";
+import axios from "axios";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
+import { SideBarContentEnum } from "../home/sideBarContent.type";
+import { MdClose } from "react-icons/md";
 
 export default function CreatePlaceForm() {
   const [searchAddress, setSearchAddress] = useState("");
@@ -51,6 +26,9 @@ export default function CreatePlaceForm() {
     categoryIds: [],
   });
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -69,6 +47,10 @@ export default function CreatePlaceForm() {
           throw new Error("Error fetching data: " + error);
         });
     }
+  };
+
+  const handleCloseButton = () => {
+    setSideBarEnum(SideBarContentEnum.NO_CONTENT);
   };
 
   const [createPlaceMutation] =
@@ -118,19 +100,27 @@ export default function CreatePlaceForm() {
 
   return (
     <div className="flex flex-col items-center w-80">
-      <div className="w-full px-8">
+      <button
+        onClick={handleCloseButton}
+        className="self-start text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+      >
+        <MdClose />
+      </button>
+      <div className="w-full">
+        <div className="border-b border-gray-200">
+          <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+            Créer lieu
+          </p>
+        </div>
         <form
-          className="pt-10"
+          className="pt-10 px-8"
           onSubmit={(event) => {
             event.preventDefault();
             createPlace();
           }}
         >
-          <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans cursor-default">
-            Créer lieu
-          </h1>
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-border_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="name"
             id="name"
@@ -144,7 +134,7 @@ export default function CreatePlaceForm() {
             <input
               className={`w-full bg-white-200 px-4 py-2 ${
                 addressList.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
-              } focus:outline-none mb-2 border border-border_color`}
+              } focus:outline-none mb-2 border border-tertiary_color`}
               type="text"
               name="address"
               id="address"
@@ -162,7 +152,7 @@ export default function CreatePlaceForm() {
               }}
             />
             {addressList.length > 0 && (
-              <div className="flex flex-col absolute z-20 top-10 w-full py-1 rounded-b-3xl border border-border_color bg-white">
+              <div className="flex flex-col absolute z-20 top-10 w-full py-1 rounded-b-3xl border border-tertiary_color bg-white">
                 {addressList.map((address: AddressInterface, index) => (
                   <li
                     key={index}
@@ -191,7 +181,7 @@ export default function CreatePlaceForm() {
             )}
           </div>
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-border_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="city"
             id="city"
@@ -204,7 +194,7 @@ export default function CreatePlaceForm() {
             required
           />
           <textarea
-            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl focus:outline-none mb-2 border border-border_color"
+            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl focus:outline-none mb-2 border border-tertiary_color"
             name="description"
             id="description"
             placeholder="Description"
@@ -239,7 +229,7 @@ export default function CreatePlaceForm() {
             name="categories"
             id="categories"
             multiple
-            className="w-full bg-white-200 px-4 py-2 rounded-xl mb-2 border border-border_color focus:outline-none"
+            className="w-full bg-white-200 px-4 py-2 rounded-xl mb-2 border border-tertiary_color focus:outline-none"
           >
             {categoriesData &&
               categoriesData.categories.map(
@@ -263,7 +253,7 @@ export default function CreatePlaceForm() {
           </select>
           <button
             type="submit"
-            className="flex items-center justify-center text-center w-full mt-4 border bg-button_bg_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-border_color hover:border hover:border-border_color"
+            className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
             <p className="ms-4 text-lg">Ajouter</p>

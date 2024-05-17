@@ -13,9 +13,16 @@ import SurroundingPlacesContext, {
 } from "@/contexts/SurroundingPlacesContext";
 import { CenterOfTheMap } from "./CenterOfTheMap";
 import { LocateButton } from "./LocateButton";
+import { SideBarContentEnum } from "./sideBarContent.type";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
 
 export default function Map() {
-  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { place } = useContext(PlaceContext) as PlaceContextType;
+  const { setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
   const { surroundingPlaces, setSurroundingPlaces } = useContext(
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
@@ -28,7 +35,7 @@ export default function Map() {
     if (place !== undefined) {
       const [longitude, latitude] = place.coordinates?.coordinates;
       setMapRenderingCenterPoint([longitude, latitude]);
-      setSurroundingPlaces([...surroundingPlaces, place]);
+      setSurroundingPlaces([place]);
       setZoom(15);
     }
   }, [place]);
@@ -58,6 +65,21 @@ export default function Map() {
     }
   }, [place]);
 
+  const handleMarkerClick = () => {
+    setSideBarEnum(SideBarContentEnum.PLACE);
+  };
+
+  const layers = [
+    {
+      name: "Par défaut",
+      url: "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png",
+    },
+    {
+      name: "Satellite",
+      url: "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png",
+    },
+  ];
+
   return (
     <>
       <div className="flex h-full w-full z-10">
@@ -69,7 +91,19 @@ export default function Map() {
           scrollWheelZoom={true}
           className="h-full w-full"
         >
-          <LayersControl />
+          <LayersControl position="bottomleft">
+            {layers.map((layer, index) => {
+              return (
+                <LayersControl.BaseLayer
+                  key={index}
+                  checked={index === 0 ? true : false}
+                  name={layer.name}
+                >
+                  <TileLayer url={layer.url} />
+                </LayersControl.BaseLayer>
+              );
+            })}
+          </LayersControl>
           <LocateButton />
           <CenterOfTheMap />
           <TileLayer
@@ -83,17 +117,19 @@ export default function Map() {
                   place.coordinates.coordinates[0] as number,
                   place.coordinates.coordinates[1] as number,
                 ]}
-                icon={L.divIcon({
-                  iconSize: [20, 50],
-                  iconAnchor: [5, 6],
-                  iconUrl:
-                    "https://leafletjs.com/examples/custom-icons/leaf-green.png",
+                eventHandlers={{
+                  click: () => handleMarkerClick(),
+                }}
+                icon={L.icon({
+                  iconSize: [40, 40],
+                  shadowSize: [50, 64],
+                  iconUrl: "/images/marker.png",
                 })}
               >
-                <Popup>
+                {/* <Popup>
                   Ceci est un nom
                   <br /> NOTE
-                </Popup>
+                </Popup> */}
               </Marker>
             ))}
         </MapContainer>
