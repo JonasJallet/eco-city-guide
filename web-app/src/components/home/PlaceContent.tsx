@@ -30,16 +30,6 @@ export default function PlaceContent() {
             <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
               {place.name}
             </p>
-            <div className="flex flex-wrap gap-2 rounded-2xl mb-2 px-4">
-              {place.categories.map((category) => (
-                <span
-                  className="text-text_color text-xs bg-green-200 py-1 px-2 rounded-lg m-01"
-                  key={category.id}
-                >
-                  {category.name}
-                </span>
-              ))}
-            </div>
           </div>
           <div className="px-4 mt-5">
             <div className="flex items-center">
@@ -50,7 +40,17 @@ export default function PlaceContent() {
                 {place.address}, {place.city.name}
               </p>
             </div>
-            <div className="mt-6">
+            <div className="flex flex-wrap gap-2 rounded-2xl mb-2 mt-4 px-4">
+              {place.categories.map((category) => (
+                <span
+                  className="text-text_color text-xs bg-green-200 py-1 px-2 rounded-lg m-01"
+                  key={category.id}
+                >
+                  {category.name}
+                </span>
+              ))}
+            </div>
+            <div className="mt-4">
               <p className="border-b border-green-500 inline-block pl-1 pr-3">
                 Description
               </p>

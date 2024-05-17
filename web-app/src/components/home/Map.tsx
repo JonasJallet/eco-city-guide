@@ -91,7 +91,7 @@ export default function Map() {
           scrollWheelZoom={true}
           className="h-full w-full"
         >
-          <LayersControl position="bottomright">
+          <LayersControl position="bottomleft">
             {layers.map((layer, index) => {
               return (
                 <LayersControl.BaseLayer

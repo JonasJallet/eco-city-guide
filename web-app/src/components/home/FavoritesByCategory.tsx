@@ -38,35 +38,35 @@ export default function FavoritesByCategoryContent({
 
   return (
     <div className="h-screen bg-white w-80 overflow-y-auto">
+      <button
+        onClick={onBack}
+        className="flex items-center mx-auto hover:bg-gray-100 rounded-xl space-x-2 text-gray-500 hover:text-green-500 p-2 m-1"
+      >
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          ></path>
+        </svg>
+        <span>Retour aux favoris</span>
+      </button>
       {selectedFavorite ? (
         <PlaceContent />
       ) : (
         <>
-          <div className="flex items-center justify-between p-2 border-b border-gray-200">
-            <button
-              onClick={onBack}
-              className="flex items-center space-x-2 text-gray-500 hover:text-green-500"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                ></path>
-              </svg>
-              <span>Retour aux favoris</span>
-            </button>
-          </div>
-          <div className="flex flex-col px-8 py-2 border-b border-gray-200">
-            <h2 className="text-xl">{selectedCategory}</h2>
-            <span className="text-gray-500">
+          <div className="flex flex-row justify-center items-start px-8 border-b border-gray-200">
+            <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+              {selectedCategory}
+            </p>
+            <span className="text-gray-500 ml-3">
               {favorites.length} {favorites.length > 1 ? "lieux" : "lieu"}
             </span>
           </div>

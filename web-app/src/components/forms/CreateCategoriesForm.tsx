@@ -40,7 +40,7 @@ export default function CreateCategoriesForm() {
             Créer catégorie
           </h1>
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-border_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="name"
             id="name"
@@ -57,7 +57,7 @@ export default function CreateCategoriesForm() {
             onSubmit={() => {
               setInputValue("");
             }}
-            className="flex items-center justify-center text-center w-full mt-4 border bg-button_bg_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-border_color hover:border hover:border-border_color"
+            className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
             <p className="ms-4 text-lg">Ajouter</p>

@@ -179,6 +179,14 @@ class User extends BaseEntity {
 
     return user;
   }
+
+  static async isInFavorites(
+    userId: string,
+    placeId: string,
+  ): Promise<boolean> {
+    const user = await this.getUserById(userId);
+    return user.favoritesPlaces.some((place) => place.id === placeId);
+  }
 }
 
 export default User;

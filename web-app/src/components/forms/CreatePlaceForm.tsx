@@ -100,7 +100,7 @@ export default function CreatePlaceForm() {
             Créer lieu
           </h1>
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-border_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="name"
             id="name"
@@ -114,7 +114,7 @@ export default function CreatePlaceForm() {
             <input
               className={`w-full bg-white-200 px-4 py-2 ${
                 addressList.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
-              } focus:outline-none mb-2 border border-border_color`}
+              } focus:outline-none mb-2 border border-tertiary_color`}
               type="text"
               name="address"
               id="address"
@@ -132,7 +132,7 @@ export default function CreatePlaceForm() {
               }}
             />
             {addressList.length > 0 && (
-              <div className="flex flex-col absolute z-20 top-10 w-full py-1 rounded-b-3xl border border-border_color bg-white">
+              <div className="flex flex-col absolute z-20 top-10 w-full py-1 rounded-b-3xl border border-tertiary_color bg-white">
                 {addressList.map((address: AddressInterface, index) => (
                   <li
                     key={index}
@@ -161,7 +161,7 @@ export default function CreatePlaceForm() {
             )}
           </div>
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-border_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="city"
             id="city"
@@ -174,7 +174,7 @@ export default function CreatePlaceForm() {
             required
           />
           <textarea
-            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl focus:outline-none mb-2 border border-border_color"
+            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl focus:outline-none mb-2 border border-tertiary_color"
             name="description"
             id="description"
             placeholder="Description"
@@ -209,7 +209,7 @@ export default function CreatePlaceForm() {
             name="categories"
             id="categories"
             multiple
-            className="w-full bg-white-200 px-4 py-2 rounded-xl mb-2 border border-border_color focus:outline-none"
+            className="w-full bg-white-200 px-4 py-2 rounded-xl mb-2 border border-tertiary_color focus:outline-none"
           >
             {categoriesData &&
               categoriesData.categories.map(
@@ -233,7 +233,7 @@ export default function CreatePlaceForm() {
           </select>
           <button
             type="submit"
-            className="flex items-center justify-center text-center w-full mt-4 border bg-button_bg_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-border_color hover:border hover:border-border_color"
+            className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
             <p className="ms-4 text-lg">Ajouter</p>

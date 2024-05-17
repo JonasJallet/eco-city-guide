@@ -58,3 +58,9 @@ export const GET_FAVORITES = gql`
     }
   }
 `;
+
+export const IS_IN_FAVORITES = gql`
+  query isInFavorites($placeId: String!) {
+    isInFavorites(placeId: $placeId)
+  }
+`;
