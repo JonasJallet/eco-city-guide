@@ -19,7 +19,7 @@ export function CategoriesSearchFilter() {
         className={`w-21 bg-white px-6 py-2 cursor-pointer ${
           categoriesList?.length > 0
             ? "rounded-t-3xl"
-            : "rounded-3xl hover:bg-green-100 hover:text-green-500"
+            : "rounded-3xl hover:bg-green-100 hover:text-tertiary_color"
         } border border-tertiary_color focus:outline-none`}
       >
         Catégories

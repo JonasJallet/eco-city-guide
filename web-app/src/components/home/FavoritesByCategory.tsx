@@ -40,7 +40,7 @@ export default function FavoritesByCategoryContent({
     <div className="h-screen bg-white w-80 overflow-y-auto">
       <button
         onClick={onBack}
-        className="flex items-center mx-auto hover:bg-gray-100 rounded-xl space-x-2 text-gray-500 hover:text-green-500 p-2 m-1"
+        className="flex items-center mx-auto hover:bg-gray-100 rounded-xl space-x-2 text-gray-500 hover:text-tertiary_color p-2 m-1"
       >
         <svg
           className="w-5 h-5"
@@ -74,7 +74,7 @@ export default function FavoritesByCategoryContent({
             {favorites.map((favorite, index) => (
               <div
                 key={index}
-                className="hover:bg-gray-100 p-3 mr-3 ml-3 my-2 rounded-xl cursor-pointer hover:text-green-500"
+                className="hover:bg-gray-100 p-3 mr-3 ml-3 my-2 rounded-xl cursor-pointer hover:text-tertiary_color"
                 onClick={() => handleSelectedFavorite(favorite)}
               >
                 <div className="flex justify-between items-center">

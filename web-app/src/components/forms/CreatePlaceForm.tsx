@@ -7,6 +7,11 @@ import { AddressInterface } from "@/interfaces/Address";
 import { GET_CATEGORIES } from "@/gql/queries";
 import { CREATE_PLACE } from "@/gql/mutations";
 import axios from "axios";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
+import { SideBarContentEnum } from "../home/sideBarContent.type";
+import { MdClose } from "react-icons/md";
 
 export default function CreatePlaceForm() {
   const [searchAddress, setSearchAddress] = useState("");
@@ -21,6 +26,9 @@ export default function CreatePlaceForm() {
     categoryIds: [],
   });
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -39,6 +47,10 @@ export default function CreatePlaceForm() {
           throw new Error("Error fetching data: " + error);
         });
     }
+  };
+
+  const handleCloseButton = () => {
+    setSideBarEnum(SideBarContentEnum.NO_CONTENT);
   };
 
   const [createPlaceMutation] =
@@ -88,17 +100,25 @@ export default function CreatePlaceForm() {
 
   return (
     <div className="flex flex-col items-center w-80">
-      <div className="w-full px-8">
+      <button
+        onClick={handleCloseButton}
+        className="absolute self-start text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+      >
+        <MdClose />
+      </button>
+      <div className="w-full">
+        <div className="pt-10 border-b border-gray-200">
+          <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+            Créer lieu
+          </p>
+        </div>
         <form
-          className="pt-10"
+          className="pt-10 px-8"
           onSubmit={(event) => {
             event.preventDefault();
             createPlace();
           }}
         >
-          <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans cursor-default">
-            Créer lieu
-          </h1>
           <input
             className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
             type="text"

@@ -64,7 +64,7 @@ export default function FavoritesContent() {
             <div
               key={category}
               onClick={() => handleCategoryClick(category)}
-              className="mr-3 ml-3 rounded-xl p-3 cursor-pointer flex justify-content-center hover:bg-gray-100 hover:text-green-500"
+              className="mr-3 ml-3 rounded-xl p-3 cursor-pointer flex justify-content-center hover:bg-gray-100 hover:text-tertiary_color"
             >
               <div className="flex items-start w-full">
                 <svg
@@ -104,7 +104,7 @@ export default function FavoritesContent() {
       <div className="overflow-y-auto">
         <button
           onClick={handleCloseButton}
-          className="absolute text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-green-500 p-2 m-1 z-20"
+          className="absolute text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
         >
           <MdClose />
         </button>

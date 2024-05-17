@@ -20,7 +20,7 @@ export default function PlaceContent() {
     <div className="flex flex-col h-screen w-80 h-sreen">
       <button
         onClick={handleCloseButton}
-        className="absolute text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-green-500 p-2 m-1"
+        className="absolute text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
       >
         <MdClose />
       </button>
@@ -33,7 +33,7 @@ export default function PlaceContent() {
           </div>
           <div className="px-4 mt-5">
             <div className="flex items-center">
-              <div className="text-lg text-green-500 mr-2">
+              <div className="text-lg text-tertiary_color mr-2">
                 <MdLocationPin />
               </div>
               <p>
@@ -51,7 +51,7 @@ export default function PlaceContent() {
               ))}
             </div>
             <div className="mt-4">
-              <p className="border-b border-green-500 inline-block pl-1 pr-3">
+              <p className="border-b border-tertiary_color inline-block pl-1 pr-3">
                 Description
               </p>
               <p className="mt-1">{place.description}</p>
