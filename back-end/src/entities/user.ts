@@ -117,12 +117,23 @@ class User extends BaseEntity {
 
   static async updateUser(id: string, partialUser: UpdateUser): Promise<User> {
     const user = await User.getUserById(id);
-    Object.assign(user, partialUser);
-
+    if(partialUser.password){
+      if((user.hashedPassword !== partialUser.password)){
+        partialUser.password = await hash(partialUser.password, 10);
+      }
+    }
+    const updatedDataUser = {
+      firstName : partialUser.firstName,
+      lastName : partialUser.lastName,
+      email : partialUser.email,
+      hashedPassword : partialUser.password
+    }
+    Object.assign(user, updatedDataUser);
     await user.save();
     await user.reload();
     return user;
   }
+  
 
   static async getUserWithEmailAndPassword({
     email,

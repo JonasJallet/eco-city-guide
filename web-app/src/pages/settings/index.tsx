@@ -47,11 +47,13 @@ const UPDATE_MY_PROFILE = gql`
 `;
 
 export default function settings() {
-  const [isEditing, setIsEditing] = useState<string | null>(null);
   const [showInputs, setShowInputs] = useState<string>("");
   const { data, loading } = useQuery<GetMyProfileQuery>(GET_MY_PROFILE);
   const [activeItemSideBarSettings, setActiveItemSideBarSettings] =
     useState("Profil");
+
+
+console.log(data?.myProfile)
 
   let dataProfile: UpdateUserMutationVariables = {
     firstName: "",
@@ -97,12 +99,16 @@ export default function settings() {
   const UpdateProfileData = async (
     updatedData: UpdateUserMutationVariables,
   ) => {
+    console.log(formData)
     try {
       const { data } = await UpdateUserMutation({
         variables: formData,
       });
     } catch (error) {}
   };
+
+  useEffect(()=>{
+  },[formData])
 
   return (
     <div>
@@ -118,216 +124,63 @@ export default function settings() {
                 <form
                   className="bg-form_color p-8 rounded-lg shadow-lg shadow-gray-300 min-w-full flex flex-col"
                   onSubmit={(event) => {
-                    event.preventDefault();
                     UpdateProfileData(formData);
+                    event.preventDefault();
                   }}
                   aria-label="form"
                 >
                   <h1 className="font-medium text-2xl text-gray-600 text-center mb-4">
-                    Informations personnelles
+                    Modifier mes informations
                   </h1>
                   <div>
                     <label className="text-gray-600 text-sm">Nom</label>
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg focus:outline-none mb-2 border"
+                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none"
                         name="lastname"
                         id="lastname"
-                        placeholder={data ? data.myProfile?.lastName : ""}
-                        //readOnly={isEditing !== "lastname"}
-                        // style={{
-                        //   cursor: isEditing === "lastname" ? "text" : "default",
-                        //   marginRight: "10px",
-                        // }}
+                        placeholder={data ? formData.lastName : ""}
+                        onChange={(event) => {
+                          updateFormData({ lastName: event.target.value });
+                        }}
                       />
-                      {/* <button
-                     type="submit"
-                      onClick={() => {
-                        if (isEditing === "lastname") {
-                          UpdateProfileData(formData); 
-                          setIsEditing("");
-                          setShowInputs("");
-                        } else {
-                          setIsEditing("lastname");
-                          setShowInputs("lastname");
-                        }
-                      }}
-                      className={`${
-                        isEditing == "lastname"
-                          ? "bg-tertiary_color"
-                          : "bg-gray-400"
-                      } rounded-lg text-white font-semibold font-sans px-4 py-2 mb-2`}
-                    >
-                      {isEditing === "lastname" ? "Valider" : "Modifier"}
-                    </button> */}
                     </div>
                   </div>
-                  {/* {showInputs == "lastname" && (
-                  <div
-                    className="flex items-center"
-                    style={{ marginLeft: "6px" }}
-                  >
-                    <input
-                      type="text"
-                      placeholder="Nouveau nom"
-                      className="bg-white-200 px-4 py-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
-                      style={{ width: "250px" }}
-                      onChange={(event) => {
-                        updateFormData({ lastName: event.target.placeholder });
-                      }}
-                    />
-                    <button
-                      onClick={() => {
-                        setIsEditing(null);
-                        setShowInputs("");
-                      }}
-                    >
-                      <RxCross1
-                        size={24}
-                        className="cursor-pointer"
-                        style={{ color: "black" }}
-                      />
-                    </button>
-                  </div>
-                )} */}
                   <div>
                     <label className="text-gray-600 text-sm">Prénom</label>
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg focus:outline-none mb-2 border"
+                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none"
                         type="text"
                         name="firstname"
                         id="firstname"
-                        placeholder={data ? data.myProfile?.firstName : ""}
-                        // readOnly={isEditing !== "firstname"}
-                        // style={{
-                        //   cursor: isEditing === "firstname" ? "text" : "default",
-                        //   marginRight: "10px",
-                        // }}
+                        placeholder={formData ? formData.firstName : ""}
                         onChange={(event) => {
                           updateFormData({
-                            firstName: event.target.placeholder,
+                            firstName: event.target.value,
                           });
                         }}
                       />
-                      {/* <button
-                      type="submit"
-                      onClick={() => {
-                        if (isEditing === "firstname") {
-                          UpdateProfileData(formData); 
-                          setIsEditing("");
-                          setShowInputs("");
-                        } else {
-                          setIsEditing("firstname");
-                          setShowInputs("firstname");
-                        }
-                      }}
-                      className={`${
-                        isEditing == "firstname"
-                          ? "bg-tertiary_color"
-                          : "bg-gray-400"
-                      } rounded-lg text-white font-semibold font-sans px-4 py-2  mb-2`}
-                    >
-                      {isEditing === "firstname" ? "Valider" : "Modifier"}
-                    </button> */}
                     </div>
                   </div>
-                  {/* {showInputs == "firstname" && (
-                  <div
-                    className="flex items-center"
-                    style={{ marginLeft: "6px" }}
-                  >
-                    <input
-                      type="text"
-                      // placeholder="Nouveau prénom"
-                      placeholder={data ? data.myProfile?.firstName : ""}
-                      className="bg-white-200 px-4 py-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
-                      style={{ width: "250px" }}
-                      onChange={(event) => {
-                         updateFormData({ firstName: event.target.placeholder });
-                      }}
-                    />
-                    <button
-                      onClick={() => {
-                        setIsEditing("");
-                        setShowInputs("");
-                      }}
-                    >
-                      <RxCross1
-                        size={24}
-                        className="cursor-pointer"
-                        style={{ color: "black" }}
-                      />
-                    </button>
-                  </div>
-                )} */}
                   <div>
                     <label className="text-gray-600 text-sm">Email</label>
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg focus:outline-none mb-2 border"
+                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none"
                         type="text"
                         name="email"
                         id="email"
-                        placeholder={data ? data.myProfile?.email : ""}
-                        // readOnly={isEditing !== "email"}
-                        // style={{
-                        //   cursor: isEditing === "email" ? "text" : "default",
-                        //   marginRight: "10px",
-                        // }}
+                        placeholder={formData? formData.email : ""}
+                        onChange={(event) => {
+                          updateFormData({ email: event.target.value });
+                       }}
                       />
-                      {/* <button
-                      onClick={() => {
-                        if (isEditing === "email") {
-                          UpdateProfileData(formData); 
-                          setIsEditing("");
-                          setShowInputs("");
-                        } else {
-                          setIsEditing("email");
-                          setShowInputs("email");
-                        }
-                      }}
-                      className={`${
-                        isEditing == "email"
-                          ? "bg-tertiary_color"
-                          : "bg-gray-400"
-                      } rounded-lg text-white font-semibold font-sans px-4 py-2  mb-2`}
-                    >
-                      {isEditing === "email" ? "Valider" : "Modifier"}
-                    </button> */}
                     </div>
                   </div>
-                  {/* {showInputs == "email" && (
-                  <div
-                    className="flex items-center"
-                    style={{ marginLeft: "6px" }}
-                  >
-                    <input
-                      type="text"
-                      placeholder="Nouvel email"
-                      className="bg-white-200 px-4 py-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
-                      style={{ width: "250px" }}
-                      onChange={(event) => {
-                         updateFormData({ email: event.target.placeholder });
-                      }}
-                    />
-                    <button
-                      onClick={() => {
-                        setIsEditing(null);
-                        setShowInputs("email");
-                      }}
-                    >
-                      <RxCross1
-                        size={24}
-                        className="cursor-pointer"
-                        style={{ color: "black" }}
-                      />
-                    </button>
-                  </div>
-                )} */}
                   <div>
                     <label className="text-gray-600 text-sm">
                       Mot de passe
@@ -335,62 +188,43 @@ export default function settings() {
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg focus:outline-none mb-2 border"
+                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none"
                         name="password"
                         id="password"
                         placeholder="Modifier mon mot de passe"
-                        // readOnly={isEditing !== "password"}
-                        // style={{ cursor: isEditing === "password" ? "text" : "default" }}
-                        // style={{
-                        //   cursor: "default",
-                        //   marginRight: "10px",
-                        // }}
+                        onChange={(event) => {
+                          updateFormData({
+                            password: event.target.placeholder,
+                          });
+                        }}
+                        onClick={()=>setShowInputs("password")}
                       />
-                      {/* <button
-                       onClick={() => {
-                        if (isEditing === "password") {
-                          UpdateProfileData(formData);
-                          setIsEditing("password");
-                          setShowInputs("password");
-                        } else {
-                          // Sinon, changer le mode d'édition
-                          setIsEditing("password");
-                          setShowInputs("password");
-                        }
-                      }}
-                      className={`${
-                        isEditing == "password"
-                          ? "bg-tertiary_color"
-                          : "bg-gray-400"
-                      } rounded-lg text-white font-semibold font-sans px-4 py-2 mb-2`}
-                    >
-                      {" "}
-                      {isEditing === "password" ? "Valider" : "Modifier"}
-                    </button> */}
                     </div>
                   </div>
                   {showInputs == "password" && (
                     <div className="flex flex-col">
                       <div
                         className="flex items-center"
-                        // style={{ marginLeft: "6px" }}
                       >
                         <input
                           type="password"
-                          placeholder="Nouveau mot de passe"
-                          className="bg-white-200 w-full p-1 rounded-lg focus:outline-none mr-2 border border-gray-300"
-                          // style={{ width: "250px" }}
+                          placeholder="Confirmer le mot de passe"
+                          className="bg-white-200 w-full p-1 rounded-lg mr-2 border  focus:border-blue-500 focus:outline-none"
                           minLength={12}
                           onChange={(event) => {
                             updateFormData({
-                              password: event.target.placeholder,
+                              password: event.target.value,
                             });
                           }}
                         />
                         <button
                           onClick={() => {
-                            setIsEditing(null);
+                            // setIsEditing(null);
                             setShowInputs("");
+                            updateFormData({
+                              password: formData.password,
+                            });
+
                           }}
                         >
                           <RxCross1
@@ -400,18 +234,9 @@ export default function settings() {
                           />
                         </button>
                       </div>
-                      <input
-                        type="password"
-                        placeholder="Confirmer le mot de passe"
-                        className="flex-grow bg-white-200 px-4 py-1 rounded-lg focus:outline-none mb-9 border border-gray-300"
-                        minLength={12}
-                        style={{ width: "250px", marginLeft: "6px" }}
-                        // placeholder={confirmPassword}
-                        // onChange={(e) => setConfirmPassword(e.target.placeholder)}
-                      />
                     </div>
                   )}
-                  <button className="bg-tertiary_color p-2 rounded-lg text-white w-36 self-center mt-4">
+                  <button type="submit" className="bg-tertiary_color p-2 rounded-lg text-white w-36 self-center mt-4">
                     Enregistrer
                   </button>
                 </form>

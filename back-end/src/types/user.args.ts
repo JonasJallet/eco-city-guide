@@ -22,7 +22,7 @@ export class CreateUser {
 
 @ArgsType()
 export class UpdateUser {
-  @Field()
+  @Field()///{nullable : true} pour rendre le champ optionnel
   @MinLength(3)
   firstName?: string;
 

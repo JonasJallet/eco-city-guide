@@ -25,7 +25,7 @@ export class UserResolver {
     return User.getUsers();
   }
 
-  @Mutation(() => User)
+  @Mutation(()=>User)
   updateUser(@Arg("id", () => ID) id: string, @Args() args: UpdateUser) {
     return User.updateUser(id, args);
   }
