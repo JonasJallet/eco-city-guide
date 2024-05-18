@@ -54,13 +54,13 @@ export default function FavoritesByCategoryContent({
         <div className="flex justify-between">
           <button
             onClick={handleCloseButton}
-            className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
+            className="text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
           >
             <MdClose />
           </button>
           <button
             onClick={onBack}
-            className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
+            className="text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
           >
             <svg
               className="w-5 h-5"
@@ -84,7 +84,7 @@ export default function FavoritesByCategoryContent({
       ) : (
         <>
           <div className="flex flex-row justify-center items-start px-8 border-b border-gray-200">
-            <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+            <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
               {selectedCategory}
             </p>
             <span className="text-gray-500 ml-3">
@@ -119,10 +119,12 @@ export default function FavoritesByCategoryContent({
                     </svg>
                   </button>
                 </div>
-                <p className="text-gray-600 mb-1">
+                <p className="text-dark_text_color mb-1">
                   Ville : {favorite.city.name}
                 </p>
-                <p className="text-gray-600">Addresse : {favorite.address}</p>
+                <p className="text-dark_text_color">
+                  Addresse : {favorite.address}
+                </p>
               </div>
             ))}
           </div>

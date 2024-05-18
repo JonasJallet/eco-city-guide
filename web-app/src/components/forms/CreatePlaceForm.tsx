@@ -102,13 +102,13 @@ export default function CreatePlaceForm() {
     <div className="flex flex-col items-center w-80">
       <button
         onClick={handleCloseButton}
-        className="self-start text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+        className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
       >
         <MdClose />
       </button>
       <div className="w-full">
         <div className="border-b border-gray-200">
-          <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+          <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
             Créer lieu
           </p>
         </div>
@@ -120,7 +120,7 @@ export default function CreatePlaceForm() {
           }}
         >
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="name"
             id="name"
@@ -132,7 +132,7 @@ export default function CreatePlaceForm() {
           />
           <div className="relative">
             <input
-              className={`w-full bg-white-200 px-4 py-2 ${
+              className={`w-full bg-white-200 px-4 py-2 transition-all duration-300 hover:border-white hover:bg-input_hover_bg ${
                 addressList.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
               } focus:outline-none mb-2 border border-tertiary_color`}
               type="text"
@@ -156,7 +156,7 @@ export default function CreatePlaceForm() {
                 {addressList.map((address: AddressInterface, index) => (
                   <li
                     key={index}
-                    className="list-none px-4 py-2 overflow-hidden text-ellipsis white-space-nowrap"
+                    className="list-none mx-2 px-2 py-2 overflow-hidden text-ellipsis white-space-nowrap rounded-2xl transition-all duration-300 hover:bg-input_hover_bg"
                   >
                     <button
                       onClick={() => {
@@ -181,7 +181,7 @@ export default function CreatePlaceForm() {
             )}
           </div>
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="city"
             id="city"
@@ -194,7 +194,7 @@ export default function CreatePlaceForm() {
             required
           />
           <textarea
-            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl focus:outline-none mb-2 border border-tertiary_color"
+            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             name="description"
             id="description"
             placeholder="Description"
@@ -204,11 +204,12 @@ export default function CreatePlaceForm() {
               updateFormData({ description: event.target.value });
             }}
           />
+          <p className="text-gray-400 m-2">Catégories</p>
           {selectedCategories.length > 0 && (
             <div className="flex flex-wrap gap-2 rounded-2xl mb-2">
               {selectedCategories.map((category) => (
                 <span
-                  className="cursor-pointer text-text_color text-xs bg-green-200 py-1 px-2 rounded-lg m-01 hover:text-white hover:bg-green-300"
+                  className="cursor-pointer text-white text-xs bg-tertiary_color py-1 px-2 rounded-lg m-01 transition-all duration-300 hover:bg-input_hover_bg"
                   key={category.id}
                   onClick={() => {
                     setSelectedCategories(
@@ -224,7 +225,6 @@ export default function CreatePlaceForm() {
               ))}
             </div>
           )}
-          <p className="text-gray-400 m-2">Catégories</p>
           <select
             name="categories"
             id="categories"
@@ -238,7 +238,7 @@ export default function CreatePlaceForm() {
                     (selectedCategory) => selectedCategory.id === category.id,
                   ) && (
                     <option
-                      className="text-text_color"
+                      className="text-text_color px-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-input_hover_bg"
                       onClick={() => {
                         setSelectedCategories(
                           selectedCategories.concat([category]),
@@ -253,7 +253,7 @@ export default function CreatePlaceForm() {
           </select>
           <button
             type="submit"
-            className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
+            className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
             <p className="ms-4 text-lg">Ajouter</p>

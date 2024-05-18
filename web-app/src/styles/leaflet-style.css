@@ -21,6 +21,7 @@ a.leaflet-control-zoom-out:hover,
   border-color: #48bb78 !important;
   background-color: white !important;
   color: #48bb78 !important;
+  transition: 300ms;
 }
 
 .leaflet-control-zoom.leaflet-bar.leaflet-control {

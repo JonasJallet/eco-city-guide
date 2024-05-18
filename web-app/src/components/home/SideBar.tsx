@@ -48,7 +48,7 @@ export default function SideBar() {
                 ? setEnumValue(SideBarContentEnum.CREATE_PLACE)
                 : setEnumValue(SideBarContentEnum.NO_CONTENT)
             }
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-tertiary_color"
+            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
           >
             <MdAddCircleOutline className="w-6 h-6" />
             créer lieu
@@ -59,7 +59,7 @@ export default function SideBar() {
                 ? setEnumValue(SideBarContentEnum.CREATE_CATEGORY)
                 : setEnumValue(SideBarContentEnum.NO_CONTENT)
             }
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-tertiary_color"
+            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
           >
             <TbCategory className="w-6 h-6" />
             créer catégorie
@@ -70,7 +70,7 @@ export default function SideBar() {
                 ? setEnumValue(SideBarContentEnum.FAVORITES)
                 : setEnumValue(SideBarContentEnum.NO_CONTENT)
             }
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-tertiary_color"
+            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
           >
             <MdStarBorder className="w-6 h-6" />
             favoris
