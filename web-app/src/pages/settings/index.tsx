@@ -104,7 +104,9 @@ console.log(data?.myProfile)
       const { data } = await UpdateUserMutation({
         variables: formData,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   useEffect(()=>{
