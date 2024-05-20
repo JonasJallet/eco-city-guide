@@ -95,7 +95,7 @@ export default function FavoritesByCategoryContent({
               <p className="text-md font-medium">{favorite.name}</p>
               <button
                 onClick={(event) => handleRemoveFavorite(favorite.id, event)}
-                className="text-2xl text-red-600 hover:text-red-800 p-2 z-20"
+                className="text-2xl rounded-xl text-red-600 hover:bg-white hover:text-red-800 p-2 z-20"
               >
                 <MdClose />
               </button>
