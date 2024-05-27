@@ -20,9 +20,13 @@ export const LocateButton = () => {
       }}
     >
       <button
-        className="text-xl text-primary_color bg-tertiary_color hover:bg-primary_color hover:text-tertiary_color rounded-xl flex justify-center items-center"
+        className="text-xl text-primary_color bg-tertiary_color transition-all duration-300 hover:bg-primary_color hover:text-tertiary_color rounded-xl flex justify-center items-center"
         onClick={() => map.locate()}
-        style={{ width: "38px", height: "38px", lineHeight: "30px" }}
+        style={{
+          width: "38px",
+          height: "38px",
+          lineHeight: "30px",
+        }}
       >
         <FaMapMarkerAlt />
       </button>

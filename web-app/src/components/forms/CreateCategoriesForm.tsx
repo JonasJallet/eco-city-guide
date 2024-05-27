@@ -41,7 +41,7 @@ export default function CreateCategoriesForm() {
     <div className="flex flex-col items-center w-80">
       <button
         onClick={handleCloseButton}
-        className="self-start text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+        className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
       >
         <MdClose />
       </button>
@@ -53,14 +53,14 @@ export default function CreateCategoriesForm() {
         }}
       >
         <div className="border-b border-gray-200">
-          <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+          <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
             Créer catégorie
           </p>
         </div>
         <form className="pt-10">
           <div className="px-8">
             <input
-              className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color"
+              className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
               type="text"
               name="name"
               id="name"
@@ -77,7 +77,7 @@ export default function CreateCategoriesForm() {
               onSubmit={() => {
                 setInputValue("");
               }}
-              className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
+              className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >
               <IoMdAddCircleOutline className="text-xl" />
               <p className="ms-4 text-lg">Ajouter</p>
