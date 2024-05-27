@@ -139,10 +139,10 @@ console.log(data?.myProfile)
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none"
+                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
                         name="lastname"
                         id="lastname"
-                        placeholder={data ? formData.lastName : ""}
+                        value={formData.lastName || ""}
                         onChange={(event) => {
                           updateFormData({ lastName: event.target.value });
                         }}
@@ -154,11 +154,11 @@ console.log(data?.myProfile)
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none"
+                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
                         type="text"
                         name="firstname"
                         id="firstname"
-                        placeholder={formData ? formData.firstName : ""}
+                        value={formData.firstName || ""}
                         onChange={(event) => {
                           updateFormData({
                             firstName: event.target.value,
@@ -172,11 +172,11 @@ console.log(data?.myProfile)
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none"
+                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
                         type="text"
                         name="email"
                         id="email"
-                        placeholder={formData? formData.email : ""}
+                        value={formData.email || ""}
                         onChange={(event) => {
                           updateFormData({ email: event.target.value });
                        }}
@@ -190,10 +190,10 @@ console.log(data?.myProfile)
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none"
+                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
                         name="password"
                         id="password"
-                        placeholder="Modifier mon mot de passe"
+                       value="Modifier mon mot de passe"
                         onChange={(event) => {
                           updateFormData({
                             password: event.target.placeholder,
@@ -211,7 +211,7 @@ console.log(data?.myProfile)
                         <input
                           type="password"
                           placeholder="Confirmer le mot de passe"
-                          className="bg-white-200 w-full p-1 rounded-lg mr-2 border  focus:border-blue-500 focus:outline-none"
+                          className="bg-white-200 w-full p-1 rounded-lg mr-2 border  focus:border-blue-500 focus:outline-none text-gray-500"
                           minLength={12}
                           onChange={(event) => {
                             updateFormData({

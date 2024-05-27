@@ -5,6 +5,7 @@ import Image from "next/image";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
 import logo from "../../../public/images/logo.png";
+import { IoMapOutline } from "react-icons/io5";
 
 type ClickedItemSideBarType = string;
 
@@ -38,34 +39,44 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
         <h1 className="text-center font-medium text-xl text-warmGray-700">
           Bienvenue sur votre compte {firstnameProfile}
         </h1>
-        <div className="flex space-x-10 mr-6">
+        <div className="flex space-x-8 mr-6">
+        
           <button
             onClick={() => setActiveItemSideBarSettings("Profil")}
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
+            className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
           >
-            <BsPersonCircle className="w-8 h-8" />
-            {/* profil */}
+            <BsPersonCircle size={25} />
+            profil
+          </button>
+          <button
+            onClick={() => setActiveItemSideBarSettings("Profil")}
+            className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
+          >
+            <IoMapOutline size={25} />
+            carte
           </button>
           <button
             onClick={() => setActiveItemSideBarSettings("Favoris")}
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
+            className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
           >
-            <FaRegStar className="w-8 h-8" />
-            {/* favoris */}
+            <FaRegStar size={25}/>
+            favoris
           </button>
+         
           <button
             onClick={() => setActiveItemSideBarSettings("Settings")}
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
+            className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
           >
-            <IoSettingsOutline className="w-8 h-8" />
-            {/* paramètres  */}
+            <IoSettingsOutline size={25} />
+            paramètres
           </button>
+        
           <button
             onClick={() => setActiveItemSideBarSettings("Logout")}
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-200 hover:text-green-500"
+            className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
           >
-            <IoMdLogOut className="w-8 h-8" />
-            {/* déconnexion  */}
+            <IoMdLogOut size={25} />
+            déconnexion 
           </button>
         </div>
       </div>
