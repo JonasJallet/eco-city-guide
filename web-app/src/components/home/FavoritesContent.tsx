@@ -9,6 +9,7 @@ import { SideBarContentEnum } from "./sideBarContent.type";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
+import { IoMdList } from "react-icons/io";
 
 export default function FavoritesContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -67,20 +68,9 @@ export default function FavoritesContent() {
               className="mr-3 ml-3 rounded-xl p-3 cursor-pointer flex justify-content-center hover:bg-gray-100 hover:text-tertiary_color"
             >
               <div className="flex items-start w-full">
-                <svg
-                  className="w-4 h-4 mt-2 mr-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  ></path>
-                </svg>
+                <div className="p-3 text-xl">
+                  <IoMdList />
+                </div>
                 <div>
                   <h2>{category}</h2>
                   <span className="text-gray-500">
@@ -102,7 +92,6 @@ export default function FavoritesContent() {
   return (
     <div className="flex flex-col h-screen w-80">
       <div className="overflow-y-auto">
-        <div></div>
         {!selectedCategory && (
           <div>
             <button
@@ -121,7 +110,7 @@ export default function FavoritesContent() {
 
         {loading && <Loader />}
         {data && data.myProfile.favoritesPlaces.length === 0 && (
-          <div className="flex justify-center m-8">
+          <div className="flex justify-center pt-12 m-8">
             <p>Vous n'avez pas encore de favoris.</p>
           </div>
         )}
@@ -146,7 +135,4 @@ export default function FavoritesContent() {
       </div>
     </div>
   );
-}
-function setSideBarEnum(NO_CONTENT: any) {
-  throw new Error("Function not implemented.");
 }

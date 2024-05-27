@@ -17,6 +17,7 @@ import { SideBarContentEnum } from "./sideBarContent.type";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
+import FullscreenButton from "./FullScreenButton";
 
 export default function Map() {
   const { place } = useContext(PlaceContext) as PlaceContextType;
@@ -105,6 +106,7 @@ export default function Map() {
             })}
           </LayersControl>
           <LocateButton />
+          <FullscreenButton />
           <CenterOfTheMap />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

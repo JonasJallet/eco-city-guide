@@ -19,11 +19,8 @@ export default function SideBar() {
   ) as DisplayPanelType;
 
   useEffect(() => {
-    if (sideBarEnum !== undefined) {
+    if (sideBarEnum) {
       setEnumValue(sideBarEnum);
-    }
-
-    if (enumValue !== SideBarContentEnum.PLACE) {
       setSideBarEnum(undefined);
     }
   }, [sideBarEnum]);
