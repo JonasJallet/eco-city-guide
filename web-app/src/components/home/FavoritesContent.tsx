@@ -96,12 +96,12 @@ export default function FavoritesContent() {
           <div>
             <button
               onClick={handleCloseButton}
-              className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+              className="text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
             >
               <MdClose />
             </button>
             <div className="flex items-center justify-center fixed bg-white w-80 border-b border-gray-200">
-              <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+              <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
                 Mes Favoris
               </p>
             </div>

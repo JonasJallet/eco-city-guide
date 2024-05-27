@@ -8,10 +8,9 @@ export default {
       primary_color: "white",
       secondary_color: "#6b7280",
       tertiary_color: "#48bb78",
-      button_bg_color: "#50b33d",
-      button_border_color: "",
-      button_text_color: "",
+      input_hover_bg: "#e7fcdc",
       border_color: "#6b7280",
+      dark_text_color: "#4b5563",
     },
     extend: {
       fontSize: {

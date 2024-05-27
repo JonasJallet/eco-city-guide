@@ -27,7 +27,7 @@ export default function PlaceContent() {
       {place && (
         <>
           <div className="border-b border-gray-200">
-            <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+            <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
               {place.name}
             </p>
           </div>
