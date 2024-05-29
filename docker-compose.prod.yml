@@ -1,7 +1,8 @@
 services:
   back-end:
-    image: jonasjallet/eco-deploy-server
-    command: sh -c "npm run build"
+    build:
+      context: ./back-end
+      target: prod
     environment:
       - DATABASE_URL=postgres://postgres:password@database:5432/postgres
       - NODE_ENV=production
@@ -12,8 +13,9 @@ services:
       - 4000
 
   web-app:
-    image: jonasjallet/eco-deploy-client
-    command: sh -c "npm run next build"
+    build:
+      context: ./web-app
+      target: prod
     environment:
       - NODE_ENV=production
     expose:
