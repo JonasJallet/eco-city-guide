@@ -1,5 +1,7 @@
 # Eco City Guide
 
+Beautiful map for save the planet and the dolphin/koala bear
+
 ## Development
 
 Run app in watch mode:
