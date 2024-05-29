@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { BsPersonCircle } from "react-icons/bs";
 import Image from "next/image";

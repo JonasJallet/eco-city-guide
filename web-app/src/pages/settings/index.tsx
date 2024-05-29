@@ -6,7 +6,7 @@ import {
 } from "@/gql/graphql";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { RxCross1 } from "react-icons/rx";
-import Image from "next/image";
+import FavoriCard from "@/components/settings/FavoriCard";
 
 import SideBarSettings from "@/components/settings/SideBarSettings";
 
@@ -52,8 +52,7 @@ export default function settings() {
   const [activeItemSideBarSettings, setActiveItemSideBarSettings] =
     useState("Profil");
 
-
-console.log(data?.myProfile)
+  console.log(data?.myProfile);
 
   let dataProfile: UpdateUserMutationVariables = {
     firstName: "",
@@ -99,27 +98,26 @@ console.log(data?.myProfile)
   const UpdateProfileData = async (
     updatedData: UpdateUserMutationVariables,
   ) => {
-    console.log(formData)
+    console.log(formData);
     try {
       const { data } = await UpdateUserMutation({
         variables: formData,
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
-  useEffect(()=>{
-  },[formData])
+  useEffect(() => {}, [formData]);
 
   return (
     <div>
-      <div className="">
+      <div>
         <SideBarSettings
           setActiveItemSideBarSettings={setActiveItemSideBarSettings}
           firstnameProfile={dataProfile.firstName}
         />
-        <div className="">
+        <div>
           {activeItemSideBarSettings == "Profil" && (
             <div className="flex justify-center items-center flex-col mt-6">
               <div>
@@ -179,7 +177,7 @@ console.log(data?.myProfile)
                         value={formData.email || ""}
                         onChange={(event) => {
                           updateFormData({ email: event.target.value });
-                       }}
+                        }}
                       />
                     </div>
                   </div>
@@ -193,21 +191,19 @@ console.log(data?.myProfile)
                         className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
                         name="password"
                         id="password"
-                       value="Modifier mon mot de passe"
+                        value="Modifier mon mot de passe"
                         onChange={(event) => {
                           updateFormData({
                             password: event.target.placeholder,
                           });
                         }}
-                        onClick={()=>setShowInputs("password")}
+                        onClick={() => setShowInputs("password")}
                       />
                     </div>
                   </div>
                   {showInputs == "password" && (
                     <div className="flex flex-col">
-                      <div
-                        className="flex items-center"
-                      >
+                      <div className="flex items-center">
                         <input
                           type="password"
                           placeholder="Confirmer le mot de passe"
@@ -226,7 +222,6 @@ console.log(data?.myProfile)
                             updateFormData({
                               password: formData.password,
                             });
-
                           }}
                         >
                           <RxCross1
@@ -238,7 +233,10 @@ console.log(data?.myProfile)
                       </div>
                     </div>
                   )}
-                  <button type="submit" className="bg-tertiary_color p-2 rounded-lg text-white w-36 self-center mt-4">
+                  <button
+                    type="submit"
+                    className="bg-tertiary_color p-2 rounded-lg text-white w-36 self-center mt-4"
+                  >
                     Enregistrer
                   </button>
                 </form>
@@ -291,6 +289,7 @@ console.log(data?.myProfile)
               </div>
             </>
           )}
+          {activeItemSideBarSettings == "Favoris" && <FavoriCard />}
         </div>
       </div>
     </div>
