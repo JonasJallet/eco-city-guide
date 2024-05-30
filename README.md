@@ -1,5 +1,7 @@
 # Eco City Guide
 
+This application gonna save all dolphins
+
 ## Development
 
 Run app in watch mode:
