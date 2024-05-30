@@ -1,6 +1,6 @@
 # Eco City Guide
 
-Beautiful map for save the planet and the dolphin/koala bear
+This application gonna save all dolphins
 
 ## Development
 
