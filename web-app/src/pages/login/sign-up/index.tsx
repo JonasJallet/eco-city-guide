@@ -84,22 +84,22 @@ export default function index() {
 
   return (
     <div className="h-screen bg-primary_color flex justify-center items-center">
-      <div className="flex flex-col items-center">
+      <div className="m-28 flex flex-col items-center">
         <Image src={logo} alt="logo eco-city-guide" />
         <div>
           <form
-            className="bg-white p-10 rounded-lg shadow-lg shadow-gray-300 min-w-full"
+            className="bg-white mt-10 p-10 rounded-lg shadow-lg shadow-gray-300"
             onSubmit={(event) => {
               event.preventDefault();
               signUp();
             }}
           >
-            <h1 className="text-center text-2xl mb-4 text-gray-600 font-bold font-sans">
+            <h1 className="text-center text-2xl mb-4 text-dark_text_color font-bold font-sans">
               Créer un compte
             </h1>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border border-border_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
                 type="text"
                 name="firstname"
                 id="firstname"
@@ -111,7 +111,7 @@ export default function index() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border border-border_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
                 type="text"
                 name="lastname"
                 id="lastname"
@@ -123,7 +123,7 @@ export default function index() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border border-border_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
                 type="text"
                 name="email"
                 id="email"
@@ -135,7 +135,7 @@ export default function index() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border border-border_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
                 type="password"
                 name="password"
                 id="password"
@@ -148,7 +148,7 @@ export default function index() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-4 border border-border_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-4 border border-tertiary_color"
                 type="password"
                 name="confirm"
                 id="confirm"
@@ -159,13 +159,13 @@ export default function index() {
                 required
               />
             </div>
-            <div className="flex items-start">
+            <div className="flex items-start px-3">
               <div className="flex items-center h-5">
                 <input
                   id="terms"
                   aria-describedby="terms"
                   type="checkbox"
-                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                  className="w-4 h-4 cursor-pointer border border-gray-300 rounded bg-gray-50"
                   required
                 />
               </div>
@@ -187,7 +187,7 @@ export default function index() {
             </div>
             <button
               type="submit"
-              className="w-full mt-4 bg-button_bg_color rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
+              className="w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >
               S'inscrire
             </button>

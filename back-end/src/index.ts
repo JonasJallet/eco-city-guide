@@ -12,6 +12,7 @@ import { UserResolver } from "./resolvers/userResolver";
 import { CategoryResolver } from "./resolvers/categoryResolver";
 
 import { getUserSessionIdFromCookie } from "./utils/cookie";
+import { CityResolver } from "./resolvers/cityResolver";
 
 export type Context = { res: Response; user: User | null };
 
@@ -22,7 +23,7 @@ const authChecker: AuthChecker<Context> = ({ context }) => {
 const PORT = 4000;
 const startApolloServer = async () => {
   const schema = await buildSchema({
-    resolvers: [PlaceResolver, UserResolver, CategoryResolver],
+    resolvers: [PlaceResolver, UserResolver, CategoryResolver, CityResolver],
     validate: true,
     authChecker,
   });

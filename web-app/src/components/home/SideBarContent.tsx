@@ -1,6 +1,7 @@
 import CreateCategoriesForm from "../forms/CreateCategoriesForm";
 import CreatePlaceForm from "../forms/CreatePlaceForm";
-import FavoriesContent from "./FavoriesContent";
+import FavoritesContent from "./FavoritesContent";
+import PlaceContent from "./PlaceContent";
 import { SideBarContentEnum } from "./sideBarContent.type";
 
 export default function SideBarContent({
@@ -8,31 +9,32 @@ export default function SideBarContent({
 }: {
   enumValue: SideBarContentEnum;
 }) {
-  if (enumValue === SideBarContentEnum.NO_CONTENT) {
-    return null;
+  let contentComponent;
+
+  switch (enumValue) {
+    case SideBarContentEnum.NO_CONTENT:
+      contentComponent = null;
+      break;
+    case SideBarContentEnum.FAVORITES:
+      contentComponent = <FavoritesContent />;
+      break;
+    case SideBarContentEnum.CREATE_PLACE:
+      contentComponent = <CreatePlaceForm />;
+      break;
+    case SideBarContentEnum.CREATE_CATEGORY:
+      contentComponent = <CreateCategoriesForm />;
+      break;
+    case SideBarContentEnum.PLACE:
+      contentComponent = <PlaceContent />;
+      break;
+    default:
+      contentComponent = null;
+      break;
   }
 
-  if (enumValue === SideBarContentEnum.FAVORIES) {
-    return (
-      <div className=" bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300">
-        <FavoriesContent />
-      </div>
-    );
-  }
-
-  if (enumValue === SideBarContentEnum.CREATE_PLACE) {
-    return (
-      <div className="bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300">
-        <CreatePlaceForm />
-      </div>
-    );
-  }
-
-  if (enumValue === SideBarContentEnum.CREATE_CATEGORY) {
-    return (
-      <div className=" bg-white transition-all w-80 border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300">
-        <CreateCategoriesForm />
-      </div>
-    );
-  }
+  return (
+    <div className="bg-white transition-all border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300 z-20">
+      {contentComponent}
+    </div>
+  );
 }

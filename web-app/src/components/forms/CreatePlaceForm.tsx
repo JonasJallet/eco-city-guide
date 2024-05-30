@@ -1,47 +1,17 @@
-import { Category, MutationCreatePlaceArgs } from "@/gql/graphql";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
+import { Category, MutationCreatePlaceArgs, Place } from "@/gql/graphql";
+import { useMutation, useQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { AddressInterface } from "@/interfaces/Address";
-
-const CREATE_PLACE = gql`
-  mutation CreatePlace(
-    $name: String!
-    $description: String!
-    $coordinates: Geometry!
-    $address: String!
-    $city: String!
-    $categoryIds: [String!]!
-  ) {
-    createPlace(
-      name: $name
-      description: $description
-      coordinates: $coordinates
-      address: $address
-      city: $city
-      categoryIds: $categoryIds
-    ) {
-      name
-      description
-      coordinates
-      address
-      city
-      categories {
-        name
-      }
-    }
-  }
-`;
-
-const GET_CATEGORIES = gql`
-  query GetCategories {
-    categories {
-      id
-      name
-    }
-  }
-`;
+import { GET_CATEGORIES } from "@/gql/queries";
+import { CREATE_PLACE } from "@/gql/mutations";
+import axios from "axios";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
+import { SideBarContentEnum } from "../home/sideBarContent.type";
+import { MdClose } from "react-icons/md";
 
 export default function CreatePlaceForm() {
   const [searchAddress, setSearchAddress] = useState("");
@@ -55,6 +25,10 @@ export default function CreatePlaceForm() {
     city: "",
     categoryIds: [],
   });
+  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -75,6 +49,10 @@ export default function CreatePlaceForm() {
     }
   };
 
+  const handleCloseButton = () => {
+    setSideBarEnum(SideBarContentEnum.NO_CONTENT);
+  };
+
   const [createPlaceMutation] =
     useMutation<MutationCreatePlaceArgs>(CREATE_PLACE);
 
@@ -83,7 +61,17 @@ export default function CreatePlaceForm() {
     const { data } = await createPlaceMutation({
       variables: formData,
     });
-    console.log(data);
+    setPlace({
+      name: formData.name,
+      description: formData.description,
+      coordinates: {
+        type: "Point",
+        coordinates: [formData.coordinates[0], formData.coordinates[1]],
+      },
+      address: formData.address,
+      city: formData.city,
+      categories: formData.categoryIds,
+    } as unknown as Place);
   };
 
   const updateFormData = (
@@ -101,12 +89,8 @@ export default function CreatePlaceForm() {
     updateFormData({ city: address.properties.city });
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const { data: categoriesData } = useQuery(GET_CATEGORIES);
+  const { data: categoriesData, loading, error } = useQuery(GET_CATEGORIES);
 
   useEffect(() => {
     updateFormData({
@@ -115,24 +99,32 @@ export default function CreatePlaceForm() {
   }, [selectedCategories]);
 
   return (
-    <div className="flex flex-col items-center">
-      <div
-        className="w-full px-8"
-        onSubmit={(event) => {
-          event.preventDefault();
-          createPlace();
-        }}
+    <div className="flex flex-col items-center w-80">
+      <button
+        onClick={handleCloseButton}
+        className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
       >
-        <form className="pt-10">
-          <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans cursor-default">
-            New place
-          </h1>
+        <MdClose />
+      </button>
+      <div className="w-full">
+        <div className="border-b border-gray-200">
+          <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
+            Créer lieu
+          </p>
+        </div>
+        <form
+          className="pt-10 px-8"
+          onSubmit={(event) => {
+            event.preventDefault();
+            createPlace();
+          }}
+        >
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-border_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="name"
             id="name"
-            placeholder="Name"
+            placeholder="Nom"
             required
             onChange={(event) => {
               updateFormData({ name: event.target.value });
@@ -140,13 +132,13 @@ export default function CreatePlaceForm() {
           />
           <div className="relative">
             <input
-              className={`w-full bg-white-200 px-4 py-2 ${
+              className={`w-full bg-white-200 px-4 py-2 transition-all duration-300 hover:border-white hover:bg-input_hover_bg ${
                 addressList.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
-              } focus:outline-none mb-2 border border-border_color`}
+              } focus:outline-none mb-2 border border-tertiary_color`}
               type="text"
               name="address"
               id="address"
-              placeholder="Address"
+              placeholder="Adresse"
               required
               value={searchAddress}
               onChange={(event) => {
@@ -154,38 +146,46 @@ export default function CreatePlaceForm() {
                 updateFormData({ address: event.target.value });
               }}
               onBlur={() => {
-                setAddressList([]);
+                setTimeout(() => {
+                  setAddressList([]);
+                }, 200);
               }}
             />
             {addressList.length > 0 && (
-              <div className="flex flex-col absolute z-20 top-10 w-full py-1 rounded-b-3xl border border-border_color bg-white">
+              <div className="flex flex-col absolute z-20 top-10 w-full py-1 rounded-b-3xl border border-tertiary_color bg-white">
                 {addressList.map((address: AddressInterface, index) => (
-                  <>
-                    {index !== 0 && (
-                      <span className="border-0 border-t border-border_color"></span>
-                    )}
-                    <li className="list-none px-4 py-2 overflow-hidden text-ellipsis white-space-nowrap">
-                      <button
-                        onClick={() => {
-                          handleAddressAutoComplete(address);
-                          setAddressList([]);
-                        }}
-                        className="overflow-hidden text-ellipsis white-space-nowrap"
-                      >
-                        {address?.properties.label}
-                      </button>
-                    </li>
-                  </>
+                  <li
+                    key={index}
+                    className="list-none mx-2 px-2 py-2 overflow-hidden text-ellipsis white-space-nowrap rounded-2xl transition-all duration-300 hover:bg-input_hover_bg"
+                  >
+                    <button
+                      onClick={() => {
+                        handleAddressAutoComplete(address);
+                        updateFormData({
+                          address: address.properties.name,
+                          city: address.properties.city,
+                          coordinates: [
+                            address.geometry.coordinates[1],
+                            address.geometry.coordinates[0],
+                          ],
+                        });
+                        setAddressList([]);
+                      }}
+                      className="overflow-hidden text-ellipsis white-space-nowrap"
+                    >
+                      <p className="truncate">{address?.properties.label}</p>
+                    </button>
+                  </li>
                 ))}
               </div>
             )}
           </div>
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-border_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="city"
             id="city"
-            placeholder="City"
+            placeholder="Ville"
             value={city}
             onChange={(event) => {
               setCity(event.target.value);
@@ -194,21 +194,22 @@ export default function CreatePlaceForm() {
             required
           />
           <textarea
-            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl focus:outline-none mb-2 border border-border_color"
+            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             name="description"
             id="description"
-            placeholder="Descritpion"
+            placeholder="Description"
             spellCheck
             required
             onChange={(event) => {
               updateFormData({ description: event.target.value });
             }}
           />
+          <p className="text-gray-400 m-2">Catégories</p>
           {selectedCategories.length > 0 && (
             <div className="flex flex-wrap gap-2 rounded-2xl mb-2">
               {selectedCategories.map((category) => (
                 <span
-                  className="cursor-pointer text-text_color text-xs bg-green-200 py-1 px-2 rounded-lg m-01 transition-all transition-200 hover:text-white hover:bg-green-300"
+                  className="cursor-pointer text-white text-xs bg-tertiary_color py-1 px-2 rounded-lg m-01 transition-all duration-300 hover:bg-input_hover_bg"
                   key={category.id}
                   onClick={() => {
                     setSelectedCategories(
@@ -228,30 +229,34 @@ export default function CreatePlaceForm() {
             name="categories"
             id="categories"
             multiple
-            className="w-full bg-white-200 px-4 py-2 rounded-xl mb-2 border border-border_color focus:outline-none"
+            className="w-full bg-white-200 px-4 py-2 rounded-xl mb-2 border border-tertiary_color focus:outline-none"
           >
             {categoriesData &&
-              categoriesData.categories.map((category: Category) => (
-                <option
-                  className="text-text_color"
-                  key={category.id}
-                  onClick={() => {
-                    setSelectedCategories(
-                      selectedCategories.concat([category]),
-                    );
-                  }}
-                  value={category.id}
-                >
-                  {category.name}
-                </option>
-              ))}
+              categoriesData.categories.map(
+                (category: Category) =>
+                  !selectedCategories.some(
+                    (selectedCategory) => selectedCategory.id === category.id,
+                  ) && (
+                    <option
+                      className="text-text_color px-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-input_hover_bg"
+                      onClick={() => {
+                        setSelectedCategories(
+                          selectedCategories.concat([category]),
+                        );
+                      }}
+                      value={category.id}
+                    >
+                      {category.name}
+                    </option>
+                  ),
+              )}
           </select>
           <button
             type="submit"
-            className="flex items-center justify-center text-center w-full mt-4 border bg-button_bg_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-colors duration-200 hover:bg-white hover:text-border_color hover:border hover:border-border_color"
+            className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
-            <p className="ms-4 text-lg">Save place</p>
+            <p className="ms-4 text-lg">Ajouter</p>
           </button>
         </form>
       </div>

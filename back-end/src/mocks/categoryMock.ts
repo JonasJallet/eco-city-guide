@@ -5,14 +5,14 @@ import { CategoryMockFactory } from "../factories/categoryMockFactory";
 const categories: string[] = [
   "Parc",
   "Association",
-  "Marketplace",
-  "Vehicle",
-  "Vegan",
-  "Plants",
-  "Discharge",
-  "Organic Outlets",
-  "Food",
-  "Technology",
+  "Vestimentaire",
+  "Véhicule",
+  "Végétalien",
+  "Plantes",
+  "Décharge",
+  "Bio",
+  "Alimentation",
+  "Technologie",
 ];
 
 export async function createCategoryMock(): Promise<Category[]> {

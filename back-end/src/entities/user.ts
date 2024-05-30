@@ -39,6 +39,11 @@ class User extends BaseEntity {
   @Field()
   lastName!: string;
 
+  @Field()
+  get userInitials(): string {
+    return `${this.firstName[0].toUpperCase()}${this.lastName[0].toUpperCase()}`;
+  }
+
   @Column({
     type: "enum",
     enum: UserRole,
@@ -173,6 +178,14 @@ class User extends BaseEntity {
     await user.save();
 
     return user;
+  }
+
+  static async isInFavorites(
+    userId: string,
+    placeId: string,
+  ): Promise<boolean> {
+    const user = await this.getUserById(userId);
+    return user.favoritesPlaces.some((place) => place.id === placeId);
   }
 }
 

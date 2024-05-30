@@ -78,19 +78,19 @@ export default function SignInPage() {
         <Image src={logo} alt="logo eco-city-guide" />
         <div>
           <form
-            className="bg-form_color p-10 rounded-lg shadow-lg shadow-gray-300 min-w-full"
+            className="bg-form_color mt-10 p-10 rounded-lg shadow-lg shadow-gray-300 min-w-full"
             onSubmit={(event) => {
               event.preventDefault();
               signIn();
             }}
             aria-label="form"
           >
-            <h1 className="text-center text-2xl mb-4 text-gray-600 font-bold font-sans">
+            <h1 className="text-center text-2xl mb-4 text-dark_text_color font-bold font-sans">
               Se connecter
             </h1>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border border-border_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                 type="email"
                 name="email"
                 id="email"
@@ -104,7 +104,7 @@ export default function SignInPage() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-lg focus:outline-none mb-2 border border-border_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                 type="password"
                 name="password"
                 id="password"
@@ -123,14 +123,20 @@ export default function SignInPage() {
             )}
             <button
               type="submit"
-              className="w-full mt-4 bg-button_bg_color rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
+              className="w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >
               Se connecter
             </button>
-            <div className="px-4 py-2 focus:outline-none mb-2">
+            <div className="px-4 py-2 mt-2 text-center">
               <p>
-                Première visite ? Vous pouvez créer un compte{" "}
-                <a href="sign-up">ici</a>.
+                Première visite ? <br /> Vous pouvez créer un compte{" "}
+                <a
+                  className="underline hover:text-tertiary_color"
+                  href="sign-up"
+                >
+                  ici
+                </a>
+                .
               </p>
             </div>
           </form>
