@@ -1,0 +1,50 @@
+a.leaflet-control-zoom-in,
+a.leaflet-control-zoom-out {
+  border-color: white !important;
+  background-color: #48bb78 !important;
+  color: white !important;
+  width: 38px !important;
+  height: 38px !important;
+}
+
+a.leaflet-control-zoom-in {
+  border-radius: 12px 12px 0 0 !important;
+}
+
+a.leaflet-control-zoom-out {
+  border-radius: 0 0 12px 12px !important;
+}
+
+a.leaflet-control-zoom-in:hover,
+a.leaflet-control-zoom-out:hover,
+.leaflet-control-layers.leaflet-control:hover {
+  border-color: #48bb78 !important;
+  background-color: white !important;
+  color: #48bb78 !important;
+  transition: 300ms;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  border-radius: 15px !important;
+  border-color: white;
+}
+
+.leaflet-control-layers.leaflet-control {
+  border-radius: 15px !important;
+  border-color: white !important;
+  background-color: #48bb78;
+}
+
+.leaflet-control-layers-selector {
+  accent-color: #48bb78;
+}
+
+.leaflet-control-layers-toggle {
+  background-image: url(/images/layers.svg) !important;
+  width: 38px !important;
+  height: 38px !important;
+}
+
+.leaflet-control-layers-base > label > span {
+  color: rgb(107, 114, 128);
+}

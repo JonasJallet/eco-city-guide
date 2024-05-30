@@ -15,7 +15,6 @@ interface SideBarSettingsProps {
   firstnameProfile: string;
 }
 
-// export default function SideBarSettings({setClickedItemSideBarSettings} : {setClickedItemSideBarSettings : }) {
 const SideBarSettings: React.FC<SideBarSettingsProps> = ({
   setActiveItemSideBarSettings,
   firstnameProfile,
@@ -39,7 +38,6 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
           Bienvenue sur votre compte {firstnameProfile}
         </h1>
         <div className="flex space-x-8 mr-6">
-        
           <button
             onClick={() => setActiveItemSideBarSettings("Profil")}
             className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
@@ -58,10 +56,10 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
             onClick={() => setActiveItemSideBarSettings("Favoris")}
             className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
           >
-            <FaRegStar size={25}/>
+            <FaRegStar size={25} />
             favoris
           </button>
-         
+
           <button
             onClick={() => setActiveItemSideBarSettings("Settings")}
             className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
@@ -69,13 +67,13 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
             <IoSettingsOutline size={25} />
             paramètres
           </button>
-        
+
           <button
             onClick={() => setActiveItemSideBarSettings("Logout")}
             className="flex flex-col items-center text-gray-500 focus:outline-none transition-colors duration-200 hover:text-green-500 text-xs"
           >
             <IoMdLogOut size={25} />
-            déconnexion 
+            déconnexion
           </button>
         </div>
       </div>

@@ -1,38 +1,62 @@
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import { FaMapMarkerAlt } from "react-icons/fa";
-export default function FavoriCard() {
+import { useState } from "react";
+
+interface FavoriCardProps {
+  name: string;
+  description: string;
+  city: string;
+  idPlace: string;
+  RemoveFavori: (idPlace: string) => Promise<any>;
+}
+export default function FavoriCard({
+  name,
+  description,
+  city,
+  idPlace,
+  RemoveFavori,
+}: FavoriCardProps) {
+  const [clickedFavori, setClickedFavori] = useState(false);
+
   return (
-    <div>
-      <div>
-        <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
-          rel="stylesheet"
-        />
-        <div className="antialiased text-gray-900 ">
-          <div className="bg-white rounded-lg overflow-hidden shadow-2xl xl:w-1/5 lg:w-1/4 md:w-1/3 sm:w-1/2">
-            <div className="p-6">
-              <div className="flex justify-between items-center">
-                <MdOutlineRestaurantMenu />
-                <div className="flex items-center">
-                  <div className="ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide">
-                    Paris
-                  </div>
-                  <FaMapMarkerAlt className="ml-1" />
-                </div>
-              </div>
-              <h4 className="mt-3 font-semibold text-lg leading-tight truncate">
-                Restaurant indien
-              </h4>
-              <div className="text-gray-600 text-xs font-semibold truncate">
-                Nous vous proposons une cuisine indienne traditionnelle
+    <div
+      className="antialiased text-gray-900 cursor-pointer"
+      onClick={() => setClickedFavori(!clickedFavori)}
+    >
+      <div className="bg-white rounded-lg overflow-hidden border w-56">
+        <div className="p-6">
+          <div className="flex justify-between items-center">
+            <MdOutlineRestaurantMenu />
+            <div className="flex items-center">
+              <div className="ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide">
+                {city}
               </div>
             </div>
           </div>
+          <h4 className="mt-3 font-semibold text-lg leading-tight">{name}</h4>
+          <div
+            className={`text-gray-600 text-xs ${clickedFavori ? "" : "truncate"}`}
+          >
+            {description}
+          </div>
+          {clickedFavori && (
+            <div className="mt-2">
+              <button className="bg-tertiary_color rounded p-2 font-medium text-white">
+                <div className="flex items-center">
+                  Carte
+                  <FaMapMarkerAlt className="ml-0.5" size={12} />
+                </div>
+              </button>
+              <button
+                className="bg-red-400 rounded p-2 font-medium text-white ml-1"
+                onClick={() => RemoveFavori(idPlace)}
+              >
+                Supprimer
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
-}
-
-{
 }

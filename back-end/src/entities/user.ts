@@ -116,39 +116,38 @@ class User extends BaseEntity {
   }
 
   static async updateUser(id: string, partialUser: UpdateUser): Promise<User> {
-    let userWithEmailUsed : null| User = null;
+    let userWithEmailUsed: null | User = null;
     const user = await User.getUserById(id);
-    if(partialUser.password){
-      if((user.hashedPassword !== partialUser.password)){
+    if (partialUser.password) {
+      if (user.hashedPassword !== partialUser.password) {
         partialUser.password = await hash(partialUser.password, 10);
       }
     }
-     if(partialUser.email){
-      if((user.email !== partialUser.email)){
-        try{
-          userWithEmailUsed = await User.getUserByEmail(partialUser.email)
+    if (partialUser.email) {
+      if (user.email !== partialUser.email) {
+        try {
+          userWithEmailUsed = await User.getUserByEmail(partialUser.email);
           if (userWithEmailUsed !== null) {
-            throw new Error("Un compte avec cet email existe déjà. Veuillez renseigner une adresse email non utilisée.");
+            throw new Error(
+              "Un compte avec cet email existe déjà. Veuillez renseigner une adresse email non utilisée.",
+            );
           }
-        }
-        catch(e){
+        } catch (e) {
           console.error("Caught an error:", e);
         }
-       
       }
     }
-      const updatedDataUser = {
-        firstName : partialUser.firstName,
-        lastName : partialUser.lastName,
-        email : partialUser.email,
-        hashedPassword : partialUser.password
-      }
-      Object.assign(user, updatedDataUser);
-      await user.save();
-      await user.reload();
-      return user;
+    const updatedDataUser = {
+      firstName: partialUser.firstName,
+      lastName: partialUser.lastName,
+      email: partialUser.email,
+      hashedPassword: partialUser.password,
+    };
+    Object.assign(user, updatedDataUser);
+    await user.save();
+    await user.reload();
+    return user;
   }
-  
 
   static async getUserWithEmailAndPassword({
     email,
@@ -204,6 +203,14 @@ class User extends BaseEntity {
     await user.save();
 
     return user;
+  }
+
+  static async isInFavorites(
+    userId: string,
+    placeId: string,
+  ): Promise<boolean> {
+    const user = await this.getUserById(userId);
+    return user.favoritesPlaces.some((place) => place.id === placeId);
   }
 }
 

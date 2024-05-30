@@ -10,7 +10,7 @@ const categories: string[] = [
   "Végétalien",
   "Plantes",
   "Décharge",
-  "Points de vente bio",
+  "Bio",
   "Alimentation",
   "Technologie",
 ];

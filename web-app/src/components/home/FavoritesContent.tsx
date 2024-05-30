@@ -1,37 +1,22 @@
-import { FavoritesQuery, Place } from "@/gql/graphql";
-import { gql, useQuery } from "@apollo/client";
-import { useState } from "react";
+import { Place } from "@/gql/graphql";
+import { useQuery } from "@apollo/client";
+import { useContext, useState } from "react";
+import { GET_FAVORITES } from "@/gql/queries";
 import FavoritesByCategory from "./FavoritesByCategory";
 import Loader from "../loader/Loader";
-
-const GET_FAVORITES = gql`
-  query favorites {
-    myProfile {
-      favoritesPlaces {
-        id
-        createdAt
-        address
-        coordinates
-        categories {
-          id
-          name
-        }
-        city {
-          id
-          name
-          coordinates
-        }
-        description
-        name
-      }
-    }
-  }
-`;
+import { MdClose } from "react-icons/md";
+import { SideBarContentEnum } from "./sideBarContent.type";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
+import { IoMdList } from "react-icons/io";
 
 export default function FavoritesContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  const { data, loading, refetch } = useQuery<FavoritesQuery>(GET_FAVORITES);
+  const { data, loading, refetch } = useQuery(GET_FAVORITES);
+  const { setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -39,6 +24,10 @@ export default function FavoritesContent() {
 
   const handleBackToList = () => {
     setSelectedCategory(null);
+  };
+
+  const handleCloseButton = () => {
+    setSideBarEnum(SideBarContentEnum.NO_CONTENT);
   };
 
   let organizedFavorites: Record<string, Place[]> = {};
@@ -69,30 +58,19 @@ export default function FavoritesContent() {
     handleCategoryClick: (category: string) => void;
   }) => {
     return (
-      <div className="mt-16 mb-2">
+      <div className="mt-14 mb-2">
         {Object.entries(organizedFavorites)
           .sort()
           .map(([category, places]) => (
             <div
               key={category}
               onClick={() => handleCategoryClick(category)}
-              className="mr-3 ml-3 rounded-xl p-3 cursor-pointer flex justify-content-center hover:bg-gray-100 hover:text-green-500"
+              className="mr-3 ml-3 rounded-xl p-3 cursor-pointer flex justify-content-center hover:bg-gray-100 hover:text-tertiary_color"
             >
               <div className="flex items-start w-full">
-                <svg
-                  className="w-4 h-4 mt-2 mr-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  ></path>
-                </svg>
+                <div className="p-3 text-xl">
+                  <IoMdList />
+                </div>
                 <div>
                   <h2>{category}</h2>
                   <span className="text-gray-500">
@@ -112,19 +90,27 @@ export default function FavoritesContent() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white transition-all w-80">
+    <div className="flex flex-col h-screen w-80">
       <div className="overflow-y-auto">
         {!selectedCategory && (
-          <div className="flex items-center justify-center fixed bg-white w-80 border-b border-gray-200">
-            <h1 className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mt-4 mb-2">
-              Mes Favoris
-            </h1>
+          <div>
+            <button
+              onClick={handleCloseButton}
+              className="text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+            >
+              <MdClose />
+            </button>
+            <div className="flex items-center justify-center fixed bg-white w-80 border-b border-gray-200">
+              <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
+                Mes Favoris
+              </p>
+            </div>
           </div>
         )}
 
         {loading && <Loader />}
         {data && data.myProfile.favoritesPlaces.length === 0 && (
-          <div className="flex justify-center m-8">
+          <div className="flex justify-center pt-12 m-8">
             <p>Vous n'avez pas encore de favoris.</p>
           </div>
         )}
