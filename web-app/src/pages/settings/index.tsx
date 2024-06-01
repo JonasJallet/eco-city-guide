@@ -195,7 +195,9 @@ export default function Settings() {
                         id="lastname"
                         value={formData.lastName || ""}
                         onChange={(event) => {
-                          updateFormData({ lastName: event.target.value });
+                          updateFormData({
+                            lastName: event.target.value.trim(),
+                          });
                           setShowCancelButton(true);
                         }}
                       />
@@ -213,7 +215,7 @@ export default function Settings() {
                         value={formData.firstName || ""}
                         onChange={(event) => {
                           updateFormData({
-                            firstName: event.target.value,
+                            firstName: event.target.value.trim(),
                           });
                           setShowCancelButton(true);
                         }}
@@ -231,7 +233,7 @@ export default function Settings() {
                         id="email"
                         value={formData.email || ""}
                         onChange={(event) => {
-                          updateFormData({ email: event.target.value });
+                          updateFormData({ email: event.target.value.trim() });
                           setShowCancelButton(true);
                         }}
                       />
@@ -286,7 +288,7 @@ export default function Settings() {
                       </div>
                     </div>
                   )}
-                  {/* {loadingUpdateUser && <Loader />} */}
+                  {loadingUpdateUser && <Loader />}
                   <div
                     className={`flex ${showCancelButton ? "justify-between" : "justify-center"}`}
                   >
@@ -370,7 +372,7 @@ export default function Settings() {
                 Mes Favoris
               </h2>
               <div className="flex justify-center">
-                {/* {loadingRemoveFavori && <Loader />} */}
+                {loadingRemoveFavori && <Loader />}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 mt-2">
                   {favories && favories.length > 0 ? (
                     favories.map((favori, index) => (
