@@ -125,15 +125,9 @@ class User extends BaseEntity {
     }
     if (partialUser.email) {
       if (user.email !== partialUser.email) {
-        try {
-          userWithEmailUsed = await User.getUserByEmail(partialUser.email);
-          if (userWithEmailUsed !== null) {
-            throw new Error(
-              "Un compte avec cet email existe déjà. Veuillez renseigner une adresse email non utilisée.",
-            );
-          }
-        } catch (e) {
-          console.error("Caught an error:", e);
+        userWithEmailUsed = await User.getUserByEmail(partialUser.email);
+        if (userWithEmailUsed !== null) {
+          throw new Error("Un compte avec cet email existe déjà.");
         }
       }
     }
