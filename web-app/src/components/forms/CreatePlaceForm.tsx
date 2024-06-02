@@ -120,7 +120,7 @@ export default function CreatePlaceForm() {
           }}
         >
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="name"
             id="name"
@@ -132,7 +132,7 @@ export default function CreatePlaceForm() {
           />
           <div className="relative">
             <input
-              className={`w-full bg-white-200 px-4 py-2 transition-all duration-300 hover:border-white hover:bg-input_hover_bg ${
+              className={`w-full bg-white-200 px-4 py-2 hover:border-white hover:bg-input_hover_bg ${
                 addressList.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
               } focus:outline-none mb-2 border border-tertiary_color`}
               type="text"
@@ -181,7 +181,7 @@ export default function CreatePlaceForm() {
             )}
           </div>
           <input
-            className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+            className="w-full bg-white-200 px-4 py-2 rounded-3xl hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             type="text"
             name="city"
             id="city"
@@ -194,7 +194,7 @@ export default function CreatePlaceForm() {
             required
           />
           <textarea
-            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+            className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
             name="description"
             id="description"
             placeholder="Description"
