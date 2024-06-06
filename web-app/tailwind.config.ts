@@ -16,6 +16,7 @@ export default {
       fontSize: {
         fontSizeModale: "1rem",
         fontSizeText: "1rem",
+        fontSizeSettingsSideBar: "0.65rem",
       },
     },
   },

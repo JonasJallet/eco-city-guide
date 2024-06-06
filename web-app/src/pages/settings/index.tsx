@@ -327,18 +327,16 @@ export default function Settings() {
                 <p className="font-medium mt-4 text-warmGray-700">
                   EcoCityGuide s'engage pour le respect de vos données.
                 </p>
-                <p className="mt-2 text-warmGray-700 text-fontSizeText">
+                <p className=" text-warmGray-700 text-fontSizeText">
                   Vos données personnelles sont confidentielles et ne sont
                   jamais partagées avec des tiers privés ou partenaires
                   professionnels.
                 </p>
-                <p className="mt-2 text-warmGray-700 text-fontSizeText">
+                <p className="text-warmGray-700 text-fontSizeText">
                   Vos données d'utilisation de l'application ne sont jamais
-                  partagées ni à des tiers privés ni à des professionnels.
-                </p>
-                <p className="mt-2 text-warmGray-700 text-fontSizeText">
-                  Ces données sont seulement utilisées à des fins statistiques
-                  pour le propriétaire de l'application.
+                  partagées ni à des tiers privés ni à des professionnels. Ces
+                  données d'utilisation sont seulement utilisées à des fins
+                  statistiques pour le propriétaire de l'application.
                 </p>
               </div>
               <div className="text-center ml-80 mr-80">
@@ -348,14 +346,13 @@ export default function Settings() {
                 <p className="font-medium mt-4 text-warmGray-700">
                   Attention, la suppression de votre compte est définitive.
                 </p>
-                <p className="mt-2 text-warmGray-700 text-fontSizeText">
+                <p className="text-warmGray-700 text-fontSizeText">
                   Toutes les données personnelles et relatives à la gestion de
-                  votre application seront définitivement supprimées.
-                </p>
-                <p className="mt-2 text-warmGray-700">
-                  Les commentaires que vous avez écrits seront anonymisés mais
+                  votre application seront définitivement supprimées. Les
+                  commentaires que vous avez écrits seront anonymisés mais
                   toujours visibles sur EcoCityGuide.
                 </p>
+
                 <button
                   className="bg-red-600 text-white py-2 w-36 rounded-lg px-2 mt-4"
                   //onClick={DeleteAccountUser}
