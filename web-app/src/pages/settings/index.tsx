@@ -165,7 +165,7 @@ export default function Settings() {
 
   return (
     <div>
-      <div>
+      <div className="">
         <SideBarSettings
           setActiveItemSideBarSettings={setActiveItemSideBarSettings}
           firstnameProfile={dataProfile.firstName}
@@ -175,7 +175,7 @@ export default function Settings() {
             <div className="flex justify-center items-center flex-col mt-6">
               <div>
                 <form
-                  className="bg-form_color p-8 rounded-lg shadow-lg shadow-gray-300 min-w-full flex flex-col"
+                  className="bg-form_color p-8 rounded-lg shadow-lg shadow-gray-300 min-w-full flex flex-col mt-6"
                   onSubmit={(event) => {
                     UpdateProfileData();
                     event.preventDefault();
@@ -304,7 +304,7 @@ export default function Settings() {
                         onClick={() => {
                           setShowCancelButton(false);
                           setErrorUpdateUser(false);
-                          resetForm;
+                          resetForm();
                         }}
                       >
                         Annuler
@@ -319,8 +319,8 @@ export default function Settings() {
             </div>
           )}
           {activeItemSideBarSettings === "Settings" && (
-            <>
-              <div className="text-center ml-80 mr-80">
+            <div className="flex flex-col  items-center justify-center">
+              <div style={{ width: 580 }}>
                 <h1 className="font-medium text-xl text-gray-500 mt-8 text-center">
                   Données et confidentialité
                 </h1>
@@ -339,7 +339,7 @@ export default function Settings() {
                   statistiques pour le propriétaire de l'application.
                 </p>
               </div>
-              <div className="text-center ml-80 mr-80">
+              <div style={{ width: 580 }}>
                 <h1 className="font-medium text-xl text-gray-500 mt-16 text-center">
                   Supprimer mon compte
                 </h1>
@@ -352,16 +352,17 @@ export default function Settings() {
                   commentaires que vous avez écrits seront anonymisés mais
                   toujours visibles sur EcoCityGuide.
                 </p>
-
-                <button
-                  className="bg-red-600 text-white py-2 w-36 rounded-lg px-2 mt-4"
-                  //onClick={DeleteAccountUser}
-                >
-                  Supprimer
-                </button>
+                <div className="flex justify-center">
+                  <button
+                    className="bg-red-600 text-white py-2 w-36 rounded-lg px-2 mt-4 items-center"
+                    //onClick={DeleteAccountUser}
+                  >
+                    Supprimer
+                  </button>
+                </div>
                 {/* {deleteAccountLoading && <Loading/>} */}
               </div>
-            </>
+            </div>
           )}
           {activeItemSideBarSettings === "Favoris" && (
             <>
