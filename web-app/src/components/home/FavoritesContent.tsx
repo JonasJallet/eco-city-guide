@@ -1,6 +1,6 @@
 import { Place } from "@/gql/graphql";
 import { useQuery } from "@apollo/client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GET_FAVORITES } from "@/gql/queries";
 import FavoritesByCategory from "./FavoritesByCategory";
 import Loader from "../loader/Loader";
@@ -17,6 +17,10 @@ export default function FavoritesContent() {
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
