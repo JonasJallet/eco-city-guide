@@ -29,15 +29,18 @@ export default function Initials() {
                 <p className="p-2 hover:text-tertiary_color">
                   <a href="/settings">Mon compte</a>
                 </p>
-                <p className="p-2 hover:text-tertiary_color">Se déconnecter</p>
+                <p
+                  className="p-2 hover:text-tertiary_color"
+                  onClick={() => data == null}
+                >
+                  Se déconnecter
+                </p>
               </div>
             </UserModal>
           )}
         </button>
       ) : (
-        <button
-          className="px-4 py-2 mt-6 ml-4 mr-32 bg-tertiary_color border-2 text-fontSizeModale border-primary_color top-20 right-40 rounded-full tracking-wide font-semibold font-sans text-primary_color transition-all duration-300 hover:text-tertiary_color hover:bg-primary_color"
-        >
+        <button className="px-4 py-2 mt-6 ml-4 mr-32 bg-tertiary_color border-2 text-fontSizeModale border-primary_color top-20 right-40 rounded-full tracking-wide font-semibold font-sans text-primary_color transition-all duration-300 hover:text-tertiary_color hover:bg-primary_color">
           <p>
             <a href="/login/sign-in">Se connecter</a>
           </p>

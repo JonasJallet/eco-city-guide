@@ -144,6 +144,19 @@ class User extends BaseEntity {
     return { user, session };
   }
 
+  static async signOut({
+    email,
+    password,
+  }: SignInUser): Promise<{ user: User; session: UserSession }> {
+    // console.log("je passe ici");
+    const user = await this.getUserWithEmailAndPassword({ email, password });
+    // const session = await UserSession.getUserSessionByUserId(user.id);
+    // console.log("usersessionnnnn", user);
+    const session = await UserSession.getUserSessionByUserId(user.id);
+    console.log("session???", session);
+    return { user, session };
+  }
+
   static async getUserWithSessionId(sessionId: string): Promise<User | null> {
     const session = await UserSession.findOne({
       where: { id: sessionId },
