@@ -99,7 +99,7 @@ export default function index() {
             </h1>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
                 type="text"
                 name="firstname"
                 id="firstname"
@@ -111,7 +111,7 @@ export default function index() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
                 type="text"
                 name="lastname"
                 id="lastname"
@@ -123,7 +123,7 @@ export default function index() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
                 type="text"
                 name="email"
                 id="email"
@@ -135,7 +135,7 @@ export default function index() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
                 type="password"
                 name="password"
                 id="password"
@@ -148,7 +148,7 @@ export default function index() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 hover:border-white hover:bg-input_hover_bg focus:outline-none mb-4 border border-tertiary_color"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl hover:border-white hover:bg-input_hover_bg focus:outline-none mb-4 border border-tertiary_color"
                 type="password"
                 name="confirm"
                 id="confirm"
