@@ -354,7 +354,7 @@ export default function Settings() {
                 </p>
                 <div className="flex justify-center">
                   <button
-                    className="bg-red-600 text-white py-2 w-36 rounded-lg px-2 mt-4 items-center"
+                    className="bg-red-600 border border-red-600 text-white py-2 px-4 w-36 rounded-3xl mt-5 items-center tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-red-600 hover:border hover:border-red-600"
                     //onClick={DeleteAccountUser}
                   >
                     Supprimer
