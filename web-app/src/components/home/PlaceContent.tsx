@@ -1,16 +1,44 @@
 import React, { useContext } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
 import { SideBarContentEnum } from "./sideBarContent.type";
-import { MdClose, MdLocationPin } from "react-icons/md";
+import { MdClose, MdLocationPin, MdStar, MdStarBorder } from "react-icons/md";
+import { ADD_FAVORITE_PLACE, REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
+import { IS_IN_FAVORITES } from "@/gql/queries";
 
 export default function PlaceContent() {
   const { place } = useContext(PlaceContext) as PlaceContextType;
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
+
+  const { data } = useQuery(IS_IN_FAVORITES, {
+    variables: { placeId: place?.id },
+    skip: !place,
+  });
+
+  const [addFavoritePlace] = useMutation(ADD_FAVORITE_PLACE, {
+    refetchQueries: [
+      { query: IS_IN_FAVORITES, variables: { placeId: place?.id } },
+    ],
+  });
+
+  const [removeFavoritePlace] = useMutation(REMOVE_FAVORITE_PLACE, {
+    refetchQueries: [
+      { query: IS_IN_FAVORITES, variables: { placeId: place?.id } },
+    ],
+  });
+
+  const handleFavoriteToggle = () => {
+    if (data?.isInFavorites) {
+      removeFavoritePlace({ variables: { placeId: place?.id } });
+    } else {
+      addFavoritePlace({ variables: { placeId: place?.id } });
+    }
+  };
 
   const handleCloseButton = () => {
     setSideBarEnum(SideBarContentEnum.NO_CONTENT);
@@ -34,7 +62,7 @@ export default function PlaceContent() {
           <div className="px-4 mt-5">
             <div className="flex items-center">
               <div className="text-lg text-tertiary_color mr-2">
-                <MdLocationPin />
+                <MdLocationPin className="w-6 h-6" />
               </div>
               <p>
                 {place.address}, {place.city.name}
@@ -50,12 +78,22 @@ export default function PlaceContent() {
                 </span>
               ))}
             </div>
-            <div className="mt-4">
-              <p className="border-b border-tertiary_color inline-block pl-1 pr-3">
-                Description
-              </p>
-              <p className="mt-1">{place.description}</p>
+            <div className="flex justify-end mt-2">
+              <button
+                onClick={handleFavoriteToggle}
+                className="p-1 border border-yellow-500 text-yellow-500 rounded-xl"
+              >
+                {data?.isInFavorites ? (
+                  <MdStar className="w-6 h-6" />
+                ) : (
+                  <MdStarBorder className="w-6 h-6" />
+                )}
+              </button>
             </div>
+            <p className="border-b border-tertiary_color inline-block pl-1 pr-3">
+              Description
+            </p>
+            <p className="mt-1">{place.description}</p>
           </div>
         </>
       )}
