@@ -1,10 +1,10 @@
-import { resetDatabase } from "../resetDatabase";
+import { resetDatabaseAndCache } from "../resetDatabaseAndCache";
 import City from "../../entities/city";
 
 const sampleListOfCities = ["Lyon", "Paris", "Marseille"];
 
 describe("City", () => {
-  resetDatabase();
+  resetDatabaseAndCache();
   const createNewCity = async (cityName: string) => {
     return await City.saveNewCity(cityName);
   };
