@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
+  Category,
   GetMyProfileQuery,
   MutationDeleteUserArgs,
   MutationUpdateUserArgs,
+  Place,
 } from "@/gql/graphql";
 import { useQuery, useMutation } from "@apollo/client";
 import FavoriCard from "@/components/settings/FavoriCard";
@@ -23,11 +25,35 @@ interface updateUserArgs {
   password: string;
   updateUserId: string;
 }
+
+export type coordinates = [number, number];
+
 interface favori {
   id: string;
   name: string;
+  address: string;
+  coordinates: { type: "Point"; coordinates: coordinates };
+  createdAt: Date;
   description: string;
-  city: { name: string };
+
+  city: {
+    id: string;
+    name: string;
+    coordinates: { type: "Point"; coordinates: coordinates };
+  };
+  categories: Category[];
+  owner: {
+    type: "User";
+    id: string;
+    createdAt: Date;
+    firstName: string;
+    lastName: string;
+    userInitials: string;
+    role: string;
+    email: string;
+    hashedPassword: string;
+    favoritesPlaces: Place[];
+  };
 }
 
 export default function Settings() {
@@ -168,9 +194,9 @@ export default function Settings() {
           setActiveItemSideBarSettings={setActiveItemSideBarSettings}
           firstnameProfile={dataProfile.firstName}
         />
-        <div>
+        <div className="mt-20">
           {activeItemSideBarSettings == "Profil" && (
-            <div className="flex justify-center items-center flex-col mt-6">
+            <div className="flex justify-center items-center flex-col mt-7">
               <div>
                 <form
                   className="bg-form_color p-8 rounded-lg shadow-lg shadow-gray-300 min-w-full flex flex-col mt-6"
@@ -319,7 +345,7 @@ export default function Settings() {
           {activeItemSideBarSettings === "Settings" && (
             <div className="flex flex-col  items-center justify-center">
               <div style={{ width: 580 }}>
-                <h1 className="font-medium text-xl text-gray-500 mt-8 text-center">
+                <h1 className="font-medium text-xl text-gray-500 mt-4 text-center">
                   Données et confidentialité
                 </h1>
                 <p className="font-medium mt-4 text-warmGray-700">
@@ -364,7 +390,7 @@ export default function Settings() {
           )}
           {activeItemSideBarSettings === "Favoris" && (
             <>
-              <h2 className="font-medium text-xl text-gray-500 mt-8 text-center">
+              <h2 className="font-medium text-xl text-gray-500 mt-24 text-center">
                 Mes Favoris
               </h2>
               <div className="flex justify-center">
@@ -376,9 +402,14 @@ export default function Settings() {
                         <FavoriCard
                           name={favori.name}
                           description={favori.description}
-                          city={favori.city.name}
-                          idPlace={favori.id}
+                          city={favori.city}
+                          owner={favori.owner}
+                          address={favori.address}
+                          coordinates={favori.coordinates}
+                          createdAt={favori.createdAt}
                           RemoveFavori={() => RemoveFavoriPlace(favori.id)}
+                          categories={favori.categories}
+                          id={favori.id}
                         />
                       </div>
                     ))

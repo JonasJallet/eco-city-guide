@@ -32,7 +32,7 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
 
   return (
     <div
-      className="flex items-center justify-between w-screen p-2 bg-white
+      className="fixed top-0 flex items-center justify-between w-screen p-2 bg-white
          shadow-lg shadow-gray-300"
     >
       <button className="flex ml-3 mb-1 mt-1">

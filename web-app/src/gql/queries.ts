@@ -94,9 +94,33 @@ export const GET_MY_PROFILE_FAVORIES = gql`
       favoritesPlaces {
         id
         name
+        address
+        coordinates
+        createdAt
         description
+
         city {
+          id
           name
+          coordinates
+        }
+        categories {
+          id
+          name
+        }
+        owner {
+          id
+          createdAt
+          firstName
+          lastName
+          userInitials
+          role
+          email
+          hashedPassword
+          favoritesPlaces {
+            id
+            name
+          }
         }
       }
     }

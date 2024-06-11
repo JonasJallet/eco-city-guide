@@ -4,30 +4,82 @@ import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import PlaceContext from "@/contexts/PlaceContext";
 import { PlaceContextType } from "@/contexts/PlaceContext";
-import { Place } from "@/gql/graphql";
+import { Category, Place } from "@/gql/graphql";
+import { coordinates } from "@/pages/settings";
 
 interface FavoriCardProps {
+  id: string;
   name: string;
+  address: string;
+  coordinates: { type: "Point"; coordinates: coordinates };
+  createdAt: Date;
   description: string;
-  city: string;
-  idPlace: string;
+
+  city: {
+    id: string;
+    name: string;
+    coordinates: { type: "Point"; coordinates: coordinates };
+  };
+  categories: Category[];
+
+  owner: {
+    type: "User";
+    id: string;
+    createdAt: Date;
+    firstName: string;
+    lastName: string;
+    userInitials: string;
+    role: string;
+    email: string;
+    hashedPassword: string;
+    favoritesPlaces: Place[];
+  };
   RemoveFavori: (idPlace: string) => Promise<any>;
 }
 
 export default function FavoriCard({
+  id,
+  coordinates,
+  createdAt,
   name,
   description,
   city,
-  idPlace,
+  categories,
+  owner,
+  address,
   RemoveFavori,
 }: FavoriCardProps) {
   const [clickedFavori, setClickedFavori] = useState(false);
   const router = useRouter();
-  const place = useContext(PlaceContext) as PlaceContextType;
 
-  useEffect(() => {
-    console.log(place.place?.name, "place de PlaceContext");
-  }, [place]);
+  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+
+  const handleCarteClick = () => {
+    try {
+      const newPlace: Place = {
+        __typename: "Place",
+        id: id,
+        name: name,
+        description: description,
+        address: address,
+        categories: categories,
+        city: {
+          __typename: "City",
+          coordinates: city.coordinates,
+          id: city.id,
+          name: city.name,
+        },
+        coordinates: coordinates,
+        createdAt: createdAt,
+        owner: owner,
+      };
+
+      setPlace(newPlace);
+      router.push("/home");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div
@@ -40,7 +92,7 @@ export default function FavoriCard({
             <MdOutlineRestaurantMenu />
             <div className="flex items-center">
               <div className="ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide">
-                {city}
+                {city.name}
               </div>
             </div>
           </div>
@@ -56,7 +108,7 @@ export default function FavoriCard({
             <div className="mt-2">
               <button
                 className="bg-tertiary_color rounded p-2 font-medium text-white"
-                // onClick={() => handleCarteClick()} // Update place on click
+                onClick={() => handleCarteClick()}
               >
                 <div className="flex items-center">
                   Carte
@@ -65,7 +117,7 @@ export default function FavoriCard({
               </button>
               <button
                 className="bg-red-400 rounded p-2 font-medium text-white ml-1"
-                onClick={() => RemoveFavori(idPlace)}
+                onClick={() => RemoveFavori(id)}
               >
                 Supprimer
               </button>
@@ -76,29 +128,3 @@ export default function FavoriCard({
     </div>
   );
 }
-
-// const handleCarteClick = () => {
-//   try {
-//     const newPlace: Place = {
-//       __typename: "Place",
-//       id: idPlace,
-//       name,
-//       description,
-//       address: "", // Remplacez par l'adresse appropriée si disponible
-//       categories: [], // Remplacez par les catégories appropriées si disponibles
-//       city: {
-//         __typename: "City",
-//         coordinates: { type: "Point", coordinates: [0, 0] }, // Remplacez par les coordonnées appropriées
-//         id: "", // Remplacez par l'ID de la ville approprié
-//         name: city,
-//       },
-//       coordinates: { type: "Point", coordinates: [0, 0] }, // Remplacez par les coordonnées appropriées
-//       createdAt: new Date().toISOString(), // Remplacez par la date de création appropriée
-//       owner: null, // Remplacez par le propriétaire approprié si disponible
-//     };
-
-//     setPlace(newPlace);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
