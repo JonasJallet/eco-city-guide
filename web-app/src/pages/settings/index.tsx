@@ -199,22 +199,22 @@ export default function Settings() {
             <div className="flex justify-center items-center flex-col mt-7">
               <div>
                 <form
-                  className="bg-form_color p-8 rounded-lg shadow-lg shadow-gray-300 min-w-full flex flex-col mt-6"
+                  className="bg-form_color mt-6 p-10 rounded-lg shadow-lg shadow-gray-300 min-w-full"
                   onSubmit={(event) => {
                     UpdateProfileData();
                     event.preventDefault();
                   }}
                   aria-label="form"
                 >
-                  <h1 className="font-medium text-2xl text-gray-600 text-center mb-4">
+                  <h1 className="font-bold font-sans text-2xl text-dark_text_color text-center mb-4">
                     Modifier mes informations
                   </h1>
                   <div>
-                    <label className="text-gray-600 text-sm">Nom</label>
+                    <label className="text-gray-600 text-base ml-4">Nom</label>
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
+                        className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                         name="lastname"
                         id="lastname"
                         value={formData.lastName || ""}
@@ -228,11 +228,13 @@ export default function Settings() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-gray-600 text-sm">Prénom</label>
+                    <label className="text-gray-600 text-base ml-4">
+                      Prénom
+                    </label>
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
+                        className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                         type="text"
                         name="firstname"
                         id="firstname"
@@ -247,11 +249,13 @@ export default function Settings() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-gray-600 text-sm">Email</label>
+                    <label className="text-gray-600 text-base ml-4">
+                      Email
+                    </label>
                     <div className="flex">
                       {" "}
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none textgray-500"
+                        className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                         type="text"
                         name="email"
                         id="email"
@@ -264,12 +268,12 @@ export default function Settings() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-gray-600 text-sm">
+                    <label className="text-gray-600 text-base ml-4">
                       Mot de passe
                     </label>
                     <div className="flex">
                       <input
-                        className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
+                        className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                         type={inputType}
                         name="password"
                         id="password"
@@ -299,7 +303,7 @@ export default function Settings() {
                     <div className="flex flex-col">
                       <div className="flex items-center">
                         <input
-                          className="w-full p-1 bg-white-200 rounded-lg mb-2 border focus:border-blue-500 focus:outline-none text-gray-500"
+                          className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                           type="password"
                           name="confirm"
                           id="confirm"
@@ -313,18 +317,16 @@ export default function Settings() {
                     </div>
                   )}
                   {loadingUpdateUser && <Loader />}
-                  <div
-                    className={`flex ${showCancelButton ? "justify-between" : "justify-center"}`}
-                  >
+                  <div className="justify-center">
                     <button
-                      className="bg-tertiary_color p-2 rounded-lg text-white w-36 self-center mt-4"
+                      className="w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
                       type="submit"
                     >
                       Enregistrer
                     </button>
                     {showCancelButton && (
                       <button
-                        className="bg-red-500 text-white p-2 h-10 rounded-lg mt-4"
+                        className="w-full mt-4 border bg-red-500 rounded-3xl px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-red-500 hover:border hover:border-red-500"
                         onClick={() => {
                           setShowCancelButton(false);
                           setErrorUpdateUser(false);

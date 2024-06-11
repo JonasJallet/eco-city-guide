@@ -4,7 +4,6 @@ import { Main } from "@/components/home/Main";
 import PlaceSearchBar from "@/components/home/PlaceSearchBar";
 import { CategoriesSearchFilter } from "@/components/home/CategoriesSearchFilter";
 import SideBar from "@/components/home/SideBar";
-import PlaceContext from "@/contexts/PlaceContext";
 import { Place } from "@/gql/graphql";
 import { useState } from "react";
 import SurroundingPlacesContext from "@/contexts/SurroundingPlacesContext";

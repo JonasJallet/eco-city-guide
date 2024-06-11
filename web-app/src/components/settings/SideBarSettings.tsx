@@ -23,12 +23,13 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
   //logout
 }) => {
   //--
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const router = useRouter();
 
   return (
     <div
@@ -47,7 +48,6 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
           Bienvenue {firstnameProfile}
         </h1>
       </button>
-      {/* <div className="flex space-x-8 mr-6"> */}
       <div className="mt-1 mr-3 grid grid-cols-5 gap-7">
         <button
           onClick={() => setActiveItemSideBarSettings("Profil")}
@@ -57,7 +57,10 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
           profil
         </button>
         <button
-          onClick={() => setActiveItemSideBarSettings("Profil")}
+          onClick={() => {
+            setActiveItemSideBarSettings("Profil");
+            router.push("/home");
+          }}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
           <IoMapOutline size={23} />
