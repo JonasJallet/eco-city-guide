@@ -47,10 +47,7 @@ class UserSession extends BaseEntity {
     return userSession;
   }
 
-  static async deleteSession(
-    user: User,
-    session: UserSession,
-  ): Promise<UserSession> {
+  static async deleteSession(session: UserSession): Promise<UserSession> {
     await UserSession.delete(session.id);
     return session;
   }

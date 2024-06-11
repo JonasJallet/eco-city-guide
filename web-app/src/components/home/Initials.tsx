@@ -1,20 +1,49 @@
-import { useQuery } from "@apollo/client";
-import { GetMyProfileInitialsQuery } from "@/gql/graphql";
+import {
+  GetMyProfileInitialsQuery,
+  SignOutMutation,
+  SignOutMutationVariables,
+} from "@/gql/graphql";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import UserModal from "../modals/UserModal";
 import { GET_MY_PROFILE_INITIALS } from "@/gql/queries";
 
+export const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut {
+      id
+    }
+  }
+`;
+
 export default function Initials() {
+  const router = useRouter();
+
   const { data, loading } = useQuery<GetMyProfileInitialsQuery>(
     GET_MY_PROFILE_INITIALS,
   );
+
+  const [signOutMutation, { error }] = useMutation<
+    SignOutMutation,
+    SignOutMutationVariables
+  >(SIGN_OUT);
+
+  const signOut = async () => {
+    try {
+      const { data } = await signOutMutation();
+      console.log(data);
+      if (data && data.signOut) {
+        router.push("/login/sign-in");
+      }
+    } catch (error) {}
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   function toggleModal() {
     return setIsModalOpen(!isModalOpen);
   }
-
   return (
     <>
       {!loading && data?.myProfile ? (
@@ -31,8 +60,7 @@ export default function Initials() {
                 </p>
                 <p
                   className="p-2 hover:text-tertiary_color"
-                  onClick={(event) => {
-                    event.preventDefault();
+                  onClick={() => {
                     signOut();
                   }}
                 >

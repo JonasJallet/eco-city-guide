@@ -144,14 +144,12 @@ class User extends BaseEntity {
     return { user, session };
   }
 
-  static async signOut({
-    email,
-    password,
-  }: SignInUser): Promise<{ user: User; sessions: UserSession[] }> {
-    const user = await this.getUserWithEmailAndPassword({ email, password });
+  static async signOut(
+    user: User,
+  ): Promise<{ user: User; sessions: UserSession[] }> {
     let sessions = await UserSession.getUserSessionsByUserId(user.id);
     for (let session of sessions) {
-      await UserSession.deleteSession(user, session);
+      await UserSession.deleteSession(session);
     }
     return { user, sessions };
   }

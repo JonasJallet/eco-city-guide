@@ -40,7 +40,7 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (myProfileData?.myProfile) {
-      router.push("/home");
+      router.push("/settings");
     }
   }, [myProfileData]);
 
