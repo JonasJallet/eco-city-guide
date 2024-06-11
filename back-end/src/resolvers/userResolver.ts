@@ -11,7 +11,7 @@ import {
 import User from "../entities/user";
 import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { Context } from "..";
-import { setUserSessionIdInCookie, deleteCookie } from "../utils/cookie";
+import { setUserSessionIdInCookie } from "../utils/cookie";
 
 @Resolver()
 export class UserResolver {
@@ -51,8 +51,7 @@ export class UserResolver {
     @Ctx() context: Context,
   ): Promise<User> {
     const { user, session } = await User.signOut(args);
-    deleteCookie(session);
-    console.log("salut", session)
+    // console.log("what's", session.id);
     return user;
   }
 

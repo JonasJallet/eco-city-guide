@@ -31,7 +31,10 @@ export default function Initials() {
                 </p>
                 <p
                   className="p-2 hover:text-tertiary_color"
-                  onClick={() => data == null}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    signOut();
+                  }}
                 >
                   Se déconnecter
                 </p>

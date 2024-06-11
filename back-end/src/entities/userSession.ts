@@ -37,10 +37,12 @@ class UserSession extends BaseEntity {
   }
 
   static async deleteSession(user: User): Promise<UserSession> {
-    const actualSession = await this.getUserSessionByUserId(user.id);
+    const session = await UserSession.getUserSessionByUserId(user.id);
+    await UserSession.delete(user.id);
     // let session = user.sessions;
-    // console.log("je passe aussi ici", actualSession);
-    return actualSession;
+    // console.log("je passe aussi ici", session.id);
+    await UserSession.delete(session.id);
+    return session;
   }
 }
 

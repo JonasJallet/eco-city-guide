@@ -14,10 +14,6 @@ export function setUserSessionIdInCookie(
   });
 }
 
-export function deleteCookie(session: UserSession) {
-  document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-}
-
 export function getUserSessionIdFromCookie(req: IncomingMessage) {
   const userSessionId = parse(req.headers.cookie || "").userSessionId;
   return userSessionId || undefined;
