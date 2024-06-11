@@ -11,9 +11,9 @@ jobs:
       redis:
         image: redis:latest
         ports:
-          - 6379:6379
+          - 6380:6380
     steps:
       - uses: actions/checkout@v4
       - name: Wait for Redis to be ready
-        run: until nc -z localhost 6379; do echo "Waiting for Redis..."; sleep 1; done
+        run: until nc -z localhost 6380; do echo "Waiting for Redis..."; sleep 1; done
       - run: docker compose -f docker-compose.ci.back-end.yml up --build --exit-code-from back-end
