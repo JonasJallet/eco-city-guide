@@ -9,8 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       redis:
-        image: redis:latest
+        image: redis
     steps:
       - uses: actions/checkout@v4
-      - name: Wait for Redis to be ready
       - run: docker compose -f docker-compose.ci.back-end.yml up --build --exit-code-from back-end
