@@ -1,6 +1,7 @@
 import { Point } from "typeorm";
 import { faker } from "@faker-js/faker";
 import { resetDatabase } from "../resetDatabase";
+import { getCache } from "../../cache";
 import { getDataSource } from "../../database";
 import { newPlacesDataset } from "./place.dataset";
 import Place from "../../entities/place";
@@ -32,6 +33,11 @@ describe("Place", () => {
       ownerId: null,
     });
   };
+
+  beforeEach(async () => {
+    const cache = await getCache();
+    await cache.flushAll();
+  });
 
   describe("getPlaces", () => {
     it("should return all places", async () => {
