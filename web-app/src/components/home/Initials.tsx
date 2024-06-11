@@ -1,43 +1,14 @@
-import {
-  GetMyProfileInitialsQuery,
-  SignOutMutation,
-  SignOutMutationVariables,
-} from "@/gql/graphql";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
+import { GetMyProfileInitialsQuery } from "@/gql/graphql";
+import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import UserModal from "../modals/UserModal";
+import Logout from "./Logout";
 import { GET_MY_PROFILE_INITIALS } from "@/gql/queries";
 
-export const SIGN_OUT = gql`
-  mutation SignOut {
-    signOut {
-      id
-    }
-  }
-`;
-
 export default function Initials() {
-  const router = useRouter();
-
   const { data, loading } = useQuery<GetMyProfileInitialsQuery>(
     GET_MY_PROFILE_INITIALS,
   );
-
-  const [signOutMutation, { error }] = useMutation<
-    SignOutMutation,
-    SignOutMutationVariables
-  >(SIGN_OUT);
-
-  const signOut = async () => {
-    try {
-      const { data } = await signOutMutation();
-      console.log(data);
-      if (data && data.signOut) {
-        router.push("/login/sign-in");
-      }
-    } catch (error) {}
-  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -58,14 +29,7 @@ export default function Initials() {
                 <p className="p-2 hover:text-tertiary_color">
                   <a href="/settings">Mon compte</a>
                 </p>
-                <p
-                  className="p-2 hover:text-tertiary_color"
-                  onClick={() => {
-                    signOut();
-                  }}
-                >
-                  Se déconnecter
-                </p>
+                <Logout />
               </div>
             </UserModal>
           )}

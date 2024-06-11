@@ -82,3 +82,11 @@ export const GET_MY_PROFILE_INITIALS = gql`
     }
   }
 `;
+
+export const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut {
+      id
+    }
+  }
+`;
