@@ -25,11 +25,13 @@ export class UserResolver {
     return User.getUsers();
   }
 
+  @Authorized("webAdministrator", "user")
   @Mutation(() => User)
   updateUser(@Arg("id", () => ID) id: string, @Args() args: UpdateUser) {
     return User.updateUser(id, args);
   }
 
+  @Authorized("webAdministrator", "user")
   @Mutation(() => User)
   async deleteUser(@Arg("id", () => ID) id: string) {
     return User.deleteUser(id);
@@ -45,13 +47,13 @@ export class UserResolver {
     return user;
   }
 
-  @Authorized()
+  @Authorized("user")
   @Query(() => User)
   async myProfile(@Ctx() { user }: Context): Promise<User> {
     return User.getUserById((user as User).id);
   }
 
-  @Authorized()
+  @Authorized("user")
   @Mutation(() => User)
   async addFavoritePlace(
     @Arg("placeId") placeId: string,
@@ -60,7 +62,7 @@ export class UserResolver {
     return User.addFavoritePlace((user as User).id, placeId);
   }
 
-  @Authorized()
+  @Authorized("user")
   @Mutation(() => User)
   async removeFavoritePlace(
     @Arg("placeId") placeId: string,
@@ -69,7 +71,7 @@ export class UserResolver {
     return User.deleteFavoritePlace((user as User).id, placeId);
   }
 
-  @Authorized()
+  @Authorized("user")
   @Query(() => Boolean)
   async isInFavorites(
     @Arg("placeId") placeId: string,
