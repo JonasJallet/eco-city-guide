@@ -12,3 +12,6 @@ services:
     image: postgis/postgis:15-3.4
     environment:
       - POSTGRES_PASSWORD=password
+
+  redis:
+    image: redis
