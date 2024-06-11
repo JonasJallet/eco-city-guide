@@ -151,7 +151,7 @@ class User extends BaseEntity {
     const user = await this.getUserWithEmailAndPassword({ email, password });
     let sessions = await UserSession.getUserSessionsByUserId(user.id);
     for (let session of sessions) {
-      session = await UserSession.deleteSession(user);
+      await UserSession.deleteSession(user, session);
     }
     return { user, sessions };
   }

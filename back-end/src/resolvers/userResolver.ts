@@ -46,12 +46,8 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async signOut(
-    @Args() args: SignInUser,
-    @Ctx() context: Context,
-  ): Promise<User> {
-    const { user, session } = await User.signOut(args);
-    // console.log("what's", session.id);
+  async signOut(@Args() args: SignInUser): Promise<User> {
+    const { user } = await User.signOut(args);
     return user;
   }
 
