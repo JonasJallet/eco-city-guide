@@ -45,8 +45,6 @@ export default function Settings() {
     GET_MY_PROFILE_FAVORIES,
   );
 
-  console.log("Je passe ici");
-
   let dataProfile: updateUserArgs = {
     firstName: "",
     lastName: "",
