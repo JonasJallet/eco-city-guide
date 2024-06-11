@@ -25,6 +25,17 @@ class UserSession extends BaseEntity {
     return await newSession.save();
   }
 
+  static async getUserSessionsByUserId(userId: string): Promise<UserSession[]> {
+    const userSession = await this.find({
+      where: { user: { id: userId } },
+      relations: ["user"], 
+    });
+    if (!userSession) {
+      throw new Error(`UserSession with userId ${userId} does not exist.`);
+    }
+    return userSession;
+  }
+
   static async getUserSessionByUserId(userId: string): Promise<UserSession> {
     const userSession = await this.findOne({
       where: { user: { id: userId } },
@@ -38,7 +49,7 @@ class UserSession extends BaseEntity {
 
   static async deleteSession(user: User): Promise<UserSession> {
     const session = await UserSession.getUserSessionByUserId(user.id);
-    await UserSession.delete(user.id);
+    // await UserSession.delete(user.id);
     // let session = user.sessions;
     // console.log("je passe aussi ici", session.id);
     await UserSession.delete(session.id);
