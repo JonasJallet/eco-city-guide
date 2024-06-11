@@ -18,6 +18,7 @@ import { GeoJSONPoint } from "../types/scalar/geoJSONPoint";
 import Category from "./category";
 import User from "./user";
 import City from "./city";
+import { getCache } from "../cache";
 
 @Entity()
 @ObjectType()
@@ -128,6 +129,18 @@ class Place extends BaseEntity {
     city?: string,
     categoryIds?: string[],
   ): Promise<Place[]> {
+    const cache = await getCache();
+    const cacheKeyObject = {
+      city: city || "all",
+      categories: categoryIds || "all",
+    };
+
+    const cacheKey = `places-${JSON.stringify(cacheKeyObject)}`;
+
+    const cachedResult = await cache.get(cacheKey);
+    if (cachedResult) {
+      return JSON.parse(cachedResult);
+    }
     let whereClause: any = {};
 
     if (categoryIds && categoryIds.length > 0) {
@@ -138,9 +151,13 @@ class Place extends BaseEntity {
       whereClause.city = { name: city };
     }
 
-    return await Place.find({
+    const databaseResult = await Place.find({
       where: whereClause,
     });
+
+    cache.set(cacheKey, JSON.stringify(databaseResult), { EX: 1800 });
+
+    return databaseResult;
   }
 
   static async getPlaceById(id: string): Promise<Place> {

@@ -1,17 +1,15 @@
 import { Response } from "express";
 import { getDataSource } from "./database";
+import { getCache } from "./cache";
+import { getUserSessionIdFromCookie } from "./utils/cookie";
 import "reflect-metadata";
-
 import User from "./entities/user";
-
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { AuthChecker, buildSchema } from "type-graphql";
 import { PlaceResolver } from "./resolvers/placeResolver";
 import { UserResolver } from "./resolvers/userResolver";
 import { CategoryResolver } from "./resolvers/categoryResolver";
-
-import { getUserSessionIdFromCookie } from "./utils/cookie";
 import { CityResolver } from "./resolvers/cityResolver";
 
 export type Context = { res: Response; user: User | null };
@@ -41,6 +39,7 @@ const startApolloServer = async () => {
   });
 
   await getDataSource();
+  await getCache();
 
   console.log(`🚀  Server ready at: ${url}`);
 };
