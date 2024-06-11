@@ -1,10 +1,10 @@
-import { resetDatabase } from "../resetDatabase";
+import { resetDatabaseAndCache } from "../resetDatabaseAndCache";
 import User from "../../entities/user";
 import UserSession from "../../entities/userSession";
 import { newUsersDataset } from "./user.dataset";
 
 describe("User", () => {
-  resetDatabase();
+  resetDatabaseAndCache();
 
   describe("saveNewSession", () => {
     it("should save as many sessions as requested.", async () => {
