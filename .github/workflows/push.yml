@@ -13,3 +13,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker compose -f docker-compose.ci.back-end.yml up --build --exit-code-from back-end
+
+
+on: push
+
+permissions:
+  contents: write
+
+jobs:
+  ci-back-end:
+    name: Build and test back-end
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for Redis to be ready
+        run: until nc -z localhost 6379; do echo "Waiting for Redis..."; sleep 1; done
+      - run: docker compose -f docker-compose.ci.back-end.yml up --build --exit-code-from back-end

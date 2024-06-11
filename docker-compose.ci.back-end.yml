@@ -5,8 +5,11 @@ services:
       target: ci
     environment:
       - TEST_DATABASE_URL=postgres://postgres:password@test-database:5432/postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - test-database
+      - redis
 
   test-database:
     image: postgis/postgis:15-3.4
@@ -14,4 +17,6 @@ services:
       - POSTGRES_PASSWORD=password
 
   redis:
-    image: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
