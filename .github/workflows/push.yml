@@ -7,9 +7,6 @@ jobs:
   ci-back-end:
     name: Build and test back-end
     runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis
     steps:
       - uses: actions/checkout@v4
       - run: docker compose -f docker-compose.ci.back-end.yml up --build --exit-code-from back-end
