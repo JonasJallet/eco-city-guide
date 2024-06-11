@@ -44,8 +44,6 @@ services:
   cache:
     container_name: cache
     image: redis
-    expose:
-      - 6380
 
 volumes:
   database-data:

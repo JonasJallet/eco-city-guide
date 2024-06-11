@@ -67,8 +67,6 @@ services:
   cache:
     container_name: cache
     image: redis
-    ports:
-      - "6380:6380"
 
 volumes:
   database-data:
