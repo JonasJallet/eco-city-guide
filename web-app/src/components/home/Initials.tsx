@@ -1,13 +1,26 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import UserModal from "../modals/UserModal";
 import { GET_PROFILE } from "@/gql/queries";
 import { useRouter } from "next/router";
+import { SIGN_OUT } from "@/gql/mutations";
 
 export default function Initials() {
   const { data, loading } = useQuery(GET_PROFILE);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+
+  const [signOutMutation] = useMutation(SIGN_OUT);
+
+  const signOut = async () => {
+    try {
+      const { data } = await signOutMutation();
+      if (data && data.signOut) {
+        router.push("/home");
+        location.reload();
+      }
+    } catch (error) {}
+  };
 
   function toggleModal() {
     return setIsModalOpen(!isModalOpen);
@@ -32,7 +45,12 @@ export default function Initials() {
                   <p className="p-2 hover:text-tertiary_color">
                     <a href="/settings">Mon compte</a>
                   </p>
-                  <p className="p-2 hover:text-tertiary_color">
+                  <p
+                    className="p-2 hover:text-tertiary_color"
+                    onClick={() => {
+                      signOut();
+                    }}
+                  >
                     Se déconnecter
                   </p>
                 </div>

@@ -75,3 +75,19 @@ export const REMOVE_FAVORITE_PLACE = gql`
     }
   }
 `;
+
+export const DELETE_USER = gql`
+  mutation DeleteUser($deleteUserId: ID!) {
+    deleteUser(id: $deleteUserId) {
+      id
+    }
+  }
+`;
+
+export const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut {
+      id
+    }
+  }
+`;
