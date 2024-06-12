@@ -8,6 +8,9 @@ import SideBarContent from "./SideBarContent";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
+import { GET_PROFILE } from "@/gql/queries";
+import { useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 
 export default function SideBar() {
   const [enumValue, setEnumValue] = useState<SideBarContentEnum>(
@@ -18,12 +21,31 @@ export default function SideBar() {
     DisplayPanelContext,
   ) as DisplayPanelType;
 
+  const { data } = useQuery(GET_PROFILE);
+  const router = useRouter();
+
   useEffect(() => {
     if (sideBarEnum) {
       setEnumValue(sideBarEnum);
       setSideBarEnum(undefined);
     }
   }, [sideBarEnum]);
+
+  const user = data?.myProfile;
+  const administrator =
+    user?.role === "cityAdministrator" || user?.role === "webAdministrator";
+
+  const handleFavoritesClick = () => {
+    if (user) {
+      setEnumValue(
+        enumValue !== SideBarContentEnum.FAVORITES
+          ? SideBarContentEnum.FAVORITES
+          : SideBarContentEnum.NO_CONTENT,
+      );
+    } else {
+      router.push("/login/sign-in");
+    }
+  };
 
   return (
     <>
@@ -39,34 +61,36 @@ export default function SideBar() {
           <button onClick={() => setEnumValue(SideBarContentEnum.NO_CONTENT)}>
             <Image src={logo as unknown as string} alt="Eco City Guide logo" />
           </button>
+
+          {administrator && (
+            <>
+              <button
+                onClick={() =>
+                  enumValue !== SideBarContentEnum.CREATE_PLACE
+                    ? setEnumValue(SideBarContentEnum.CREATE_PLACE)
+                    : setEnumValue(SideBarContentEnum.NO_CONTENT)
+                }
+                className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
+              >
+                <MdAddCircleOutline className="w-6 h-6" />
+                créer lieu
+              </button>
+              <button
+                onClick={() =>
+                  enumValue !== SideBarContentEnum.CREATE_CATEGORY
+                    ? setEnumValue(SideBarContentEnum.CREATE_CATEGORY)
+                    : setEnumValue(SideBarContentEnum.NO_CONTENT)
+                }
+                className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
+              >
+                <TbCategory className="w-6 h-6" />
+                créer catégorie
+              </button>
+            </>
+          )}
+
           <button
-            onClick={() =>
-              enumValue !== SideBarContentEnum.CREATE_PLACE
-                ? setEnumValue(SideBarContentEnum.CREATE_PLACE)
-                : setEnumValue(SideBarContentEnum.NO_CONTENT)
-            }
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
-          >
-            <MdAddCircleOutline className="w-6 h-6" />
-            créer lieu
-          </button>
-          <button
-            onClick={() =>
-              enumValue !== SideBarContentEnum.CREATE_CATEGORY
-                ? setEnumValue(SideBarContentEnum.CREATE_CATEGORY)
-                : setEnumValue(SideBarContentEnum.NO_CONTENT)
-            }
-            className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
-          >
-            <TbCategory className="w-6 h-6" />
-            créer catégorie
-          </button>
-          <button
-            onClick={() =>
-              enumValue !== SideBarContentEnum.FAVORITES
-                ? setEnumValue(SideBarContentEnum.FAVORITES)
-                : setEnumValue(SideBarContentEnum.NO_CONTENT)
-            }
+            onClick={handleFavoritesClick}
             className="flex flex-col items-center text-gray-500 focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
           >
             <MdStarBorder className="w-6 h-6" />
