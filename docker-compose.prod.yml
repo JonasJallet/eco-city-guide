@@ -6,6 +6,7 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:password@database:5432/postgres
       - NODE_ENV=production
+      - CACHE_URL=redis://cache
     depends_on:
       database:
         condition: service_healthy
@@ -39,6 +40,10 @@ services:
       - ${GATEWAY_PORT}:80
     volumes:
       - ./gateway/nginx.conf:/etc/nginx/nginx.conf
+
+  cache:
+    container_name: cache
+    image: redis
 
 volumes:
   database-data:

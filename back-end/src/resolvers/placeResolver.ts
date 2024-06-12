@@ -1,4 +1,12 @@
-import { Arg, Args, ID, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Args,
+  Authorized,
+  ID,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import Place from "../entities/place";
 import { CreatePlace, UpdatePlace } from "../types/place.args";
 
@@ -18,19 +26,19 @@ export class PlaceResolver {
     return Place.getPlaceById(id);
   }
 
-  // @Authorized()
+  @Authorized("webAdministrator", "cityAdministrator")
   @Mutation(() => Place)
   createPlace(@Args() args: CreatePlace) {
     return Place.saveNewPlace({ ...args });
   }
 
-  // @Authorized()
+  @Authorized("webAdministrator", "cityAdministrator")
   @Mutation(() => Place)
   updatePlace(@Arg("id", () => ID) id: string, @Args() args: UpdatePlace) {
     return Place.updatePlace(id, args);
   }
 
-  // @Authorized()
+  @Authorized("webAdministrator", "cityAdministrator")
   @Mutation(() => Place)
   async deletePlace(@Arg("id", () => ID) id: string) {
     return Place.deletePlace(id);

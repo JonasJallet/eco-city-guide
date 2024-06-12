@@ -1,9 +1,9 @@
-import { resetDatabase } from "../resetDatabase";
+import { resetDatabaseAndCache } from "../resetDatabaseAndCache";
 import Category from "../../entities/category";
 import { newCategoriesDataset } from "./category.dataset";
 
 describe("Category", () => {
-  resetDatabase();
+  resetDatabaseAndCache();
   const createNewCategory = async (categoryData: { name: string }) => {
     return await Category.saveNewCategory({
       ...categoryData,
