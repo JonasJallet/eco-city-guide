@@ -90,3 +90,11 @@ export const SIGN_OUT = gql`
     }
   }
 `;
+
+export const DELETE_USER = gql`
+  mutation DeleteUser($deleteUserId: ID!) {
+    deleteUser(id: $deleteUserId) {
+      id
+    }
+  }
+`;
