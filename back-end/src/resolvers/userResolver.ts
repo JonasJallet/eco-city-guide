@@ -15,14 +15,28 @@ import { setUserSessionIdInCookie } from "../utils/cookie";
 
 @Resolver()
 export class UserResolver {
-  @Mutation(() => User)
-  signUp(@Args() args: CreateUser) {
-    return User.saveNewUser(args);
-  }
-
   @Query(() => [User])
   users() {
     return User.getUsers();
+  }
+
+  @Query(() => User)
+  async myProfile(@Ctx() { user }: Context): Promise<User> {
+    return User.getUserById((user as User).id);
+  }
+
+  @Query(() => Boolean)
+  async isInFavorites(
+    @Arg("placeId") placeId: string,
+    @Ctx() { user }: Context,
+  ): Promise<boolean> {
+    return User.isInFavorites((user as User).id, placeId);
+  }
+
+  @Authorized("webAdministrator", "user")
+  @Query(() => Boolean)
+  async isAuthenticated(@Ctx() { user }: Context): Promise<boolean> {
+    return user !== undefined && user !== null;
   }
 
   @Authorized("webAdministrator", "user")
@@ -47,13 +61,11 @@ export class UserResolver {
     return user;
   }
 
-  @Authorized("user")
-  @Query(() => User)
-  async myProfile(@Ctx() { user }: Context): Promise<User> {
-    return User.getUserById((user as User).id);
+  @Mutation(() => User)
+  signUp(@Args() args: CreateUser) {
+    return User.saveNewUser(args);
   }
 
-  @Authorized("user")
   @Mutation(() => User)
   async addFavoritePlace(
     @Arg("placeId") placeId: string,
@@ -62,21 +74,11 @@ export class UserResolver {
     return User.addFavoritePlace((user as User).id, placeId);
   }
 
-  @Authorized("user")
   @Mutation(() => User)
   async removeFavoritePlace(
     @Arg("placeId") placeId: string,
     @Ctx() { user }: Context,
   ): Promise<User> {
     return User.deleteFavoritePlace((user as User).id, placeId);
-  }
-
-  @Authorized("user")
-  @Query(() => Boolean)
-  async isInFavorites(
-    @Arg("placeId") placeId: string,
-    @Ctx() { user }: Context,
-  ): Promise<boolean> {
-    return User.isInFavorites((user as User).id, placeId);
   }
 }

@@ -35,8 +35,8 @@ export const GET_CATEGORIES = gql`
   }
 `;
 
-export const GET_FAVORITES = gql`
-  query favorites {
+export const GET_PROFILE = gql`
+  query GetProfile {
     myProfile {
       id
       email
@@ -69,16 +69,5 @@ export const GET_FAVORITES = gql`
 export const IS_IN_FAVORITES = gql`
   query isInFavorites($placeId: String!) {
     isInFavorites(placeId: $placeId)
-  }
-`;
-
-export const GET_MY_PROFILE_INITIALS = gql`
-  query GetMyProfileInitials {
-    myProfile {
-      id
-      firstName
-      lastName
-      userInitials
-    }
   }
 `;

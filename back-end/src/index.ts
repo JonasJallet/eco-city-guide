@@ -14,16 +14,10 @@ import { CityResolver } from "./resolvers/cityResolver";
 
 export type Context = { res: Response; user: User | null };
 
-const authChecker: AuthChecker<Context> = ({ context }, roles) => {
-  if (!context.user) {
-    return false;
-  }
-
-  if (roles.length === 0) {
-    return true;
-  }
-
-  return roles.includes(context.user.role);
+const authChecker: AuthChecker<Context> = ({ context: { user } }, roles) => {
+  if (!user) return false;
+  if (roles.length === 0) return true;
+  return roles.includes(user.role);
 };
 
 const PORT = 4000;
