@@ -107,6 +107,7 @@ export const GET_MY_PROFILE_FAVORIES = gql`
         categories {
           id
           name
+          icon
         }
         owner {
           id

@@ -1,4 +1,3 @@
-import { MdOutlineRestaurantMenu } from "react-icons/md";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -76,9 +75,7 @@ export default function FavoriCard({
 
       setPlace(newPlace);
       router.push("/home");
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   return (
@@ -89,7 +86,7 @@ export default function FavoriCard({
       <div className="bg-white rounded-lg overflow-hidden border w-56">
         <div className="p-6">
           <div className="flex justify-between items-center">
-            <MdOutlineRestaurantMenu />
+            <i className={categories[0].icon}></i>
             <div className="flex items-center">
               <div className="ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide">
                 {city.name}

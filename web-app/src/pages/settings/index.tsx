@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
   Category,
-  GetMyProfileQuery,
   MutationDeleteUserArgs,
+  GetMyProfileQuery,
   MutationUpdateUserArgs,
   Place,
 } from "@/gql/graphql";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import FavoriCard from "@/components/settings/FavoriCard";
 import SideBarSettings from "@/components/settings/SideBarSettings";
 import {

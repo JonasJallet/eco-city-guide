@@ -1,5 +1,8 @@
 import { ReactNode } from "react";
 import Head from "next/head";
+// import { config } from "@fortawesome/fontawesome-svg-core";
+// import "@fortawesome/fontawesome-svg-core/styles.css";
+// config.autoAddCss = false;
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
