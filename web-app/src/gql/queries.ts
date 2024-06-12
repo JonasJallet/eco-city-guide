@@ -152,16 +152,6 @@ export const UPDATE_MY_PROFILE = gql`
   }
 `;
 
-export const DELETE_ACCOUNT = gql`
-  mutation DeleteUser($deleteUserId: ID!) {
-    deleteUser(id: $deleteUserId) {
-      firstName
-      lastName
-      email
-    }
-  }
-`;
-
 export const REMOVE_FAVORI = gql`
   mutation RemoveFavoritePlace($placeId: String!) {
     removeFavoritePlace(placeId: $placeId) {

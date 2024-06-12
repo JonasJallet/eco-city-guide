@@ -1,53 +1,17 @@
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import PlaceContext from "@/contexts/PlaceContext";
 import { PlaceContextType } from "@/contexts/PlaceContext";
-import { Category, Place } from "@/gql/graphql";
-import { coordinates } from "@/pages/settings";
+import { Place } from "@/gql/graphql";
+import { favori } from "@/interfaces/setting";
 
 interface FavoriCardProps {
-  id: string;
-  name: string;
-  address: string;
-  coordinates: { type: "Point"; coordinates: coordinates };
-  createdAt: Date;
-  description: string;
-
-  city: {
-    id: string;
-    name: string;
-    coordinates: { type: "Point"; coordinates: coordinates };
-  };
-  categories: Category[];
-
-  owner: {
-    type: "User";
-    id: string;
-    createdAt: Date;
-    firstName: string;
-    lastName: string;
-    userInitials: string;
-    role: string;
-    email: string;
-    hashedPassword: string;
-    favoritesPlaces: Place[];
-  };
-  RemoveFavori: (idPlace: string) => Promise<any>;
+  favori: favori;
+  RemoveFavori: (idPlace: string) => Promise<void>;
 }
 
-export default function FavoriCard({
-  id,
-  coordinates,
-  createdAt,
-  name,
-  description,
-  city,
-  categories,
-  owner,
-  address,
-  RemoveFavori,
-}: FavoriCardProps) {
+export default function FavoriCard({ favori, RemoveFavori }: FavoriCardProps) {
   const [clickedFavori, setClickedFavori] = useState(false);
   const router = useRouter();
 
@@ -57,20 +21,20 @@ export default function FavoriCard({
     try {
       const newPlace: Place = {
         __typename: "Place",
-        id: id,
-        name: name,
-        description: description,
-        address: address,
-        categories: categories,
+        id: favori.id,
+        name: favori.name,
+        description: favori.description,
+        address: favori.address,
+        categories: favori.categories,
         city: {
           __typename: "City",
-          coordinates: city.coordinates,
-          id: city.id,
-          name: city.name,
+          coordinates: favori.city.coordinates,
+          id: favori.city.id,
+          name: favori.city.name,
         },
-        coordinates: coordinates,
-        createdAt: createdAt,
-        owner: owner,
+        coordinates: favori.coordinates,
+        createdAt: favori.createdAt,
+        owner: favori.owner,
       };
 
       setPlace(newPlace);
@@ -86,20 +50,22 @@ export default function FavoriCard({
       <div className="bg-white rounded-lg overflow-hidden border w-56">
         <div className="p-6">
           <div className="flex justify-between items-center">
-            <i className={categories[0].icon}></i>
+            <i className={favori.categories[0].icon}></i>
             <div className="flex items-center">
               <div className="ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide">
-                {city.name}
+                {favori.city.name}
               </div>
             </div>
           </div>
-          <h4 className="mt-3 font-semibold text-lg leading-tight">{name}</h4>
+          <h4 className="mt-3 font-semibold text-lg leading-tight">
+            {favori.name}
+          </h4>
           <div
             className={`text-gray-600 text-xs ${
               clickedFavori ? "" : "truncate"
             }`}
           >
-            {description}
+            {favori.description}
           </div>
           {clickedFavori && (
             <div className="mt-2">
@@ -113,10 +79,10 @@ export default function FavoriCard({
                 </div>
               </button>
               <button
-                className="bg-red-400 rounded p-2 font-medium text-white ml-1"
-                onClick={() => RemoveFavori(id)}
+                className="bg-blue-600 rounded p-2 font-medium text-white ml-1"
+                onClick={() => RemoveFavori(favori.id)}
               >
-                Supprimer
+                Retirer
               </button>
             </div>
           )}

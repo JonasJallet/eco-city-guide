@@ -1,60 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  Category,
-  MutationDeleteUserArgs,
-  GetMyProfileQuery,
-  MutationUpdateUserArgs,
-  Place,
-} from "@/gql/graphql";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { GetMyProfileQuery, MutationUpdateUserArgs } from "@/gql/graphql";
+import { useQuery, useMutation } from "@apollo/client";
 import FavoriCard from "@/components/settings/FavoriCard";
 import SideBarSettings from "@/components/settings/SideBarSettings";
 import {
   GET_MY_PROFILE_FAVORIES,
   UPDATE_MY_PROFILE,
-  DELETE_ACCOUNT,
   REMOVE_FAVORI,
 } from "@/gql/queries";
-import { useRouter } from "next/router";
 import Loader from "@/components/loader/Loader";
-
-interface updateUserArgs {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  updateUserId: string;
-}
-
-export type coordinates = [number, number];
-
-interface favori {
-  id: string;
-  name: string;
-  address: string;
-  coordinates: { type: "Point"; coordinates: coordinates };
-  createdAt: Date;
-  description: string;
-
-  city: {
-    id: string;
-    name: string;
-    coordinates: { type: "Point"; coordinates: coordinates };
-  };
-  categories: Category[];
-  owner: {
-    type: "User";
-    id: string;
-    createdAt: Date;
-    firstName: string;
-    lastName: string;
-    userInitials: string;
-    role: string;
-    email: string;
-    hashedPassword: string;
-    favoritesPlaces: Place[];
-  };
-}
+import { favori, updateUserArgs } from "@/interfaces/setting";
 
 export default function Settings() {
   const [showInputs, setShowInputs] = useState<string>("");
@@ -67,6 +22,7 @@ export default function Settings() {
   const [favories, setFavories] = useState<favori[]>([]);
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
+
   const { data, loading, refetch } = useQuery<GetMyProfileQuery>(
     GET_MY_PROFILE_FAVORIES,
   );
@@ -134,28 +90,8 @@ export default function Settings() {
     setShowInputs("");
   };
 
-  const [RemoveFavori, { loading: loadingRemoveFavori }] = useMutation(
-    REMOVE_FAVORI,
-    {
-      update(cache, { data: { removeFavoritePlace } }) {
-        const { myProfile }: any = cache.readQuery({
-          query: GET_MY_PROFILE_FAVORIES,
-        });
-        const updatedFavorites = myProfile.favoritesPlaces.filter(
-          (favorite: any) => favorite.id !== removeFavoritePlace.id,
-        );
-        cache.writeQuery({
-          query: GET_MY_PROFILE_FAVORIES,
-          data: {
-            myProfile: {
-              ...myProfile,
-              favoritesPlaces: updatedFavorites,
-            },
-          },
-        });
-      },
-    },
-  );
+  const [RemoveFavori, { loading: loadingRemoveFavori }] =
+    useMutation(REMOVE_FAVORI);
 
   const RemoveFavoriPlace = async (idPlace: string) => {
     await RemoveFavori({
@@ -166,30 +102,17 @@ export default function Settings() {
     await refetch();
   };
 
-  // TODO avec le travail de Vincent sur la déconnexion
-  // const [DeleteAccount, {loading : deleteAccountLoading, error: deleteAccount }] =
-  //  useMutation<MutationDeleteUserArgs>(DELETE_ACCOUNT);
-
-  // const DeleteAccountUser = async () => {
-  //   console.log("Je passe ici");
-  //   const userId = data?.myProfile.id;
-  //   if (data?.myProfile.id) {
-  //     try {
-  //       // const { data } = await DeleteAccount({
-  //       //   variables: {
-  //       //     deleteUserId: userId,
-  //       //   },
-  //       // });
-  //       // router.push("/home");
-  //     } catch (error) {
-  //       console.log(error);
-  //     } // Gérer l'erreur
-  //   }
-  // };
+  if (loading || loadingRemoveFavori) {
+    return (
+      <div className="items-center justify-center mt-36">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div>
-      <div className="">
+      <div>
         <SideBarSettings
           setActiveItemSideBarSettings={setActiveItemSideBarSettings}
           firstnameProfile={dataProfile.firstName}
@@ -316,7 +239,6 @@ export default function Settings() {
                       </div>
                     </div>
                   )}
-                  {loadingUpdateUser && <Loader />}
                   <div className="justify-center">
                     <button
                       className="w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
@@ -379,14 +301,10 @@ export default function Settings() {
                   toujours visibles sur EcoCityGuide.
                 </p>
                 <div className="flex justify-center">
-                  <button
-                    className="bg-red-600 border border-red-600 text-white py-2 px-4 w-36 rounded-3xl mt-5 items-center tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-red-600 hover:border hover:border-red-600"
-                    //onClick={DeleteAccountUser}
-                  >
+                  <button className="bg-red-600 border border-red-600 text-white py-2 px-4 w-36 rounded-3xl mt-5 items-center tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-red-600 hover:border hover:border-red-600">
                     Supprimer
                   </button>
                 </div>
-                {/* {deleteAccountLoading && <Loading/>} */}
               </div>
             </div>
           )}
@@ -402,22 +320,14 @@ export default function Settings() {
                     favories.map((favori, index) => (
                       <div key={index} className="flex justify-center mt-4">
                         <FavoriCard
-                          name={favori.name}
-                          description={favori.description}
-                          city={favori.city}
-                          owner={favori.owner}
-                          address={favori.address}
-                          coordinates={favori.coordinates}
-                          createdAt={favori.createdAt}
+                          favori={favori}
                           RemoveFavori={() => RemoveFavoriPlace(favori.id)}
-                          categories={favori.categories}
-                          id={favori.id}
                         />
                       </div>
                     ))
                   ) : (
-                    <p className="text-center">
-                      Vous n'avez pas encore de favoris
+                    <p className="flex text-center justify-items-center mt-28">
+                      Vous n'avez pas encore de favoris.
                     </p>
                   )}
                 </div>
