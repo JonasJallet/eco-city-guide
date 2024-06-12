@@ -4,7 +4,10 @@ import { newCategoriesDataset } from "./category.dataset";
 
 describe("Category", () => {
   resetDatabase();
-  const createNewCategory = async (categoryData: { name: string }) => {
+  const createNewCategory = async (categoryData: {
+    name: string;
+    icon: string;
+  }) => {
     return await Category.saveNewCategory({
       ...categoryData,
     });
@@ -59,7 +62,10 @@ describe("Category", () => {
     it("should return updated category", async () => {
       const createdCategory = await createNewCategory(newCategoriesDataset[2]);
       const categoryId = createdCategory.id;
-      const partialCategory = { name: "updated-name" };
+      const partialCategory = {
+        name: "updated-name",
+        icon: "updated-icon-name",
+      };
       const updatedCategory = await Category.updateCategory(
         categoryId,
         partialCategory,
@@ -74,7 +80,10 @@ describe("Category", () => {
 
     it("should throw error if category does not exist", async () => {
       const categoryId = "e34e6099-5c31-4e32-b5ec-fd0743730f18";
-      const partialCategory = { name: "updated-name" };
+      const partialCategory = {
+        name: "updated-name",
+        icon: "updated-icon-name",
+      };
       await expect(
         Category.updateCategory(categoryId, partialCategory),
       ).rejects.toThrow(

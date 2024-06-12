@@ -20,6 +20,10 @@ export class Category extends BaseEntity {
   @Field()
   name!: string;
 
+  @Column({ unique: true })
+  @Field()
+  icon!: string;
+
   @ManyToMany(() => Place, (place) => place.categories)
   places!: Place[];
 
@@ -27,6 +31,7 @@ export class Category extends BaseEntity {
     super();
     if (category) {
       this.name = category.name;
+      this.icon = category.icon;
     }
   }
 

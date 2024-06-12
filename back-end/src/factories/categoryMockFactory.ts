@@ -3,6 +3,7 @@ import { TypeFactory } from "interface-forge";
 
 interface CategoryInterface {
   name: string;
+  icon: string;
 }
 
 export class CategoryMockFactory {
@@ -12,11 +13,15 @@ export class CategoryMockFactory {
     this.typeFactory = new TypeFactory<DeepPartial<CategoryInterface>>(
       async () => ({
         name: "",
+        icon: "",
       }),
     );
   }
 
-  async create(name: string): Promise<DeepPartial<CategoryInterface>> {
-    return await this.typeFactory.build({ name });
+  async create(
+    name: string,
+    icon: string,
+  ): Promise<DeepPartial<CategoryInterface>> {
+    return await this.typeFactory.build({ name, icon });
   }
 }
