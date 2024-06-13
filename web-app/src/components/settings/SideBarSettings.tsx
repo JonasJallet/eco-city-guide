@@ -4,7 +4,6 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
 import earthLogo from "../../../public/images/earth-logo.png";
 import { IoMapOutline } from "react-icons/io5";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { HiOutlineUser } from "react-icons/hi2";
 
@@ -20,10 +19,7 @@ interface SideBarSettingsProps {
 const SideBarSettings: React.FC<SideBarSettingsProps> = ({
   setActiveItemSideBarSettings,
   firstnameProfile,
-  //logout
 }) => {
-  //--
-
   const router = useRouter();
 
   return (
@@ -32,7 +28,7 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
          shadow-lg shadow-gray-300"
     >
       <button className="flex ml-3 mb-1 mt-1">
-        <a className="" href="/home">
+        <a href="/home">
           <Image
             src={earthLogo as unknown as string}
             alt="Eco City Guide logo"
@@ -62,7 +58,7 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
           carte
         </button>
         <button
-          onClick={() => setActiveItemSideBarSettings("Favoris")}
+          onClick={() => setActiveItemSideBarSettings("Favorites")}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
           <FaRegStar size={23} />

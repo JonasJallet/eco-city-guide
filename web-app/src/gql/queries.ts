@@ -83,8 +83,8 @@ export const GET_MY_PROFILE_INITIALS = gql`
   }
 `;
 
-export const GET_MY_PROFILE_FAVORIES = gql`
-  query GetMyProfileAndFavories {
+export const GET_MY_PROFILE_FAVORITES = gql`
+  query GetMyProfileAndFavorites {
     myProfile {
       id
       email
@@ -124,14 +124,6 @@ export const GET_MY_PROFILE_FAVORIES = gql`
           }
         }
       }
-    }
-  }
-`;
-
-export const REMOVE_FAVORI = gql`
-  mutation RemoveFavoritePlace($placeId: String!) {
-    removeFavoritePlace(placeId: $placeId) {
-      email
     }
   }
 `;

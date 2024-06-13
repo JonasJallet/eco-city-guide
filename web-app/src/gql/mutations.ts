@@ -76,10 +76,13 @@ export const REMOVE_FAVORITE_PLACE = gql`
   }
 `;
 
-export const DELETE_USER = gql`
-  mutation DeleteUser($deleteUserId: ID!) {
-    deleteUser(id: $deleteUserId) {
+export const SIGN_IN = gql`
+  mutation SignIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
       id
+      email
+      firstName
+      lastName
     }
   }
 `;
@@ -87,6 +90,14 @@ export const DELETE_USER = gql`
 export const SIGN_OUT = gql`
   mutation SignOut {
     signOut {
+      id
+    }
+  }
+`;
+
+export const DELETE_USER = gql`
+  mutation DeleteUser($deleteUserId: ID!) {
+    deleteUser(id: $deleteUserId) {
       id
     }
   }

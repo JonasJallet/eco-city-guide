@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { MutationUpdateUserArgs } from "@/gql/graphql";
-import { useQuery, useMutation, gql } from "@apollo/client";
-import FavoriCard from "@/components/settings/FavoriCard";
+import { useQuery, useMutation } from "@apollo/client";
+import FavoriteCard from "@/components/settings/FavoriCard";
 import SideBarSettings from "@/components/settings/SideBarSettings";
-import { GET_MY_PROFILE_FAVORIES, REMOVE_FAVORI } from "@/gql/queries";
+import { GET_MY_PROFILE_FAVORITES } from "@/gql/queries";
+import { REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
 import { UPDATE_MY_PROFILE, DELETE_USER } from "@/gql/mutations";
 import Loader from "@/components/loader/Loader";
-import { favori, updateUserArgs } from "@/interfaces/setting";
+import { updateUserArgs } from "@/interfaces/setting";
 import { useRouter } from "next/router";
+import { Place } from "@/gql/graphql";
 
 export default function Settings() {
   const [showInputs, setShowInputs] = useState<string>("");
@@ -18,10 +20,10 @@ export default function Settings() {
   const [isModalOpened, SetIsModalOpened] = useState(false);
   const [activeItemSideBarSettings, setActiveItemSideBarSettings] =
     useState("Profil");
-  const [favories, setFavories] = useState<favori[]>([]);
+  const [favorites, setFavorites] = useState<Place[]>([]);
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
-  const { data, loading, refetch } = useQuery(GET_MY_PROFILE_FAVORIES);
+  const { data, loading, refetch } = useQuery(GET_MY_PROFILE_FAVORITES);
   const router = useRouter();
 
   let dataProfile: updateUserArgs = {
@@ -53,7 +55,7 @@ export default function Settings() {
   useEffect(() => {
     if (dataProfile) {
       setFormData(dataProfile);
-      setFavories(data?.myProfile.favoritesPlaces as favori[]);
+      setFavorites(data?.myProfile.favoritesPlaces as Place[]);
     }
   }, [data]);
 
@@ -87,11 +89,12 @@ export default function Settings() {
     setShowInputs("");
   };
 
-  const [RemoveFavori, { loading: loadingRemoveFavori }] =
-    useMutation(REMOVE_FAVORI);
+  const [RemoveFavorite, { loading: loadingRemoveFavorite }] = useMutation(
+    REMOVE_FAVORITE_PLACE,
+  );
 
-  const RemoveFavoriPlace = async (idPlace: string) => {
-    await RemoveFavori({
+  const RemoveFavoritePlace = async (idPlace: string) => {
+    await RemoveFavorite({
       variables: {
         placeId: idPlace,
       },
@@ -114,7 +117,7 @@ export default function Settings() {
     } catch (error) {}
   };
 
-  if (loading || loadingRemoveFavori || loadingUpdateUser) {
+  if (loading || loadingRemoveFavorite || loadingUpdateUser) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader />
@@ -366,27 +369,28 @@ export default function Settings() {
               )}
             </>
           )}
-          {activeItemSideBarSettings === "Favoris" && (
+          {activeItemSideBarSettings === "Favorites" && (
             <>
               <h2 className="font-medium text-xl text-gray-500 mt-24 text-center">
                 Mes Favoris
               </h2>
               <div className="flex flex-col items-center">
-                {loadingRemoveFavori && <Loader />}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 mt-2">
-                  {favories &&
-                    favories.length > 0 &&
-                    favories.map((favori, index) => (
+                  {favorites &&
+                    favorites.length > 0 &&
+                    favorites.map((favorite, index) => (
                       <div key={index} className="flex justify-center mt-4">
-                        <FavoriCard
-                          favori={favori}
-                          RemoveFavori={() => RemoveFavoriPlace(favori.id)}
+                        <FavoriteCard
+                          favorite={favorite}
+                          RemoveFavorite={() =>
+                            RemoveFavoritePlace(favorite.id)
+                          }
                         />
                       </div>
                     ))}
                 </div>
               </div>
-              {favories && favories.length == 0 && (
+              {favorites && favorites.length == 0 && (
                 <p className="text-center mt-10">
                   Vous n'avez pas encore de favoris.
                 </p>
