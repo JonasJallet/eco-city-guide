@@ -1,4 +1,4 @@
-import { resetDatabase } from "../resetDatabase";
+import { resetDatabaseAndCache } from "../resetDatabaseAndCache";
 import Category from "../../entities/category";
 import { newCategoriesDataset } from "./category.dataset";
 

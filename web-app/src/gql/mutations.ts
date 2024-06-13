@@ -40,6 +40,24 @@ export const CREATE_PLACE = gql`
   }
 `;
 
+export const ADD_FAVORITE_PLACE = gql`
+  mutation AddFavoritePlace($placeId: String!) {
+    addFavoritePlace(placeId: $placeId) {
+      favoritesPlaces {
+        __typename
+        id
+        name
+        address
+        city {
+          __typename
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const REMOVE_FAVORITE_PLACE = gql`
   mutation RemoveFavoritePlace($placeId: String!) {
     removeFavoritePlace(placeId: $placeId) {
@@ -54,6 +72,22 @@ export const REMOVE_FAVORITE_PLACE = gql`
           name
         }
       }
+    }
+  }
+`;
+
+export const DELETE_USER = gql`
+  mutation DeleteUser($deleteUserId: ID!) {
+    deleteUser(id: $deleteUserId) {
+      id
+    }
+  }
+`;
+
+export const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut {
+      id
     }
   }
 `;

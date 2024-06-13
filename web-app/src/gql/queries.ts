@@ -35,8 +35,8 @@ export const GET_CATEGORIES = gql`
   }
 `;
 
-export const GET_FAVORITES = gql`
-  query favorites {
+export const GET_PROFILE = gql`
+  query GetProfile {
     myProfile {
       id
       email

@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { resetDatabase } from "../resetDatabase";
+import { resetDatabaseAndCache } from "../resetDatabaseAndCache";
 import { getDataSource } from "../../database";
 import User from "../../entities/user";
 import Place from "../../entities/place";
@@ -8,7 +8,7 @@ import { newUsersDataset } from "./user.dataset";
 import { newPlacesDataset } from "./place.dataset";
 
 describe("User", () => {
-  resetDatabase();
+  resetDatabaseAndCache();
 
   const createNewCategory = async (categoryData: {
     name: string;
