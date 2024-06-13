@@ -544,6 +544,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
 .fixed {
   position: fixed;
 }
@@ -564,12 +568,20 @@ video {
   inset: 0px;
 }
 
+.right-0 {
+  right: 0px;
+}
+
 .right-3 {
   right: 0.75rem;
 }
 
 .right-40 {
   right: 10rem;
+}
+
+.top-0 {
+  top: 0px;
 }
 
 .top-10 {
@@ -717,6 +729,10 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mr-20 {
+  margin-right: 5rem;
 }
 
 .block {
