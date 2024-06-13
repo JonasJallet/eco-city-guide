@@ -62,6 +62,12 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  async signOut(@Ctx() { user }: Context): Promise<User | null> {
+    await User.signOut(user as User);
+    return user;
+  }
+
+  @Mutation(() => User)
   signUp(@Args() args: CreateUser) {
     return User.saveNewUser(args);
   }

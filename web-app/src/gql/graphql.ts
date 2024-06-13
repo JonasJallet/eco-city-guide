@@ -43,6 +43,7 @@ export type Mutation = {
   deleteUser: User;
   removeFavoritePlace: User;
   signIn: User;
+  signOut: User;
   signUp: User;
   updateCategory: Category;
   updatePlace: Place;
@@ -147,6 +148,7 @@ export type Query = {
   __typename?: 'Query';
   categories: Array<Category>;
   cities: Array<City>;
+  isAuthenticated: Scalars['Boolean']['output'];
   isInFavorites: Scalars['Boolean']['output'];
   myProfile: User;
   place: Place;
