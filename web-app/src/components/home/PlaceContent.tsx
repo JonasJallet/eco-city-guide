@@ -78,8 +78,8 @@ export default function PlaceContent() {
             <div className="flex flex-wrap gap-2 rounded-2xl mb-2 mt-4 px-4">
               {place.categories.map((category) => (
                 <span
-                  className="text-text_color text-xs bg-green-200 py-1 px-2 rounded-lg m-01"
                   key={category.id}
+                  className="text-white text-xs bg-tertiary_color py-1 px-2 rounded-lg m-01 pointer-events-none"
                 >
                   {category.name}
                 </span>

@@ -115,6 +115,7 @@ export default function Map() {
           {surroundingPlaces.length > 0 &&
             surroundingPlaces.map((place, index) => (
               <Marker
+                key={place.id}
                 position={[
                   place.coordinates.coordinates[0] as number,
                   place.coordinates.coordinates[1] as number,
