@@ -388,7 +388,6 @@ export default function Settings() {
               </div>
               {favories && favories.length == 0 && (
                 <p className="text-center mt-10">
-                  {" "}
                   Vous n'avez pas encore de favoris.
                 </p>
               )}
