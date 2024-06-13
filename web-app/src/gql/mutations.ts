@@ -91,3 +91,27 @@ export const SIGN_OUT = gql`
     }
   }
 `;
+
+export const UPDATE_MY_PROFILE = gql`
+  mutation UpdateUser(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+    $updateUserId: ID!
+  ) {
+    updateUser(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+      id: $updateUserId
+    ) {
+      id
+      firstName
+      lastName
+      email
+      hashedPassword
+    }
+  }
+`;

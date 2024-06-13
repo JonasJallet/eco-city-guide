@@ -3,7 +3,7 @@ import Category from "../../entities/category";
 import { newCategoriesDataset } from "./category.dataset";
 
 describe("Category", () => {
-  resetDatabase();
+  resetDatabaseAndCache();
   const createNewCategory = async (categoryData: {
     name: string;
     icon: string;

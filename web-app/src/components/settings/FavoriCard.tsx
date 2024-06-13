@@ -70,6 +70,7 @@ export default function FavoriCard({ favori, RemoveFavori }: FavoriCardProps) {
           {clickedFavori && (
             <div className="mt-2">
               <button
+                aria-label="Voir le lieu sur la carte"
                 className="bg-tertiary_color rounded p-2 font-medium text-white"
                 onClick={() => handleCarteClick()}
               >
@@ -79,6 +80,7 @@ export default function FavoriCard({ favori, RemoveFavori }: FavoriCardProps) {
                 </div>
               </button>
               <button
+                aria-label="Retirer le lieu des favoris"
                 className="bg-blue-600 rounded p-2 font-medium text-white ml-1"
                 onClick={() => RemoveFavori(favori.id)}
               >

@@ -84,7 +84,7 @@ export const GET_MY_PROFILE_INITIALS = gql`
 `;
 
 export const GET_MY_PROFILE_FAVORIES = gql`
-  query GetMyProfile {
+  query GetMyProfileAndFavories {
     myProfile {
       id
       email
@@ -124,30 +124,6 @@ export const GET_MY_PROFILE_FAVORIES = gql`
           }
         }
       }
-    }
-  }
-`;
-
-export const UPDATE_MY_PROFILE = gql`
-  mutation UpdateUser(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-    $updateUserId: ID!
-  ) {
-    updateUser(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-      id: $updateUserId
-    ) {
-      id
-      firstName
-      lastName
-      email
-      hashedPassword
     }
   }
 `;
