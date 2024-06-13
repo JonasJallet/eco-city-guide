@@ -3,7 +3,7 @@ import { useState } from "react";
 import UserModal from "../modals/UserModal";
 import { GET_PROFILE } from "@/gql/queries";
 import { useRouter } from "next/router";
-import { SIGN_OUT, DELETE_USER } from "@/gql/mutations";
+import { SIGN_OUT } from "@/gql/mutations";
 
 export default function Initials() {
   const { data, loading } = useQuery(GET_PROFILE);
@@ -13,25 +13,10 @@ export default function Initials() {
 
   const [signOutMutation] = useMutation(SIGN_OUT);
 
-  const [deleteUserMutation] = useMutation(DELETE_USER);
-
   const signOut = async () => {
     try {
       const { data } = await signOutMutation();
       if (data && data.signOut) {
-        router.push("/home");
-        location.reload();
-      }
-    } catch (error) {}
-  };
-
-  const deleteUser = async () => {
-    let id = data?.myProfile.id;
-    try {
-      const { data } = await deleteUserMutation({
-        variables: { deleteUserId: id },
-      });
-      if (data && data.deleteUser) {
         router.push("/home");
         location.reload();
       }
@@ -68,14 +53,6 @@ export default function Initials() {
                     }}
                   >
                     Se déconnecter
-                  </p>
-                  <p
-                    className="p-2 hover:text-tertiary_color"
-                    onClick={() => {
-                      deleteUser();
-                    }}
-                  >
-                    Supprimer son compte
                   </p>
                 </div>
               </UserModal>

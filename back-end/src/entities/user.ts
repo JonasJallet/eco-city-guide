@@ -148,9 +148,7 @@ class User extends BaseEntity {
     user: User,
   ): Promise<{ user: User; sessions: UserSession[] }> {
     let sessions = await UserSession.getUserSessionsByUserId(user.id);
-    for (let session of sessions) {
-      await UserSession.deleteSession(session);
-    }
+    await UserSession.deleteSessions(sessions);
     return { user, sessions };
   }
 

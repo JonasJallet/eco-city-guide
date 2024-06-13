@@ -38,20 +38,11 @@ class UserSession extends BaseEntity {
     return userSession;
   }
 
-  static async getUserSessionByUserId(userId: string): Promise<UserSession> {
-    const userSession = await this.findOne({
-      where: { user: { id: userId } },
-      relations: ["user"], // Inclure la relation si nécessaire
-    });
-    if (!userSession) {
-      throw new Error(`UserSession with userId ${userId} does not exist.`);
+  static async deleteSessions(sessions: UserSession[]): Promise<UserSession[]> {
+    for (let session of sessions) {
+      await UserSession.delete(session.id);
     }
-    return userSession;
-  }
-
-  static async deleteSession(session: UserSession): Promise<UserSession> {
-    await UserSession.delete(session.id);
-    return session;
+    return sessions;
   }
 }
 
