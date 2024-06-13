@@ -138,6 +138,7 @@ export default function Settings() {
                       {" "}
                       <input
                         className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
+                        type="text"
                         name="lastname"
                         id="lastname"
                         value={formData.lastName || ""}
