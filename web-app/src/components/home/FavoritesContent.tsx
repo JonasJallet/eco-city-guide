@@ -88,8 +88,10 @@ export default function FavoritesContent() {
     );
   };
 
-  const { favoritesPlaces } = data?.myProfile;
-  organizedFavorites = organizeFavoritePlaceByCategories(favoritesPlaces);
+  if (!loading) {
+    const { favoritesPlaces } = data?.myProfile;
+    organizedFavorites = organizeFavoritePlaceByCategories(favoritesPlaces);
+  }
 
   return (
     <div className="flex flex-col h-screen w-80">
