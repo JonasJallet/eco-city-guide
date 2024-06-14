@@ -3,13 +3,16 @@ import { MutationUpdateUserArgs } from "@/gql/graphql";
 import { useQuery, useMutation } from "@apollo/client";
 import FavoriteCard from "@/components/settings/FavoriCard";
 import NavBarSettings from "@/components/settings/NavBarSettings";
-import { GET_MY_PROFILE_FAVORITES } from "@/gql/queries";
-import { REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
-import { UPDATE_MY_PROFILE, DELETE_USER } from "@/gql/mutations";
+import { GET_PROFILE } from "@/gql/queries";
+import {
+  REMOVE_FAVORITE_PLACE,
+  UPDATE_USER,
+  DELETE_USER,
+} from "@/gql/mutations";
 import Loader from "@/components/loader/Loader";
-import { updateUserArgs } from "@/interfaces/updateUserArgs";
 import { useRouter } from "next/router";
 import { Place } from "@/gql/graphql";
+import { UserUpdateInterface } from "@/interfaces/UserUpdate";
 
 export default function Settings() {
   const [showInputs, setShowInputs] = useState<string>("");
@@ -23,10 +26,10 @@ export default function Settings() {
   const [favorites, setFavorites] = useState<Place[]>([]);
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
-  const { data, loading, refetch } = useQuery(GET_MY_PROFILE_FAVORITES);
+  const { data, loading, refetch } = useQuery(GET_PROFILE);
   const router = useRouter();
 
-  let dataProfile: updateUserArgs = {
+  let dataProfile: UserUpdateInterface = {
     firstName: "",
     lastName: "",
     email: "",
@@ -44,7 +47,7 @@ export default function Settings() {
     };
   }
 
-  const [formData, setFormData] = useState<updateUserArgs>({
+  const [formData, setFormData] = useState<UserUpdateInterface>({
     firstName: "",
     lastName: "",
     email: "",
@@ -66,7 +69,7 @@ export default function Settings() {
   const [
     UpdateUserMutation,
     { loading: loadingUpdateUser, error: updateUserError },
-  ] = useMutation<MutationUpdateUserArgs>(UPDATE_MY_PROFILE);
+  ] = useMutation<MutationUpdateUserArgs>(UPDATE_USER);
 
   const UpdateProfileData = async () => {
     try {

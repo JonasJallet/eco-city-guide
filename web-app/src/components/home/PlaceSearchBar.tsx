@@ -48,15 +48,6 @@ export default function PlaceSearchBar({ category }: Props) {
     setSearchPlace(place.name);
     setSearchResults([]);
     setPlace(place);
-
-    // Test to display surrounding places
-    // setSurroundingPlaces(
-    //   getSurroundingPlacesAroundPoint(
-    //     placesData.places,
-    //     place.coordinates.coordinates,
-    //     6,
-    //   ),
-    // );
   };
 
   useEffect(() => {

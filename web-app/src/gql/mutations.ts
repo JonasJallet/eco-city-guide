@@ -26,6 +26,7 @@ export const CREATE_PLACE = gql`
       city: $city
       categoryIds: $categoryIds
     ) {
+      id
       name
       description
       coordinates
@@ -34,6 +35,7 @@ export const CREATE_PLACE = gql`
         name
       }
       categories {
+        icon
         name
       }
     }
@@ -103,7 +105,7 @@ export const DELETE_USER = gql`
   }
 `;
 
-export const UPDATE_MY_PROFILE = gql`
+export const UPDATE_USER = gql`
   mutation UpdateUser(
     $firstName: String!
     $lastName: String!
