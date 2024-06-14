@@ -7,17 +7,13 @@ import { IoMapOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
 import { HiOutlineUser } from "react-icons/hi2";
 
-type ClickedItemSideBarType = string;
-
-interface SideBarSettingsProps {
-  setActiveItemSideBarSettings: React.Dispatch<
-    React.SetStateAction<ClickedItemSideBarType>
-  >;
+interface Props {
+  setActiveItemNavBarSettings: (activeItemNabBarSettings: string) => void;
   firstnameProfile: string;
 }
 
-const SideBarSettings: React.FC<SideBarSettingsProps> = ({
-  setActiveItemSideBarSettings,
+const NavBarSettings: React.FC<Props> = ({
+  setActiveItemNavBarSettings,
   firstnameProfile,
 }) => {
   const router = useRouter();
@@ -41,7 +37,7 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
       </button>
       <div className="mt-1 mr-3 grid grid-cols-5 gap-7">
         <button
-          onClick={() => setActiveItemSideBarSettings("Profil")}
+          onClick={() => setActiveItemNavBarSettings("Profil")}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
           <HiOutlineUser size={23} />
@@ -49,7 +45,7 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
         </button>
         <button
           onClick={() => {
-            setActiveItemSideBarSettings("Profil");
+            setActiveItemNavBarSettings("Profil");
             router.push("/home");
           }}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
@@ -58,21 +54,21 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
           carte
         </button>
         <button
-          onClick={() => setActiveItemSideBarSettings("Favorites")}
+          onClick={() => setActiveItemNavBarSettings("Favorites")}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
           <FaRegStar size={23} />
           favoris
         </button>
         <button
-          onClick={() => setActiveItemSideBarSettings("Settings")}
+          onClick={() => setActiveItemNavBarSettings("Settings")}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
           <IoSettingsOutline size={23} />
           réglages
         </button>
         <button
-          onClick={() => setActiveItemSideBarSettings("Logout")}
+          onClick={() => setActiveItemNavBarSettings("Logout")}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
           <IoMdLogOut size={23} />
@@ -83,4 +79,4 @@ const SideBarSettings: React.FC<SideBarSettingsProps> = ({
   );
 };
 
-export default SideBarSettings;
+export default NavBarSettings;

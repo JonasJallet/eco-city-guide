@@ -5,25 +5,20 @@ import PlaceContext from "@/contexts/PlaceContext";
 import { PlaceContextType } from "@/contexts/PlaceContext";
 import { Place } from "@/gql/graphql";
 
-interface FavoriteCardProps {
+interface Props {
   favorite: Place;
   RemoveFavorite: (idPlace: string) => Promise<void>;
 }
 
-export default function FavoriteCard({
-  favorite,
-  RemoveFavorite,
-}: FavoriteCardProps) {
+export default function FavoriteCard({ favorite, RemoveFavorite }: Props) {
   const [clickedFavorite, setClickedFavorite] = useState(false);
   const router = useRouter();
 
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
 
   const handleMapClick = (favorite: Place) => {
-    try {
-      setPlace(favorite);
-      router.push("/home");
-    } catch (e) {}
+    setPlace(favorite);
+    router.push("/home");
   };
 
   return (

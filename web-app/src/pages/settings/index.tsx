@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { MutationUpdateUserArgs } from "@/gql/graphql";
 import { useQuery, useMutation } from "@apollo/client";
 import FavoriteCard from "@/components/settings/FavoriCard";
-import SideBarSettings from "@/components/settings/SideBarSettings";
+import NavBarSettings from "@/components/settings/NavBarSettings";
 import { GET_MY_PROFILE_FAVORITES } from "@/gql/queries";
 import { REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
 import { UPDATE_MY_PROFILE, DELETE_USER } from "@/gql/mutations";
 import Loader from "@/components/loader/Loader";
-import { updateUserArgs } from "@/interfaces/setting";
+import { updateUserArgs } from "@/interfaces/updateUserArgs";
 import { useRouter } from "next/router";
 import { Place } from "@/gql/graphql";
 
@@ -18,7 +18,7 @@ export default function Settings() {
     "Modifier mon mot de passe",
   );
   const [isModalOpened, SetIsModalOpened] = useState(false);
-  const [activeItemSideBarSettings, setActiveItemSideBarSettings] =
+  const [activeItemNavBarSettings, setActiveItemNavBarSettings] =
     useState("Profil");
   const [favorites, setFavorites] = useState<Place[]>([]);
   const [inputType, setInputType] = useState<string>("text");
@@ -128,12 +128,12 @@ export default function Settings() {
   return (
     <div>
       <div>
-        <SideBarSettings
-          setActiveItemSideBarSettings={setActiveItemSideBarSettings}
+        <NavBarSettings
+          setActiveItemNavBarSettings={setActiveItemNavBarSettings}
           firstnameProfile={dataProfile.firstName}
         />
         <div className="mt-20 z-0">
-          {activeItemSideBarSettings == "Profil" && (
+          {activeItemNavBarSettings == "Profil" && (
             <div className="flex justify-center items-center flex-col mt-7">
               <div>
                 <form
@@ -289,7 +289,7 @@ export default function Settings() {
             </div>
           )}
 
-          {activeItemSideBarSettings === "Settings" && (
+          {activeItemNavBarSettings === "Settings" && (
             <>
               <div className="flex flex-col  items-center justify-center">
                 <div style={{ width: 580 }}>
@@ -369,7 +369,7 @@ export default function Settings() {
               )}
             </>
           )}
-          {activeItemSideBarSettings === "Favorites" && (
+          {activeItemNavBarSettings === "Favorites" && (
             <>
               <h2 className="font-medium text-xl text-gray-500 mt-24 text-center">
                 Mes Favoris

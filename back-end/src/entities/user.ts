@@ -124,7 +124,7 @@ class User extends BaseEntity {
       const userWithEmailAlreadyUsed: null | User = await User.getUserByEmail(
         partialUser.email,
       );
-      if (userWithEmailAlreadyUsed !== null) {
+      if (userWithEmailAlreadyUsed) {
         throw new Error("Un compte avec cet email existe déjà.");
       }
     }
