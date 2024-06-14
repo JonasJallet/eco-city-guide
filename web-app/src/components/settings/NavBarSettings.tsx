@@ -6,6 +6,8 @@ import earthLogo from "../../../public/images/earth-logo.png";
 import { IoMapOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
 import { HiOutlineUser } from "react-icons/hi2";
+import { SIGN_OUT } from "@/gql/mutations";
+import { useMutation } from "@apollo/client";
 
 interface Props {
   setActiveItemNavBarSettings: (activeItemNabBarSettings: string) => void;
@@ -17,6 +19,13 @@ const NavBarSettings: React.FC<Props> = ({
   firstnameProfile,
 }) => {
   const router = useRouter();
+
+  const [SignOut] = useMutation(SIGN_OUT);
+
+  const Logout = async () => {
+    await SignOut();
+    router.push("/home");
+  };
 
   return (
     <div
@@ -45,7 +54,6 @@ const NavBarSettings: React.FC<Props> = ({
         </button>
         <button
           onClick={() => {
-            setActiveItemNavBarSettings("Profil");
             router.push("/home");
           }}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
@@ -68,7 +76,7 @@ const NavBarSettings: React.FC<Props> = ({
           réglages
         </button>
         <button
-          onClick={() => setActiveItemNavBarSettings("Logout")}
+          onClick={() => Logout()}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
           <IoMdLogOut size={23} />
