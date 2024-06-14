@@ -38,7 +38,7 @@ export default function CreateCategoriesForm() {
   };
 
   return (
-    <div className="flex flex-col items-center w-80">
+    <div className="flex flex-col items-center w-80 animate-fade">
       <button
         onClick={handleCloseButton}
         className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
@@ -60,7 +60,7 @@ export default function CreateCategoriesForm() {
         <form className="pt-10">
           <div className="px-8">
             <input
-              className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none hover:border-white hover:bg-input_hover_bg mb-2 border border-tertiary_color"
+              className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  focus:outline-none hover:border-white hover:bg-input_hover_bg mb-2 border border-tertiary_color"
               type="text"
               name="name"
               id="name"

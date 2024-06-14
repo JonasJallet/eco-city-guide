@@ -3,7 +3,7 @@ import { createContext } from "react";
 
 export type PlaceContextType = {
   place: Place | undefined;
-  setPlace: (place: Place) => void;
+  setPlace: (place: Place | undefined) => void;
 };
 
 const PlaceContext = createContext<PlaceContextType>({
