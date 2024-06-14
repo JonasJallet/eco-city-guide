@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MutationUpdateUserArgs } from "@/gql/graphql";
 import { useQuery, useMutation } from "@apollo/client";
-import FavoriteCard from "@/components/settings/FavoriCard";
+import FavoriteCard from "@/components/settings/FavoriteCard";
 import NavBarSettings from "@/components/settings/NavBarSettings";
 import { GET_MY_PROFILE_FAVORITES } from "@/gql/queries";
 import { REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
