@@ -33,7 +33,7 @@ export default function SideBarContent({
   }
 
   return (
-    <div className="mr-20 bg-white transition-all border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300 z-20">
+    <div className=" bg-white border-r-gray-200 border-r-[1px] shadow-lg shadow-gray-300 z-20">
       {contentComponent}
     </div>
   );

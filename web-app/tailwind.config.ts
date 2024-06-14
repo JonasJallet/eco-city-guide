@@ -18,6 +18,15 @@ export default {
         fontSizeText: "1rem",
         fontSizeSettingsSideBar: "0.65rem",
       },
+      animation: {
+        fade: "fadeIn .3s ease-in-out",
+      },
+      keyframes: {
+        fadeIn: {
+          from: { opacity: "0" },
+          to: { opacity: "1px" },
+        },
+      },
     },
   },
   plugins: [],

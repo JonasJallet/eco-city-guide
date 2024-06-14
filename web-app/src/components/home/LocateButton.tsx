@@ -3,9 +3,6 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 
 export const LocateButton = () => {
   const map = useMapEvents({
-    click() {
-      map.locate();
-    },
     locationfound(e) {
       map.flyTo(e.latlng, 15);
     },
