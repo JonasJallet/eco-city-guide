@@ -15,6 +15,8 @@ export default {
     extend: {
       fontSize: {
         fontSizeModale: "1rem",
+        fontSizeText: "1rem",
+        fontSizeSettingsSideBar: "0.65rem",
       },
     },
   },

@@ -22,6 +22,7 @@ export type Scalars = {
 
 export type Category = {
   __typename?: 'Category';
+  icon: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
 };
@@ -57,6 +58,7 @@ export type MutationAddFavoritePlaceArgs = {
 
 
 export type MutationCreateCategoryArgs = {
+  icon: Scalars['String']['input'];
   name: Scalars['String']['input'];
 };
 
@@ -107,6 +109,7 @@ export type MutationSignUpArgs = {
 
 
 export type MutationUpdateCategoryArgs = {
+  icon: Scalars['String']['input'];
   id: Scalars['ID']['input'];
   name: Scalars['String']['input'];
 };

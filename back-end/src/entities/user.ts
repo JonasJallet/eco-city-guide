@@ -117,8 +117,24 @@ class User extends BaseEntity {
 
   static async updateUser(id: string, partialUser: UpdateUser): Promise<User> {
     const user = await User.getUserById(id);
-    Object.assign(user, partialUser);
-
+    if (partialUser.password && user.hashedPassword !== partialUser.password) {
+      partialUser.password = await hash(partialUser.password, 10);
+    }
+    if (partialUser.email && user.email !== partialUser.email) {
+      const userWithEmailAlreadyUsed: null | User = await User.getUserByEmail(
+        partialUser.email,
+      );
+      if (userWithEmailAlreadyUsed) {
+        throw new Error("Un compte avec cet email existe déjà.");
+      }
+    }
+    const newDataUser = {
+      firstName: partialUser.firstName,
+      lastName: partialUser.lastName,
+      email: partialUser.email,
+      hashedPassword: partialUser.password,
+    };
+    Object.assign(user, newDataUser);
     await user.save();
     await user.reload();
     return user;

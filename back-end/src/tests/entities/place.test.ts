@@ -12,6 +12,7 @@ describe("Place", () => {
 
   const createNewCategory = async (categoryData: {
     name: string;
+    icon: string;
   }): Promise<Category> => {
     const database = await getDataSource();
     const categoryRepository = database.getRepository(Category);
@@ -29,7 +30,14 @@ describe("Place", () => {
     return await Place.saveNewPlace({
       ...placeData,
       city: "Lyon",
-      categoryIds: [(await createNewCategory({ name: faker.lorem.word() })).id],
+      categoryIds: [
+        (
+          await createNewCategory({
+            name: faker.lorem.word(),
+            icon: faker.lorem.word(),
+          })
+        ).id,
+      ],
       ownerId: null,
     });
   };

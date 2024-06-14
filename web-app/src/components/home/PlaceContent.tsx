@@ -55,7 +55,7 @@ export default function PlaceContent() {
     <div className="flex flex-col h-screen w-80 h-sreen">
       <button
         onClick={handleCloseButton}
-        className="self-start text-2xl text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
+        className="self-start text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
       >
         <MdClose />
       </button>

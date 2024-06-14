@@ -71,3 +71,59 @@ export const IS_IN_FAVORITES = gql`
     isInFavorites(placeId: $placeId)
   }
 `;
+
+export const GET_MY_PROFILE_INITIALS = gql`
+  query GetMyProfileInitials {
+    myProfile {
+      id
+      firstName
+      lastName
+      userInitials
+    }
+  }
+`;
+
+export const GET_MY_PROFILE_FAVORITES = gql`
+  query GetMyProfileAndFavorites {
+    myProfile {
+      id
+      email
+      firstName
+      lastName
+      hashedPassword
+      favoritesPlaces {
+        id
+        name
+        address
+        coordinates
+        createdAt
+        description
+
+        city {
+          id
+          name
+          coordinates
+        }
+        categories {
+          id
+          name
+          icon
+        }
+        owner {
+          id
+          createdAt
+          firstName
+          lastName
+          userInitials
+          role
+          email
+          hashedPassword
+          favoritesPlaces {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;

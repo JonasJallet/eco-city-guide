@@ -6,6 +6,9 @@ export class CreateCategory {
   @Field()
   @MinLength(3)
   name!: string;
+
+  @Field()
+  icon!: string;
 }
 
 @ArgsType()
@@ -13,4 +16,7 @@ export class UpdateCategory {
   @Field()
   @MinLength(3)
   name!: string;
+
+  @Field()
+  icon!: string;
 }
