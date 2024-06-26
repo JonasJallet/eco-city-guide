@@ -99,11 +99,23 @@ export default function Map() {
   const layers = [
     {
       name: "Par défaut",
-      url: "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png",
+      url: `https://wxs.ign.fr/choisirgeoportail/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/png&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
+      options: {
+        bounds: [
+          [-75, -180],
+          [81, 180],
+        ] as L.LatLngBoundsExpression,
+      },
     },
     {
       name: "Satellite",
-      url: "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png",
+      url: `https://wxs.ign.fr/choisirgeoportail/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/jpeg&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
+      options: {
+        bounds: [
+          [-75, -180],
+          [81, 180],
+        ] as L.LatLngBoundsExpression,
+      },
     },
   ];
 
@@ -141,7 +153,11 @@ export default function Map() {
                   checked={index === 0 ? true : false}
                   name={layer.name}
                 >
-                  <TileLayer url={layer.url} />
+                  <TileLayer
+                    url={layer.url}
+                    attribution='<a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>'
+                    bounds={layer.options?.bounds}
+                  />
                 </LayersControl.BaseLayer>
               );
             })}
@@ -154,10 +170,6 @@ export default function Map() {
             category={category}
             isCategorySelected={isCategorySelected}
             setIsCategorySelected={setIsCategorySelected}
-          />
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
           />
           {surroundingPlaces.length > 0 &&
             surroundingPlaces.map((place, index) => (
