@@ -12,8 +12,10 @@ import { SideBarContentEnum } from "../home/sideBarContent.type";
 export default function CreateCategoriesForm() {
   const [formData, setFormData] = useState<MutationCreateCategoryArgs>({
     name: "",
+    icon: "",
   });
-  const [inputValue, setInputValue] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryIcon, setCategoryIcon] = useState("");
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
@@ -66,16 +68,30 @@ export default function CreateCategoriesForm() {
               id="name"
               placeholder="Nom"
               required
-              value={inputValue}
+              value={categoryName}
               onChange={(event) => {
-                setInputValue(event.target.value);
+                setCategoryName(event.target.value);
                 updateFormData({ name: event.target.value });
+              }}
+            />
+            <input
+              className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  focus:outline-none hover:border-white hover:bg-input_hover_bg mb-2 border border-tertiary_color"
+              type="text"
+              name="icon"
+              id="icon"
+              placeholder="Icon"
+              required
+              value={categoryIcon}
+              onChange={(event) => {
+                setCategoryIcon(event.target.value);
+                updateFormData({ icon: event.target.value });
               }}
             />
             <button
               type="submit"
               onSubmit={() => {
-                setInputValue("");
+                setCategoryName("");
+                setCategoryIcon("");
               }}
               className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >
