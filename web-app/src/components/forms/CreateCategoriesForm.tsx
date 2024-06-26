@@ -40,7 +40,7 @@ export default function CreateCategoriesForm() {
   };
 
   return (
-    <div className="flex flex-col items-center w-80 animate-fade">
+    <div className="flex flex-col items-center w-80 h-screen animate-fade">
       <button
         onClick={handleCloseButton}
         className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
