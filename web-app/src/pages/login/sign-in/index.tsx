@@ -61,7 +61,7 @@ export default function SignInPage() {
             </h1>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                 type="email"
                 name="email"
                 id="email"
@@ -75,7 +75,7 @@ export default function SignInPage() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                 type="password"
                 name="password"
                 id="password"

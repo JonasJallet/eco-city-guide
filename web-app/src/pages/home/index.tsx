@@ -1,8 +1,5 @@
 "use client";
-import Initials from "@/components/home/Initials";
 import { Main } from "@/components/home/Main";
-import PlaceSearchBar from "@/components/home/PlaceSearchBar";
-import { CategoriesSearchFilter } from "@/components/home/CategoriesSearchFilter";
 import SideBar from "@/components/home/SideBar";
 import { Place } from "@/gql/graphql";
 import { useState } from "react";
@@ -18,28 +15,15 @@ export default function index() {
 
   return (
     <>
-      <div className=" flex justify-end">
-        <div className="absolute z-20">
-          <Initials />
-        </div>
-      </div>
       <SurroundingPlacesContext.Provider
         value={{ surroundingPlaces, setSurroundingPlaces }}
       >
-        <DisplayPanelContext.Provider value={{ sideBarEnum, setSideBarEnum }}>
-          <div className="flex h-screen">
-            <div className="flex justify-center absolute inset-0 mt-8 mx-auto z-20 w-2/3 h-20">
-              <div className="col-span-1 flex items-center justify-start">
-                <CategoriesSearchFilter />
-              </div>
-              <div className="col-span-1 mt-4 flex justify-center">
-                <PlaceSearchBar />
-              </div>
+          <DisplayPanelContext.Provider value={{ sideBarEnum, setSideBarEnum }}>
+            <div className="flex h-screen">
+              <Main />
+              <SideBar />
             </div>
-            <Main />
-            <SideBar />
-          </div>
-        </DisplayPanelContext.Provider>
+          </DisplayPanelContext.Provider>
       </SurroundingPlacesContext.Provider>
     </>
   );

@@ -1,26 +1,27 @@
 import L, { LatLng } from "leaflet";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  MapContainer,
-  Marker,
-  TileLayer,
-  Popup,
-  LayersControl,
-} from "react-leaflet";
+import { MapContainer, Marker, TileLayer, LayersControl } from "react-leaflet";
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 import SurroundingPlacesContext, {
   SurroundingPlacesContextType,
 } from "@/contexts/SurroundingPlacesContext";
-import { CenterOfTheMap } from "./CenterOfTheMap";
+import { SearchCategoryOnMap } from "./SearchCategoryOnMap";
 import { LocateButton } from "./LocateButton";
+import { CategoriesSearchFilter } from "./CategoriesSearchFilter";
+import PlaceSearchBar from "./PlaceSearchBar";
+import { Category, Place } from "@/gql/graphql";
+import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
+import { useQuery } from "@apollo/client";
+import { GET_PLACES } from "@/gql/queries";
 import { SideBarContentEnum } from "./sideBarContent.type";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
 import FullscreenButton from "./FullScreenButton";
+import Initials from "./Initials";
 
 export default function Map() {
-  const { place } = useContext(PlaceContext) as PlaceContextType;
+  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
@@ -30,7 +31,30 @@ export default function Map() {
   const [mapRenderingCenterPoint, setMapRenderingCenterPoint] = useState([
     47.068703, 2.747125,
   ]);
+
   const [zoom, setZoom] = useState(6);
+  const [category, setCategory] = useState<Category | undefined>(undefined);
+  const [isCategorySelected, setIsCategorySelected] = useState(false);
+  const [centerOfTheMap, setCenterOfTheMap] = useState<LatLng>();
+  const [zoomLevel, setZoomLevel] = useState(6);
+
+  const { data: dataPlaces } = useQuery(GET_PLACES);
+  useEffect(() => {
+    if (
+      category !== undefined &&
+      centerOfTheMap?.lat !== undefined &&
+      centerOfTheMap?.lng !== undefined
+    ) {
+      setSurroundingPlaces(
+        getSurroundingPlacesAroundPoint(
+          dataPlaces.places,
+          [centerOfTheMap?.lat, centerOfTheMap?.lng],
+          zoomLevel,
+          category.name,
+        ),
+      );
+    }
+  }, [category, centerOfTheMap]);
 
   useEffect(() => {
     if (place !== undefined) {
@@ -66,7 +90,9 @@ export default function Map() {
     }
   }, [place]);
 
-  const handleMarkerClick = () => {
+  const handleMarkerClick = (place: Place) => {
+    setSurroundingPlaces([place]);
+    setPlace(place);
     setSideBarEnum(SideBarContentEnum.PLACE);
   };
 
@@ -82,13 +108,28 @@ export default function Map() {
   ];
 
   return (
-    <>
-      <div className="flex h-full w-full z-10">
+    <div className="h-full w-full flex justify-center">
+      <div className="grid grid-cols-1 items-center m-5 absolute z-20 sm:grid-cols-2 md:grid-cols-3">
+        <div className="col-span-2">
+          <PlaceSearchBar category={category?.name} />
+        </div>
+        <div className="col-span-1">
+          <CategoriesSearchFilter
+            setCategory={setCategory}
+            setIsCategorySelected={setIsCategorySelected}
+          />
+        </div>
+      </div>
+      <div className="absolute z-20 right-0 mt-6 mr-28">
+        <Initials />
+      </div>
+      <div className="flex h-full w-full relative z-10">
         <MapContainer
           key={mapRenderingCenterPoint.toString()}
           center={[mapRenderingCenterPoint[0], mapRenderingCenterPoint[1]]}
           zoom={zoom}
           touchZoom={false}
+          doubleClickZoom={false}
           scrollWheelZoom={true}
           className="h-full w-full"
         >
@@ -107,7 +148,13 @@ export default function Map() {
           </LayersControl>
           <LocateButton />
           <FullscreenButton />
-          <CenterOfTheMap />
+          <SearchCategoryOnMap
+            setCenterOfTheMap={setCenterOfTheMap}
+            setZoomLevel={setZoomLevel}
+            category={category}
+            isCategorySelected={isCategorySelected}
+            setIsCategorySelected={setIsCategorySelected}
+          />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
@@ -121,22 +168,17 @@ export default function Map() {
                   place.coordinates.coordinates[1] as number,
                 ]}
                 eventHandlers={{
-                  click: () => handleMarkerClick(),
+                  click: () => handleMarkerClick(place),
                 }}
                 icon={L.icon({
                   iconSize: [40, 40],
                   shadowSize: [50, 64],
                   iconUrl: "/images/marker.png",
                 })}
-              >
-                {/* <Popup>
-                  Ceci est un nom
-                  <br /> NOTE
-                </Popup> */}
-              </Marker>
+              ></Marker>
             ))}
         </MapContainer>
       </div>
-    </>
+    </div>
   );
 }

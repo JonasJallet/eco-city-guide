@@ -6,23 +6,22 @@ import { Place } from "@/gql/graphql";
 import { GET_PLACES } from "@/gql/queries";
 import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
 import { useQuery } from "@apollo/client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 
 interface Props {
-  city?: string;
   category?: string;
 }
 
-export default function PlaceSearchBar({ city, category }: Props) {
+export default function PlaceSearchBar({ category }: Props) {
   const [searchPlace, setSearchPlace] = useState("");
   const [searchResults, setSearchResults] = useState<Place[]>([]);
-  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { setPlace } = useContext(PlaceContext) as PlaceContextType;
   const { surroundingPlaces, setSurroundingPlaces } = useContext(
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
   const { data: placesData } = useQuery(GET_PLACES, {
-    variables: { city },
+    variables: { category },
   });
 
   const handleSearchPlacesInput = (
@@ -60,17 +59,23 @@ export default function PlaceSearchBar({ city, category }: Props) {
     // );
   };
 
+  useEffect(() => {
+    if (category) {
+      setSearchPlace(category);
+    }
+  }, [category]);
+
   return (
     <>
-      <div className="w-80 relative">
+      <div className="w-full relative">
         <input
           className={`w-full bg-white-200 px-4 py-3 cursor-text ${
             searchResults?.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
-          } border border-tertiary_color focus:outline-none`}
+          } border border-tertiary_color hover:border-input_hover_bg hover:bg-input_hover_bg transition-all duration- outline-none focus:outline-none`}
           type="text"
           name="search"
           id="search"
-          placeholder="Chercher un lieu..."
+          placeholder={"Rechercher lieu..."}
           value={searchPlace}
           onChange={(event) => {
             handleSearchPlacesInput(event);
@@ -81,9 +86,9 @@ export default function PlaceSearchBar({ city, category }: Props) {
             }, 200);
           }}
         />
-        <HiOutlineSearch className=" w-6 h-6 absolute right-3 top-3 text-gray-500" />
+        <HiOutlineSearch className=" w-6 h-6 absolute right-3 top-3 text-tertiary_color" />
         {searchResults?.length > 0 && (
-          <div className="flex flex-col absolute z-20 top-10 w-80 rounded-b-3xl border border-tertiary_color bg-white">
+          <div className="flex flex-col absolute z-20 top-10 w-80 rounded-b-3xl border border-tertiary_color bg-white animate-fade">
             {searchResults.map((place, index) => (
               <button
                 key={index}
