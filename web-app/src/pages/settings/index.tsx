@@ -375,7 +375,7 @@ export default function Settings() {
                 Mes Favoris
               </h2>
               <div className="flex flex-col items-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 mt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
                   {favorites &&
                     favorites.length > 0 &&
                     favorites.map((favorite, index) => (

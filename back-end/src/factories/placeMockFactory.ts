@@ -27,6 +27,7 @@ export class PlaceMockFactory {
       async () => ({
         name: "Eco-" + faker.commerce.department(),
         description: faker.lorem.lines(),
+        //description: faker.lorem.sentence({ min: 7, max: 10 }), //
         coordinates: {
           type: "Point",
           coordinates: [
