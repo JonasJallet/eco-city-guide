@@ -49,7 +49,11 @@ const NavBarSettings: React.FC<Props> = ({
           onClick={() => setActiveItemNavBarSettings("Profil")}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
-          <HiOutlineUser size={23} />
+          {/* <HiOutlineUser size={23} /> */}
+          <i
+            className="fa-solid fa-user"
+            style={{ fontSize: "20px", color: "#6b7280" }}
+          ></i>
           profil
         </button>
         <button
@@ -58,28 +62,44 @@ const NavBarSettings: React.FC<Props> = ({
           }}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
-          <IoMapOutline size={23} />
+          {/* <IoMapOutline size={23} /> */}
+          <i
+            className="fa-solid fa-map"
+            style={{ fontSize: "20px", color: "#6b7280" }}
+          ></i>
           carte
         </button>
         <button
           onClick={() => setActiveItemNavBarSettings("Favorites")}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
-          <FaRegStar size={23} />
+          {/* <FaRegStar size={23} /> */}
+          <i
+            className="fa-solid fa-star"
+            style={{ fontSize: "20px", color: "#6b7280" }}
+          ></i>
           favoris
         </button>
         <button
           onClick={() => setActiveItemNavBarSettings("Settings")}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
-          <IoSettingsOutline size={23} />
+          {/* <IoSettingsOutline size={23} /> */}
+          <i
+            className="fa-solid fa-gear"
+            style={{ fontSize: "20px", color: "#6b7280" }}
+          ></i>
           réglages
         </button>
         <button
           onClick={() => Logout()}
           className="flex flex-col items-center text-gray-500 text-sm focus:outline-nones transition-colors duration-300 hover:text-tertiary_color"
         >
-          <IoMdLogOut size={23} />
+          {/* <IoMdLogOut size={23} /> */}
+          <i
+            className="fa-solid fa-arrow-right-from-bracket"
+            style={{ fontSize: "20px", color: "#6b7280" }}
+          ></i>
           quitter
         </button>
       </div>

@@ -1,5 +1,5 @@
 import { Field, ArgsType } from "type-graphql";
-import { MinLength, MaxLength } from "class-validator"; //
+import { MinLength, MaxLength } from "class-validator";
 import { Geometry } from "typeorm";
 import { GeoJSONPoint } from "./scalar/geoJSONPoint";
 
@@ -10,8 +10,8 @@ export class CreatePlace {
   name!: string;
 
   @Field()
-  @MinLength(1) //10
-  @MaxLength(500) //
+  @MinLength(10)
+  @MaxLength(80)
   description!: string;
 
   @Field((type) => GeoJSONPoint)
@@ -38,8 +38,8 @@ export class UpdatePlace {
   name?: string;
 
   @Field()
-  @MinLength(1) //10
-  @MaxLength(500) //
+  @MinLength(10)
+  @MaxLength(80)
   description?: string;
 
   @Field((type) => GeoJSONPoint)

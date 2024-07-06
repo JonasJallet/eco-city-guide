@@ -24,7 +24,14 @@ export default function Settings() {
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
   const { data, loading, refetch } = useQuery(GET_MY_PROFILE_FAVORITES);
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !data) {
+      router.push("/home");
+    }
+  }, [data, loading]);
 
   let dataProfile: updateUserArgs = {
     firstName: "",
@@ -375,6 +382,15 @@ export default function Settings() {
                 Mes Favoris
               </h2>
               <div className="flex flex-col items-center">
+                {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 mt-2">
+                  {favorites.map((favorite) => (
+                    <FavoriteCard
+                      key={favorite.id}
+                      favorite={favorite}
+                      RemoveFavorite={() => RemoveFavoritePlace(favorite.id)}
+                    />
+                  ))}
+                </div>  */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
                   {favorites &&
                     favorites.length > 0 &&

@@ -139,7 +139,6 @@ class Place extends BaseEntity {
 
     const cachedResult = await cache.get(cacheKey);
     if (cachedResult) {
-      console.log("I'm here");
       return JSON.parse(cachedResult);
     }
     let whereClause: any = {};
@@ -157,8 +156,6 @@ class Place extends BaseEntity {
     });
 
     cache.set(cacheKey, JSON.stringify(databaseResult), { EX: 1800 });
-
-    console.log(databaseResult, "look here");
     return databaseResult;
   }
 
