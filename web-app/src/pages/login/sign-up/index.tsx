@@ -9,6 +9,7 @@ import {
 import { gql, useMutation, useQuery } from "@apollo/client";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 const SIGN_UP_FORM = gql`
   mutation SignUp(
@@ -78,6 +79,7 @@ export default function index() {
     });
 
     if (data && data.signUp) {
+      toast.success("Votre compte a bien été créé !");
       router.push("/login/sign-in");
     }
   };
