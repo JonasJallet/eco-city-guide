@@ -1,7 +1,7 @@
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 import { useContext, useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
-import { REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
+import { REMOVE_FAVORITE_PLACE } from "@/gql/requests/mutations";
 import { SideBarContentEnum } from "./sideBarContent.type";
 import DisplayPanelContext, {
   DisplayPanelType,

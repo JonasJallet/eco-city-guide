@@ -8,7 +8,7 @@ import SideBarContent from "./SideBarContent";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
-import { GET_PROFILE } from "@/gql/queries";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 

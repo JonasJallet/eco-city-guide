@@ -1,8 +1,8 @@
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
-import { MutationCreateCategoryArgs } from "@/gql/graphql";
-import { CREATE_CATEGORY } from "@/gql/mutations";
+import { MutationCreateCategoryArgs } from "@/gql/generate/graphql";
+import { CREATE_CATEGORY } from "@/gql/requests/mutations";
 import { useMutation } from "@apollo/client";
 import { useContext, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";

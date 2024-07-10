@@ -6,9 +6,13 @@ import DisplayPanelContext, {
 } from "@/contexts/DisplayPanelContext";
 import { SideBarContentEnum } from "./sideBarContent.type";
 import { MdClose, MdLocationPin, MdStar, MdStarBorder } from "react-icons/md";
-import { ADD_FAVORITE_PLACE, REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
-import { GET_PROFILE, IS_IN_FAVORITES } from "@/gql/queries";
+import {
+  ADD_FAVORITE_PLACE,
+  REMOVE_FAVORITE_PLACE,
+} from "@/gql/requests/mutations";
+import { GET_PROFILE, IS_IN_FAVORITES } from "@/gql/requests/queries";
 import { useRouter } from "next/router";
+import { Category } from "@/gql/generate/graphql";
 
 export default function PlaceContent() {
   const { place } = useContext(PlaceContext) as PlaceContextType;
@@ -76,7 +80,7 @@ export default function PlaceContent() {
               </p>
             </div>
             <div className="flex flex-wrap gap-2 rounded-2xl mb-2 mt-4 px-4">
-              {place.categories.map((category, index) => (
+              {place.categories.map((category: Category, index: React.Key) => (
                 <span
                   key={index}
                   className="text-white text-xs bg-tertiary_color py-1 px-2 rounded-lg m-01 pointer-events-none"

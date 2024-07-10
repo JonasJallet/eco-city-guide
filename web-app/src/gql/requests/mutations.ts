@@ -1,10 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_CATEGORY = gql`
-  mutation CreateCategory($name: String!) {
-    createCategory(name: $name) {
+  mutation CreateCategory($name: String!, $icon: String!) {
+    createCategory(name: $name, icon: $icon) {
       id
       name
+      icon
     }
   }
 `;

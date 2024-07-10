@@ -9,10 +9,10 @@ import { SearchCategoryOnMap } from "./SearchCategoryOnMap";
 import { LocateButton } from "./LocateButton";
 import { CategoriesSearchFilter } from "./CategoriesSearchFilter";
 import PlaceSearchBar from "./PlaceSearchBar";
-import { Category, Place } from "@/gql/graphql";
+import { Category, Place } from "@/gql/generate/graphql";
 import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
 import { useQuery } from "@apollo/client";
-import { GET_PLACES } from "@/gql/queries";
+import { GET_PLACES } from "@/gql/requests/queries";
 import { SideBarContentEnum } from "./sideBarContent.type";
 import DisplayPanelContext, {
   DisplayPanelType,

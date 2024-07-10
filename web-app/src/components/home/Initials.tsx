@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import UserModal from "../modals/UserModal";
-import { GET_PROFILE } from "@/gql/queries";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import { useRouter } from "next/router";
-import { SIGN_OUT } from "@/gql/mutations";
+import { SIGN_OUT } from "@/gql/requests/mutations";
 import { AiOutlineLogin } from "react-icons/ai";
 
 export default function Initials() {

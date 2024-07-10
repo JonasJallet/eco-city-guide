@@ -2,9 +2,8 @@ import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 import SurroundingPlacesContext, {
   SurroundingPlacesContextType,
 } from "@/contexts/SurroundingPlacesContext";
-import { Place } from "@/gql/graphql";
-import { GET_PLACES } from "@/gql/queries";
-import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
+import { Place } from "@/gql/generate/graphql";
+import { GET_PLACES } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";

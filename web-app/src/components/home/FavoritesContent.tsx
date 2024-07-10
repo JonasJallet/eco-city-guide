@@ -1,7 +1,7 @@
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
-import { GET_PROFILE } from "@/gql/queries";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import FavoritesByCategory from "./FavoritesByCategory";
 import Loader from "../loader/Loader";
 import { MdClose } from "react-icons/md";

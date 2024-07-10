@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SIGN_IN } from "@/gql/mutations";
-import { GET_PROFILE } from "@/gql/queries";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
 

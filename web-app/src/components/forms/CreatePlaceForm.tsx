@@ -1,11 +1,16 @@
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
-import { Category, MutationCreatePlaceArgs, Place } from "@/gql/graphql";
+import {
+  Category,
+  GetCategoriesQuery,
+  MutationCreatePlaceArgs,
+  Place,
+} from "@/gql/generate/graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { AddressInterface } from "@/interfaces/Address";
-import { GET_CATEGORIES } from "@/gql/queries";
-import { CREATE_PLACE } from "@/gql/mutations";
+import { GET_CATEGORIES } from "@/gql/requests/queries";
+import { CREATE_PLACE } from "@/gql/requests/mutations";
 import axios from "axios";
 import DisplayPanelContext, {
   DisplayPanelType,
@@ -81,7 +86,11 @@ export default function CreatePlaceForm() {
   };
 
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const { data: categoriesData, loading, error } = useQuery(GET_CATEGORIES);
+  const {
+    data: categoriesData,
+    loading,
+    error,
+  } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
   useEffect(() => {
     updateFormData({
@@ -224,7 +233,7 @@ export default function CreatePlaceForm() {
           >
             {categoriesData &&
               categoriesData.categories.map(
-                (category: Category) =>
+                (category) =>
                   !selectedCategories.some(
                     (selectedCategory) => selectedCategory.id === category.id,
                   ) && (

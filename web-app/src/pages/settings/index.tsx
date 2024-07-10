@@ -3,7 +3,7 @@ import { MutationUpdateUserArgs } from "@/gql/graphql";
 import { useQuery, useMutation } from "@apollo/client";
 import FavoriteCard from "@/components/settings/FavoriCard";
 import NavBarSettings from "@/components/settings/NavBarSettings";
-import { GET_PROFILE } from "@/gql/queries";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import {
   REMOVE_FAVORITE_PLACE,
   UPDATE_USER,

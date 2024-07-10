@@ -20,7 +20,7 @@ export const GET_PLACES = gql`
 
 export const GET_CITIES = gql`
   query GetCities {
-    city {
+    cities {
       name
     }
   }
@@ -31,6 +31,7 @@ export const GET_CATEGORIES = gql`
     categories {
       id
       name
+      icon
     }
   }
 `;
