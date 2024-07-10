@@ -8,7 +8,6 @@ import { useContext, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 import { SideBarContentEnum } from "../home/sideBarContent.type";
-import { toast } from "react-toastify";
 
 export default function CreateCategoriesForm() {
   const [formData, setFormData] = useState<MutationCreateCategoryArgs>({
@@ -28,7 +27,6 @@ export default function CreateCategoriesForm() {
     await createCategoryMutation({
       variables: formData,
     });
-    toast.success("La catégorie a bien été créée.");
   };
 
   const updateFormData = (

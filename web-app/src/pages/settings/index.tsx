@@ -10,7 +10,6 @@ import Loader from "@/components/loader/Loader";
 import { updateUserArgs } from "@/interfaces/updateUserArgs";
 import { useRouter } from "next/router";
 import { Place } from "@/gql/graphql";
-import { toast } from "react-toastify";
 
 export default function Settings() {
   const [showInputs, setShowInputs] = useState<string>("");
@@ -78,7 +77,6 @@ export default function Settings() {
       setShowCancelButton(false);
       setPasswordValueInput("Modifier mon mot de passe");
       setInputType("text");
-      toast.success("Votre profil a bien été modifié !");
     } catch (error) {
       setErrorUpdateUser(true);
     }
@@ -113,7 +111,6 @@ export default function Settings() {
         variables: { deleteUserId: id },
       });
       if (data && data.deleteUser) {
-        toast.success("Votre compte a bien été supprimé !");
         router.push("/home");
         location.reload();
       }
@@ -224,7 +221,7 @@ export default function Settings() {
                         id="password"
                         value={passwordValueInput || ""}
                         placeholder="Modifier mon mot de passe"
-                        minLength={3}
+                        minLength={12}
                         onChange={(event) => {
                           setShowCancelButton(true);
                           const value = event.target.value;
@@ -253,7 +250,7 @@ export default function Settings() {
                           type="password"
                           name="confirm"
                           id="confirm"
-                          minLength={3}
+                          minLength={12}
                           placeholder="Confirmer le mot de passe"
                           pattern={formData.password}
                           title="Les mots de passe ne correspondent pas"
