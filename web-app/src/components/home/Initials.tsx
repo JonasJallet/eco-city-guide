@@ -5,6 +5,7 @@ import { GET_PROFILE } from "@/gql/queries";
 import { useRouter } from "next/router";
 import { SIGN_OUT } from "@/gql/mutations";
 import { AiOutlineLogin } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 export default function Initials() {
   const { data, loading } = useQuery(GET_PROFILE);
@@ -18,6 +19,7 @@ export default function Initials() {
     try {
       const { data } = await signOutMutation();
       if (data && data.signOut) {
+        toast.success("Vous êtes bien déconnecté(e) !");
         router.push("/home");
         location.reload();
       }
@@ -55,7 +57,7 @@ export default function Initials() {
                       signOut();
                     }}
                   >
-                    Se déconnecter
+                    <a href="/">Se déconnecter</a>
                   </p>
                 </div>
               </UserModal>

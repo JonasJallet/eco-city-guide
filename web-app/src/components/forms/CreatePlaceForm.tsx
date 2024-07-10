@@ -12,6 +12,7 @@ import DisplayPanelContext, {
 } from "@/contexts/DisplayPanelContext";
 import { SideBarContentEnum } from "../home/sideBarContent.type";
 import { MdClose } from "react-icons/md";
+import { toast } from "react-toastify";
 
 export default function CreatePlaceForm() {
   const [searchAddress, setSearchAddress] = useState("");
@@ -72,6 +73,7 @@ export default function CreatePlaceForm() {
       city: formData.city,
       categories: formData.categoryIds,
     } as unknown as Place);
+    toast.success("Le lieu a bien été créé.");
   };
 
   const updateFormData = (

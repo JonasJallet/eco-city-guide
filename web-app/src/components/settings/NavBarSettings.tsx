@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { HiOutlineUser } from "react-icons/hi2";
 import { SIGN_OUT } from "@/gql/mutations";
 import { useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
 
 interface Props {
   setActiveItemNavBarSettings: (activeItemNabBarSettings: string) => void;
@@ -24,6 +25,7 @@ const NavBarSettings: React.FC<Props> = ({
 
   const Logout = async () => {
     await SignOut();
+    toast.success("Vous êtes bien déconnecté(e) !");
     router.push("/home");
   };
 

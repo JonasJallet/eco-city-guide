@@ -10,6 +10,7 @@ import Loader from "@/components/loader/Loader";
 import { updateUserArgs } from "@/interfaces/updateUserArgs";
 import { useRouter } from "next/router";
 import { Place } from "@/gql/graphql";
+import { toast } from "react-toastify";
 
 export default function Settings() {
   const [showInputs, setShowInputs] = useState<string>("");
@@ -77,6 +78,7 @@ export default function Settings() {
       setShowCancelButton(false);
       setPasswordValueInput("Modifier mon mot de passe");
       setInputType("text");
+      toast.success("Votre profil a bien été modifié !");
     } catch (error) {
       setErrorUpdateUser(true);
     }
@@ -111,6 +113,7 @@ export default function Settings() {
         variables: { deleteUserId: id },
       });
       if (data && data.deleteUser) {
+        toast.success("Votre compte a bien été supprimé !");
         router.push("/home");
         location.reload();
       }
