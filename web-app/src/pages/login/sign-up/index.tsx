@@ -6,7 +6,7 @@ import {
   SignUpMutation,
   SignUpMutationVariables,
 } from "@/gql/generate/graphql";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
 import { GET_PROFILE } from "@/gql/requests/queries";

@@ -12,7 +12,13 @@ import {
 } from "@/gql/requests/mutations";
 import { GET_PROFILE, IS_IN_FAVORITES } from "@/gql/requests/queries";
 import { useRouter } from "next/router";
-import { Category } from "@/gql/generate/graphql";
+import {
+  AddFavoritePlaceMutation,
+  Category,
+  GetProfileQuery,
+  IsInFavoritesQuery,
+  RemoveFavoritePlaceMutation,
+} from "@/gql/generate/graphql";
 
 export default function PlaceContent() {
   const { place } = useContext(PlaceContext) as PlaceContextType;
@@ -20,24 +26,30 @@ export default function PlaceContent() {
     DisplayPanelContext,
   ) as DisplayPanelType;
 
-  const { data: userData } = useQuery(GET_PROFILE);
-  const { data: favoriteData } = useQuery(IS_IN_FAVORITES, {
+  const { data: userData } = useQuery<GetProfileQuery>(GET_PROFILE);
+  const { data: favoriteData } = useQuery<IsInFavoritesQuery>(IS_IN_FAVORITES, {
     variables: { placeId: place?.id },
     skip: !place,
   });
   const router = useRouter();
 
-  const [addFavoritePlace] = useMutation(ADD_FAVORITE_PLACE, {
-    refetchQueries: [
-      { query: IS_IN_FAVORITES, variables: { placeId: place?.id } },
-    ],
-  });
+  const [addFavoritePlace] = useMutation<AddFavoritePlaceMutation>(
+    ADD_FAVORITE_PLACE,
+    {
+      refetchQueries: [
+        { query: IS_IN_FAVORITES, variables: { placeId: place?.id } },
+      ],
+    },
+  );
 
-  const [removeFavoritePlace] = useMutation(REMOVE_FAVORITE_PLACE, {
-    refetchQueries: [
-      { query: IS_IN_FAVORITES, variables: { placeId: place?.id } },
-    ],
-  });
+  const [removeFavoritePlace] = useMutation<RemoveFavoritePlaceMutation>(
+    REMOVE_FAVORITE_PLACE,
+    {
+      refetchQueries: [
+        { query: IS_IN_FAVORITES, variables: { placeId: place?.id } },
+      ],
+    },
+  );
 
   const handleFavoriteToggle = () => {
     if (!userData) {

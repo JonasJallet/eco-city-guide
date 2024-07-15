@@ -7,7 +7,7 @@ import createApolloClient from "../apollo-client";
 import "leaflet/dist/leaflet.css";
 import PlaceContext from "@/contexts/PlaceContext";
 import { useState } from "react";
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 
 export default function App({ Component, pageProps }: AppProps) {
   const apolloClient = createApolloClient();

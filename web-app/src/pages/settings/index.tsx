@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { MutationUpdateUserArgs } from "@/gql/graphql";
+import {
+  DeleteUserMutation,
+  GetProfileQuery,
+  MutationUpdateUserArgs,
+  RemoveFavoritePlaceMutation,
+} from "@/gql/generate/graphql";
 import { useQuery, useMutation } from "@apollo/client";
 import FavoriteCard from "@/components/settings/FavoriCard";
 import NavBarSettings from "@/components/settings/NavBarSettings";
@@ -8,10 +13,10 @@ import {
   REMOVE_FAVORITE_PLACE,
   UPDATE_USER,
   DELETE_USER,
-} from "@/gql/mutations";
+} from "@/gql/requests/mutations";
 import Loader from "@/components/loader/Loader";
 import { useRouter } from "next/router";
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 import { UserUpdateInterface } from "@/interfaces/UserUpdate";
 
 export default function Settings() {
@@ -26,7 +31,7 @@ export default function Settings() {
   const [favorites, setFavorites] = useState<Place[]>([]);
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
-  const { data, loading, refetch } = useQuery(GET_PROFILE);
+  const { data, loading, refetch } = useQuery<GetProfileQuery>(GET_PROFILE);
   const router = useRouter();
 
   let dataProfile: UserUpdateInterface = {
@@ -92,9 +97,8 @@ export default function Settings() {
     setShowInputs("");
   };
 
-  const [RemoveFavorite, { loading: loadingRemoveFavorite }] = useMutation(
-    REMOVE_FAVORITE_PLACE,
-  );
+  const [RemoveFavorite, { loading: loadingRemoveFavorite }] =
+    useMutation<RemoveFavoritePlaceMutation>(REMOVE_FAVORITE_PLACE);
 
   const RemoveFavoritePlace = async (idPlace: string) => {
     await RemoveFavorite({
@@ -105,7 +109,7 @@ export default function Settings() {
     await refetch();
   };
 
-  const [deleteUserMutation] = useMutation(DELETE_USER);
+  const [deleteUserMutation] = useMutation<DeleteUserMutation>(DELETE_USER);
 
   const deleteUser = async () => {
     let id = data?.myProfile.id;

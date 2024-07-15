@@ -11,6 +11,7 @@ import DisplayPanelContext, {
 import { GET_PROFILE } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { GetProfileQuery } from "@/gql/generate/graphql";
 
 export default function SideBar() {
   const [enumValue, setEnumValue] = useState<SideBarContentEnum>(
@@ -21,7 +22,7 @@ export default function SideBar() {
     DisplayPanelContext,
   ) as DisplayPanelType;
 
-  const { data } = useQuery(GET_PROFILE);
+  const { data } = useQuery<GetProfileQuery>(GET_PROFILE);
   const router = useRouter();
 
   useEffect(() => {
