@@ -23,7 +23,14 @@ export async function createPlacesWithCategory() {
       const placeData: DeepPartial<PlaceInterface> = await placeFactory.create([
         category.id,
       ]);
-      placeData.city = await City.getCityByName("Paris");
+
+      const city = await City.getCityByName("Paris");
+      if (city === null) {
+        console.error("City not found: Paris");
+        continue;
+      }
+
+      placeData.city = city;
       placesData.push(placeData);
     }
 

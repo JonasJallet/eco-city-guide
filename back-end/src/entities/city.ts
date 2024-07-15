@@ -65,13 +65,8 @@ class City extends BaseEntity {
     return await City.find();
   }
 
-  static async getCityByName(name: string): Promise<City> {
-    const city = await City.findOneBy({ name });
-    if (!city) {
-      throw new Error(`City with name ${name} does not exist.`);
-    }
-
-    return city;
+  static async getCityByName(name: string): Promise<City | null> {
+    return await City.findOneBy({ name });
   }
 }
 
