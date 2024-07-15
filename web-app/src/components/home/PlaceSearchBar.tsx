@@ -1,7 +1,4 @@
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
-import SurroundingPlacesContext, {
-  SurroundingPlacesContextType,
-} from "@/contexts/SurroundingPlacesContext";
 import { Place } from "@/gql/generate/graphql";
 import { GET_PLACES } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
@@ -16,9 +13,6 @@ export default function PlaceSearchBar({ category }: Props) {
   const [searchPlace, setSearchPlace] = useState("");
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const { setPlace } = useContext(PlaceContext) as PlaceContextType;
-  const { surroundingPlaces, setSurroundingPlaces } = useContext(
-    SurroundingPlacesContext,
-  ) as SurroundingPlacesContextType;
   const { data: placesData } = useQuery(GET_PLACES, {
     variables: { category },
   });

@@ -1,6 +1,5 @@
-import { Category } from "@/gql/graphql";
-import { GET_CATEGORIES } from "@/gql/queries";
-import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
+import { Category } from "@/gql/generate/graphql";
+import { GET_CATEGORIES } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import { TbCategoryPlus } from "react-icons/tb";
