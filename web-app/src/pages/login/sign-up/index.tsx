@@ -2,52 +2,20 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import {
-  GetMyProfileSignInQuery,
+  GetProfileQuery,
   SignUpMutation,
   SignUpMutationVariables,
-} from "@/gql/graphql";
+} from "@/gql/generate/graphql";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
-
-const SIGN_UP_FORM = gql`
-  mutation SignUp(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    signUp(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-    ) {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
-
-const GET_MY_PROFILE_SIGN_IN = gql`
-  query GetMyProfileSignIn {
-    myProfile {
-      id
-      email
-      firstName
-      lastName
-    }
-  }
-`;
+import { GET_PROFILE } from "@/gql/requests/queries";
+import { SIGN_UP } from "@/gql/requests/mutations";
 
 export default function index() {
   const router = useRouter();
 
-  const { data: myProfileData } = useQuery<GetMyProfileSignInQuery>(
-    GET_MY_PROFILE_SIGN_IN,
-  );
+  const { data: myProfileData } = useQuery<GetProfileQuery>(GET_PROFILE);
   useEffect(() => {
     if (myProfileData?.myProfile) {
       router.push("/home");
@@ -70,7 +38,7 @@ export default function index() {
   const [signUpMutation, { loading, error }] = useMutation<
     SignUpMutation,
     SignUpMutationVariables
-  >(SIGN_UP_FORM);
+  >(SIGN_UP);
 
   const signUp = async () => {
     const { data } = await signUpMutation({
