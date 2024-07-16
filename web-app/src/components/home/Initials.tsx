@@ -50,7 +50,7 @@ export default function Initials() {
                     <a href="/settings">Mon compte</a>
                   </p>
                   <p
-                    className="p-2 hover:text-tertiary_color"
+                    className="p-2 hover:text-tertiary_color cursor-pointer"
                     onClick={() => {
                       signOut();
                     }}

@@ -20,7 +20,7 @@ export default function CreateCategoriesForm() {
     DisplayPanelContext,
   ) as DisplayPanelType;
 
-  const [createCategoryMutation] =
+  const [createCategoryMutation, { error }] =
     useMutation<MutationCreateCategoryArgs>(CREATE_CATEGORY);
 
   const createCategory = async () => {
@@ -87,6 +87,11 @@ export default function CreateCategoriesForm() {
                 updateFormData({ icon: event.target.value });
               }}
             />
+            {error && (
+              <div className="w-full mt-4 text-md text-red-600">
+                {error.message}
+              </div>
+            )}
             <button
               type="submit"
               onSubmit={() => {

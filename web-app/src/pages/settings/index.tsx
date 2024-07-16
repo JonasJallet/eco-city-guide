@@ -289,7 +289,9 @@ export default function Settings() {
                     )}
                   </div>
                   {errorUpdateUser && updateUserError && (
-                    <p className="text-red-600">{updateUserError.message}</p>
+                    <p className="text-red-600 w-64 text-center mt-4">
+                      {updateUserError.message}
+                    </p>
                   )}
                 </form>
               </div>

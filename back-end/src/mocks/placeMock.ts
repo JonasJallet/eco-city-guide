@@ -26,7 +26,7 @@ export async function createPlacesWithCategory() {
 
       const city = await City.getCityByName("Paris");
       if (city === null) {
-        console.error("City not found: Paris");
+        process.stdout.write("City not found: Paris");
         continue;
       }
 

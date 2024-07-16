@@ -58,7 +58,7 @@ export default function CreatePlaceForm() {
     setSideBarEnum(SideBarContentEnum.NO_CONTENT);
   };
 
-  const [createPlaceMutation] = useMutation<
+  const [createPlaceMutation, { error }] = useMutation<
     { createPlace: Place },
     MutationCreatePlaceArgs
   >(CREATE_PLACE);
@@ -86,11 +86,7 @@ export default function CreatePlaceForm() {
   };
 
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const {
-    data: categoriesData,
-    loading,
-    error,
-  } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
+  const { data: categoriesData } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
   useEffect(() => {
     updateFormData({
@@ -252,6 +248,11 @@ export default function CreatePlaceForm() {
                   ),
               )}
           </select>
+          {error && (
+            <div className="w-full mt-4 text-md text-red-600">
+              {error.message}
+            </div>
+          )}
           <button
             type="submit"
             className="flex items-center justify-center text-center w-full mt-4 mb-8 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"

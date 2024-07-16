@@ -24,10 +24,15 @@ const PORT = 4000;
 const startApolloServer = async () => {
   const schema = await buildSchema({
     resolvers: [PlaceResolver, UserResolver, CategoryResolver, CityResolver],
-    validate: true,
+    validate: false,
     authChecker,
   });
-  const server = new ApolloServer({ schema });
+  const server = new ApolloServer({
+    schema,
+    formatError: (error) => {
+      return error;
+    },
+  });
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: PORT },
