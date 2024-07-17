@@ -37,19 +37,14 @@ export default function FavoriteCard({ favorite, RemoveFavorite }: Props) {
         <h1 className="font-medium text-base leading-tight text-gray-900 mt-1">
           {favorite.name}
         </h1>
-        <div
-          className={`text-gray-600 text-xs mt-2 cursor-pointer ${
-            clickedFavorite ? "" : "truncate"
-          }`}
-          onClick={() => setClickedFavorite(!clickedFavorite)}
-        >
+        <div className="text-gray-600 text-xs mt-2 cursor-pointer">
           {favorite.description}
         </div>
       </div>
       <div className="flex items-center justify-center gap-2 mb-4">
         <button
           aria-label="Voir le lieu sur la carte"
-          className="bg-tertiary_color rounded p-2 font-medium text-white w-24 h-8 flex items-center justify-center"
+          className="bg-tertiary_color border-tertiary_color rounded p-2 font-medium text-white w-24 h-8 flex items-center justify-center hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           onClick={() => handleMapClick(favorite)}
         >
           <div className="flex items-center justify-center">
@@ -62,7 +57,7 @@ export default function FavoriteCard({ favorite, RemoveFavorite }: Props) {
         </button>
         <button
           aria-label="Retirer le lieu des favoris"
-          className="bg-blue-500 rounded p-2 font-medium text-white w-24 h-8 flex items-center justify-center"
+          className="bg-blue-500 border-blue-500 rounded p-2 font-medium text-white hover:text-blue-600 hover:bg-white w-24 h-8 flex items-center justify-center hover:border hover:border-blue-600"
           onClick={() => RemoveFavorite(favorite.id)}
         >
           <span className="mr-2 text-sm">Retirer</span>

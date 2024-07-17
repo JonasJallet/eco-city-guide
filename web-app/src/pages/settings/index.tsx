@@ -10,6 +10,7 @@ import Loader from "@/components/loader/Loader";
 import { updateUserArgs } from "@/interfaces/updateUserArgs";
 import { useRouter } from "next/router";
 import { Place } from "@/gql/graphql";
+import CategoriesFilter from "@/components/settings/CategoriesFilter";
 
 export default function Settings() {
   const [showInputs, setShowInputs] = useState<string>("");
@@ -24,6 +25,16 @@ export default function Settings() {
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
   const { data, loading, refetch } = useQuery(GET_MY_PROFILE_FAVORITES);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const filteredFavorites =
+    selectedCategories.length > 0
+      ? favorites.filter((favorite) =>
+          favorite.categories.some((category) =>
+            selectedCategories.includes(category.name),
+          ),
+        )
+      : favorites;
 
   const router = useRouter();
 
@@ -139,9 +150,10 @@ export default function Settings() {
           setActiveItemNavBarSettings={setActiveItemNavBarSettings}
           firstnameProfile={dataProfile.firstName}
         />
-        <div className="mt-20 z-0">
+        <div className="z-0">
           {activeItemNavBarSettings == "Profil" && (
             <div className="flex justify-center items-center flex-col mt-7">
+              {/* <div className="flex"> */}
               <div>
                 <form
                   className="bg-form_color mt-6 p-10 rounded-lg shadow-lg shadow-gray-300 min-w-full"
@@ -298,7 +310,7 @@ export default function Settings() {
 
           {activeItemNavBarSettings === "Settings" && (
             <>
-              <div className="flex flex-col  items-center justify-center">
+              <div className="flex flex-col  items-center justify-center mt-6">
                 <div style={{ width: 580 }}>
                   <h1 className="font-medium text-xl text-gray-500 mt-4 text-center">
                     Données et confidentialité
@@ -376,25 +388,23 @@ export default function Settings() {
               )}
             </>
           )}
+
           {activeItemNavBarSettings === "Favorites" && (
             <>
-              <h2 className="font-medium text-xl text-gray-500 mt-24 text-center">
+              <h2 className="font-medium text-xl text-gray-500 mt-10 text-center ">
                 Mes Favoris
               </h2>
+              <div className="flex justify-start md:ml-72 mt-4">
+                <CategoriesFilter
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
+                />
+              </div>
+
               <div className="flex flex-col items-center">
-                {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 mt-2">
-                  {favorites.map((favorite) => (
-                    <FavoriteCard
-                      key={favorite.id}
-                      favorite={favorite}
-                      RemoveFavorite={() => RemoveFavoritePlace(favorite.id)}
-                    />
-                  ))}
-                </div>  */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
-                  {favorites &&
-                    favorites.length > 0 &&
-                    favorites.map((favorite, index) => (
+                  {filteredFavorites && filteredFavorites.length > 0 ? (
+                    filteredFavorites.map((favorite, index) => (
                       <div key={index} className="flex justify-center mt-4">
                         <FavoriteCard
                           favorite={favorite}
@@ -403,11 +413,18 @@ export default function Settings() {
                           }
                         />
                       </div>
-                    ))}
+                    ))
+                  ) : (
+                    <p className="sm:col-span-2 md:col-span-3 flex mt-4 ml-10 sm:ml-4 mr-10">
+                      Vous n'avez pas encore de favoris pour le filtrage
+                      appliqué.
+                    </p>
+                  )}
                 </div>
               </div>
+
               {favorites && favorites.length == 0 && (
-                <p className="text-center mt-10">
+                <p className="text-center mt-10 mr-10">
                   Vous n'avez pas encore de favoris.
                 </p>
               )}
