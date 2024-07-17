@@ -394,15 +394,16 @@ export default function Settings() {
               <h2 className="font-medium text-xl text-gray-500 mt-10 text-center ">
                 Mes Favoris
               </h2>
-              <div className="flex justify-start md:ml-72 mt-4">
-                <CategoriesFilter
-                  selectedCategories={selectedCategories}
-                  setSelectedCategories={setSelectedCategories}
-                />
-              </div>
-
               <div className="flex flex-col items-center">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
+                  <div
+                    className={`flex justify-start mt-4 md:col-span-3 sm:col-span-2 col-span-1 ${filteredFavorites.length > 0 ? "" : "ml-10 md:ml-0"}`}
+                  >
+                    <CategoriesFilter
+                      selectedCategories={selectedCategories}
+                      setSelectedCategories={setSelectedCategories}
+                    />
+                  </div>
                   {filteredFavorites && filteredFavorites.length > 0 ? (
                     filteredFavorites.map((favorite, index) => (
                       <div key={index} className="flex justify-center mt-4">
@@ -415,7 +416,7 @@ export default function Settings() {
                       </div>
                     ))
                   ) : (
-                    <p className="sm:col-span-2 md:col-span-3 flex mt-4 ml-10 sm:ml-4 mr-10">
+                    <p className="sm:col-span-2 md:col-span-3 col-span-1 flex mt-4 ml-10 sm:ml-4 mr-10">
                       Vous n'avez pas encore de favoris pour le filtrage
                       appliqué.
                     </p>

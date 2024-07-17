@@ -45,7 +45,7 @@ const NavBarSettings: React.FC<Props> = ({
         <button
           data-collapse-toggle="navbar-multi-level"
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none "
           aria-controls="navbar-multi-level"
           aria-expanded="false"
           onClick={() => setShowMenu(!showMenu)}
