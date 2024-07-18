@@ -117,9 +117,9 @@ export default function Settings() {
       const { data } = await deleteUserMutation({
         variables: { deleteUserId: id },
       });
+
       if (data && data.deleteUser) {
         router.push("/home");
-        location.reload();
       }
     } catch (error) {}
   };
