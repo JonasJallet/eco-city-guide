@@ -4,6 +4,7 @@ export const GET_PLACES = gql`
   query Places($city: String) {
     places(city: $city) {
       id
+      createdAt
       name
       coordinates
       address
@@ -12,7 +13,13 @@ export const GET_PLACES = gql`
         name
       }
       categories {
+        id
         name
+        icon
+      }
+      city {
+        id
+        coordinates
       }
     }
   }

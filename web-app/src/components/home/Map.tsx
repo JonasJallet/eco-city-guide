@@ -19,6 +19,7 @@ import DisplayPanelContext, {
 } from "@/contexts/DisplayPanelContext";
 import FullscreenButton from "./FullScreenButton";
 import Initials from "./Initials";
+import MapResizeHandler from "./MapResize";
 
 export default function Map() {
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
@@ -163,6 +164,7 @@ export default function Map() {
               );
             })}
           </LayersControl>
+          <MapResizeHandler />
           <LocateButton />
           <FullscreenButton />
           <SearchCategoryOnMap
