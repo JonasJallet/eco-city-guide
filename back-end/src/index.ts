@@ -11,6 +11,7 @@ import { PlaceResolver } from "./resolvers/placeResolver";
 import { UserResolver } from "./resolvers/userResolver";
 import { CategoryResolver } from "./resolvers/categoryResolver";
 import { CityResolver } from "./resolvers/cityResolver";
+import { formattedValidationError } from "./utils/validation";
 
 export type Context = { res: Response; user: User | null };
 
@@ -24,14 +25,12 @@ const PORT = 4000;
 const startApolloServer = async () => {
   const schema = await buildSchema({
     resolvers: [PlaceResolver, UserResolver, CategoryResolver, CityResolver],
-    validate: false,
+    validate: true,
     authChecker,
   });
   const server = new ApolloServer({
     schema,
-    formatError: (error) => {
-      return error;
-    },
+    formatError: formattedValidationError,
   });
 
   const { url } = await startStandaloneServer(server, {

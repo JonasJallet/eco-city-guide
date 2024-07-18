@@ -24,9 +24,11 @@ export default function CreateCategoriesForm() {
     useMutation<MutationCreateCategoryArgs>(CREATE_CATEGORY);
 
   const createCategory = async () => {
-    await createCategoryMutation({
-      variables: formData,
-    });
+    try {
+      await createCategoryMutation({
+        variables: formData,
+      });
+    } catch (error) {}
   };
 
   const updateFormData = (

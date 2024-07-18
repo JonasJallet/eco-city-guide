@@ -83,25 +83,12 @@ class User extends BaseEntity {
     }
   }
 
-  private static async validateUser(
-    userData: CreateUser | UpdateUser,
-  ): Promise<void> {
-    const errors = await validate(userData);
-    if (errors.length > 0) {
-      const errorMessage = errors
-        .map((err) => Object.values(err.constraints || {}).join(", "))
-        .join(", ");
-      throw new Error(`${errorMessage}`);
-    }
-  }
-
   static async saveNewUser(userData: CreateUser): Promise<User> {
-    await User.validateUser(userData);
     userData.password = await hash(userData.password, 10);
     const newUser = new User(userData);
     const existingEmail = await User.getUserByEmail(userData.email);
     if (existingEmail) {
-      throw new Error("Account with this email already exist.");
+      throw new Error("Un compte avec cet email existe déjà.");
     }
 
     return await newUser.save();
@@ -131,7 +118,6 @@ class User extends BaseEntity {
 
   static async updateUser(id: string, partialUser: UpdateUser): Promise<User> {
     const user = await User.getUserById(id);
-    await User.validateUser(partialUser);
 
     if (partialUser.password && user.hashedPassword !== partialUser.password) {
       partialUser.password = await hash(partialUser.password, 10);

@@ -1,6 +1,8 @@
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 import {
   Category,
+  CreatePlaceMutation,
+  CreatePlaceMutationVariables,
   GetCategoriesQuery,
   MutationCreatePlaceArgs,
   Place,
@@ -59,15 +61,17 @@ export default function CreatePlaceForm() {
   };
 
   const [createPlaceMutation, { error }] = useMutation<
-    { createPlace: Place },
-    MutationCreatePlaceArgs
+    CreatePlaceMutation,
+    CreatePlaceMutationVariables
   >(CREATE_PLACE);
 
   const createPlace = async () => {
-    const { data } = await createPlaceMutation({
-      variables: formData,
-    });
-    if (data) setPlace(data.createPlace);
+    try {
+      const { data } = await createPlaceMutation({
+        variables: formData,
+      });
+      if (data) setPlace(data.createPlace as Place);
+    } catch (error) {}
   };
 
   const updateFormData = (

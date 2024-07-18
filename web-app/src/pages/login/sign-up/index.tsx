@@ -14,7 +14,6 @@ import { SIGN_UP } from "@/gql/requests/mutations";
 
 export default function index() {
   const router = useRouter();
-  const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const { data: myProfileData } = useQuery<GetProfileQuery>(GET_PROFILE);
   useEffect(() => {
     if (myProfileData?.myProfile) {
@@ -35,32 +34,21 @@ export default function index() {
     setFormData({ ...formData, ...partialFormData });
   };
 
-  const [signUpMutation] = useMutation<SignUpMutation, SignUpMutationVariables>(
-    SIGN_UP,
-    {
-      onError: (error) => {
-        if (error.graphQLErrors) {
-          const validationErrors = error.graphQLErrors
-            .filter((err) => err.extensions?.code === "VALIDATION_ERROR")
-            .map((err) => err.message);
-          setErrorMessages(
-            validationErrors.length > 0 ? validationErrors : [error.message],
-          );
-        } else {
-          setErrorMessages([error.message]);
-        }
-      },
-    },
-  );
+  const [signUpMutation, { error }] = useMutation<
+    SignUpMutation,
+    SignUpMutationVariables
+  >(SIGN_UP);
 
   const signUp = async () => {
-    const { data } = await signUpMutation({
-      variables: formData,
-    });
+    try {
+      const { data } = await signUpMutation({
+        variables: formData,
+      });
 
-    if (data && data.signUp) {
-      router.push("/login/sign-in");
-    }
+      if (data && data.signUp) {
+        router.push("/login/sign-in");
+      }
+    } catch (error) {}
   };
 
   return (
@@ -166,11 +154,9 @@ export default function index() {
                 </label>
               </div>
             </div>
-            {errorMessages.length > 0 && (
+            {error && (
               <div className="w-64 mt-4 text-md text-red-600 text-center">
-                {errorMessages.map((msg, index) => (
-                  <p key={index}>{msg}</p>
-                ))}
+                {error.message}
               </div>
             )}
             <button
