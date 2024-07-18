@@ -5,14 +5,15 @@ import { GET_PROFILE } from "@/gql/requests/queries";
 import { useRouter } from "next/router";
 import { SIGN_OUT } from "@/gql/requests/mutations";
 import { AiOutlineLogin } from "react-icons/ai";
+import { GetProfileQuery, SignOutMutation } from "@/gql/generate/graphql";
 
 export default function Initials() {
-  const { data, loading } = useQuery(GET_PROFILE);
+  const { data, loading } = useQuery<GetProfileQuery>(GET_PROFILE);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
-  const [signOutMutation] = useMutation(SIGN_OUT);
+  const [signOutMutation] = useMutation<SignOutMutation>(SIGN_OUT);
 
   const signOut = async () => {
     try {

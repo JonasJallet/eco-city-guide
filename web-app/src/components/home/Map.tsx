@@ -9,7 +9,7 @@ import { SearchCategoryOnMap } from "./SearchCategoryOnMap";
 import { LocateButton } from "./LocateButton";
 import { CategoriesSearchFilter } from "./CategoriesSearchFilter";
 import PlaceSearchBar from "./PlaceSearchBar";
-import { Category, Place } from "@/gql/generate/graphql";
+import { Category, Place, PlacesQuery } from "@/gql/generate/graphql";
 import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
 import { useQuery } from "@apollo/client";
 import { GET_PLACES } from "@/gql/requests/queries";
@@ -38,12 +38,13 @@ export default function Map() {
   const [centerOfTheMap, setCenterOfTheMap] = useState<LatLng>();
   const [zoomLevel, setZoomLevel] = useState(6);
 
-  const { data: dataPlaces } = useQuery(GET_PLACES);
+  const { data: dataPlaces } = useQuery<PlacesQuery>(GET_PLACES);
   useEffect(() => {
     if (
       category !== undefined &&
       centerOfTheMap?.lat !== undefined &&
-      centerOfTheMap?.lng !== undefined
+      centerOfTheMap?.lng !== undefined &&
+      dataPlaces?.places
     ) {
       setSurroundingPlaces(
         getSurroundingPlacesAroundPoint(
