@@ -54,6 +54,7 @@ export const GET_PROFILE = gql`
         categories {
           id
           name
+          icon
         }
         city {
           id

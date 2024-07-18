@@ -1,4 +1,4 @@
-import { Place } from "@/gql/generate/graphql";
+import { Place, RemoveFavoritePlaceMutation } from "@/gql/generate/graphql";
 import { useContext, useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { REMOVE_FAVORITE_PLACE } from "@/gql/requests/mutations";
@@ -21,7 +21,9 @@ export default function FavoritesByCategoryContent({
   refetchFavorites: () => void;
 }) {
   const [favorites, setFavorites] = useState(initialFavorites);
-  const [removeFavoritePlace] = useMutation(REMOVE_FAVORITE_PLACE);
+  const [removeFavoritePlace] = useMutation<RemoveFavoritePlaceMutation>(
+    REMOVE_FAVORITE_PLACE,
+  );
   const { setPlace } = useContext(PlaceContext) as PlaceContextType;
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
@@ -36,16 +38,11 @@ export default function FavoritesByCategoryContent({
     event: React.MouseEvent,
   ) => {
     event.stopPropagation();
-    try {
-      await removeFavoritePlace({
-        variables: { placeId },
-      });
-      setFavorites(favorites.filter((favorite) => favorite.id !== placeId));
-      refetchFavorites();
-      // TODO Snackbar Success removing favorite place
-    } catch (error) {
-      // TODO Snackbar Error removing favorite place
-    }
+    await removeFavoritePlace({
+      variables: { placeId },
+    });
+    setFavorites(favorites.filter((favorite) => favorite.id !== placeId));
+    refetchFavorites();
   };
 
   const handleCloseButton = () => {
