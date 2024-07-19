@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { GET_CATEGORIES } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
-import { Category } from "@/gql/generate/graphql";
+import { Category, GetCategoriesQuery } from "@/gql/generate/graphql";
 
 interface CategoriesFilterProps {
   selectedCategories: string[];
@@ -15,7 +15,8 @@ export default function CategoriesFilter({
 }: CategoriesFilterProps) {
   const [showCategoriesMenu, setShowCategoriesMenu] = useState(false);
   const [categories, setCategories] = useState<Partial<Category>[]>([]);
-  const { data, loading, refetch } = useQuery(GET_CATEGORIES);
+  const { data, loading, refetch } =
+    useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
   useEffect(() => {
     if (data) {

@@ -6,16 +6,16 @@ import { Place } from "@/gql/generate/graphql";
 
 interface Props {
   favorite: Place;
-  RemoveFavorite: (idPlace: string) => Promise<void>;
+  removeFromFavorites: (idPlace: string) => Promise<void>;
 }
 
-export default function FavoriteCard({ favorite, RemoveFavorite }: Props) {
+export default function FavoriteCard({ favorite, removeFromFavorites }: Props) {
   const [clickedFavorite, setClickedFavorite] = useState(false);
   const router = useRouter();
 
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
 
-  const handleMapClick = (favorite: Place) => {
+  const handleDisplayFavoriteOnMap = (favorite: Place) => {
     setPlace(favorite);
     router.push("/home");
   };
@@ -48,7 +48,7 @@ export default function FavoriteCard({ favorite, RemoveFavorite }: Props) {
         <button
           aria-label="Voir le lieu sur la carte"
           className="bg-tertiary_color border-tertiary_color rounded p-2 font-medium text-white w-24 h-8 flex items-center justify-center hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
-          onClick={() => handleMapClick(favorite)}
+          onClick={() => handleDisplayFavoriteOnMap(favorite)}
         >
           <div className="flex items-center justify-center">
             <span className="mr-2 text-sm">Carte</span>
@@ -61,7 +61,7 @@ export default function FavoriteCard({ favorite, RemoveFavorite }: Props) {
         <button
           aria-label="Retirer le lieu des favoris"
           className="bg-blue-500 border-blue-500 rounded p-2 font-medium text-white hover:text-blue-600 hover:bg-white w-24 h-8 flex items-center justify-center hover:border hover:border-blue-600"
-          onClick={() => RemoveFavorite(favorite.id)}
+          onClick={() => removeFromFavorites(favorite.id)}
         >
           <span className="mr-2 text-sm">Retirer</span>
           <i className="fa-solid fa-trash" style={{ fontSize: "13px" }}></i>

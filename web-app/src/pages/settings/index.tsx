@@ -423,7 +423,7 @@ export default function Settings() {
           )}
 
           {activeItemNavBarSettings === "Favorites" && (
-            <>
+            <div className="mb-10">
               <h2 className="font-bold font-sans text-2xl text-dark_text_color mt-10 text-center ">
                 Mes Favoris
               </h2>
@@ -442,7 +442,7 @@ export default function Settings() {
                       <div key={index} className="flex justify-center mt-4">
                         <FavoriteCard
                           favorite={favorite}
-                          RemoveFavorite={() =>
+                          removeFromFavorites={() =>
                             RemoveFavoritePlace(favorite.id)
                           }
                         />
@@ -462,7 +462,7 @@ export default function Settings() {
                   Vous n'avez pas encore de favoris.
                 </p>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>
