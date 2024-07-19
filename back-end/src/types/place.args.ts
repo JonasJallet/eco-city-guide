@@ -13,6 +13,9 @@ export class CreatePlace {
   @MinLength(10, {
     message: "La description doit contenir au moins 10 caractères",
   })
+  @MaxLength(180, {
+    message: "La description ne doit pas contenir plus de 180 caractères",
+  })
   description!: string;
 
   @Field((type) => GeoJSONPoint)
@@ -42,6 +45,9 @@ export class UpdatePlace {
   @Field()
   @MinLength(10, {
     message: "La description doit contenir au moins 10 caractères",
+  })
+  @MaxLength(180, {
+    message: "La description ne doit pas contenir plus de 180 caractères",
   })
   description?: string;
 
