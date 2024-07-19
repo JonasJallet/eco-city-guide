@@ -4,6 +4,7 @@ export const GET_PLACES = gql`
   query Places($city: String) {
     places(city: $city) {
       id
+      createdAt
       name
       coordinates
       address
@@ -12,7 +13,13 @@ export const GET_PLACES = gql`
         name
       }
       categories {
+        id
         name
+        icon
+      }
+      city {
+        id
+        coordinates
       }
     }
   }
@@ -20,7 +27,7 @@ export const GET_PLACES = gql`
 
 export const GET_CITIES = gql`
   query GetCities {
-    city {
+    cities {
       name
     }
   }
@@ -31,6 +38,7 @@ export const GET_CATEGORIES = gql`
     categories {
       id
       name
+      icon
     }
   }
 `;
@@ -53,6 +61,7 @@ export const GET_PROFILE = gql`
         categories {
           id
           name
+          icon
         }
         city {
           id
@@ -69,61 +78,5 @@ export const GET_PROFILE = gql`
 export const IS_IN_FAVORITES = gql`
   query isInFavorites($placeId: String!) {
     isInFavorites(placeId: $placeId)
-  }
-`;
-
-export const GET_MY_PROFILE_INITIALS = gql`
-  query GetMyProfileInitials {
-    myProfile {
-      id
-      firstName
-      lastName
-      userInitials
-    }
-  }
-`;
-
-export const GET_MY_PROFILE_FAVORITES = gql`
-  query GetMyProfileAndFavorites {
-    myProfile {
-      id
-      email
-      firstName
-      lastName
-      hashedPassword
-      favoritesPlaces {
-        id
-        name
-        address
-        coordinates
-        createdAt
-        description
-
-        city {
-          id
-          name
-          coordinates
-        }
-        categories {
-          id
-          name
-          icon
-        }
-        owner {
-          id
-          createdAt
-          firstName
-          lastName
-          userInitials
-          role
-          email
-          hashedPassword
-          favoritesPlaces {
-            id
-            name
-          }
-        }
-      }
-    }
   }
 `;

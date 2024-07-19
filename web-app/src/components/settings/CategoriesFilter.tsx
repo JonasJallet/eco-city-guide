@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { GET_CATEGORIES } from "@/gql/queries";
+import { GET_CATEGORIES } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
-import { Category } from "@/gql/graphql";
+import { Category } from "@/gql/generate/graphql";
 
 interface CategoriesFilterProps {
   selectedCategories: string[];

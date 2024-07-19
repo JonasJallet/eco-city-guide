@@ -1,24 +1,25 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import UserModal from "../modals/UserModal";
-import { GET_PROFILE } from "@/gql/queries";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import { useRouter } from "next/router";
-import { SIGN_OUT } from "@/gql/mutations";
+import { SIGN_OUT } from "@/gql/requests/mutations";
 import { AiOutlineLogin } from "react-icons/ai";
+import { GetProfileQuery, SignOutMutation } from "@/gql/generate/graphql";
+import { toast } from "react-toastify";
 
 export default function Initials() {
-  const { data, loading } = useQuery(GET_PROFILE);
+  const { data, loading } = useQuery<GetProfileQuery>(GET_PROFILE);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
-  const [signOutMutation] = useMutation(SIGN_OUT);
+  const [signOutMutation] = useMutation<SignOutMutation>(SIGN_OUT);
 
   const signOut = async () => {
     try {
       const { data } = await signOutMutation();
       if (data && data.signOut) {
-        router.push("/home");
         location.reload();
       }
     } catch (error) {}
@@ -46,11 +47,11 @@ export default function Initials() {
             {isModalOpen && (
               <UserModal onClose={toggleModal}>
                 <div className="fixed block px-4 py-2 bg-primary_color border-2 text-fontSizeModale border-secondary_color top-20 right-32 border-opacity-30 rounded-lg text-center text-secondary_color animate-fade">
-                  <p className="p-2 hover:text-tertiary_color">
-                    <a href="/settings">Mon compte</a>
-                  </p>
+                  <a href="/settings">
+                    <p className="p-2 hover:text-tertiary_color">Mon compte</p>
+                  </a>
                   <p
-                    className="p-2 hover:text-tertiary_color"
+                    className="p-2 hover:text-tertiary_color cursor-pointer"
                     onClick={() => {
                       signOut();
                     }}

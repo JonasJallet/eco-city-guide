@@ -1,10 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_CATEGORY = gql`
-  mutation CreateCategory($name: String!) {
-    createCategory(name: $name) {
+  mutation CreateCategory($name: String!, $icon: String!) {
+    createCategory(name: $name, icon: $icon) {
       id
       name
+      icon
     }
   }
 `;
@@ -26,6 +27,7 @@ export const CREATE_PLACE = gql`
       city: $city
       categoryIds: $categoryIds
     ) {
+      id
       name
       description
       coordinates
@@ -34,6 +36,7 @@ export const CREATE_PLACE = gql`
         name
       }
       categories {
+        icon
         name
       }
     }
@@ -103,7 +106,7 @@ export const DELETE_USER = gql`
   }
 `;
 
-export const UPDATE_MY_PROFILE = gql`
+export const UPDATE_USER = gql`
   mutation UpdateUser(
     $firstName: String!
     $lastName: String!
@@ -123,6 +126,27 @@ export const UPDATE_MY_PROFILE = gql`
       lastName
       email
       hashedPassword
+    }
+  }
+`;
+
+export const SIGN_UP = gql`
+  mutation SignUp(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+  ) {
+    signUp(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+    ) {
+      id
+      firstName
+      lastName
+      email
     }
   }
 `;

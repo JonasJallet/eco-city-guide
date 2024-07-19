@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import PlaceContext from "@/contexts/PlaceContext";
 import { PlaceContextType } from "@/contexts/PlaceContext";
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 
 interface Props {
   favorite: Place;
@@ -22,7 +22,7 @@ export default function FavoriteCard({ favorite, RemoveFavorite }: Props) {
 
   return (
     <div
-      className={`bg-white rounded-lg border w-60 ${clickedFavorite ? "h-52" : "h-42"} flex flex-col justify-between`}
+      className={`bg-white rounded-lg border w-60 ${clickedFavorite ? "h-76" : "h-42"} flex flex-col justify-between`}
     >
       <div className="p-6 flex-grow">
         <div className="flex justify-between items-center mb-2">
@@ -37,7 +37,10 @@ export default function FavoriteCard({ favorite, RemoveFavorite }: Props) {
         <h1 className="font-medium text-base leading-tight text-gray-900 mt-1">
           {favorite.name}
         </h1>
-        <div className="text-gray-600 text-xs mt-2 cursor-pointer">
+        <div
+          className={`text-gray-600 text-xs break-words ${favorite.description.length > 64 ? "cursor-pointer" : ""} mt-2 ${clickedFavorite ? "line-clamp-none" : "line-clamp-2"}`}
+          onClick={() => setClickedFavorite(!clickedFavorite)}
+        >
           {favorite.description}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 import { createContext } from "react";
 
 export type PlaceContextType = {

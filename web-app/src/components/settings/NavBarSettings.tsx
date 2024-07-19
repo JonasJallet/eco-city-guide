@@ -1,8 +1,10 @@
 import Image from "next/image";
 import earthLogo from "../../../public/images/earth-logo.png";
 import { useRouter } from "next/router";
-import { SIGN_OUT } from "@/gql/mutations";
+import { SIGN_OUT } from "@/gql/requests/mutations";
 import { useMutation } from "@apollo/client";
+import { SignOutMutation } from "@/gql/generate/graphql";
+import { toast } from "react-toastify";
 import { useState } from "react";
 
 interface Props {
@@ -17,11 +19,13 @@ const NavBarSettings: React.FC<Props> = ({
   const router = useRouter();
   const [showMenu, setShowMenu] = useState(false);
 
-  const [SignOut] = useMutation(SIGN_OUT);
+  const [SignOut] = useMutation<SignOutMutation>(SIGN_OUT);
 
   const Logout = async () => {
     await SignOut();
-    router.push("/home");
+    toast.success("Vous êtes bien déconnecté(e) !");
+    await router.push("/home");
+    location.reload();
   };
 
   const [isOpen, setIsOpen] = useState(false);

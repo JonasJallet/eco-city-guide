@@ -13,6 +13,7 @@ import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { compare, hash } from "bcrypt";
 import UserSession from "./userSession";
 import Place from "./place";
+import { validate } from "class-validator";
 
 export enum UserRole {
   webAdministrator = "webAdministrator",
@@ -87,7 +88,7 @@ class User extends BaseEntity {
     const newUser = new User(userData);
     const existingEmail = await User.getUserByEmail(userData.email);
     if (existingEmail) {
-      throw new Error("Account with this email already exist.");
+      throw new Error("Un compte avec cet email existe déjà.");
     }
 
     return await newUser.save();
@@ -117,6 +118,7 @@ class User extends BaseEntity {
 
   static async updateUser(id: string, partialUser: UpdateUser): Promise<User> {
     const user = await User.getUserById(id);
+
     if (partialUser.password && user.hashedPassword !== partialUser.password) {
       partialUser.password = await hash(partialUser.password, 10);
     }

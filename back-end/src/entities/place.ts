@@ -130,12 +130,7 @@ class Place extends BaseEntity {
     categoryIds?: string[],
   ): Promise<Place[]> {
     const cache = await getCache();
-    const cacheKeyObject = {
-      city: city || "all",
-      categories: categoryIds || "all",
-    };
-
-    const cacheKey = `places-${JSON.stringify(cacheKeyObject)}`;
+    const cacheKey = "get-all-places";
 
     const cachedResult = await cache.get(cacheKey);
     if (cachedResult) {
@@ -170,6 +165,7 @@ class Place extends BaseEntity {
   static async deletePlace(id: string): Promise<Place> {
     const place = await Place.getPlaceById(id);
     await Place.delete(id);
+    await Place.deleteCache();
     return place;
   }
 
@@ -188,7 +184,13 @@ class Place extends BaseEntity {
 
     await place.save();
     await place.reload();
+    await Place.deleteCache();
     return place;
+  }
+
+  static async deleteCache() {
+    const cache = await getCache();
+    await cache.del("get-all-places");
   }
 }
 
