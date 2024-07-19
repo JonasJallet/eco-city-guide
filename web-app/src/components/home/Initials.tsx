@@ -47,16 +47,16 @@ export default function Initials() {
             {isModalOpen && (
               <UserModal onClose={toggleModal}>
                 <div className="fixed block px-4 py-2 bg-primary_color border-2 text-fontSizeModale border-secondary_color top-20 right-32 border-opacity-30 rounded-lg text-center text-secondary_color animate-fade">
-                  <p className="p-2 hover:text-tertiary_color">
-                    <a href="/settings">Mon compte</a>
-                  </p>
+                  <a href="/settings">
+                    <p className="p-2 hover:text-tertiary_color">Mon compte</p>
+                  </a>
                   <p
                     className="p-2 hover:text-tertiary_color cursor-pointer"
                     onClick={() => {
                       signOut();
                     }}
                   >
-                    <a href="/">Se déconnecter</a>
+                    Se déconnecter
                   </p>
                 </div>
               </UserModal>
