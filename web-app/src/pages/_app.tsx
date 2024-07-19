@@ -7,7 +7,7 @@ import createApolloClient from "../apollo-client";
 import "leaflet/dist/leaflet.css";
 import PlaceContext from "@/contexts/PlaceContext";
 import { useState } from "react";
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,7 +19,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <PlaceContext.Provider value={{ place, setPlace }}>
       <ApolloProvider client={apolloClient}>
         <Layout>
-        <ToastContainer theme="dark" closeOnClick={true} />
+          <ToastContainer
+            theme="light"
+            closeOnClick={true}
+          />
           <Component {...pageProps} />
         </Layout>
       </ApolloProvider>

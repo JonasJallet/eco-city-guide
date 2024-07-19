@@ -2,53 +2,20 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import {
-  GetMyProfileSignInQuery,
+  GetProfileQuery,
   SignUpMutation,
   SignUpMutationVariables,
-} from "@/gql/graphql";
-import { gql, useMutation, useQuery } from "@apollo/client";
+} from "@/gql/generate/graphql";
+import { useMutation, useQuery } from "@apollo/client";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
 import { toast } from "react-toastify";
-
-const SIGN_UP_FORM = gql`
-  mutation SignUp(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    signUp(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-    ) {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
-
-const GET_MY_PROFILE_SIGN_IN = gql`
-  query GetMyProfileSignIn {
-    myProfile {
-      id
-      email
-      firstName
-      lastName
-    }
-  }
-`;
+import { GET_PROFILE } from "@/gql/requests/queries";
+import { SIGN_UP } from "@/gql/requests/mutations";
 
 export default function index() {
   const router = useRouter();
-
-  const { data: myProfileData } = useQuery<GetMyProfileSignInQuery>(
-    GET_MY_PROFILE_SIGN_IN,
-  );
+  const { data: myProfileData } = useQuery<GetProfileQuery>(GET_PROFILE);
   useEffect(() => {
     if (myProfileData?.myProfile) {
       router.push("/home");
@@ -68,20 +35,22 @@ export default function index() {
     setFormData({ ...formData, ...partialFormData });
   };
 
-  const [signUpMutation, { loading, error }] = useMutation<
+  const [signUpMutation, { error }] = useMutation<
     SignUpMutation,
     SignUpMutationVariables
-  >(SIGN_UP_FORM);
+  >(SIGN_UP);
 
   const signUp = async () => {
-    const { data } = await signUpMutation({
-      variables: formData,
-    });
+    try {
+      const { data } = await signUpMutation({
+        variables: formData,
+      });
 
-    if (data && data.signUp) {
+      if (data && data.signUp) {
       toast.success("Votre compte a bien été créé !");
-      router.push("/login/sign-in");
-    }
+        router.push("/login/sign-in");
+      }
+    } catch (error) {}
   };
 
   return (
@@ -187,6 +156,11 @@ export default function index() {
                 </label>
               </div>
             </div>
+            {error && (
+              <div className="w-64 mt-4 text-md text-red-600 text-center">
+                {error.message}
+              </div>
+            )}
             <button
               type="submit"
               className="w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"

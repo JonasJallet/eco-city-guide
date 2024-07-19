@@ -9,16 +9,17 @@ import { SearchCategoryOnMap } from "./SearchCategoryOnMap";
 import { LocateButton } from "./LocateButton";
 import { CategoriesSearchFilter } from "./CategoriesSearchFilter";
 import PlaceSearchBar from "./PlaceSearchBar";
-import { Category, Place } from "@/gql/graphql";
+import { Category, Place, PlacesQuery } from "@/gql/generate/graphql";
 import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
 import { useQuery } from "@apollo/client";
-import { GET_PLACES } from "@/gql/queries";
+import { GET_PLACES } from "@/gql/requests/queries";
 import { SideBarContentEnum } from "./sideBarContent.type";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
 import FullscreenButton from "./FullScreenButton";
 import Initials from "./Initials";
+import MapResizeHandler from "./MapResize";
 
 export default function Map() {
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
@@ -38,12 +39,13 @@ export default function Map() {
   const [centerOfTheMap, setCenterOfTheMap] = useState<LatLng>();
   const [zoomLevel, setZoomLevel] = useState(6);
 
-  const { data: dataPlaces } = useQuery(GET_PLACES);
+  const { data: dataPlaces } = useQuery<PlacesQuery>(GET_PLACES);
   useEffect(() => {
     if (
       category !== undefined &&
       centerOfTheMap?.lat !== undefined &&
-      centerOfTheMap?.lng !== undefined
+      centerOfTheMap?.lng !== undefined &&
+      dataPlaces?.places
     ) {
       setSurroundingPlaces(
         getSurroundingPlacesAroundPoint(
@@ -99,11 +101,23 @@ export default function Map() {
   const layers = [
     {
       name: "Par défaut",
-      url: "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png",
+      url: `https://wxs.ign.fr/choisirgeoportail/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/png&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
+      options: {
+        bounds: [
+          [-75, -180],
+          [81, 180],
+        ] as L.LatLngBoundsExpression,
+      },
     },
     {
       name: "Satellite",
-      url: "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png",
+      url: `https://wxs.ign.fr/choisirgeoportail/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/jpeg&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
+      options: {
+        bounds: [
+          [-75, -180],
+          [81, 180],
+        ] as L.LatLngBoundsExpression,
+      },
     },
   ];
 
@@ -141,11 +155,16 @@ export default function Map() {
                   checked={index === 0 ? true : false}
                   name={layer.name}
                 >
-                  <TileLayer url={layer.url} />
+                  <TileLayer
+                    url={layer.url}
+                    attribution='<a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>'
+                    bounds={layer.options?.bounds}
+                  />
                 </LayersControl.BaseLayer>
               );
             })}
           </LayersControl>
+          <MapResizeHandler />
           <LocateButton />
           <FullscreenButton />
           <SearchCategoryOnMap
@@ -154,10 +173,6 @@ export default function Map() {
             category={category}
             isCategorySelected={isCategorySelected}
             setIsCategorySelected={setIsCategorySelected}
-          />
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
           />
           {surroundingPlaces.length > 0 &&
             surroundingPlaces.map((place, index) => (

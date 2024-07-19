@@ -1,16 +1,21 @@
-import { SignInFormMutationVariables } from "@/gql/graphql";
+import {
+  GetProfileQuery,
+  SignInMutation,
+  SignInMutationVariables,
+} from "@/gql/generate/graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { SIGN_IN } from "@/gql/mutations";
-import { GET_PROFILE } from "@/gql/queries";
+import { SIGN_IN } from "@/gql/requests/mutations";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
 
 export default function SignInPage() {
   const router = useRouter();
 
-  const { data: myProfileData, refetch } = useQuery(GET_PROFILE);
+  const { data: myProfileData, refetch } =
+    useQuery<GetProfileQuery>(GET_PROFILE);
 
   useEffect(() => {
     if (myProfileData?.myProfile) {
@@ -18,18 +23,21 @@ export default function SignInPage() {
     }
   }, [myProfileData]);
 
-  const [formData, setFormData] = useState<SignInFormMutationVariables>({
+  const [formData, setFormData] = useState<SignInMutationVariables>({
     email: "",
     password: "",
   });
 
   const updateFormData = (
-    partialFormData: Partial<SignInFormMutationVariables>,
+    partialFormData: Partial<SignInMutationVariables>,
   ) => {
     setFormData({ ...formData, ...partialFormData });
   };
 
-  const [signInMutation, { error }] = useMutation(SIGN_IN);
+  const [signInMutation, { error }] = useMutation<
+    SignInMutation,
+    SignInMutationVariables
+  >(SIGN_IN);
 
   const signIn = async () => {
     try {

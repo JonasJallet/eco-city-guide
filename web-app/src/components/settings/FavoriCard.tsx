@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import PlaceContext from "@/contexts/PlaceContext";
 import { PlaceContextType } from "@/contexts/PlaceContext";
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 
 interface Props {
   favorite: Place;

@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { MutationUpdateUserArgs } from "@/gql/graphql";
+import {
+  DeleteUserMutation,
+  GetProfileQuery,
+  MutationUpdateUserArgs,
+  RemoveFavoritePlaceMutation,
+} from "@/gql/generate/graphql";
 import { useQuery, useMutation } from "@apollo/client";
 import FavoriteCard from "@/components/settings/FavoriCard";
 import NavBarSettings from "@/components/settings/NavBarSettings";
-import { GET_MY_PROFILE_FAVORITES } from "@/gql/queries";
-import { REMOVE_FAVORITE_PLACE } from "@/gql/mutations";
-import { UPDATE_MY_PROFILE, DELETE_USER } from "@/gql/mutations";
+import { GET_PROFILE } from "@/gql/requests/queries";
+import {
+  REMOVE_FAVORITE_PLACE,
+  UPDATE_USER,
+  DELETE_USER,
+} from "@/gql/requests/mutations";
 import Loader from "@/components/loader/Loader";
-import { updateUserArgs } from "@/interfaces/updateUserArgs";
 import { useRouter } from "next/router";
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
+import { UserUpdateInterface } from "@/interfaces/UserUpdate";
 import { toast } from "react-toastify";
 
 export default function Settings() {
@@ -24,10 +32,10 @@ export default function Settings() {
   const [favorites, setFavorites] = useState<Place[]>([]);
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
-  const { data, loading, refetch } = useQuery(GET_MY_PROFILE_FAVORITES);
+  const { data, loading, refetch } = useQuery<GetProfileQuery>(GET_PROFILE);
   const router = useRouter();
 
-  let dataProfile: updateUserArgs = {
+  let dataProfile: UserUpdateInterface = {
     firstName: "",
     lastName: "",
     email: "",
@@ -45,7 +53,7 @@ export default function Settings() {
     };
   }
 
-  const [formData, setFormData] = useState<updateUserArgs>({
+  const [formData, setFormData] = useState<UserUpdateInterface>({
     firstName: "",
     lastName: "",
     email: "",
@@ -67,7 +75,7 @@ export default function Settings() {
   const [
     UpdateUserMutation,
     { loading: loadingUpdateUser, error: updateUserError },
-  ] = useMutation<MutationUpdateUserArgs>(UPDATE_MY_PROFILE);
+  ] = useMutation<MutationUpdateUserArgs>(UPDATE_USER);
 
   const UpdateProfileData = async () => {
     try {
@@ -91,9 +99,8 @@ export default function Settings() {
     setShowInputs("");
   };
 
-  const [RemoveFavorite, { loading: loadingRemoveFavorite }] = useMutation(
-    REMOVE_FAVORITE_PLACE,
-  );
+  const [RemoveFavorite, { loading: loadingRemoveFavorite }] =
+    useMutation<RemoveFavoritePlaceMutation>(REMOVE_FAVORITE_PLACE);
 
   const RemoveFavoritePlace = async (idPlace: string) => {
     await RemoveFavorite({
@@ -104,7 +111,7 @@ export default function Settings() {
     await refetch();
   };
 
-  const [deleteUserMutation] = useMutation(DELETE_USER);
+  const [deleteUserMutation] = useMutation<DeleteUserMutation>(DELETE_USER);
 
   const deleteUser = async () => {
     let id = data?.myProfile.id;
@@ -112,10 +119,10 @@ export default function Settings() {
       const { data } = await deleteUserMutation({
         variables: { deleteUserId: id },
       });
+
       if (data && data.deleteUser) {
         toast.success("Votre compte a bien été supprimé !");
         router.push("/home");
-        location.reload();
       }
     } catch (error) {}
   };
@@ -285,7 +292,9 @@ export default function Settings() {
                     )}
                   </div>
                   {errorUpdateUser && updateUserError && (
-                    <p className="text-red-600">{updateUserError.message}</p>
+                    <p className="text-red-600 w-64 text-center mt-4">
+                      {updateUserError.message}
+                    </p>
                   )}
                 </form>
               </div>

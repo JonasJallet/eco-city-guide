@@ -1,8 +1,8 @@
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
-import { MutationCreateCategoryArgs } from "@/gql/graphql";
-import { CREATE_CATEGORY } from "@/gql/mutations";
+import { MutationCreateCategoryArgs } from "@/gql/generate/graphql";
+import { CREATE_CATEGORY } from "@/gql/requests/mutations";
 import { useMutation } from "@apollo/client";
 import { useContext, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -21,14 +21,16 @@ export default function CreateCategoriesForm() {
     DisplayPanelContext,
   ) as DisplayPanelType;
 
-  const [createCategoryMutation] =
+  const [createCategoryMutation, { error }] =
     useMutation<MutationCreateCategoryArgs>(CREATE_CATEGORY);
 
   const createCategory = async () => {
-    await createCategoryMutation({
-      variables: formData,
-    });
-    toast.success("La catégorie a bien été créée.");
+    try {
+      await createCategoryMutation({
+        variables: formData,
+      });
+      toast.success("La catégorie a bien été créée.");
+    } catch (error) {}
   };
 
   const updateFormData = (
@@ -42,7 +44,7 @@ export default function CreateCategoriesForm() {
   };
 
   return (
-    <div className="flex flex-col items-center w-80 animate-fade">
+    <div className="flex flex-col items-center w-80 h-screen animate-fade">
       <button
         onClick={handleCloseButton}
         className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
@@ -89,6 +91,11 @@ export default function CreateCategoriesForm() {
                 updateFormData({ icon: event.target.value });
               }}
             />
+            {error && (
+              <div className="w-full mt-4 text-md text-red-600">
+                {error.message}
+              </div>
+            )}
             <button
               type="submit"
               onSubmit={() => {

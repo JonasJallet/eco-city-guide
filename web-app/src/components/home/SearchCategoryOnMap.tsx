@@ -1,4 +1,4 @@
-import { Category } from "@/gql/graphql";
+import { Category } from "@/gql/generate/graphql";
 import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
