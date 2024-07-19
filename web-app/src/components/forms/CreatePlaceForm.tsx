@@ -1,11 +1,18 @@
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
-import { Category, MutationCreatePlaceArgs, Place } from "@/gql/graphql";
+import {
+  Category,
+  CreatePlaceMutation,
+  CreatePlaceMutationVariables,
+  GetCategoriesQuery,
+  MutationCreatePlaceArgs,
+  Place,
+} from "@/gql/generate/graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { AddressInterface } from "@/interfaces/Address";
-import { GET_CATEGORIES } from "@/gql/queries";
-import { CREATE_PLACE } from "@/gql/mutations";
+import { GET_CATEGORIES } from "@/gql/requests/queries";
+import { CREATE_PLACE } from "@/gql/requests/mutations";
 import axios from "axios";
 import DisplayPanelContext, {
   DisplayPanelType,
@@ -20,7 +27,7 @@ export default function CreatePlaceForm() {
   const [formData, setFormData] = useState<MutationCreatePlaceArgs>({
     name: "",
     description: "",
-    coordinates: [2.284784, 48.885665],
+    coordinates: { type: "Point", coordinates: [0, 0] },
     address: "",
     city: "",
     categoryIds: [],
@@ -53,25 +60,18 @@ export default function CreatePlaceForm() {
     setSideBarEnum(SideBarContentEnum.NO_CONTENT);
   };
 
-  const [createPlaceMutation] =
-    useMutation<MutationCreatePlaceArgs>(CREATE_PLACE);
+  const [createPlaceMutation, { error }] = useMutation<
+    CreatePlaceMutation,
+    CreatePlaceMutationVariables
+  >(CREATE_PLACE);
 
   const createPlace = async () => {
-    // TODO: disable create place on the map
-    const { data } = await createPlaceMutation({
-      variables: formData,
-    });
-    setPlace({
-      name: formData.name,
-      description: formData.description,
-      coordinates: {
-        type: "Point",
-        coordinates: [formData.coordinates[0], formData.coordinates[1]],
-      },
-      address: formData.address,
-      city: formData.city,
-      categories: formData.categoryIds,
-    } as unknown as Place);
+    try {
+      const { data } = await createPlaceMutation({
+        variables: formData,
+      });
+      if (data) setPlace(data.createPlace as Place);
+    } catch (error) {}
   };
 
   const updateFormData = (
@@ -90,7 +90,7 @@ export default function CreatePlaceForm() {
   };
 
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const { data: categoriesData, loading, error } = useQuery(GET_CATEGORIES);
+  const { data: categoriesData } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
   useEffect(() => {
     updateFormData({
@@ -99,7 +99,7 @@ export default function CreatePlaceForm() {
   }, [selectedCategories]);
 
   return (
-    <div className="flex flex-col animate-fade items-center w-80 h-screen overflow-y-scroll">
+    <div className="flex flex-col items-center w-80 h-screen animate-fade">
       <button
         onClick={handleCloseButton}
         className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
@@ -233,11 +233,12 @@ export default function CreatePlaceForm() {
           >
             {categoriesData &&
               categoriesData.categories.map(
-                (category: Category) =>
+                (category) =>
                   !selectedCategories.some(
                     (selectedCategory) => selectedCategory.id === category.id,
                   ) && (
                     <option
+                      key={category.id}
                       className="text-text_color px-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-input_hover_bg"
                       onClick={() => {
                         setSelectedCategories(
@@ -251,6 +252,11 @@ export default function CreatePlaceForm() {
                   ),
               )}
           </select>
+          {error && (
+            <div className="w-full mt-4 text-md text-red-600">
+              {error.message}
+            </div>
+          )}
           <button
             type="submit"
             className="flex items-center justify-center text-center w-full mt-4 mb-8 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"

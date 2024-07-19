@@ -1,10 +1,6 @@
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
-import SurroundingPlacesContext, {
-  SurroundingPlacesContextType,
-} from "@/contexts/SurroundingPlacesContext";
-import { Place } from "@/gql/graphql";
-import { GET_PLACES } from "@/gql/queries";
-import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
+import { Place } from "@/gql/generate/graphql";
+import { GET_PLACES } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
@@ -17,9 +13,6 @@ export default function PlaceSearchBar({ category }: Props) {
   const [searchPlace, setSearchPlace] = useState("");
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const { setPlace } = useContext(PlaceContext) as PlaceContextType;
-  const { surroundingPlaces, setSurroundingPlaces } = useContext(
-    SurroundingPlacesContext,
-  ) as SurroundingPlacesContextType;
   const { data: placesData } = useQuery(GET_PLACES, {
     variables: { category },
   });
@@ -48,15 +41,6 @@ export default function PlaceSearchBar({ category }: Props) {
     setSearchPlace(place.name);
     setSearchResults([]);
     setPlace(place);
-
-    // Test to display surrounding places
-    // setSurroundingPlaces(
-    //   getSurroundingPlacesAroundPoint(
-    //     placesData.places,
-    //     place.coordinates.coordinates,
-    //     6,
-    //   ),
-    // );
   };
 
   useEffect(() => {

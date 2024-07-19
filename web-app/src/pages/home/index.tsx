@@ -1,7 +1,7 @@
 "use client";
 import { Main } from "@/components/home/Main";
 import SideBar from "@/components/home/SideBar";
-import { Place } from "@/gql/graphql";
+import { Place } from "@/gql/generate/graphql";
 import { useState } from "react";
 import SurroundingPlacesContext from "@/contexts/SurroundingPlacesContext";
 import { SideBarContentEnum } from "@/components/home/sideBarContent.type";
@@ -18,12 +18,12 @@ export default function index() {
       <SurroundingPlacesContext.Provider
         value={{ surroundingPlaces, setSurroundingPlaces }}
       >
-          <DisplayPanelContext.Provider value={{ sideBarEnum, setSideBarEnum }}>
-            <div className="flex h-screen">
-              <Main />
-              <SideBar />
-            </div>
-          </DisplayPanelContext.Provider>
+        <DisplayPanelContext.Provider value={{ sideBarEnum, setSideBarEnum }}>
+          <div className="flex h-screen">
+            <Main />
+            <SideBar />
+          </div>
+        </DisplayPanelContext.Provider>
       </SurroundingPlacesContext.Provider>
     </>
   );

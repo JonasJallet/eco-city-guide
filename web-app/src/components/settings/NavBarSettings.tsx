@@ -6,8 +6,9 @@ import earthLogo from "../../../public/images/earth-logo.png";
 import { IoMapOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
 import { HiOutlineUser } from "react-icons/hi2";
-import { SIGN_OUT } from "@/gql/mutations";
+import { SIGN_OUT } from "@/gql/requests/mutations";
 import { useMutation } from "@apollo/client";
+import { SignOutMutation } from "@/gql/generate/graphql";
 
 interface Props {
   setActiveItemNavBarSettings: (activeItemNabBarSettings: string) => void;
@@ -20,7 +21,7 @@ const NavBarSettings: React.FC<Props> = ({
 }) => {
   const router = useRouter();
 
-  const [SignOut] = useMutation(SIGN_OUT);
+  const [SignOut] = useMutation<SignOutMutation>(SIGN_OUT);
 
   const Logout = async () => {
     await SignOut();

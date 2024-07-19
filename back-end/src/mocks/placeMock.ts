@@ -14,16 +14,6 @@ async function categories(): Promise<Category[]> {
   return await categoryRepository.find();
 }
 
-async function randomCity(): Promise<City> {
-  const database = await getDataSource();
-  const cityRepository = database.getRepository(City);
-  const cities = await cityRepository.find();
-  const randomIndex = Math.floor(Math.random() * cities.length);
-  const randomCity = cities[randomIndex];
-
-  return randomCity;
-}
-
 export async function createPlacesWithCategory() {
   const placeFactory = new PlaceMockFactory();
 
@@ -33,7 +23,14 @@ export async function createPlacesWithCategory() {
       const placeData: DeepPartial<PlaceInterface> = await placeFactory.create([
         category.id,
       ]);
-      placeData.city = await randomCity();
+
+      const city = await City.getCityByName("Paris");
+      if (city === null) {
+        process.stdout.write("City not found: Paris");
+        continue;
+      }
+
+      placeData.city = city;
       placesData.push(placeData);
     }
 
