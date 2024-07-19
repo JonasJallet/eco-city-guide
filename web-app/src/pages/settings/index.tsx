@@ -345,18 +345,18 @@ export default function Settings() {
             <>
               <div className="flex flex-col  items-center justify-center mt-6">
                 <div style={{ width: 580 }}>
-                  <h1 className="font-medium text-xl text-gray-500 mt-4 text-center">
+                  <h1 className="font-bold font-sans text-2xl text-dark_text_color mt-4 text-center">
                     Données et confidentialité
                   </h1>
-                  <p className="font-medium mt-4 text-warmGray-700">
+                  <p className="font-medium mt-4 text-secondary_color ">
                     EcoCityGuide s'engage pour le respect de vos données.
                   </p>
-                  <p className=" text-warmGray-700 text-fontSizeText">
+                  <p className=" text-secondary_color  text-fontSizeText">
                     Vos données personnelles sont confidentielles et ne sont
                     jamais partagées avec des tiers privés ou partenaires
                     professionnels.
                   </p>
-                  <p className="text-warmGray-700 text-fontSizeText">
+                  <p className="text-secondary_color  text-fontSizeText">
                     Vos données d'utilisation de l'application ne sont jamais
                     partagées ni à des tiers privés ni à des professionnels. Ces
                     données d'utilisation sont seulement utilisées à des fins
@@ -364,13 +364,13 @@ export default function Settings() {
                   </p>
                 </div>
                 <div style={{ width: 580 }}>
-                  <h1 className="font-medium text-xl text-gray-500 mt-16 text-center">
+                  <h1 className="font-bold font-sans text-2xl text-dark_text_color mt-16 text-center">
                     Supprimer mon compte
                   </h1>
-                  <p className="font-medium mt-4 text-warmGray-700">
+                  <p className="font-medium mt-4 text-secondary_color ">
                     Attention, la suppression de votre compte est définitive.
                   </p>
-                  <p className="text-warmGray-700 text-fontSizeText">
+                  <p className="text-secondary_color text-fontSizeText">
                     Toutes les données personnelles et relatives à la gestion de
                     votre application seront définitivement supprimées. Les
                     commentaires que vous avez écrits seront anonymisés mais
@@ -391,7 +391,7 @@ export default function Settings() {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                   <div className="border-2 rounded-lg w-80 p-6 bg-white z-10">
                     <div className="text-center">
-                      <h3 className="text-warmGray-700 font-bold text-base">
+                      <h3 className="text-secondary_color font-bold text-base">
                         Êtes-vous sûr.e de vouloir supprimer votre compte ?
                       </h3>
                       <div className="flex flex-row justify-center items-center">
@@ -424,7 +424,7 @@ export default function Settings() {
 
           {activeItemNavBarSettings === "Favorites" && (
             <>
-              <h2 className="font-medium text-xl text-gray-500 mt-10 text-center ">
+              <h2 className="font-bold font-sans text-2xl text-dark_text_color mt-10 text-center ">
                 Mes Favoris
               </h2>
               <div className="flex flex-col items-center">

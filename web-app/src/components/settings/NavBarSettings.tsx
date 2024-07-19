@@ -75,7 +75,7 @@ const NavBarSettings: React.FC<Props> = ({
           id="navbar-multi-level"
         >
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
-            <li className="md:mb-0 mb-2 hover:bg-gray-100 p-2 md:hover:bg-transparent rounded-lg md:p-0 hover:text-tertiary_color text-gray-500">
+            <li className="md:mb-0 mb-2 p-2 md:hover:bg-transparent rounded-lg md:p-0 hover:text-tertiary_color text-secondary_color">
               <button
                 onClick={() => setActiveItemNavBarSettings("Profil")}
                 className="flex md:flex-col flex-row  items-center text-sm 
