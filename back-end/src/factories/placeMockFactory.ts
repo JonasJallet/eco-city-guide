@@ -26,7 +26,7 @@ export class PlaceMockFactory {
     this.typeFactory = new TypeFactory<DeepPartial<PlaceInterface>>(
       async () => ({
         name: "Eco-" + faker.commerce.department(),
-        description: faker.lorem.lines(),
+        description: faker.lorem.sentence({ min: 3, max: 21 }),
         coordinates: {
           type: "Point",
           coordinates: [

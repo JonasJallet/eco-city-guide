@@ -151,7 +151,6 @@ class Place extends BaseEntity {
     });
 
     cache.set(cacheKey, JSON.stringify(databaseResult), { EX: 1800 });
-
     return databaseResult;
   }
 

@@ -1,5 +1,5 @@
 import { Field, ArgsType } from "type-graphql";
-import { MinLength } from "class-validator";
+import { MinLength, MaxLength } from "class-validator";
 import { Geometry } from "typeorm";
 import { GeoJSONPoint } from "./scalar/geoJSONPoint";
 
@@ -12,6 +12,9 @@ export class CreatePlace {
   @Field()
   @MinLength(10, {
     message: "La description doit contenir au moins 10 caractères",
+  })
+  @MaxLength(180, {
+    message: "La description ne doit pas contenir plus de 180 caractères",
   })
   description!: string;
 
@@ -42,6 +45,9 @@ export class UpdatePlace {
   @Field()
   @MinLength(10, {
     message: "La description doit contenir au moins 10 caractères",
+  })
+  @MaxLength(180, {
+    message: "La description ne doit pas contenir plus de 180 caractères",
   })
   description?: string;
 

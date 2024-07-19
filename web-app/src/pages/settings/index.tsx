@@ -4,21 +4,24 @@ import {
   GetProfileQuery,
   MutationUpdateUserArgs,
   RemoveFavoritePlaceMutation,
+  SignOutMutation,
 } from "@/gql/generate/graphql";
 import { useQuery, useMutation } from "@apollo/client";
-import FavoriteCard from "@/components/settings/FavoriCard";
+import FavoriteCard from "@/components/settings/FavoriteCard";
 import NavBarSettings from "@/components/settings/NavBarSettings";
 import { GET_PROFILE } from "@/gql/requests/queries";
 import {
   REMOVE_FAVORITE_PLACE,
   UPDATE_USER,
   DELETE_USER,
+  SIGN_OUT,
 } from "@/gql/requests/mutations";
 import Loader from "@/components/loader/Loader";
 import { useRouter } from "next/router";
 import { Place } from "@/gql/generate/graphql";
 import { UserUpdateInterface } from "@/interfaces/UserUpdate";
 import { toast } from "react-toastify";
+import CategoriesFilter from "@/components/settings/CategoriesFilter";
 
 export default function Settings() {
   const [showInputs, setShowInputs] = useState<string>("");
@@ -33,7 +36,24 @@ export default function Settings() {
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
   const { data, loading, refetch } = useQuery<GetProfileQuery>(GET_PROFILE);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const filteredFavorites =
+    selectedCategories.length > 0
+      ? favorites.filter((favorite) =>
+          favorite.categories.some((category) =>
+            selectedCategories.includes(category.name),
+          ),
+        )
+      : favorites;
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !data) {
+      router.push("/home");
+    }
+  }, [data, loading]);
 
   let dataProfile: UserUpdateInterface = {
     firstName: "",
@@ -84,9 +104,11 @@ export default function Settings() {
       });
       setShowInputs("");
       setShowCancelButton(false);
+      passwordValueInput == "Modifier mon mot de passe" &&
+        toast.success("Votre profil a bien été modifié !");
+      passwordValueInput !== "Modifier mon mot de passe" && Logout();
       setPasswordValueInput("Modifier mon mot de passe");
       setInputType("text");
-      toast.success("Votre profil a bien été modifié !");
     } catch (error) {
       setErrorUpdateUser(true);
     }
@@ -109,6 +131,24 @@ export default function Settings() {
       },
     });
     await refetch();
+  };
+
+  const [signOut] = useMutation<SignOutMutation>(SIGN_OUT);
+
+  const Logout = async () => {
+    toast.success(
+      "Vous avez modifié votre mot de passe, vous allez être déconnecté(e).",
+    );
+
+    try {
+      const { data } = await signOut();
+      if (data && data.signOut) {
+        await router.push("/home");
+        location.reload();
+      }
+    } catch (error) {}
+
+    location.reload();
   };
 
   const [deleteUserMutation] = useMutation<DeleteUserMutation>(DELETE_USER);
@@ -142,7 +182,7 @@ export default function Settings() {
           setActiveItemNavBarSettings={setActiveItemNavBarSettings}
           firstnameProfile={dataProfile.firstName}
         />
-        <div className="mt-20 z-0">
+        <div className="z-0">
           {activeItemNavBarSettings == "Profil" && (
             <div className="flex justify-center items-center flex-col mt-7">
               <div>
@@ -303,20 +343,20 @@ export default function Settings() {
 
           {activeItemNavBarSettings === "Settings" && (
             <>
-              <div className="flex flex-col  items-center justify-center">
+              <div className="flex flex-col  items-center justify-center mt-6">
                 <div style={{ width: 580 }}>
-                  <h1 className="font-medium text-xl text-gray-500 mt-4 text-center">
+                  <h1 className="font-bold font-sans text-2xl text-dark_text_color mt-4 text-center">
                     Données et confidentialité
                   </h1>
-                  <p className="font-medium mt-4 text-warmGray-700">
+                  <p className="font-medium mt-4 text-secondary_color ">
                     EcoCityGuide s'engage pour le respect de vos données.
                   </p>
-                  <p className=" text-warmGray-700 text-fontSizeText">
+                  <p className=" text-secondary_color  text-fontSizeText">
                     Vos données personnelles sont confidentielles et ne sont
                     jamais partagées avec des tiers privés ou partenaires
                     professionnels.
                   </p>
-                  <p className="text-warmGray-700 text-fontSizeText">
+                  <p className="text-secondary_color  text-fontSizeText">
                     Vos données d'utilisation de l'application ne sont jamais
                     partagées ni à des tiers privés ni à des professionnels. Ces
                     données d'utilisation sont seulement utilisées à des fins
@@ -324,13 +364,13 @@ export default function Settings() {
                   </p>
                 </div>
                 <div style={{ width: 580 }}>
-                  <h1 className="font-medium text-xl text-gray-500 mt-16 text-center">
+                  <h1 className="font-bold font-sans text-2xl text-dark_text_color mt-16 text-center">
                     Supprimer mon compte
                   </h1>
-                  <p className="font-medium mt-4 text-warmGray-700">
+                  <p className="font-medium mt-4 text-secondary_color ">
                     Attention, la suppression de votre compte est définitive.
                   </p>
-                  <p className="text-warmGray-700 text-fontSizeText">
+                  <p className="text-secondary_color text-fontSizeText">
                     Toutes les données personnelles et relatives à la gestion de
                     votre application seront définitivement supprimées. Les
                     commentaires que vous avez écrits seront anonymisés mais
@@ -351,7 +391,7 @@ export default function Settings() {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                   <div className="border-2 rounded-lg w-80 p-6 bg-white z-10">
                     <div className="text-center">
-                      <h3 className="text-warmGray-700 font-bold text-base">
+                      <h3 className="text-secondary_color font-bold text-base">
                         Êtes-vous sûr.e de vouloir supprimer votre compte ?
                       </h3>
                       <div className="flex flex-row justify-center items-center">
@@ -381,33 +421,48 @@ export default function Settings() {
               )}
             </>
           )}
+
           {activeItemNavBarSettings === "Favorites" && (
-            <>
-              <h2 className="font-medium text-xl text-gray-500 mt-24 text-center">
+            <div className="mb-10">
+              <h2 className="font-bold font-sans text-2xl text-dark_text_color mt-10 text-center ">
                 Mes Favoris
               </h2>
               <div className="flex flex-col items-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 mt-2">
-                  {favorites &&
-                    favorites.length > 0 &&
-                    favorites.map((favorite, index) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
+                  <div
+                    className={`flex justify-start mt-4 md:col-span-3 sm:col-span-2 col-span-1 ${filteredFavorites.length > 0 ? "" : "ml-10 md:ml-0"}`}
+                  >
+                    <CategoriesFilter
+                      selectedCategories={selectedCategories}
+                      setSelectedCategories={setSelectedCategories}
+                    />
+                  </div>
+                  {filteredFavorites && filteredFavorites.length > 0 ? (
+                    filteredFavorites.map((favorite, index) => (
                       <div key={index} className="flex justify-center mt-4">
                         <FavoriteCard
                           favorite={favorite}
-                          RemoveFavorite={() =>
+                          removeFromFavorites={() =>
                             RemoveFavoritePlace(favorite.id)
                           }
                         />
                       </div>
-                    ))}
+                    ))
+                  ) : (
+                    <p className="sm:col-span-2 md:col-span-3 col-span-1 flex mt-4 ml-10 sm:ml-4 mr-10">
+                      Vous n'avez pas encore de favoris pour le filtrage
+                      appliqué.
+                    </p>
+                  )}
                 </div>
               </div>
+
               {favorites && favorites.length == 0 && (
-                <p className="text-center mt-10">
+                <p className="text-center mt-10 mr-10">
                   Vous n'avez pas encore de favoris.
                 </p>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>
