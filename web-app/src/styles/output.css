@@ -882,6 +882,10 @@ video {
   width: 1.5rem;
 }
 
+.w-64 {
+  width: 16rem;
+}
+
 .w-80 {
   width: 20rem;
 }
@@ -896,10 +900,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-64 {
-  width: 16rem;
 }
 
 .min-w-11 {
@@ -952,6 +952,10 @@ video {
 
 .resize-none {
   resize: none;
+}
+
+.resize {
+  resize: both;
 }
 
 .list-none {

@@ -19,6 +19,7 @@ import DisplayPanelContext, {
 } from "@/contexts/DisplayPanelContext";
 import { SideBarContentEnum } from "../home/sideBarContent.type";
 import { MdClose } from "react-icons/md";
+import { toast } from "react-toastify";
 
 export default function CreatePlaceForm() {
   const [searchAddress, setSearchAddress] = useState("");
@@ -71,6 +72,7 @@ export default function CreatePlaceForm() {
         variables: formData,
       });
       if (data) setPlace(data.createPlace as Place);
+      toast.success("Le lieu a bien été créé.");
     } catch (error) {}
   };
 
@@ -90,13 +92,18 @@ export default function CreatePlaceForm() {
   };
 
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const { data: categoriesData } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
+  const { data: categoriesData, refetch } =
+    useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
   useEffect(() => {
     updateFormData({
       categoryIds: selectedCategories.map((category) => category.id),
     });
   }, [selectedCategories]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <div className="flex flex-col items-center w-80 h-screen animate-fade">

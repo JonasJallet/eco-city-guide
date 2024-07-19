@@ -9,6 +9,7 @@ import {
 import { useMutation, useQuery } from "@apollo/client";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
+import { toast } from "react-toastify";
 import { GET_PROFILE } from "@/gql/requests/queries";
 import { SIGN_UP } from "@/gql/requests/mutations";
 
@@ -46,6 +47,7 @@ export default function index() {
       });
 
       if (data && data.signUp) {
+      toast.success("Votre compte a bien été créé !");
         router.push("/login/sign-in");
       }
     } catch (error) {}
