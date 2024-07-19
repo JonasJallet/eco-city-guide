@@ -4,6 +4,7 @@ import {
   GetProfileQuery,
   MutationUpdateUserArgs,
   RemoveFavoritePlaceMutation,
+  SignOutMutation,
 } from "@/gql/generate/graphql";
 import { useQuery, useMutation } from "@apollo/client";
 import FavoriteCard from "@/components/settings/FavoriteCard";
@@ -13,6 +14,7 @@ import {
   REMOVE_FAVORITE_PLACE,
   UPDATE_USER,
   DELETE_USER,
+  SIGN_OUT,
 } from "@/gql/requests/mutations";
 import Loader from "@/components/loader/Loader";
 import { useRouter } from "next/router";
@@ -102,9 +104,11 @@ export default function Settings() {
       });
       setShowInputs("");
       setShowCancelButton(false);
+      passwordValueInput == "Modifier mon mot de passe" &&
+        toast.success("Votre profil a bien été modifié !");
+      passwordValueInput !== "Modifier mon mot de passe" && Logout();
       setPasswordValueInput("Modifier mon mot de passe");
       setInputType("text");
-      toast.success("Votre profil a bien été modifié !");
     } catch (error) {
       setErrorUpdateUser(true);
     }
@@ -127,6 +131,24 @@ export default function Settings() {
       },
     });
     await refetch();
+  };
+
+  const [signOut] = useMutation<SignOutMutation>(SIGN_OUT);
+
+  const Logout = async () => {
+    toast.success(
+      "Vous avez modifié votre mot de passe, vous allez être déconnecté(e).",
+    );
+
+    try {
+      const { data } = await signOut();
+      if (data && data.signOut) {
+        await router.push("/home");
+        location.reload();
+      }
+    } catch (error) {}
+
+    location.reload();
   };
 
   const [deleteUserMutation] = useMutation<DeleteUserMutation>(DELETE_USER);
@@ -163,7 +185,6 @@ export default function Settings() {
         <div className="z-0">
           {activeItemNavBarSettings == "Profil" && (
             <div className="flex justify-center items-center flex-col mt-7">
-              {/* <div className="flex"> */}
               <div>
                 <form
                   className="bg-form_color mt-6 p-10 rounded-lg shadow-lg shadow-gray-300 min-w-full"

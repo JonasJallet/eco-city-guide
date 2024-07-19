@@ -28,7 +28,6 @@ const NavBarSettings: React.FC<Props> = ({
     location.reload();
   };
 
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <nav className="bg-white border-gray-200 shadow-lg shadow-gray-300">
       <div className="flex flex-wrap items-center justify-between mx-auto p-3">
