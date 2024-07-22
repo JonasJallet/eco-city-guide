@@ -39,15 +39,24 @@ export class UserResolver {
     return user !== undefined && user !== null;
   }
 
-  @Authorized("webAdministrator", "user")
+  @Authorized("webAdministrator", "cityAdministrator", "user")
   @Mutation(() => User)
-  updateUser(@Arg("id", () => ID) id: string, @Args() args: UpdateUser) {
+  updateUser(
+    @Arg("id", () => ID) id: string,
+    @Args() args: UpdateUser,
+    @Ctx() { user }: Context,
+  ) {
+    this.checkUserPermissions(user as User, id);
     return User.updateUser(id, args);
   }
 
-  @Authorized("webAdministrator", "user")
+  @Authorized("webAdministrator", "cityAdministrator", "user")
   @Mutation(() => User)
-  async deleteUser(@Arg("id", () => ID) id: string) {
+  async deleteUser(
+    @Arg("id", () => ID) id: string,
+    @Ctx() { user }: Context,
+  ): Promise<User> {
+    this.checkUserPermissions(user as User, id);
     return User.deleteUser(id);
   }
 
@@ -86,5 +95,14 @@ export class UserResolver {
     @Ctx() { user }: Context,
   ): Promise<User> {
     return User.deleteFavoritePlace((user as User).id, placeId);
+  }
+
+  private checkUserPermissions(currentUser: User, targetUserId: string): void {
+    if (
+      currentUser.role !== "webAdministrator" &&
+      currentUser.id !== targetUserId
+    ) {
+      throw new Error("Vous n'avez pas les droits pour modifier ce compte");
+    }
   }
 }
