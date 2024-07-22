@@ -26,7 +26,7 @@ export default function Map() {
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
-  const { surroundingPlaces, setSurroundingPlaces } = useContext(
+  const { surroundingPlaces, setSurroundingPlaces, setCategory } = useContext(
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
   const [mapRenderingCenterPoint, setMapRenderingCenterPoint] = useState([
@@ -34,7 +34,9 @@ export default function Map() {
   ]);
 
   const [zoom, setZoom] = useState(6);
-  const [category, setCategory] = useState<Category | undefined>(undefined);
+  const [category, setCategorySelected] = useState<Category | undefined>(
+    undefined,
+  );
   const [isCategorySelected, setIsCategorySelected] = useState(false);
   const [centerOfTheMap, setCenterOfTheMap] = useState<LatLng>();
   const [zoomLevel, setZoomLevel] = useState(6);
@@ -47,16 +49,25 @@ export default function Map() {
       centerOfTheMap?.lng !== undefined &&
       dataPlaces?.places
     ) {
-      setSurroundingPlaces(
-        getSurroundingPlacesAroundPoint(
-          dataPlaces.places,
-          [centerOfTheMap?.lat, centerOfTheMap?.lng],
-          zoomLevel,
-          category.name,
-        ),
+      const surroundingPlaces = getSurroundingPlacesAroundPoint(
+        dataPlaces.places,
+        [centerOfTheMap.lat, centerOfTheMap.lng],
+        zoomLevel,
+        category.name,
       );
+
+      setSurroundingPlaces(surroundingPlaces);
+      setCategory(category);
+      setSideBarEnum(SideBarContentEnum.PLACES_BY_CATEGORY);
     }
-  }, [category, centerOfTheMap]);
+  }, [
+    category,
+    centerOfTheMap,
+    dataPlaces?.places,
+    zoomLevel,
+    setSurroundingPlaces,
+    setSideBarEnum,
+  ]);
 
   useEffect(() => {
     if (place !== undefined) {
@@ -93,7 +104,6 @@ export default function Map() {
   }, [place]);
 
   const handleMarkerClick = (place: Place) => {
-    setSurroundingPlaces([place]);
     setPlace(place);
     setSideBarEnum(SideBarContentEnum.PLACE);
   };
@@ -129,7 +139,7 @@ export default function Map() {
         </div>
         <div className="col-span-1">
           <CategoriesSearchFilter
-            setCategory={setCategory}
+            setCategorySelected={setCategorySelected}
             setIsCategorySelected={setIsCategorySelected}
           />
         </div>

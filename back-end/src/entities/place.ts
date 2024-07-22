@@ -78,22 +78,22 @@ class Place extends BaseEntity {
 
     if (place) {
       if (!place.name) {
-        throw new Error("Place name cannot be empty.");
+        throw new Error("Le nom du lieu ne peut pas être vide.");
       }
       this.name = place.name;
 
       if (!place.description) {
-        throw new Error("Place description cannot be empty.");
+        throw new Error("La description du lieu ne peut pas être vide.");
       }
       this.description = place.description;
 
       if (!place.coordinates) {
-        throw new Error("Place coordinates cannot be empty.");
+        throw new Error("Les coordonnées du lieu ne peuvent pas être vides.");
       }
       this.coordinates = place.coordinates;
 
       if (!place.address) {
-        throw new Error("Place address cannot be empty.");
+        throw new Error("L'adresse du lieu ne peut pas être vide.");
       }
       this.address = place.address;
     }

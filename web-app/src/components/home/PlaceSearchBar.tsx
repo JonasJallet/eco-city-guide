@@ -1,9 +1,14 @@
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 import { Place } from "@/gql/generate/graphql";
 import { GET_PLACES } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
+import { SideBarContentEnum } from "./sideBarContent.type";
+import SideBarContent from "./SideBarContent";
 
 interface Props {
   category?: string;
@@ -13,6 +18,9 @@ export default function PlaceSearchBar({ category }: Props) {
   const [searchPlace, setSearchPlace] = useState("");
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const { setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { sideBarEnum, setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
   const { data: placesData } = useQuery(GET_PLACES, {
     variables: { category },
   });
@@ -41,6 +49,7 @@ export default function PlaceSearchBar({ category }: Props) {
     setSearchPlace(place.name);
     setSearchResults([]);
     setPlace(place);
+    setSideBarEnum(SideBarContentEnum.PLACE);
   };
 
   useEffect(() => {
@@ -48,6 +57,12 @@ export default function PlaceSearchBar({ category }: Props) {
       setSearchPlace(category);
     }
   }, [category]);
+
+  useEffect(() => {
+    if (sideBarEnum === SideBarContentEnum.NO_CONTENT) {
+      setSearchPlace("");
+    }
+  }, [sideBarEnum]);
 
   return (
     <>

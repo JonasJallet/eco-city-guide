@@ -2,6 +2,7 @@ import CreateCategoriesForm from "../forms/CreateCategoriesForm";
 import CreatePlaceForm from "../forms/CreatePlaceForm";
 import FavoritesContent from "./FavoritesContent";
 import PlaceContent from "./PlaceContent";
+import PlacesByCategoryContent from "./PlacesByCategory";
 import { SideBarContentEnum } from "./sideBarContent.type";
 
 export default function SideBarContent({
@@ -26,6 +27,9 @@ export default function SideBarContent({
       break;
     case SideBarContentEnum.PLACE:
       contentComponent = <PlaceContent />;
+      break;
+    case SideBarContentEnum.PLACES_BY_CATEGORY:
+      contentComponent = <PlacesByCategoryContent />;
       break;
     default:
       contentComponent = null;

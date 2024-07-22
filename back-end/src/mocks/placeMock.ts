@@ -42,8 +42,8 @@ export async function createPlacesWithCategory() {
 
 createPlacesWithCategory()
   .then(() => {
-    process.stdout.write("Generated Places Data saved to the database.");
+    console.log("\x1b[32mGenerated Places Data saved to the database.\x1b[0m");
   })
   .catch((error) => {
-    process.stdout.write("Error creating places:", error);
+    console.error("\x1b[31mError creating places:\x1b[0m", error);
   });

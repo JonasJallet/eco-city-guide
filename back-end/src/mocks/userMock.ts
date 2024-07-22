@@ -56,8 +56,8 @@ export async function createUserMock(): Promise<DeepPartial<User>[]> {
 
 createUserMock()
   .then(() => {
-    process.stdout.write("Generated Users Data saved to the database.");
+    console.log("\x1b[32mGenerated Users Data saved to the database.\x1b[0m");
   })
   .catch((error) => {
-    process.stdout.write("Error creating users:", error);
+    console.error("\x1b[31mError creating users:\x1b[0m", error);
   });

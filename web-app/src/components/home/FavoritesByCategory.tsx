@@ -6,7 +6,7 @@ import { SideBarContentEnum } from "./sideBarContent.type";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
-import { MdArrowBack, MdClose } from "react-icons/md";
+import { MdArrowBack, MdClose, MdStar } from "react-icons/md";
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 
 export default function FavoritesByCategoryContent({
@@ -58,18 +58,18 @@ export default function FavoritesByCategoryContent({
   return (
     <div className="h-screen bg-white w-80 overflow-y-auto">
       <div>
-        <div className="flex justify-between">
-          <button
-            onClick={handleCloseButton}
-            className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
-          >
-            <MdClose />
-          </button>
+        <div className="flex">
           <button
             onClick={onBack}
             className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
           >
             <MdArrowBack />
+          </button>
+          <button
+            onClick={handleCloseButton}
+            className="text-2xl text-gray-500 rounded-xl hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
+          >
+            <MdClose />
           </button>
         </div>
       </div>
@@ -92,9 +92,9 @@ export default function FavoritesByCategoryContent({
               <p className="text-md font-medium">{favorite.name}</p>
               <button
                 onClick={(event) => handleRemoveFavorite(favorite.id, event)}
-                className="text-2xl rounded-xl text-red-600 hover:bg-white hover:text-red-800 p-2 z-20"
+                className="text-2xl rounded-xl text-yellow-500 hover:bg-white hover:text-yellow-400 p-2 z-20"
               >
-                <MdClose />
+                <MdStar className="w-6 h-6" />
               </button>
             </div>
             <p className="text-gray-600 mb-1">Ville : {favorite.city.name}</p>
