@@ -13,7 +13,6 @@ import { CreateUser, UpdateUser, SignInUser } from "../types/user.args";
 import { compare, hash } from "bcrypt";
 import UserSession from "./userSession";
 import Place from "./place";
-import { validate } from "class-validator";
 
 export enum UserRole {
   webAdministrator = "webAdministrator",

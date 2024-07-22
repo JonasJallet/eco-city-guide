@@ -38,14 +38,16 @@ class City extends BaseEntity {
     super();
     if (city) {
       if (!city.name) {
-        throw new Error("City name cannot be empty.");
+        throw new Error("Le nom de la ville ne peut pas être vide.");
       }
       this.name = city.name;
 
-      this.coordinates = city.coordinates;
       if (!city.coordinates) {
-        throw new Error("City coordinates cannot be empty.");
+        throw new Error(
+          "Les coordonnées de la ville ne peuvent pas être vides.",
+        );
       }
+      this.coordinates = city.coordinates;
     }
   }
 

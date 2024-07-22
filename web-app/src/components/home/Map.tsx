@@ -47,16 +47,26 @@ export default function Map() {
       centerOfTheMap?.lng !== undefined &&
       dataPlaces?.places
     ) {
-      setSurroundingPlaces(
-        getSurroundingPlacesAroundPoint(
-          dataPlaces.places,
-          [centerOfTheMap?.lat, centerOfTheMap?.lng],
-          zoomLevel,
-          category.name,
-        ),
+      const surroundingPlaces = getSurroundingPlacesAroundPoint(
+        dataPlaces.places,
+        [centerOfTheMap.lat, centerOfTheMap.lng],
+        zoomLevel,
+        category.name,
       );
+
+      if (surroundingPlaces.length > 0) {
+        setSurroundingPlaces(surroundingPlaces);
+        setSideBarEnum(SideBarContentEnum.PLACES_BY_CATEGORY);
+      }
     }
-  }, [category, centerOfTheMap]);
+  }, [
+    category,
+    centerOfTheMap,
+    dataPlaces?.places,
+    zoomLevel,
+    setSurroundingPlaces,
+    setSideBarEnum,
+  ]);
 
   useEffect(() => {
     if (place !== undefined) {
@@ -93,7 +103,6 @@ export default function Map() {
   }, [place]);
 
   const handleMarkerClick = (place: Place) => {
-    setSurroundingPlaces([place]);
     setPlace(place);
     setSideBarEnum(SideBarContentEnum.PLACE);
   };

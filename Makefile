@@ -20,6 +20,12 @@ logs-dev:
 logs-prod:
 	docker compose -f docker-compose.prod.yml logs -f
 
+clean-database: 
+	docker-compose exec back-end npx ts-node src/utils/cleanDatabase.ts
+
+clean-cache:
+	docker-compose exec back-end npx ts-node src/utils/cleanCache.ts
+
 insert-mocks:
 	docker-compose exec back-end npx ts-node src/mocks/categoryMock.ts
 	docker-compose exec back-end npx ts-node src/mocks/cityMock.ts

@@ -12,6 +12,10 @@ import { GET_PROFILE } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { GetProfileQuery } from "@/gql/generate/graphql";
+import SurroundingPlacesContext, {
+  SurroundingPlacesContextType,
+} from "@/contexts/SurroundingPlacesContext";
+import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 
 export default function SideBar() {
   const [enumValue, setEnumValue] = useState<SideBarContentEnum>(
@@ -22,6 +26,12 @@ export default function SideBar() {
     DisplayPanelContext,
   ) as DisplayPanelType;
 
+  const { setSurroundingPlaces } = useContext(
+    SurroundingPlacesContext,
+  ) as SurroundingPlacesContextType;
+
+  const { setPlace } = useContext(PlaceContext) as PlaceContextType;
+
   const { data } = useQuery<GetProfileQuery>(GET_PROFILE);
   const router = useRouter();
 
@@ -31,6 +41,13 @@ export default function SideBar() {
       setSideBarEnum(undefined);
     }
   }, [sideBarEnum]);
+
+  useEffect(() => {
+    if (enumValue === SideBarContentEnum.NO_CONTENT) {
+      setSurroundingPlaces([]);
+      setPlace(undefined);
+    }
+  }, [enumValue, setSurroundingPlaces]);
 
   const user = data?.myProfile;
   const administrator =

@@ -83,7 +83,7 @@ export default function CreateCategoriesForm() {
               type="text"
               name="icon"
               id="icon"
-              placeholder="Icon"
+              placeholder="Icône"
               required
               value={categoryIcon}
               onChange={(event) => {

@@ -31,8 +31,10 @@ export async function createCategoryMock(): Promise<Category[]> {
 
 createCategoryMock()
   .then(() => {
-    process.stdout.write("Generated Categories Data saved to the database.");
+    console.log(
+      "\x1b[32mGenerated Categories Data saved to the database.\x1b[0m",
+    );
   })
   .catch((error) => {
-    process.stdout.write("Error creating categories: " + error);
+    console.error("\x1b[31mError creating categories:\x1b[0m", error);
   });
