@@ -56,10 +56,13 @@ export default function PlaceSearchBar({ category }: Props) {
     if (category) {
       setSearchPlace(category);
     }
+  }, [category]);
+
+  useEffect(() => {
     if (sideBarEnum === SideBarContentEnum.NO_CONTENT) {
       setSearchPlace("");
     }
-  }, [category, sideBarEnum]);
+  }, [sideBarEnum]);
 
   return (
     <>

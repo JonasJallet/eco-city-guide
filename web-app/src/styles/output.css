@@ -1699,11 +1699,6 @@ video {
   color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
-.hover\:text-red-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(153 27 27 / var(--tw-text-opacity));
-}
-
 .hover\:text-tertiary_color:hover {
   --tw-text-opacity: 1;
   color: rgb(72 187 120 / var(--tw-text-opacity));
@@ -1712,16 +1707,6 @@ video {
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.hover\:text-yellow-200:hover {
-  --tw-text-opacity: 1;
-  color: rgb(254 240 138 / var(--tw-text-opacity));
-}
-
-.hover\:text-yellow-300:hover {
-  --tw-text-opacity: 1;
-  color: rgb(253 224 71 / var(--tw-text-opacity));
 }
 
 .hover\:text-yellow-400:hover {
