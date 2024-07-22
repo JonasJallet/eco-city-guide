@@ -23,7 +23,7 @@ import { GET_PROFILE, IS_IN_FAVORITES } from "@/gql/requests/queries";
 import { useRouter } from "next/router";
 
 export default function PlacesByCategoryContent() {
-  const { surroundingPlaces, setSurroundingPlaces } = useContext(
+  const { surroundingPlaces, category } = useContext(
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
 
@@ -109,7 +109,15 @@ export default function PlacesByCategoryContent() {
           <MdClose />
         </button>
       </div>
-
+      <div className="flex flex-row justify-center items-start px-8 border-b border-gray-200">
+        <p className="text-center text-2xl text-gray-600 font-bold font-sans cursor-default mb-2">
+          {category?.name}
+        </p>
+        <span className="text-gray-500 ml-3">
+          {surroundingPlaces.length}{" "}
+          {surroundingPlaces.length > 1 ? "lieux" : "lieu"}
+        </span>
+      </div>
       <div className="mt-4 mb-2">
         {surroundingPlaces.map((place, index) => (
           <div

@@ -5,12 +5,12 @@ import { useState } from "react";
 import { TbCategoryPlus } from "react-icons/tb";
 
 interface Props {
-  setCategory: (category: Category | undefined) => void;
+  setCategorySelected: (category: Category | undefined) => void;
   setIsCategorySelected: (isCategorySelected: boolean) => void;
 }
 
 export function CategoriesSearchFilter({
-  setCategory,
+  setCategorySelected,
   setIsCategorySelected,
 }: Props) {
   const [categoriesList, setCategoriesList] = useState<Category[]>([]);
@@ -22,7 +22,7 @@ export function CategoriesSearchFilter({
 
   const handleSelectedCategory = (category: Category) => {
     setCategoriesList([]);
-    setCategory(category as Category);
+    setCategorySelected(category as Category);
     setIsCategorySelected(true);
   };
 

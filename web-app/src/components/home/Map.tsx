@@ -26,7 +26,7 @@ export default function Map() {
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
-  const { surroundingPlaces, setSurroundingPlaces } = useContext(
+  const { surroundingPlaces, setSurroundingPlaces, setCategory } = useContext(
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
   const [mapRenderingCenterPoint, setMapRenderingCenterPoint] = useState([
@@ -34,7 +34,9 @@ export default function Map() {
   ]);
 
   const [zoom, setZoom] = useState(6);
-  const [category, setCategory] = useState<Category | undefined>(undefined);
+  const [category, setCategorySelected] = useState<Category | undefined>(
+    undefined,
+  );
   const [isCategorySelected, setIsCategorySelected] = useState(false);
   const [centerOfTheMap, setCenterOfTheMap] = useState<LatLng>();
   const [zoomLevel, setZoomLevel] = useState(6);
@@ -56,6 +58,7 @@ export default function Map() {
 
       if (surroundingPlaces.length > 0) {
         setSurroundingPlaces(surroundingPlaces);
+        setCategory(category);
         setSideBarEnum(SideBarContentEnum.PLACES_BY_CATEGORY);
       }
     }
@@ -138,7 +141,7 @@ export default function Map() {
         </div>
         <div className="col-span-1">
           <CategoriesSearchFilter
-            setCategory={setCategory}
+            setCategorySelected={setCategorySelected}
             setIsCategorySelected={setIsCategorySelected}
           />
         </div>
