@@ -43,11 +43,14 @@ export default function SideBar() {
   }, [sideBarEnum]);
 
   useEffect(() => {
-    if (enumValue === SideBarContentEnum.NO_CONTENT) {
+    if (
+      enumValue === SideBarContentEnum.NO_CONTENT ||
+      enumValue === SideBarContentEnum.FAVORITES
+    ) {
       setSurroundingPlaces([]);
       setPlace(undefined);
     }
-  }, [enumValue, setSurroundingPlaces]);
+  }, [enumValue, setSurroundingPlaces, setPlace]);
 
   const user = data?.myProfile;
   const administrator =

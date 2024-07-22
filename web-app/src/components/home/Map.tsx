@@ -56,11 +56,9 @@ export default function Map() {
         category.name,
       );
 
-      if (surroundingPlaces.length > 0) {
-        setSurroundingPlaces(surroundingPlaces);
-        setCategory(category);
-        setSideBarEnum(SideBarContentEnum.PLACES_BY_CATEGORY);
-      }
+      setSurroundingPlaces(surroundingPlaces);
+      setCategory(category);
+      setSideBarEnum(SideBarContentEnum.PLACES_BY_CATEGORY);
     }
   }, [
     category,

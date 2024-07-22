@@ -119,29 +119,35 @@ export default function PlacesByCategoryContent() {
         </span>
       </div>
       <div className="mt-4 mb-2">
-        {surroundingPlaces.map((place, index) => (
-          <div
-            key={index}
-            onClick={() => handleSelectedPlace(place)}
-            className="hover:bg-gray-100 p-3 mr-3 ml-3 my-2 rounded-xl cursor-pointer hover:text-tertiary_color"
-          >
-            <div className="flex justify-between items-center">
-              <p className="text-md font-medium">{place.name}</p>
-              <button
-                onClick={(event) => handleFavoriteToggle(place, event)}
-                className="p-1 border border-yellow-500 text-yellow-500 rounded-xl hover:bg-white"
-              >
-                {favoriteStatus[place.id] ? (
-                  <MdStar className="w-6 h-6" />
-                ) : (
-                  <MdStarBorder className="w-6 h-6" />
-                )}
-              </button>
+        {surroundingPlaces.length === 0 ? (
+          <p className="text-center text-gray-600">
+            Pas de lieux dans la zone pour cette catégorie
+          </p>
+        ) : (
+          surroundingPlaces.map((place, index) => (
+            <div
+              key={index}
+              onClick={() => handleSelectedPlace(place)}
+              className="hover:bg-gray-100 p-3 mr-3 ml-3 my-2 rounded-xl cursor-pointer hover:text-tertiary_color"
+            >
+              <div className="flex justify-between items-center">
+                <p className="text-md font-medium">{place.name}</p>
+                <button
+                  onClick={(event) => handleFavoriteToggle(place, event)}
+                  className="p-1 border border-yellow-500 text-yellow-500 rounded-xl hover:bg-white"
+                >
+                  {favoriteStatus[place.id] ? (
+                    <MdStar className="w-6 h-6" />
+                  ) : (
+                    <MdStarBorder className="w-6 h-6" />
+                  )}
+                </button>
+              </div>
+              <p className="text-gray-600 mb-1">Ville : {place.city.name}</p>
+              <p className="text-gray-600">Adresse : {place.address}</p>
             </div>
-            <p className="text-gray-600 mb-1">Ville : {place.city.name}</p>
-            <p className="text-gray-600">Adresse : {place.address}</p>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
