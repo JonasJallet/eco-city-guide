@@ -59,8 +59,7 @@ export default function PlacesByCategoryContent() {
   );
 
   const handleSelectedPlace = (place: Place) => {
-    setSelectedPlace(place);
-    if (selectedPlace) setPlace(selectedPlace);
+    setPlace(place);
     setSideBarEnum(SideBarContentEnum.PLACE);
   };
 
