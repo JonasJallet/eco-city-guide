@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { SideBarContentEnum } from "./sideBarContent.type";
+import SideBarContent from "./SideBarContent";
 
 interface Props {
   category?: string;
@@ -17,7 +18,7 @@ export default function PlaceSearchBar({ category }: Props) {
   const [searchPlace, setSearchPlace] = useState("");
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const { setPlace } = useContext(PlaceContext) as PlaceContextType;
-  const { setSideBarEnum } = useContext(
+  const { sideBarEnum, setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
   const { data: placesData } = useQuery(GET_PLACES, {
@@ -55,7 +56,10 @@ export default function PlaceSearchBar({ category }: Props) {
     if (category) {
       setSearchPlace(category);
     }
-  }, [category]);
+    if (sideBarEnum === SideBarContentEnum.NO_CONTENT) {
+      setSearchPlace("");
+    }
+  }, [category, sideBarEnum]);
 
   return (
     <>
