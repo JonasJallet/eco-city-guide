@@ -25,6 +25,8 @@ export default function PlaceSearchBar({ category }: Props) {
     variables: { category },
   });
 
+  console.log(placesData);
+
   const handleSearchPlacesInput = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {

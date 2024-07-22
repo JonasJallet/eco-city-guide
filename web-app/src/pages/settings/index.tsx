@@ -22,6 +22,7 @@ import { Place } from "@/gql/generate/graphql";
 import { UserUpdateInterface } from "@/interfaces/UserUpdate";
 import { toast } from "react-toastify";
 import CategoriesFilter from "@/components/settings/CategoriesFilter";
+import AdminPanel from "@/components/settings/AdminPanel";
 
 export default function Settings() {
   const [showInputs, setShowInputs] = useState<string>("");
@@ -31,7 +32,7 @@ export default function Settings() {
   );
   const [isModalOpened, SetIsModalOpened] = useState(false);
   const [activeItemNavBarSettings, setActiveItemNavBarSettings] =
-    useState("Profil");
+    useState("Admin");
   const [favorites, setFavorites] = useState<Place[]>([]);
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
@@ -176,13 +177,14 @@ export default function Settings() {
   }
 
   return (
-    <div>
+    <div className="relative">
       <div>
         <NavBarSettings
           setActiveItemNavBarSettings={setActiveItemNavBarSettings}
           firstnameProfile={dataProfile.firstName}
         />
         <div className="z-0">
+          {activeItemNavBarSettings == "Admin" && <AdminPanel />}
           {activeItemNavBarSettings == "Profil" && (
             <div className="flex justify-center items-center flex-col mt-7">
               <div>
@@ -200,7 +202,6 @@ export default function Settings() {
                   <div>
                     <label className="text-gray-600 text-base ml-4">Nom</label>
                     <div className="flex">
-                      {" "}
                       <input
                         aria-label="Renseigner son nom de famille"
                         className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
@@ -222,7 +223,6 @@ export default function Settings() {
                       Prénom
                     </label>
                     <div className="flex">
-                      {" "}
                       <input
                         aria-label="Renseigner son prénom"
                         className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"

@@ -39,6 +39,12 @@ export class UserResolver {
     return user !== undefined && user !== null;
   }
 
+  @Authorized("webAdministrator")
+  @Query(() => [User])
+  getUsers() {
+    return User.getUsers();
+  }
+
   @Authorized("webAdministrator", "cityAdministrator", "user")
   @Mutation(() => User)
   updateUser(
@@ -58,6 +64,12 @@ export class UserResolver {
   ): Promise<User> {
     this.checkUserPermissions(user as User, id);
     return User.deleteUser(id);
+  }
+
+  @Authorized("webAdministrator", "user")
+  @Mutation(() => User)
+  createUser(@Args() args: CreateUser) {
+    return User.saveNewUser({ ...args });
   }
 
   @Mutation(() => User)

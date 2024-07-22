@@ -21,7 +21,15 @@ import { SideBarContentEnum } from "../home/sideBarContent.type";
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
 
-export default function CreatePlaceForm() {
+interface Props {
+  setIsCreationPanelAdmin?: (isCreationPanelAdmin: boolean) => void;
+  refetch: () => void;
+}
+
+export default function CreatePlaceForm({
+  setIsCreationPanelAdmin,
+  refetch,
+}: Props) {
   const [searchAddress, setSearchAddress] = useState("");
   const [city, setCity] = useState("");
   const [addressList, setAddressList] = useState([]);
@@ -33,7 +41,7 @@ export default function CreatePlaceForm() {
     city: "",
     categoryIds: [],
   });
-  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { setPlace } = useContext(PlaceContext) as PlaceContextType;
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
@@ -58,7 +66,9 @@ export default function CreatePlaceForm() {
   };
 
   const handleCloseButton = () => {
-    setSideBarEnum(SideBarContentEnum.NO_CONTENT);
+    setIsCreationPanelAdmin
+      ? setIsCreationPanelAdmin(false)
+      : setSideBarEnum(SideBarContentEnum.NO_CONTENT);
   };
 
   const [createPlaceMutation, { error }] = useMutation<
@@ -71,7 +81,10 @@ export default function CreatePlaceForm() {
       const { data } = await createPlaceMutation({
         variables: formData,
       });
-      if (data) setPlace(data.createPlace as Place);
+      if (data) {
+        refetch();
+        setPlace(data.createPlace as Place);
+      }
       toast.success("Le lieu a bien été créé.");
     } catch (error) {}
   };
@@ -92,8 +105,7 @@ export default function CreatePlaceForm() {
   };
 
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const { data: categoriesData, refetch } =
-    useQuery<GetCategoriesQuery>(GET_CATEGORIES);
+  const { data: categoriesData } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
   useEffect(() => {
     updateFormData({
@@ -101,19 +113,15 @@ export default function CreatePlaceForm() {
     });
   }, [selectedCategories]);
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
-
   return (
-    <div className="flex flex-col items-center w-80 h-screen overflow-y-auto">
+    <div className="flex flex-col animate-fade items-center w-80">
       <button
         onClick={handleCloseButton}
         className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
       >
         <MdClose />
       </button>
-      <div className="w-full">
+      <div className="w-full h-full">
         <div className="border-b border-gray-200">
           <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
             Créer lieu
@@ -124,6 +132,7 @@ export default function CreatePlaceForm() {
           onSubmit={(event) => {
             event.preventDefault();
             createPlace();
+            setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
           }}
         >
           <input
@@ -133,6 +142,7 @@ export default function CreatePlaceForm() {
             id="name"
             placeholder="Nom"
             required
+            minLength={3}
             onChange={(event) => {
               updateFormData({ name: event.target.value });
             }}
@@ -199,6 +209,7 @@ export default function CreatePlaceForm() {
               updateFormData({ city: event.target.value });
             }}
             required
+            minLength={1}
           />
           <textarea
             className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
@@ -207,6 +218,8 @@ export default function CreatePlaceForm() {
             placeholder="Description"
             spellCheck
             required
+            minLength={10}
+            maxLength={180}
             onChange={(event) => {
               updateFormData({ description: event.target.value });
             }}
@@ -266,7 +279,7 @@ export default function CreatePlaceForm() {
           )}
           <button
             type="submit"
-            className="flex items-center justify-center text-center w-full mt-4 mb-8 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
+            className="flex items-center justify-center text-center w-full mt-4 mb-12 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
             <p className="ms-4 text-lg">Ajouter</p>

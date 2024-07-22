@@ -10,7 +10,11 @@ import { MdClose } from "react-icons/md";
 import { SideBarContentEnum } from "../home/sideBarContent.type";
 import { toast } from "react-toastify";
 
-export default function CreateCategoriesForm() {
+export default function CreateCategoriesForm({
+  setIsCreationPanelAdmin,
+}: {
+  setIsCreationPanelAdmin?: (isCreationPanelAdmin: boolean) => void;
+}) {
   const [formData, setFormData] = useState<MutationCreateCategoryArgs>({
     name: "",
     icon: "",
@@ -40,7 +44,16 @@ export default function CreateCategoriesForm() {
   };
 
   const handleCloseButton = () => {
-    setSideBarEnum(SideBarContentEnum.NO_CONTENT);
+    setIsCreationPanelAdmin
+      ? setIsCreationPanelAdmin(false)
+      : setSideBarEnum(SideBarContentEnum.NO_CONTENT);
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    setCategoryName("");
+    setCategoryIcon("");
+    setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
   };
 
   return (
@@ -71,6 +84,7 @@ export default function CreateCategoriesForm() {
               name="name"
               id="name"
               placeholder="Nom"
+              minLength={3}
               required
               value={categoryName}
               onChange={(event) => {
@@ -84,6 +98,7 @@ export default function CreateCategoriesForm() {
               name="icon"
               id="icon"
               placeholder="Icône"
+              minLength={3}
               required
               value={categoryIcon}
               onChange={(event) => {
@@ -99,8 +114,7 @@ export default function CreateCategoriesForm() {
             <button
               type="submit"
               onSubmit={() => {
-                setCategoryName("");
-                setCategoryIcon("");
+                handleFormSubmit(event);
               }}
               className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >

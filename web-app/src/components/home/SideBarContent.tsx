@@ -20,7 +20,11 @@ export default function SideBarContent({
       contentComponent = <FavoritesContent />;
       break;
     case SideBarContentEnum.CREATE_PLACE:
-      contentComponent = <CreatePlaceForm />;
+      contentComponent = (
+        <div className=" h-screen overflow-y-scroll">
+          <CreatePlaceForm />
+        </div>
+      );
       break;
     case SideBarContentEnum.CREATE_CATEGORY:
       contentComponent = <CreateCategoriesForm />;

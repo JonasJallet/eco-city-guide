@@ -1,4 +1,4 @@
-import { Field, ArgsType } from "type-graphql";
+import { Field, ArgsType, ID } from "type-graphql";
 import { MinLength } from "class-validator";
 
 @ArgsType()

@@ -39,6 +39,22 @@ export const GET_CATEGORIES = gql`
       id
       name
       icon
+      icon
+    }
+  }
+`;
+
+export const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      firstName
+      lastName
+      email
+      role
+      favoritesPlaces {
+        name
+      }
     }
   }
 `;

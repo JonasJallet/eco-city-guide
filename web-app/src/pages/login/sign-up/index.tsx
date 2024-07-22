@@ -27,6 +27,7 @@ export default function index() {
     firstName: "",
     lastName: "",
     password: "",
+    role: "user",
   });
 
   const updateFormData = (

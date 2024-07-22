@@ -2,10 +2,12 @@ import Image from "next/image";
 import earthLogo from "../../../public/images/earth-logo.png";
 import { useRouter } from "next/router";
 import { SIGN_OUT } from "@/gql/requests/mutations";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { SignOutMutation } from "@/gql/generate/graphql";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { GrSecure } from "react-icons/gr";
+import { GET_PROFILE } from "@/gql/requests/queries";
 
 interface Props {
   setActiveItemNavBarSettings: (activeItemNabBarSettings: string) => void;
@@ -16,6 +18,9 @@ const NavBarSettings: React.FC<Props> = ({
   setActiveItemNavBarSettings,
   firstnameProfile,
 }) => {
+  const { data } = useQuery(GET_PROFILE);
+  const userRole = data?.myProfile?.role;
+
   const router = useRouter();
   const [showMenu, setShowMenu] = useState(false);
 
@@ -75,11 +80,29 @@ const NavBarSettings: React.FC<Props> = ({
           id="navbar-multi-level"
         >
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
+            {userRole === "cityAdministrator" ||
+              (userRole === "webAdministrator" && (
+                <li className="md:mb-0 mb-2 p-2 md:hover:bg-transparent rounded-lg md:p-0 hover:text-tertiary_color text-secondary_color">
+                  <button
+                    onClick={() => {
+                      setActiveItemNavBarSettings("Admin");
+                      setShowMenu(false);
+                    }}
+                    className="flex md:flex-col flex-row items-center text-sm transition-colors duration-300"
+                  >
+                    <GrSecure size={23} />
+                    admin
+                  </button>
+                </li>
+              ))}
+
             <li className="md:mb-0 mb-2 p-2 md:hover:bg-transparent rounded-lg md:p-0 hover:text-tertiary_color text-secondary_color">
               <button
-                onClick={() => setActiveItemNavBarSettings("Profil")}
-                className="flex md:flex-col flex-row  items-center text-sm 
-                 transition-colors duration-300 "
+                onClick={() => {
+                  setActiveItemNavBarSettings("Profil");
+                  setShowMenu(false);
+                }}
+                className="flex md:flex-col flex-row  items-center text-sm transition-colors duration-300 "
               >
                 <i
                   className="fa-regular fa-user md:mr-0 mr-3"
@@ -104,7 +127,10 @@ const NavBarSettings: React.FC<Props> = ({
             </li>
             <li className="md:mb-0 mb-2 hover:bg-gray-100 md:p-0 p-2  md:hover:bg-transparent rounded-lg hover:text-tertiary_color text-gray-500">
               <button
-                onClick={() => setActiveItemNavBarSettings("Favorites")}
+                onClick={() => {
+                  setActiveItemNavBarSettings("Favorites");
+                  setShowMenu(false);
+                }}
                 className="flex md:flex-col flex-row  items-center text-sm  transition-colors duration-300"
               >
                 <i
@@ -116,7 +142,10 @@ const NavBarSettings: React.FC<Props> = ({
             </li>
             <li className="md:mb-0 mb-2 hover:bg-gray-100 p-2 md:p-0 rounded-lg md:hover:bg-transparent hover:text-tertiary_color text-gray-500">
               <button
-                onClick={() => setActiveItemNavBarSettings("Settings")}
+                onClick={() => {
+                  setActiveItemNavBarSettings("Settings");
+                  setShowMenu(false);
+                }}
                 className="flex md:flex-col flex-row  items-center  text-sm transition-colors duration-300"
               >
                 <i
