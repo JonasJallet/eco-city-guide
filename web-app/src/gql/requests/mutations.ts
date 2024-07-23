@@ -144,30 +144,6 @@ export const DELETE_CATEGORY = gql`
   }
 `;
 
-export const UPDATE_MY_PROFILE = gql`
-  mutation UpdateUser(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-    $updateUserId: ID!
-  ) {
-    updateUser(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-      id: $updateUserId
-    ) {
-      id
-      firstName
-      lastName
-      email
-      hashedPassword
-    }
-  }
-`;
-
 export const SIGN_UP = gql`
   mutation SignUp(
     $firstName: String!
@@ -191,36 +167,28 @@ export const SIGN_UP = gql`
 
 export const UPDATE_PLACE = gql`
   mutation UpdatePlace(
+    $id: ID!
     $name: String!
     $description: String!
-    $coordinates: Geometry!
     $address: String!
-    $city: String!
-    $id: ID!
+    $categoryIds: [String!]
   ) {
     updatePlace(
+      id: $id
       name: $name
       description: $description
-      coordinates: $coordinates
       address: $address
-      city: $city
-      id: $id
+      categoryIds: $categoryIds
     ) {
-      address
-      categories {
-        id
-        icon
-        name
-      }
+      id
       name
       description
-      id
-      city {
-        id
+      address
+      categories {
         name
-        coordinates
+        icon
+        id
       }
-      coordinates
     }
   }
 `;
@@ -235,12 +203,37 @@ export const UPDATE_CATEGORY = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation Mutation(
+  mutation UpdateUser(
+    $id: ID!
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+  ) {
+    updateUser(
+      id: $id
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+    ) {
+      id
+      lastName
+      userInitials
+      firstName
+      email
+    }
+  }
+`;
+
+export const UPDATE_USER_AS_ADMIN = gql`
+  mutation UpdateUserAsAdmin(
     $firstName: String!
     $lastName: String!
     $email: String!
     $password: String!
     $id: ID!
+    $role: String!
   ) {
     updateUser(
       firstName: $firstName
@@ -248,13 +241,14 @@ export const UPDATE_USER = gql`
       email: $email
       password: $password
       id: $id
+      role: $role
     ) {
       id
-      role
+      firstName
       lastName
       userInitials
-      firstName
       email
+      role
     }
   }
 `;

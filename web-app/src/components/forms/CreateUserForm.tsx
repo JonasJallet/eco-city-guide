@@ -38,11 +38,12 @@ export default function CreateUserForm({
       });
 
       if (data) {
+        toast.success("L'utilisateur a bien été créé !");
         refetch();
       }
-
-      toast.success("L'utilisateur a bien été créé.");
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Une erreur est survenue !");
+    }
   };
 
   const updateFormData = (partialFormData: Partial<MutationCreateUserArgs>) => {
@@ -140,7 +141,7 @@ export default function CreateUserForm({
             </div>
             <input
               className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  focus:outline-none hover:border-white hover:bg-input_hover_bg mb-2 border border-tertiary_color"
-              type="text"
+              type="password"
               name="password"
               id="password"
               placeholder="Mots de passe"

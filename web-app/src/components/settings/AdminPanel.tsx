@@ -7,17 +7,18 @@ import CategoriesTable from "./adminPanelContent/CategoriesTable";
 import PlacesTable from "./adminPanelContent/PlacesTable";
 import UsersTable from "./adminPanelContent/UsersTable";
 import { GET_PROFILE } from "@/gql/requests/queries";
+import { GetProfileQuery } from "@/gql/generate/graphql";
 
 function AdminPanel() {
   const [activeItemAdminPanel, setActiveItemAdminPanel] =
     useState("PlacesTable");
-  const { data } = useQuery(GET_PROFILE);
+  const { data } = useQuery<GetProfileQuery>(GET_PROFILE);
   const userRole = data?.myProfile?.role;
 
   return (
     <div className="mb-10">
       <h2 className="font-bold font-sans text-2xl text-dark_text_color mt-10 text-center ">
-        Mes Favoris
+        Panel Administrateur
       </h2>
       <div className="m-10">
         <div className="flex text-gray-500 font-medium">

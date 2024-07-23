@@ -3,7 +3,7 @@ import earthLogo from "../../../public/images/earth-logo.png";
 import { useRouter } from "next/router";
 import { SIGN_OUT } from "@/gql/requests/mutations";
 import { useMutation, useQuery } from "@apollo/client";
-import { SignOutMutation } from "@/gql/generate/graphql";
+import { GetProfileQuery, SignOutMutation } from "@/gql/generate/graphql";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { GrSecure } from "react-icons/gr";
@@ -18,7 +18,7 @@ const NavBarSettings: React.FC<Props> = ({
   setActiveItemNavBarSettings,
   firstnameProfile,
 }) => {
-  const { data } = useQuery(GET_PROFILE);
+  const { data } = useQuery<GetProfileQuery>(GET_PROFILE);
   const userRole = data?.myProfile?.role;
 
   const router = useRouter();
@@ -68,9 +68,9 @@ const NavBarSettings: React.FC<Props> = ({
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M1 1h15M1 7h15M1 13h15"
             />
           </svg>

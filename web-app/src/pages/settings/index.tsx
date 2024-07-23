@@ -61,7 +61,7 @@ export default function Settings() {
     lastName: "",
     email: "",
     password: "",
-    updateUserId: "",
+    id: "",
   };
 
   if (data) {
@@ -70,7 +70,7 @@ export default function Settings() {
       lastName: data.myProfile.lastName,
       email: data.myProfile.email,
       password: data.myProfile.hashedPassword,
-      updateUserId: data.myProfile.id,
+      id: data.myProfile.id,
     };
   }
 
@@ -79,7 +79,7 @@ export default function Settings() {
     lastName: "",
     email: "",
     password: "",
-    updateUserId: "",
+    id: "",
   });
 
   useEffect(() => {

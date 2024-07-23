@@ -52,6 +52,7 @@ export const GET_USERS = gql`
       lastName
       email
       role
+      hashedPassword
       favoritesPlaces {
         name
       }

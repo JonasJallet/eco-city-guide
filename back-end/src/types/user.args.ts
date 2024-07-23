@@ -49,6 +49,9 @@ export class UpdateUser {
     message: "Le mot de passe doit comporter au moins 12 caractères",
   })
   password?: string;
+
+  @Field(() => String, { nullable: true })
+  role!: UserRole | null;
 }
 
 @ArgsType()

@@ -1,38 +1,58 @@
-import { Place, MutationUpdatePlaceArgs } from "@/gql/generate/graphql";
+import {
+  Place,
+  MutationUpdatePlaceArgs,
+  Category,
+  GetCategoriesQuery,
+} from "@/gql/generate/graphql";
 import { UPDATE_PLACE } from "@/gql/requests/mutations";
-import { useMutation } from "@apollo/client";
+import { GET_CATEGORIES } from "@/gql/requests/queries";
+import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import { GrUpdate } from "react-icons/gr";
 import { MdClose } from "react-icons/md";
+import { toast } from "react-toastify";
 
 interface Props {
   place: Place;
   setIsEditionPanelAdmin: (isEditionPanelAdmin: boolean) => void;
+  refetch: () => void;
 }
 
-function PlaceEditionForm({ place, setIsEditionPanelAdmin }: Props) {
-  const [updatedPlace, setUpdatedPlace] = useState<Place>({
-    ...place,
+function PlaceEditionForm({ place, setIsEditionPanelAdmin, refetch }: Props) {
+  const [selectedCategories, setSelectedCategories] = useState(
+    place.categories,
+  );
+  const [updatedPlace, setUpdatedPlace] = useState({
+    id: place.id,
+    name: place.name,
+    address: place.address,
+    description: place.description,
+    categoryIds: place.categories.map((category) => category.id),
   });
-  console.log(updatedPlace);
-  const [
-    UpdatePlaceMutation,
-    { loading: loadingUpdatePlace, error: updatePlaceError },
-  ] = useMutation<MutationUpdatePlaceArgs>(UPDATE_PLACE);
+  const { data: categoriesData } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
-  const handleFormSubmit = async (event) => {
+  const [UpdatePlaceMutation] =
+    useMutation<MutationUpdatePlaceArgs>(UPDATE_PLACE);
+
+  const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await UpdatePlaceMutation({ variables: updatedPlace });
+      const { data } = await UpdatePlaceMutation({
+        variables: updatedPlace,
+      });
+      if (data) {
+        toast.success("Le lieu a bien été modifié !");
+        refetch();
+      }
     } catch (error) {
-      console.log(error);
+      toast.error("Une erreur est survenue !");
     }
     setIsEditionPanelAdmin(false);
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-white px-2 z-10 overflow-hidden ">
-      <div className="flex flex-col animate-fade items-center w-80 z-20 bg-white border border-gray-300 rounded-2xl">
+    <div className="h-screen w-screen flex items-center justify-center bg-white-100">
+      <div className="w-80 flex flex-col animate-fade items-center z-10 border border-gray-300 rounded-2xl overflow-y-scroll">
         <button
           onClick={() => setIsEditionPanelAdmin(false)}
           className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
@@ -81,67 +101,16 @@ function PlaceEditionForm({ place, setIsEditionPanelAdmin }: Props) {
             />
             <label>Ville</label>
             <input
-              className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+              className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none mb-2 border border-gray-300"
               type="text"
               name="cityName"
               id="cityName"
-              value={updatedPlace.city.name || ""}
-              onChange={(event) => {
-                setUpdatedPlace({
-                  ...updatedPlace,
-                  city: {
-                    ...updatedPlace.city,
-                    name: event.target.value,
-                  },
-                });
-              }}
+              disabled
+              value={place.city.name || ""}
             />
-            <label>Coordonnées</label>
-            <div className="flex justify-between">
-              <input
-                className="bg-white-200 pl-4 p-2 w-28 rounded-3xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
-                type="number"
-                name="cityName"
-                id="cityName"
-                value={updatedPlace.coordinates.coordinates[0] || ""}
-                onChange={(event) => {
-                  setUpdatedPlace({
-                    ...updatedPlace,
-                    coordinates: {
-                      ...updatedPlace.coordinates,
-                      coordinates: [
-                        event.target.value,
-                        updatedPlace.coordinates.coordinates[1],
-                      ],
-                    },
-                  });
-                }}
-              />
-              <input
-                className="bg-white-200 pl-4 py-2 w-28 rounded-3xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
-                type="number"
-                name="cityName"
-                id="cityName"
-                value={updatedPlace.coordinates.coordinates[1] || ""}
-                onChange={(event) => {
-                  setUpdatedPlace({
-                    ...updatedPlace,
-                    coordinates: {
-                      ...updatedPlace.coordinates,
-                      coordinates: [
-                        updatedPlace.coordinates.coordinates[0],
-                        event.target.value,
-                      ],
-                    },
-                  });
-                }}
-              />
-            </div>
-            <label htmlFor="description">Catégorie</label>
-            <select className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"></select>
             <label>Description</label>
             <textarea
-              className="w-full h-32 bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
+              className="w-full h-32 bg-white-200 px-4 py-2 rounded-2xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
               value={updatedPlace.description}
               onChange={(event) => {
                 setUpdatedPlace({
@@ -150,6 +119,66 @@ function PlaceEditionForm({ place, setIsEditionPanelAdmin }: Props) {
                 });
               }}
             />
+            {selectedCategories.length > 0 && (
+              <div className="flex flex-wrap gap-2 rounded-2xl mb-2">
+                {selectedCategories.map((category) => (
+                  <span
+                    className="cursor-pointer text-white text-xs bg-tertiary_color py-1 px-2 rounded-lg m-01 transition-all duration-300 hover:bg-input_hover_bg"
+                    key={category.id}
+                    onClick={() => {
+                      setSelectedCategories(
+                        selectedCategories.filter(
+                          (selectedCategory) =>
+                            selectedCategory.id !== category.id,
+                        ),
+                      );
+                      setUpdatedPlace({
+                        ...updatedPlace,
+                        categoryIds: updatedPlace.categoryIds.filter(
+                          (selectedCategory) =>
+                            selectedCategory !== category.id,
+                        ),
+                      });
+                    }}
+                  >
+                    {category.name} X
+                  </span>
+                ))}
+              </div>
+            )}
+            <select
+              name="categories"
+              id="categories"
+              multiple
+              className="w-full bg-white-200 px-4 py-2 rounded-xl mb-2 border border-tertiary_color focus:outline-none"
+            >
+              {categoriesData &&
+                categoriesData.categories.map(
+                  (category) =>
+                    !selectedCategories.some(
+                      (selectedCategory) => selectedCategory.id === category.id,
+                    ) && (
+                      <option
+                        key={category.id}
+                        className="text-text_color px-3 rounded-xl cursor-pointer transition-all duration-300 hover:bg-input_hover_bg"
+                        onClick={() => {
+                          setSelectedCategories(
+                            selectedCategories.concat([category]),
+                          );
+                          setUpdatedPlace({
+                            ...updatedPlace,
+                            categoryIds: updatedPlace.categoryIds.concat([
+                              category.id,
+                            ]),
+                          });
+                        }}
+                        value={category.id}
+                      >
+                        {category.name}
+                      </option>
+                    ),
+                )}
+            </select>
             <button
               type="submit"
               className="flex items-center justify-center text-center w-full mt-6 mb-10 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"

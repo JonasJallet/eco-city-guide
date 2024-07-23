@@ -21,13 +21,17 @@ export default function SideBarContent({
       break;
     case SideBarContentEnum.CREATE_PLACE:
       contentComponent = (
-        <div className=" h-screen overflow-y-scroll">
+        <div className="h-screen overflow-y-scroll">
           <CreatePlaceForm />
         </div>
       );
       break;
     case SideBarContentEnum.CREATE_CATEGORY:
-      contentComponent = <CreateCategoriesForm />;
+      contentComponent = (
+        <div className="h-screen">
+          <CreateCategoriesForm />
+        </div>
+      );
       break;
     case SideBarContentEnum.PLACE:
       contentComponent = <PlaceContent />;

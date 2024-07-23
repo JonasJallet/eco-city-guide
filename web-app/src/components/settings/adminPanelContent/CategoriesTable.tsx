@@ -3,7 +3,7 @@ import CategoryList from "./Category";
 import { useQuery } from "@apollo/client";
 import CategoryEditionForm from "./CategoryEditionForm";
 import CreateCategoriesForm from "@/components/forms/CreateCategoriesForm";
-import { Category } from "@/gql/generate/graphql";
+import { Category, GetCategoriesQuery } from "@/gql/generate/graphql";
 import { GET_CATEGORIES } from "@/gql/requests/queries";
 
 function CategoriesTable() {
@@ -12,30 +12,38 @@ function CategoriesTable() {
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
   const [searchCategory, setSearchCategory] = useState("");
 
-  const setIsEditionModeGlobal = (category: Category) => {
+  const openEditionPanelAdmin = (category: Category) => {
     setCurrentCategory(category);
     setIsEditionPanelAdmin(true);
   };
 
-  const closeEditionMode = () => {
+  const closeEditionPanelAdmin = () => {
     setIsEditionPanelAdmin(false);
     setCurrentCategory(null);
   };
-  const { data: categoriesData, loading, error } = useQuery(GET_CATEGORIES);
-  console.log(categoriesData);
+
+  const {
+    data: categoriesData,
+    loading,
+    error,
+    refetch,
+  } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
+
   if (loading) return <p>Loading...</p>;
+
+  if (error) return <p>Error</p>;
 
   const sortedCategories = [...(categoriesData?.categories || [])].sort(
     (a, b) => {
-      const aIncludes = a.name
+      const firstElementIncludes = a.name
         .toLowerCase()
         .includes(searchCategory.toLowerCase());
-      const bIncludes = b.name
+      const secondElementIncludes = b.name
         .toLowerCase()
         .includes(searchCategory.toLowerCase());
 
-      if (aIncludes && !bIncludes) return -1;
-      if (!aIncludes && bIncludes) return 1;
+      if (firstElementIncludes && !secondElementIncludes) return -1;
+      if (!firstElementIncludes && secondElementIncludes) return 1;
       return 0;
     },
   );
@@ -73,7 +81,8 @@ function CategoriesTable() {
                 <CategoryList
                   key={`category ${category.id}`}
                   category={category}
-                  setIsEditionModeGlobal={setIsEditionModeGlobal}
+                  openEditionPanelAdmin={openEditionPanelAdmin}
+                  refetch={refetch}
                 />
               ))
             ) : (
@@ -90,6 +99,7 @@ function CategoriesTable() {
             <div className="pb-12 border border-gray-300 rounded-2xl">
               <CreateCategoriesForm
                 setIsCreationPanelAdmin={setIsCreationPanelAdmin}
+                refetch={refetch}
               />
             </div>
           </div>
@@ -99,7 +109,8 @@ function CategoriesTable() {
             <CategoryEditionForm
               key={currentCategory.id}
               category={currentCategory}
-              setIsEditionPanelAdmin={closeEditionMode}
+              setIsEditionPanelAdmin={closeEditionPanelAdmin}
+              refetch={refetch}
             />
           </div>
         )}

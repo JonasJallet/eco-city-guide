@@ -3,5 +3,5 @@ export interface UserUpdateInterface {
   lastName: string;
   email: string;
   password: string;
-  updateUserId: string;
+  id: string;
 }

@@ -12,12 +12,12 @@ function UsersTable() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [searchUser, setSearchUser] = useState("");
 
-  const setIsEditionModeGlobal = (user: User) => {
+  const openEditionPanelAdmin = (user: User) => {
     setCurrentUser(user);
     setIsEditionPanelAdmin(true);
   };
 
-  const closeEditionMode = () => {
+  const closeEditionPanelAdmin = () => {
     setIsEditionPanelAdmin(false);
     setCurrentUser(null);
   };
@@ -29,19 +29,19 @@ function UsersTable() {
   if (error) return <p>Error</p>;
 
   const sortedUsers = [...(usersData?.users || [])].sort((a, b) => {
-    const aIncludes =
+    const firstElementIncludes =
       a.firstName.toLowerCase().includes(searchUser.toLowerCase()) ||
       a.lastName.toLowerCase().includes(searchUser.toLowerCase()) ||
       a.email.toLowerCase().includes(searchUser.toLowerCase()) ||
       a.role.toLowerCase().includes(searchUser.toLowerCase());
-    const bIncludes =
+    const secondElementIncludes =
       b.firstName.toLowerCase().includes(searchUser.toLowerCase()) ||
       b.lastName.toLowerCase().includes(searchUser.toLowerCase()) ||
       b.email.toLowerCase().includes(searchUser.toLowerCase()) ||
       b.role.toLowerCase().includes(searchUser.toLowerCase());
 
-    if (aIncludes && !bIncludes) return -1;
-    if (!aIncludes && bIncludes) return 1;
+    if (firstElementIncludes && !secondElementIncludes) return -1;
+    if (!firstElementIncludes && secondElementIncludes) return 1;
     return 0;
   });
   return (
@@ -79,7 +79,8 @@ function UsersTable() {
                 <UserEdition
                   key={`category ${user.id}`}
                   user={user}
-                  setIsEditionModeGlobal={setIsEditionModeGlobal}
+                  openEditionPanelAdmin={openEditionPanelAdmin}
+                  refetch={refetch}
                 />
               ))
             ) : (
@@ -105,7 +106,8 @@ function UsersTable() {
           <div className="w-screen h-screen fixed inset-0 px-2 z-10 overflow-hidden flex items-center justify-center">
             <UserEditionForm
               user={currentUser}
-              setIsEditionPanelAdmin={closeEditionMode}
+              setIsEditionPanelAdmin={closeEditionPanelAdmin}
+              refetch={refetch}
             />
           </div>
         )}

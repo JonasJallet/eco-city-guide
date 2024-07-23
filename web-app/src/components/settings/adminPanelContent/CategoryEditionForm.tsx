@@ -4,28 +4,38 @@ import { MdClose } from "react-icons/md";
 import { useMutation } from "@apollo/client";
 import { Category, MutationUpdateCategoryArgs } from "@/gql/generate/graphql";
 import { UPDATE_CATEGORY } from "@/gql/requests/mutations";
+import { toast } from "react-toastify";
 
 interface Props {
   category: Category;
   setIsEditionPanelAdmin: (isEditionPanelAdmin: boolean) => void;
+  refetch: () => void;
 }
 
-function CategoryEditionForm({ category, setIsEditionPanelAdmin }: Props) {
+function CategoryEditionForm({
+  category,
+  setIsEditionPanelAdmin,
+  refetch,
+}: Props) {
   const [updatedCategory, setUpdatedCategory] = useState<Category>({
     ...category,
   });
 
-  const [
-    UpdateCategoryMutation,
-    { loading: loadingUpdateCategory, error: updateCategoryError },
-  ] = useMutation<MutationUpdateCategoryArgs>(UPDATE_CATEGORY);
+  const [UpdateCategoryMutation] =
+    useMutation<MutationUpdateCategoryArgs>(UPDATE_CATEGORY);
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await UpdateCategoryMutation({ variables: updatedCategory });
+      const { data } = await UpdateCategoryMutation({
+        variables: updatedCategory,
+      });
+      if (data) {
+        toast.success("La catégorie a bien été modifié !");
+        refetch();
+      }
     } catch (error) {
-      console.log(error);
+      toast.error("Une erreur est survenue !");
     }
     setIsEditionPanelAdmin(false);
   };

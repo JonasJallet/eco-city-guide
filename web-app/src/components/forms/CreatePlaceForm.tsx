@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 
 interface Props {
   setIsCreationPanelAdmin?: (isCreationPanelAdmin: boolean) => void;
-  refetch: () => void;
+  refetch?: () => void;
 }
 
 export default function CreatePlaceForm({
@@ -82,11 +82,13 @@ export default function CreatePlaceForm({
         variables: formData,
       });
       if (data) {
-        refetch();
+        if (refetch) refetch();
         setPlace(data.createPlace as Place);
+        toast.success("Le lieu a bien été créé !");
       }
-      toast.success("Le lieu a bien été créé.");
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Une erreur est survenue !");
+    }
   };
 
   const updateFormData = (
@@ -114,14 +116,14 @@ export default function CreatePlaceForm({
   }, [selectedCategories]);
 
   return (
-    <div className="flex flex-col animate-fade items-center w-80">
+    <div className="flex flex-col items-center w-80">
       <button
         onClick={handleCloseButton}
-        className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
+        className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1"
       >
         <MdClose />
       </button>
-      <div className="w-full h-full">
+      <div className="w-full">
         <div className="border-b border-gray-200">
           <p className="text-center text-2xl text-dark_text_color font-bold font-sans cursor-default mb-2">
             Créer lieu

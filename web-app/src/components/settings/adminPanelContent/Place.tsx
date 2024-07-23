@@ -1,14 +1,37 @@
-import { type Place } from "@/gql/generate/graphql";
+import { MutationDeletePlaceArgs, type Place } from "@/gql/generate/graphql";
 import { DELETE_PLACE } from "@/gql/requests/mutations";
 import { useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
 
 interface Props {
   place: Place;
-  setIsEditionModeGlobal: (place: Place) => void;
+  openEditionPanelAdmin: (place: Place) => void;
+  refetch: () => void;
 }
 
-export default function Place({ place, setIsEditionModeGlobal }: Props) {
-  const [deletePlaceMutation] = useMutation(DELETE_PLACE);
+export default function Place({
+  place,
+  openEditionPanelAdmin,
+  refetch,
+}: Props) {
+  const [deletePlaceMutation] =
+    useMutation<MutationDeletePlaceArgs>(DELETE_PLACE);
+
+  const handleDelete = async () => {
+    try {
+      const { data } = await deletePlaceMutation({
+        variables: {
+          id: place.id,
+        },
+      });
+      if (data) {
+        toast.success("Le lieu a bien été supprimé !");
+        refetch();
+      }
+    } catch (error) {
+      toast.error("Une erreur est survenue !");
+    }
+  };
 
   return (
     <>
@@ -40,14 +63,14 @@ export default function Place({ place, setIsEditionModeGlobal }: Props) {
         <td className="py-3 px-2">
           <div className="flex justify-center">
             <button
-              onClick={() => setIsEditionModeGlobal(place)}
+              onClick={() => openEditionPanelAdmin(place)}
               className="m-1 px-2 font-semibold bg-white text-tertiary_color border-2 border-tertiary_color rounded-3xl duration-200 hover:bg-tertiary_color hover:text-white"
             >
               Editer
             </button>
             <button
-              onClick={async () => {
-                await deletePlaceMutation({ variables: { id: place.id } });
+              onClick={() => {
+                handleDelete();
               }}
               className="m-1 px-2 font-semibold bg-white text-red-500 border-2 border-red-500 rounded-3xl transition-colors duration-200 hover:bg-red-500 hover:text-white"
             >

@@ -6,7 +6,7 @@ import Place from "../../entities/place";
 import Category from "../../entities/category";
 import { newUsersDataset } from "./user.dataset";
 import { newPlacesDataset } from "./place.dataset";
-import { CreateUser } from "../../types/user.args";
+import { CreateUser, UpdateUser } from "../../types/user.args";
 
 describe("User", () => {
   resetDatabaseAndCache();
@@ -148,14 +148,19 @@ describe("User", () => {
       );
       const userId = createdUser.id;
       const partialUser = { firstName: "updated-firstname" };
-      const updatedUser = await User.updateUser(userId, partialUser);
+      const updatedUser = await User.updateUser(
+        userId,
+        partialUser as UpdateUser,
+      );
       expect(updatedUser.firstName).toEqual(partialUser.firstName);
     });
 
     it("should throw error if user does not exist", async () => {
       const userId = "e66e6099-5c31-4e32-b5ec-fd0743730f18";
       const partialUser = { firstName: "updated-firstname" };
-      await expect(User.updateUser(userId, partialUser)).rejects.toThrow(
+      await expect(
+        User.updateUser(userId, partialUser as UpdateUser),
+      ).rejects.toThrow(
         "User with ID e66e6099-5c31-4e32-b5ec-fd0743730f18 does not exist.",
       );
     });

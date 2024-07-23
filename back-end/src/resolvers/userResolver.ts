@@ -66,7 +66,7 @@ export class UserResolver {
     return User.deleteUser(id);
   }
 
-  @Authorized("webAdministrator", "user")
+  @Authorized("webAdministrator")
   @Mutation(() => User)
   createUser(@Args() args: CreateUser) {
     return User.saveNewUser({ ...args });

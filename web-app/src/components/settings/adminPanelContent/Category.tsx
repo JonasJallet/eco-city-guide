@@ -1,14 +1,33 @@
-import { Category } from "@/gql/generate/graphql";
+import { Category, MutationDeleteCategoryArgs } from "@/gql/generate/graphql";
 import { DELETE_CATEGORY } from "@/gql/requests/mutations";
 import { useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
 
 interface Props {
   category: Category;
-  setIsEditionModeGlobal: (category: Category) => void;
+  openEditionPanelAdmin: (category: Category) => void;
+  refetch: () => void;
 }
 
-function CategoryList({ category, setIsEditionModeGlobal }: Props) {
-  const [deleteCategoryMutation] = useMutation(DELETE_CATEGORY);
+function CategoryList({ category, openEditionPanelAdmin, refetch }: Props) {
+  const [deleteCategoryMutation] =
+    useMutation<MutationDeleteCategoryArgs>(DELETE_CATEGORY);
+
+  const handleDelete = async () => {
+    try {
+      const { data } = await deleteCategoryMutation({
+        variables: {
+          id: category.id,
+        },
+      });
+      if (data) {
+        toast.success("La catégorie a bien été supprimée !");
+        refetch();
+      }
+    } catch (error) {
+      toast.error("Une erreur est survenue !");
+    }
+  };
 
   return (
     <>
@@ -21,14 +40,14 @@ function CategoryList({ category, setIsEditionModeGlobal }: Props) {
         </td>
         <td className="py-3 px-2 flex justify-center">
           <button
-            onClick={() => setIsEditionModeGlobal(category)}
+            onClick={() => openEditionPanelAdmin(category)}
             className="m-1 px-2 font-semibold bg-white text-tertiary_color border-2 border-tertiary_color rounded-3xl duration-200 hover:bg-tertiary_color hover:text-white"
           >
             Editer
           </button>
           <button
-            onClick={async () => {
-              await deleteCategoryMutation({ variables: { id: category.id } });
+            onClick={() => {
+              handleDelete();
             }}
             className="m-1 px-2 font-semibold bg-white text-red-500 border-2 border-red-500 rounded-3xl transition-colors duration-200 hover:bg-red-500 hover:text-white"
           >

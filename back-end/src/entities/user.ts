@@ -121,6 +121,7 @@ class User extends BaseEntity {
     if (partialUser.password && user.hashedPassword !== partialUser.password) {
       partialUser.password = await hash(partialUser.password, 10);
     }
+
     if (partialUser.email && user.email !== partialUser.email) {
       const userWithEmailAlreadyUsed: null | User = await User.getUserByEmail(
         partialUser.email,
@@ -134,7 +135,9 @@ class User extends BaseEntity {
       lastName: partialUser.lastName,
       email: partialUser.email,
       hashedPassword: partialUser.password,
+      role: partialUser.role,
     };
+
     Object.assign(user, newDataUser);
     await user.save();
     await user.reload();

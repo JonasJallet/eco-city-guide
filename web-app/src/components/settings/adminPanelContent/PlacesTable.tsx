@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import PlaceEdition from "./Place";
 import PlaceEditionForm from "./PlaceEditionForm";
 import CreatePlaceForm from "@/components/forms/CreatePlaceForm";
-import { Place } from "@/gql/generate/graphql";
+import { Place, PlacesQuery } from "@/gql/generate/graphql";
 import { GET_PLACES } from "@/gql/requests/queries";
 
 function PlacesTable() {
@@ -12,12 +12,12 @@ function PlacesTable() {
   const [currentPlace, setCurrentPlace] = useState<Place | null>(null);
   const [searchPlace, setSearchPlace] = useState("");
 
-  const setIsEditionModeGlobal = (place: Place) => {
+  const openEditionPanelAdmin = (place: Place) => {
     setCurrentPlace(place);
     setIsEditionPanelAdmin(true);
   };
 
-  const closeEditionMode = () => {
+  const closeEditionPanelAdmin = () => {
     setIsEditionPanelAdmin(false);
     setCurrentPlace(null);
   };
@@ -27,28 +27,28 @@ function PlacesTable() {
     loading,
     error,
     refetch,
-  } = useQuery(GET_PLACES, {});
+  } = useQuery<PlacesQuery>(GET_PLACES, {});
 
   if (loading) return <p>Loading...</p>;
 
   if (error) return <p>Error</p>;
 
   const sortedPlaces = [...(placesData?.places || [])].sort((a, b) => {
-    const aIncludes =
-      a.name.toLowerCase().includes(searchPlace) ||
-      a.city.name.toLowerCase().includes(searchPlace) ||
-      a.address.toLowerCase().includes(searchPlace);
+    const firstElementIncludes =
+      a.name.toLowerCase().includes(searchPlace.toLowerCase()) ||
+      a.city.name.toLowerCase().includes(searchPlace.toLowerCase()) ||
+      a.address.toLowerCase().includes(searchPlace.toLowerCase());
 
-    const bIncludes =
-      b.name.toLowerCase().includes(searchPlace) ||
-      b.city.name.toLowerCase().includes(searchPlace) ||
-      b.address.toLowerCase().includes(searchPlace);
+    const secondElementIncludes =
+      b.name.toLowerCase().includes(searchPlace.toLowerCase()) ||
+      b.city.name.toLowerCase().includes(searchPlace.toLowerCase()) ||
+      b.address.toLowerCase().includes(searchPlace.toLowerCase());
 
-    if (aIncludes && !bIncludes) return -1;
-    if (!aIncludes && bIncludes) return 1;
+    if (firstElementIncludes && !secondElementIncludes) return -1;
+    if (!firstElementIncludes && secondElementIncludes) return 1;
     return 0;
   });
-  console.log(sortedPlaces);
+
   return (
     <div className="px-3 py-4 overflow-x-scroll">
       <div className="mb-3 flex justify-start items-center">
@@ -84,7 +84,8 @@ function PlacesTable() {
               <PlaceEdition
                 key={place.id}
                 place={place}
-                setIsEditionModeGlobal={setIsEditionModeGlobal}
+                openEditionPanelAdmin={openEditionPanelAdmin}
+                refetch={refetch}
               />
             ))
           ) : (
@@ -97,8 +98,8 @@ function PlacesTable() {
         </tbody>
       </table>
       {isCreationPanelAdmin && (
-        <div className="w-screen h-screen bg-white fixed inset-0 px-2 z-10 overflow-hidden flex items-center justify-center">
-          <div className="border border-gray-300 rounded-2xl">
+        <div className="bg-white fixed inset-0 px-2 z-10 flex items-center overflow-y-auto justify-center">
+          <div className="my-4 border border-gray-300 rounded-2xl">
             <CreatePlaceForm
               setIsCreationPanelAdmin={setIsCreationPanelAdmin}
               refetch={refetch}
@@ -107,11 +108,12 @@ function PlacesTable() {
         </div>
       )}
       {isEditionPanelAdmin && currentPlace && (
-        <div className="w-screen h-screen fixed inset-0 px-2 z-10 overflow-hidden flex items-center justify-center">
+        <div className=" bg-white fixed inset-0 px-2 z-10 flex items-center justify-center">
           <PlaceEditionForm
             key={currentPlace.id}
             place={currentPlace}
-            setIsEditionPanelAdmin={closeEditionMode}
+            setIsEditionPanelAdmin={closeEditionPanelAdmin}
+            refetch={refetch}
           />
         </div>
       )}

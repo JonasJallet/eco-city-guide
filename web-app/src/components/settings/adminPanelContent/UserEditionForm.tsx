@@ -1,34 +1,53 @@
-import { User, MutationUpdateUserArgs } from "@/gql/generate/graphql";
-import { UPDATE_USER } from "@/gql/requests/mutations";
+import { User, MutationUpdateUserAsAdminArgs } from "@/gql/generate/graphql";
+import { UPDATE_USER_AS_ADMIN } from "@/gql/requests/mutations";
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { GrUpdate } from "react-icons/gr";
 import { MdClose } from "react-icons/md";
+import { toast } from "react-toastify";
+
+enum UserRole {
+  webAdministrator = "webAdministrator",
+  cityAdministrator = "cityAdministrator",
+  user = "user",
+}
 
 interface Props {
   user: User;
   setIsEditionPanelAdmin: (isEditionPanelAdmin: boolean) => void;
+  refetch: () => void;
 }
 
 export default function UserEditionForm({
   user,
   setIsEditionPanelAdmin,
+  refetch,
 }: Props) {
-  const [updatedUser, setUpdatedUser] = useState<User>({
-    ...user,
+  const [updatedUser, setUpdatedUser] = useState({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    role: user.role,
+    password: user.hashedPassword,
   });
 
-  const [
-    UpdateUserMutation,
-    { loading: loadingUpdateUser, error: updateUserError },
-  ] = useMutation<MutationUpdateUserArgs>(UPDATE_USER);
+  const [UpdateUserMutation, {}] =
+    useMutation<MutationUpdateUserAsAdminArgs>(UPDATE_USER_AS_ADMIN);
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
     try {
-      await UpdateUserMutation({ variables: updatedUser });
+      const { data } = await UpdateUserMutation({
+        variables: updatedUser,
+      });
+      if (data) {
+        toast.success("La catégorie a bien été modifié !");
+        refetch();
+      }
     } catch (error) {
-      console.log(error);
+      toast.error("Une erreur est survenue !");
     }
     setIsEditionPanelAdmin(false);
   };
@@ -48,12 +67,7 @@ export default function UserEditionForm({
               Modifier utilisateur
             </p>
           </div>
-          <form
-            className="pt-10 px-8"
-            onSubmit={(event) => {
-              handleFormSubmit(event);
-            }}
-          >
+          <form className="pt-10 px-8">
             <label>Prénom</label>
             <input
               className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
@@ -99,9 +113,40 @@ export default function UserEditionForm({
                 });
               }}
             />
-            <label>Rôle</label>
+            <div className="flex flex-col">
+              <label className="ml-4" htmlFor="role">
+                Rôle
+              </label>
+              <select
+                className="px-4 py-2 cursor-pointer rounded-3xl transition-all duration-300 outline-none  focus:outline-none hover:border-white hover:bg-input_hover_bg mb-2 border border-tertiary_color"
+                name="role"
+                id="role"
+                onChange={(event) => {
+                  setUpdatedUser({ ...updatedUser, role: event.target.value });
+                }}
+              >
+                <option className="cursor-pointer" value={UserRole.user}>
+                  User
+                </option>
+                <option
+                  className="cursor-pointer"
+                  value={UserRole.cityAdministrator}
+                >
+                  City Administrator
+                </option>
+                <option
+                  className="cursor-pointer"
+                  value={UserRole.webAdministrator}
+                >
+                  Web Administrator
+                </option>
+              </select>
+            </div>
             <button
-              type="submit"
+              type="button"
+              onClick={(event) => {
+                handleFormSubmit(event);
+              }}
               className="flex items-center justify-center text-center w-full mt-6 mb-12 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >
               <GrUpdate className="text-xl" />
