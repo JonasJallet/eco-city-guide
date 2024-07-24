@@ -200,7 +200,9 @@ export default function Settings() {
                     Modifier mes informations
                   </h1>
                   <div>
-                    <label className="text-gray-600 text-base ml-4">Nom</label>
+                    <label className="text-secondary_color text-base ml-4">
+                      Nom
+                    </label>
                     <div className="flex">
                       <input
                         aria-label="Renseigner son nom de famille"
@@ -219,7 +221,7 @@ export default function Settings() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-gray-600 text-base ml-4">
+                    <label className="text-secondary_color text-base ml-4">
                       Prénom
                     </label>
                     <div className="flex">
@@ -240,7 +242,7 @@ export default function Settings() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-gray-600 text-base ml-4">
+                    <label className="text-secondary_color text-base ml-4">
                       Email
                     </label>
                     <div className="flex">
@@ -259,7 +261,7 @@ export default function Settings() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-gray-600 text-base ml-4">
+                    <label className="text-secondary_color text-base ml-4">
                       Mot de passe
                     </label>
                     <div className="flex">
@@ -360,7 +362,17 @@ export default function Settings() {
                     Vos données d'utilisation de l'application ne sont jamais
                     partagées ni à des tiers privés ni à des professionnels. Ces
                     données d'utilisation sont seulement utilisées à des fins
-                    statistiques pour le propriétaire de l'application.
+                    statistiques pour le propriétaire de l'application. Pour
+                    tout complément d'information, nous vous invitons à vous
+                    rendre sur le{" "}
+                    <a
+                      className="text-tertiary_color font-bold"
+                      href="https://www.cnil.fr/fr"
+                      target="_blank"
+                    >
+                      site de la CNIL
+                    </a>
+                    .
                   </p>
                 </div>
                 <div style={{ width: 580 }}>
@@ -427,40 +439,42 @@ export default function Settings() {
               <h2 className="font-bold font-sans text-2xl text-dark_text_color mt-10 text-center ">
                 Mes Favoris
               </h2>
-              <div className="flex flex-col items-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
-                  <div
-                    className={`flex justify-start mt-4 md:col-span-3 sm:col-span-2 col-span-1 ${filteredFavorites.length > 0 ? "" : "ml-10 md:ml-0"}`}
-                  >
-                    <CategoriesFilter
-                      selectedCategories={selectedCategories}
-                      setSelectedCategories={setSelectedCategories}
-                    />
-                  </div>
-                  {filteredFavorites && filteredFavorites.length > 0 ? (
-                    filteredFavorites.map((favorite, index) => (
-                      <div key={index} className="flex justify-center mt-4">
-                        <FavoriteCard
-                          favorite={favorite}
-                          removeFromFavorites={() =>
-                            RemoveFavoritePlace(favorite.id)
-                          }
-                        />
-                      </div>
-                    ))
-                  ) : (
-                    <p className="sm:col-span-2 md:col-span-3 col-span-1 flex mt-4 ml-10 sm:ml-4 mr-10">
-                      Vous n'avez pas encore de favoris pour le filtrage
-                      appliqué.
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {favorites && favorites.length == 0 && (
-                <p className="text-center mt-10 mr-10">
+              {favorites && favorites.length == 0 ? (
+                <p className="text-secondary_color text-center mt-10 mr-10">
                   Vous n'avez pas encore de favoris.
                 </p>
+              ) : (
+                favorites && (
+                  <div className="flex flex-col items-center">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
+                      <div
+                        className={`flex justify-start mt-4 md:col-span-3 sm:col-span-2 col-span-1 ${filteredFavorites.length > 0 ? "" : "ml-10 md:ml-0"}`}
+                      >
+                        <CategoriesFilter
+                          selectedCategories={selectedCategories}
+                          setSelectedCategories={setSelectedCategories}
+                        />
+                      </div>
+                      {filteredFavorites && filteredFavorites.length > 0 ? (
+                        filteredFavorites.map((favorite, index) => (
+                          <div key={index} className="flex justify-center mt-4">
+                            <FavoriteCard
+                              favorite={favorite}
+                              removeFromFavorites={() =>
+                                RemoveFavoritePlace(favorite.id)
+                              }
+                            />
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-secondary_color sm:col-span-2 md:col-span-3 col-span-1 flex mt-4 ml-10 sm:ml-4 mr-10">
+                          Vous n'avez pas encore de favoris pour le filtrage
+                          appliqué.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )
               )}
             </div>
           )}
