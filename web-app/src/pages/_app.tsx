@@ -22,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <ToastContainer
             theme="light"
             closeOnClick={true}
+            position="bottom-right"
           />
           <Component {...pageProps} />
         </Layout>

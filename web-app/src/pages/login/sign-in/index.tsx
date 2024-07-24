@@ -65,7 +65,7 @@ export default function SignInPage() {
             aria-label="form"
           >
             <h1 className="text-center text-2xl mb-4 text-dark_text_color font-bold font-sans">
-              Se connecter
+              Connexion
             </h1>
             <div>
               <input
