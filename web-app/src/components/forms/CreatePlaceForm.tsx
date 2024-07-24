@@ -23,12 +23,14 @@ import { toast } from "react-toastify";
 
 interface Props {
   setIsCreationPanelAdmin?: (isCreationPanelAdmin: boolean) => void;
-  refetch?: () => void;
+  refetchPlaceData?: () => void;
+  isRefetch?: true;
 }
 
 export default function CreatePlaceForm({
   setIsCreationPanelAdmin,
-  refetch,
+  refetchPlaceData,
+  isRefetch,
 }: Props) {
   const [searchAddress, setSearchAddress] = useState("");
   const [city, setCity] = useState("");
@@ -82,7 +84,7 @@ export default function CreatePlaceForm({
         variables: formData,
       });
       if (data) {
-        if (refetch) refetch();
+        if (refetchPlaceData) refetchPlaceData();
         setPlace(data.createPlace as Place);
         toast.success("Le lieu a bien été créé !");
       }
@@ -107,7 +109,10 @@ export default function CreatePlaceForm({
   };
 
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const { data: categoriesData } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
+  const { data: categoriesData, refetch } =
+    useQuery<GetCategoriesQuery>(GET_CATEGORIES);
+
+  if (isRefetch) refetch();
 
   useEffect(() => {
     updateFormData({

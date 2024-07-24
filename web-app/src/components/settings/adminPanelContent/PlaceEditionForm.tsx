@@ -52,7 +52,7 @@ function PlaceEditionForm({ place, setIsEditionPanelAdmin, refetch }: Props) {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-white-100">
-      <div className="w-80 flex flex-col animate-fade items-center z-10 border border-gray-300 rounded-2xl overflow-y-scroll">
+      <div className="w-80 flex flex-col animate-fade items-center z-10 border border-gray-300 rounded-2xl overflow-y-auto">
         <button
           onClick={() => setIsEditionPanelAdmin(false)}
           className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"

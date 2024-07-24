@@ -12,9 +12,10 @@ import { toast } from "react-toastify";
 
 export default function CreateCategoriesForm({
   setIsCreationPanelAdmin,
-  refetch,
+  refetchCategoryData,
 }: {
   setIsCreationPanelAdmin?: (isCreationPanelAdmin: boolean) => void;
+  refetchCategoryData?: () => void;
 }) {
   const [formData, setFormData] = useState<MutationCreateCategoryArgs>({
     name: "",
@@ -36,8 +37,8 @@ export default function CreateCategoriesForm({
       });
 
       if (data) {
+        if (refetchCategoryData) refetchCategoryData();
         toast.success("La catégorie a bien été créée !");
-        refetch();
       }
       setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
     } catch (error) {

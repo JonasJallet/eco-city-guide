@@ -21,8 +21,8 @@ export default function SideBarContent({
       break;
     case SideBarContentEnum.CREATE_PLACE:
       contentComponent = (
-        <div className="h-screen overflow-y-scroll">
-          <CreatePlaceForm />
+        <div className="h-screen overflow-y-auto">
+          <CreatePlaceForm isRefetch={true} />
         </div>
       );
       break;

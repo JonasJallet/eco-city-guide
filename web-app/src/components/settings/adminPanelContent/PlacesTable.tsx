@@ -102,7 +102,7 @@ function PlacesTable() {
           <div className="my-4 border border-gray-300 rounded-2xl">
             <CreatePlaceForm
               setIsCreationPanelAdmin={setIsCreationPanelAdmin}
-              refetch={refetch}
+              refetchPlaceData={refetch}
             />
           </div>
         </div>

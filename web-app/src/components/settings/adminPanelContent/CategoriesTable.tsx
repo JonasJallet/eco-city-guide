@@ -99,7 +99,7 @@ function CategoriesTable() {
             <div className="pb-12 border border-gray-300 rounded-2xl">
               <CreateCategoriesForm
                 setIsCreationPanelAdmin={setIsCreationPanelAdmin}
-                refetch={refetch}
+                refetchCategoryData={refetch}
               />
             </div>
           </div>
