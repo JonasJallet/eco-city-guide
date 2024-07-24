@@ -8,13 +8,8 @@ import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { SideBarContentEnum } from "./sideBarContent.type";
-import SideBarContent from "./SideBarContent";
 
-interface Props {
-  category?: string;
-}
-
-export default function PlaceSearchBar({ category }: Props) {
+export default function PlaceSearchBar({ category }: { category?: string }) {
   const [searchPlace, setSearchPlace] = useState("");
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const { setPlace } = useContext(PlaceContext) as PlaceContextType;

@@ -6,6 +6,7 @@ import Place from "../../entities/place";
 import Category from "../../entities/category";
 import { newUsersDataset } from "./user.dataset";
 import { newPlacesDataset } from "./place.dataset";
+import { CreateUser, UpdateUser } from "../../types/user.args";
 
 describe("User", () => {
   resetDatabaseAndCache();
@@ -59,7 +60,7 @@ describe("User", () => {
             firstName: "Arnaud",
             lastName: "Renaud",
             password: "otherpassword",
-          });
+          } as CreateUser);
 
           await expect(
             User.getUserWithEmailAndPassword({ email, password }),
@@ -74,7 +75,7 @@ describe("User", () => {
             firstName: "Arnaud",
             lastName: "Renaud",
             password,
-          });
+          } as CreateUser);
 
           const user = { ...newUser, favoritesPlaces: [] };
           const userWithEMailAndPassword =
@@ -93,7 +94,7 @@ describe("User", () => {
 
   describe("saveNewUser", () => {
     it("should return new user", async () => {
-      const result = await User.saveNewUser(newUsersDataset[0]);
+      const result = await User.saveNewUser(newUsersDataset[0] as CreateUser);
 
       expect(result).toEqual(
         expect.objectContaining({
@@ -110,7 +111,7 @@ describe("User", () => {
     it("should return all users", async () => {
       const createdUsers: any[] = [];
       for (const userDataset of newUsersDataset) {
-        createdUsers.push(await User.saveNewUser(userDataset));
+        createdUsers.push(await User.saveNewUser(userDataset as CreateUser));
       }
       const users = await User.getUsers();
       expect(users.length).toEqual(createdUsers.length);
@@ -119,7 +120,9 @@ describe("User", () => {
 
   describe("getUserById", () => {
     it("should return one user", async () => {
-      const createdUser = await User.saveNewUser(newUsersDataset[0]);
+      const createdUser = await User.saveNewUser(
+        newUsersDataset[0] as CreateUser,
+      );
       const userId = createdUser.id;
       const user = await User.getUserById(userId);
       expect(user).toBeDefined();
@@ -129,7 +132,9 @@ describe("User", () => {
 
   describe("deleteUser", () => {
     it("should delete user by id", async () => {
-      const createdUser = await User.saveNewUser(newUsersDataset[1]);
+      const createdUser = await User.saveNewUser(
+        newUsersDataset[1] as CreateUser,
+      );
       const userId = createdUser.id;
       const deletedUser = await User.deleteUser(userId);
       expect(deletedUser.id).toEqual(createdUser.id);
@@ -138,17 +143,24 @@ describe("User", () => {
 
   describe("updateUser", () => {
     it("should return updated user", async () => {
-      const createdUser = await User.saveNewUser(newUsersDataset[2]);
+      const createdUser = await User.saveNewUser(
+        newUsersDataset[2] as CreateUser,
+      );
       const userId = createdUser.id;
       const partialUser = { firstName: "updated-firstname" };
-      const updatedUser = await User.updateUser(userId, partialUser);
+      const updatedUser = await User.updateUser(
+        userId,
+        partialUser as UpdateUser,
+      );
       expect(updatedUser.firstName).toEqual(partialUser.firstName);
     });
 
     it("should throw error if user does not exist", async () => {
       const userId = "e66e6099-5c31-4e32-b5ec-fd0743730f18";
       const partialUser = { firstName: "updated-firstname" };
-      await expect(User.updateUser(userId, partialUser)).rejects.toThrow(
+      await expect(
+        User.updateUser(userId, partialUser as UpdateUser),
+      ).rejects.toThrow(
         "User with ID e66e6099-5c31-4e32-b5ec-fd0743730f18 does not exist.",
       );
     });
@@ -156,7 +168,7 @@ describe("User", () => {
 
   describe("addFavoritePlace", () => {
     it("should add a favorite place for the user", async () => {
-      const user = await User.saveNewUser(newUsersDataset[0]);
+      const user = await User.saveNewUser(newUsersDataset[0] as CreateUser);
       const place = await createNewPlace();
       const updatedUser = await User.addFavoritePlace(user.id, place.id);
       expect(updatedUser.favoritesPlaces.map((place) => place.id)).toContain(
@@ -174,7 +186,7 @@ describe("User", () => {
     });
 
     it("should throw error if place ID is invalid", async () => {
-      const user = await User.saveNewUser(newUsersDataset[0]);
+      const user = await User.saveNewUser(newUsersDataset[0] as CreateUser);
       const invalidPlaceId = "7d8ad5a8-d51a-4ac5-aa81-3993db97ba17";
 
       await expect(
@@ -185,7 +197,7 @@ describe("User", () => {
 
   describe("deleteFavoritePlace", () => {
     it("should remove a favorite place for the user", async () => {
-      const user = await User.saveNewUser(newUsersDataset[0]);
+      const user = await User.saveNewUser(newUsersDataset[0] as CreateUser);
       const place = await createNewPlace();
       await User.addFavoritePlace(user.id, place.id);
 

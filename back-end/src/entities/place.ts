@@ -121,6 +121,7 @@ class Place extends BaseEntity {
     }
 
     newPlace.city = city;
+    await Place.deleteCache();
 
     return await newPlace.save();
   }

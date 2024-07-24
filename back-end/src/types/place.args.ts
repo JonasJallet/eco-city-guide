@@ -51,16 +51,9 @@ export class UpdatePlace {
   })
   description?: string;
 
-  @Field((type) => GeoJSONPoint)
-  coordinates?: Geometry;
-
   @Field()
   @MinLength(3, { message: "L'adresse doit contenir au moins 3 caractères" })
   address?: string;
-
-  @Field()
-  @MinLength(1, { message: "La ville doit contenir au moins 1 caractère" })
-  city?: string;
 
   @Field(() => [String], { nullable: true })
   categoryIds?: string[];

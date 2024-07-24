@@ -10,7 +10,12 @@ import { MdClose } from "react-icons/md";
 import { SideBarContentEnum } from "../home/sideBarContent.type";
 import { toast } from "react-toastify";
 
-export default function CreateCategoriesForm() {
+export default function CreateCategoriesForm({
+  setIsCreationPanelAdmin,
+  refetch,
+}: {
+  setIsCreationPanelAdmin?: (isCreationPanelAdmin: boolean) => void;
+}) {
   const [formData, setFormData] = useState<MutationCreateCategoryArgs>({
     name: "",
     icon: "",
@@ -26,11 +31,18 @@ export default function CreateCategoriesForm() {
 
   const createCategory = async () => {
     try {
-      await createCategoryMutation({
+      const { data } = await createCategoryMutation({
         variables: formData,
       });
-      toast.success("La catégorie a bien été créée.");
-    } catch (error) {}
+
+      if (data) {
+        toast.success("La catégorie a bien été créée !");
+        refetch();
+      }
+      setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
+    } catch (error) {
+      toast.error("Une erreur est survenue !");
+    }
   };
 
   const updateFormData = (
@@ -40,11 +52,19 @@ export default function CreateCategoriesForm() {
   };
 
   const handleCloseButton = () => {
-    setSideBarEnum(SideBarContentEnum.NO_CONTENT);
+    setIsCreationPanelAdmin
+      ? setIsCreationPanelAdmin(false)
+      : setSideBarEnum(SideBarContentEnum.NO_CONTENT);
+  };
+
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setCategoryName("");
+    setCategoryIcon("");
   };
 
   return (
-    <div className="flex flex-col items-center w-80 h-screen animate-fade">
+    <div className="flex flex-col items-center w-80 animate-fade">
       <button
         onClick={handleCloseButton}
         className="self-start text-2xl text-gray-500 rounded-xl transition-all duration-300 hover:bg-gray-100 hover:text-tertiary_color p-2 m-1 z-20"
@@ -71,6 +91,7 @@ export default function CreateCategoriesForm() {
               name="name"
               id="name"
               placeholder="Nom"
+              minLength={3}
               required
               value={categoryName}
               onChange={(event) => {
@@ -84,6 +105,7 @@ export default function CreateCategoriesForm() {
               name="icon"
               id="icon"
               placeholder="Icône"
+              minLength={3}
               required
               value={categoryIcon}
               onChange={(event) => {
@@ -98,9 +120,8 @@ export default function CreateCategoriesForm() {
             )}
             <button
               type="submit"
-              onSubmit={() => {
-                setCategoryName("");
-                setCategoryIcon("");
+              onSubmit={(event) => {
+                handleFormSubmit(event);
               }}
               className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >
