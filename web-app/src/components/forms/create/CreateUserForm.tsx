@@ -141,7 +141,7 @@ export default function CreateUserForm({
               type="password"
               name="password"
               id="password"
-              placeholder="Mots de passe"
+              placeholder="Mot de passe"
               required
               onChange={(event) => {
                 updateFormData({ password: event.target.value });
