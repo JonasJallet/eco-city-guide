@@ -27,7 +27,6 @@ export default function index() {
     firstName: "",
     lastName: "",
     password: "",
-    role: "user",
   });
 
   const updateFormData = (
@@ -48,7 +47,7 @@ export default function index() {
       });
 
       if (data && data.signUp) {
-      toast.success("Votre compte a bien été créé !");
+        toast.success("Votre compte a bien été créé !");
         router.push("/login/sign-in");
       }
     } catch (error) {}
