@@ -92,6 +92,7 @@ export default function CreateCategoriesForm({
               placeholder="Nom"
               required
               value={categoryName}
+              autoComplete="one-time-code"
               onChange={(event) => {
                 setCategoryName(event.target.value);
                 updateFormData({ name: event.target.value });
@@ -105,6 +106,7 @@ export default function CreateCategoriesForm({
               placeholder="Icône"
               required
               value={categoryIcon}
+              autoComplete="one-time-code"
               onChange={(event) => {
                 setCategoryIcon(event.target.value);
                 updateFormData({ icon: event.target.value });

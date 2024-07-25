@@ -147,6 +147,7 @@ export default function CreatePlaceForm({
             id="name"
             placeholder="Nom"
             required
+            autoComplete="one-time-code"
             onChange={(event) => {
               updateFormData({ name: event.target.value });
             }}
@@ -162,6 +163,7 @@ export default function CreatePlaceForm({
               placeholder="Adresse"
               required
               value={searchAddress}
+              autoComplete="one-time-code"
               onChange={(event) => {
                 handleSearchInput(event);
                 updateFormData({ address: event.target.value });
@@ -208,6 +210,7 @@ export default function CreatePlaceForm({
             id="city"
             placeholder="Ville"
             value={city}
+            autoComplete="one-time-code"
             onChange={(event) => {
               setCity(event.target.value);
               updateFormData({ city: event.target.value });
@@ -221,6 +224,7 @@ export default function CreatePlaceForm({
             placeholder="Description"
             spellCheck
             required
+            autoComplete="one-time-code"
             onChange={(event) => {
               updateFormData({ description: event.target.value });
             }}
