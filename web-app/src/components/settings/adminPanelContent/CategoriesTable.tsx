@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoryList from "./Category";
 import { useQuery } from "@apollo/client";
-import CategoryEditionForm from "./CategoryEditionForm";
-import CreateCategoriesForm from "@/components/forms/CreateCategoriesForm";
+import EditCategoryForm from "../../forms/edit/EditCategoryForm";
+import CreateCategoryForm from "@/components/forms/create/CreateCategoryForm";
 import { Category, GetCategoriesQuery } from "@/gql/generate/graphql";
 import { GET_CATEGORIES } from "@/gql/requests/queries";
+import Loader from "@/components/loader/Loader";
+import { toast } from "react-toastify";
 
 function CategoriesTable() {
   const [isEditionPanelAdmin, setIsEditionPanelAdmin] = useState(false);
   const [isCreationPanelAdmin, setIsCreationPanelAdmin] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
   const [searchCategory, setSearchCategory] = useState("");
+
+  useEffect(() => {
+    if (isEditionPanelAdmin || isCreationPanelAdmin) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [isEditionPanelAdmin, isCreationPanelAdmin]);
 
   const openEditionPanelAdmin = (category: Category) => {
     setCurrentCategory(category);
@@ -29,9 +40,9 @@ function CategoriesTable() {
     refetch,
   } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
 
-  if (error) return <p>Error</p>;
+  if (error) return toast.error(error.message);
 
   const sortedCategories = [...(categoriesData?.categories || [])].sort(
     (a, b) => {
@@ -95,23 +106,25 @@ function CategoriesTable() {
           </tbody>
         </table>
         {isCreationPanelAdmin && (
-          <div className="w-screen h-screen bg-white fixed inset-0 px-2 z-10 overflow-hidden flex items-center justify-center">
-            <div className="pb-12 border border-gray-300 rounded-2xl">
-              <CreateCategoriesForm
+          <div className="fixed inset-0 z-50 bg-gray-800 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-2 rounded-lg shadow-lg overflow-y-auto">
+              <CreateCategoryForm
                 setIsCreationPanelAdmin={setIsCreationPanelAdmin}
-                refetch={refetch}
+                refetchCategoryData={refetch}
               />
             </div>
           </div>
         )}
         {isEditionPanelAdmin && currentCategory && (
-          <div className="w-screen h-screen fixed inset-0 px-2 z-10 overflow-hidden flex items-center justify-center">
-            <CategoryEditionForm
-              key={currentCategory.id}
-              category={currentCategory}
-              setIsEditionPanelAdmin={closeEditionPanelAdmin}
-              refetch={refetch}
-            />
+          <div className="fixed inset-0 z-50 bg-gray-800 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-2 rounded-lg shadow-lg overflow-y-auto">
+              <EditCategoryForm
+                key={currentCategory.id}
+                category={currentCategory}
+                setIsEditionPanelAdmin={closeEditionPanelAdmin}
+                refetch={refetch}
+              />
+            </div>
           </div>
         )}
       </div>

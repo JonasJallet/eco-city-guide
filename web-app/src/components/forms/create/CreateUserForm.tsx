@@ -29,7 +29,8 @@ export default function CreateUserForm({
     role: UserRole.user,
   });
 
-  const [createUserMutation] = useMutation<MutationCreateUserArgs>(CREATE_USER);
+  const [createUserMutation, { error }] =
+    useMutation<MutationCreateUserArgs>(CREATE_USER);
 
   const createUser = async () => {
     try {
@@ -41,9 +42,8 @@ export default function CreateUserForm({
         toast.success("L'utilisateur a bien été créé !");
         refetch();
       }
-    } catch (error) {
-      toast.error("Une erreur est survenue !");
-    }
+      setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
+    } catch (error) {}
   };
 
   const updateFormData = (partialFormData: Partial<MutationCreateUserArgs>) => {
@@ -65,7 +65,6 @@ export default function CreateUserForm({
         onSubmit={(event) => {
           event.preventDefault();
           createUser();
-          setIsCreationPanelAdmin(false);
         }}
       >
         <div className="border-b border-gray-200">
@@ -82,7 +81,6 @@ export default function CreateUserForm({
               id="firstName"
               placeholder="Prénom"
               required
-              minLength={3}
               onChange={(event) => {
                 updateFormData({ firstName: event.target.value });
               }}
@@ -94,7 +92,6 @@ export default function CreateUserForm({
               id="lastName"
               placeholder="Nom"
               required
-              minLength={3}
               onChange={(event) => {
                 updateFormData({ lastName: event.target.value });
               }}
@@ -144,16 +141,20 @@ export default function CreateUserForm({
               type="password"
               name="password"
               id="password"
-              placeholder="Mots de passe"
+              placeholder="Mot de passe"
               required
-              minLength={12}
               onChange={(event) => {
                 updateFormData({ password: event.target.value });
               }}
             />
+            {error && (
+              <div className="w-full mt-4 text-md text-red-600 text-center">
+                {error.message}
+              </div>
+            )}
             <button
               type="submit"
-              className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
+              className="flex items-center justify-center text-center w-full mt-6 mb-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >
               <IoMdAddCircleOutline className="text-xl" />
               <p className="ms-4 text-lg">Ajouter</p>

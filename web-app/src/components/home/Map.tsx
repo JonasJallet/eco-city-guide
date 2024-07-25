@@ -174,9 +174,9 @@ export default function Map() {
               );
             })}
           </LayersControl>
-          <MapResizeHandler />
           <LocateButton />
           <FullscreenButton />
+          <MapResizeHandler />
           <SearchCategoryOnMap
             setCenterOfTheMap={setCenterOfTheMap}
             setZoomLevel={setZoomLevel}

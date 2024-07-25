@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import PlaceEdition from "./Place";
-import PlaceEditionForm from "./PlaceEditionForm";
-import CreatePlaceForm from "@/components/forms/CreatePlaceForm";
+import EditPlaceForm from "../../forms/edit/EditPlaceForm";
+import CreatePlaceForm from "@/components/forms/create/CreatePlaceForm";
 import { Place, PlacesQuery } from "@/gql/generate/graphql";
 import { GET_PLACES } from "@/gql/requests/queries";
+import Loader from "@/components/loader/Loader";
+import { toast } from "react-toastify";
 
 function PlacesTable() {
   const [isEditionPanelAdmin, setIsEditionPanelAdmin] = useState(false);
   const [isCreationPanelAdmin, setIsCreationPanelAdmin] = useState(false);
   const [currentPlace, setCurrentPlace] = useState<Place | null>(null);
   const [searchPlace, setSearchPlace] = useState("");
+
+  useEffect(() => {
+    if (isEditionPanelAdmin || isCreationPanelAdmin) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [isEditionPanelAdmin, isCreationPanelAdmin]);
 
   const openEditionPanelAdmin = (place: Place) => {
     setCurrentPlace(place);
@@ -29,9 +40,9 @@ function PlacesTable() {
     refetch,
   } = useQuery<PlacesQuery>(GET_PLACES, {});
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
 
-  if (error) return <p>Error</p>;
+  if (error) return toast.error(error.message);
 
   const sortedPlaces = [...(placesData?.places || [])].sort((a, b) => {
     const firstElementIncludes =
@@ -61,9 +72,7 @@ function PlacesTable() {
           name="searchPlace"
         />
         <button
-          onClick={() => {
-            setIsCreationPanelAdmin(true);
-          }}
+          onClick={() => setIsCreationPanelAdmin(true)}
           className="mx-3 px-2 font-semibold bg-white text-blue-400 border-2 border-blue-400 rounded-3xl duration-200 hover:text-white hover:border-blue-400 hover:bg-blue-400"
         >
           Créer
@@ -98,23 +107,24 @@ function PlacesTable() {
         </tbody>
       </table>
       {isCreationPanelAdmin && (
-        <div className="bg-white fixed inset-0 px-2 z-10 flex items-center overflow-y-auto justify-center">
-          <div className="my-4 border border-gray-300 rounded-2xl">
+        <div className="fixed inset-0 z-50 bg-gray-800 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-2 rounded-lg shadow-lg max-w-md max-h-[90vh] overflow-y-auto">
             <CreatePlaceForm
               setIsCreationPanelAdmin={setIsCreationPanelAdmin}
-              refetch={refetch}
+              refetchPlaceData={refetch}
             />
           </div>
         </div>
       )}
       {isEditionPanelAdmin && currentPlace && (
-        <div className=" bg-white fixed inset-0 px-2 z-10 flex items-center justify-center">
-          <PlaceEditionForm
-            key={currentPlace.id}
-            place={currentPlace}
-            setIsEditionPanelAdmin={closeEditionPanelAdmin}
-            refetch={refetch}
-          />
+        <div className="fixed inset-0 z-50 bg-gray-800 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-2 rounded-lg shadow-lg max-w-md max-h-[90vh] overflow-y-auto">
+            <EditPlaceForm
+              place={currentPlace}
+              setIsEditionPanelAdmin={closeEditionPanelAdmin}
+              refetch={refetch}
+            />
+          </div>
         </div>
       )}
     </div>

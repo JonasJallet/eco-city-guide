@@ -9,6 +9,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  QueryFailedError,
   Unique,
 } from "typeorm";
 import { Geometry } from "geojson";
@@ -115,15 +116,32 @@ class Place extends BaseEntity {
     }
 
     let city = await City.getCityByName(placeData.city);
-
     if (!city) {
       city = await City.saveNewCity(placeData.city);
     }
-
     newPlace.city = city;
+
     await Place.deleteCache();
 
-    return await newPlace.save();
+    try {
+      return await newPlace.save();
+    } catch (error) {
+      if (
+        error instanceof QueryFailedError &&
+        error.message.includes("custom_unique_place")
+      ) {
+        throw new Error("Un lieu avec ce nom et ces coordonnées existe déjà.");
+      }
+
+      if (
+        error instanceof QueryFailedError &&
+        error.message.includes("The 'coordinates' in GeoJSON are not an array")
+      ) {
+        throw new Error("Vous devez sélectionner une adresse de la liste.");
+      }
+
+      throw error;
+    }
   }
 
   static async getPlaces(

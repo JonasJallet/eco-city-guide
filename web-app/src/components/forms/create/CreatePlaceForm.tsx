@@ -17,18 +17,20 @@ import axios from "axios";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
-import { SideBarContentEnum } from "../home/sideBarContent.type";
+import { SideBarContentEnum } from "../../home/sideBarContent.type";
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
 
 interface Props {
   setIsCreationPanelAdmin?: (isCreationPanelAdmin: boolean) => void;
-  refetch?: () => void;
+  refetchPlaceData?: () => void;
+  isRefetch?: true;
 }
 
 export default function CreatePlaceForm({
   setIsCreationPanelAdmin,
-  refetch,
+  refetchPlaceData,
+  isRefetch,
 }: Props) {
   const [searchAddress, setSearchAddress] = useState("");
   const [city, setCity] = useState("");
@@ -82,13 +84,12 @@ export default function CreatePlaceForm({
         variables: formData,
       });
       if (data) {
-        if (refetch) refetch();
+        if (refetchPlaceData) refetchPlaceData();
         setPlace(data.createPlace as Place);
         toast.success("Le lieu a bien été créé !");
       }
-    } catch (error) {
-      toast.error("Une erreur est survenue !");
-    }
+      setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
+    } catch (error) {}
   };
 
   const updateFormData = (
@@ -107,7 +108,10 @@ export default function CreatePlaceForm({
   };
 
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const { data: categoriesData } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
+  const { data: categoriesData, refetch } =
+    useQuery<GetCategoriesQuery>(GET_CATEGORIES);
+
+  if (isRefetch) refetch();
 
   useEffect(() => {
     updateFormData({
@@ -134,7 +138,6 @@ export default function CreatePlaceForm({
           onSubmit={(event) => {
             event.preventDefault();
             createPlace();
-            setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
           }}
         >
           <input
@@ -144,7 +147,7 @@ export default function CreatePlaceForm({
             id="name"
             placeholder="Nom"
             required
-            minLength={3}
+            autoComplete="one-time-code"
             onChange={(event) => {
               updateFormData({ name: event.target.value });
             }}
@@ -160,6 +163,7 @@ export default function CreatePlaceForm({
               placeholder="Adresse"
               required
               value={searchAddress}
+              autoComplete="one-time-code"
               onChange={(event) => {
                 handleSearchInput(event);
                 updateFormData({ address: event.target.value });
@@ -206,12 +210,12 @@ export default function CreatePlaceForm({
             id="city"
             placeholder="Ville"
             value={city}
+            autoComplete="one-time-code"
             onChange={(event) => {
               setCity(event.target.value);
               updateFormData({ city: event.target.value });
             }}
             required
-            minLength={1}
           />
           <textarea
             className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
@@ -220,8 +224,7 @@ export default function CreatePlaceForm({
             placeholder="Description"
             spellCheck
             required
-            minLength={10}
-            maxLength={180}
+            autoComplete="one-time-code"
             onChange={(event) => {
               updateFormData({ description: event.target.value });
             }}
@@ -275,13 +278,13 @@ export default function CreatePlaceForm({
               )}
           </select>
           {error && (
-            <div className="w-full mt-4 text-md text-red-600">
+            <div className="w-full mt-4 text-md text-red-600 text-center">
               {error.message}
             </div>
           )}
           <button
             type="submit"
-            className="flex items-center justify-center text-center w-full mt-4 mb-12 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
+            className="flex items-center justify-center text-center w-full mt-6 mb-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
             <p className="ms-4 text-lg">Ajouter</p>
