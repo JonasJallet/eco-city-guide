@@ -44,7 +44,7 @@ export default function EditUserForm({
       });
       if (data) {
         setIsEditionPanelAdmin(false);
-        toast.success("La catégorie a bien été modifié !");
+        toast.success("L'utilisateur a bien été modifié !");
         refetch();
       }
     } catch (error) {}

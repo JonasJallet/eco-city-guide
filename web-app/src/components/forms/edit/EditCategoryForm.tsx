@@ -32,7 +32,7 @@ function EditCategoryForm({
       });
       if (data) {
         setIsEditionPanelAdmin(false);
-        toast.success("La catégorie a bien été modifié !");
+        toast.success("La catégorie a bien été modifiée !");
         refetch();
       }
     } catch (error) {}
