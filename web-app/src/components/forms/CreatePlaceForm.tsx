@@ -88,9 +88,8 @@ export default function CreatePlaceForm({
         setPlace(data.createPlace as Place);
         toast.success("Le lieu a bien été créé !");
       }
-    } catch (error) {
-      toast.error("Une erreur est survenue !");
-    }
+      setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
+    } catch (error) {}
   };
 
   const updateFormData = (
@@ -139,7 +138,6 @@ export default function CreatePlaceForm({
           onSubmit={(event) => {
             event.preventDefault();
             createPlace();
-            setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
           }}
         >
           <input
@@ -149,7 +147,6 @@ export default function CreatePlaceForm({
             id="name"
             placeholder="Nom"
             required
-            minLength={3}
             onChange={(event) => {
               updateFormData({ name: event.target.value });
             }}
@@ -216,7 +213,6 @@ export default function CreatePlaceForm({
               updateFormData({ city: event.target.value });
             }}
             required
-            minLength={1}
           />
           <textarea
             className="flex resize-none align-top w-full h-32 bg-white-200 px-4 py-2 rounded-2xl transition-all duration-300 outline-none  hover:border-white hover:bg-input_hover_bg focus:outline-none mb-2 border border-tertiary_color"
@@ -225,8 +221,6 @@ export default function CreatePlaceForm({
             placeholder="Description"
             spellCheck
             required
-            minLength={10}
-            maxLength={180}
             onChange={(event) => {
               updateFormData({ description: event.target.value });
             }}
@@ -280,7 +274,7 @@ export default function CreatePlaceForm({
               )}
           </select>
           {error && (
-            <div className="w-full mt-4 text-md text-red-600">
+            <div className="w-full mt-4 text-md text-red-600 text-center">
               {error.message}
             </div>
           )}

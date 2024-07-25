@@ -41,9 +41,7 @@ export default function CreateCategoriesForm({
         toast.success("La catégorie a bien été créée !");
       }
       setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
-    } catch (error) {
-      toast.error("Une erreur est survenue !");
-    }
+    } catch (error) {}
   };
 
   const updateFormData = (
@@ -92,7 +90,6 @@ export default function CreateCategoriesForm({
               name="name"
               id="name"
               placeholder="Nom"
-              minLength={3}
               required
               value={categoryName}
               onChange={(event) => {
@@ -106,7 +103,6 @@ export default function CreateCategoriesForm({
               name="icon"
               id="icon"
               placeholder="Icône"
-              minLength={3}
               required
               value={categoryIcon}
               onChange={(event) => {
@@ -115,7 +111,7 @@ export default function CreateCategoriesForm({
               }}
             />
             {error && (
-              <div className="w-full mt-4 text-md text-red-600">
+              <div className="w-full mt-4 text-md text-red-600 text-center">
                 {error.message}
               </div>
             )}

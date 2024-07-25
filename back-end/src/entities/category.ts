@@ -37,6 +37,17 @@ export class Category extends BaseEntity {
 
   static async saveNewCategory(categoryData: CreateCategory) {
     const newCategory = new Category(categoryData);
+
+    const existingName = await Category.findOneBy({ name: categoryData.name });
+    if (existingName) {
+      throw new Error("Une catégorie avec ce nom existe déjà.");
+    }
+
+    const existingIcon = await Category.findOneBy({ icon: categoryData.icon });
+    if (existingIcon) {
+      throw new Error("Une catégorie avec cet icône existe déjà.");
+    }
+
     return await newCategory.save();
   }
 

@@ -2,6 +2,7 @@ import { Field, ArgsType } from "type-graphql";
 import { MinLength, MaxLength } from "class-validator";
 import { Geometry } from "typeorm";
 import { GeoJSONPoint } from "./scalar/geoJSONPoint";
+import { Point } from "geojson";
 
 @ArgsType()
 export class CreatePlace {
@@ -19,7 +20,7 @@ export class CreatePlace {
   description!: string;
 
   @Field((type) => GeoJSONPoint)
-  coordinates!: Geometry;
+  coordinates!: Point;
 
   @Field()
   @MinLength(3, { message: "L'adresse doit contenir au moins 3 caractères" })
