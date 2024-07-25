@@ -15,24 +15,61 @@ import { setUserSessionIdInCookie } from "../utils/cookie";
 
 @Resolver()
 export class UserResolver {
-  @Mutation(() => User)
-  signUp(@Args() args: CreateUser) {
-    return User.saveNewUser(args);
-  }
-
   @Query(() => [User])
   users() {
     return User.getUsers();
   }
 
+  @Query(() => User)
+  async myProfile(@Ctx() { user }: Context): Promise<User> {
+    return User.getUserById((user as User).id);
+  }
+
+  @Query(() => Boolean)
+  async isInFavorites(
+    @Arg("placeId") placeId: string,
+    @Ctx() { user }: Context,
+  ): Promise<boolean> {
+    return User.isInFavorites((user as User).id, placeId);
+  }
+
+  @Authorized("webAdministrator", "user")
+  @Query(() => Boolean)
+  async isAuthenticated(@Ctx() { user }: Context): Promise<boolean> {
+    return user !== undefined && user !== null;
+  }
+
+  @Authorized("webAdministrator")
+  @Query(() => [User])
+  getUsers() {
+    return User.getUsers();
+  }
+
+  @Authorized("webAdministrator", "cityAdministrator", "user")
   @Mutation(() => User)
-  updateUser(@Arg("id", () => ID) id: string, @Args() args: UpdateUser) {
+  updateUser(
+    @Arg("id", () => ID) id: string,
+    @Args() args: UpdateUser,
+    @Ctx() { user }: Context,
+  ) {
+    this.checkUserPermissions(user as User, id);
     return User.updateUser(id, args);
   }
 
+  @Authorized("webAdministrator", "cityAdministrator", "user")
   @Mutation(() => User)
-  async deleteUser(@Arg("id", () => ID) id: string) {
+  async deleteUser(
+    @Arg("id", () => ID) id: string,
+    @Ctx() { user }: Context,
+  ): Promise<User> {
+    this.checkUserPermissions(user as User, id);
     return User.deleteUser(id);
+  }
+
+  @Authorized("webAdministrator")
+  @Mutation(() => User)
+  createUser(@Args() args: CreateUser) {
+    return User.saveNewUser({ ...args });
   }
 
   @Mutation(() => User)
@@ -45,13 +82,17 @@ export class UserResolver {
     return user;
   }
 
-  @Authorized()
-  @Query(() => User)
-  async myProfile(@Ctx() { user }: Context): Promise<User> {
-    return User.getUserById((user as User).id);
+  @Mutation(() => User)
+  async signOut(@Ctx() { user }: Context): Promise<User | null> {
+    await User.signOut(user as User);
+    return user;
   }
 
-  @Authorized()
+  @Mutation(() => User)
+  signUp(@Args() args: CreateUser) {
+    return User.saveNewUser(args);
+  }
+
   @Mutation(() => User)
   async addFavoritePlace(
     @Arg("placeId") placeId: string,
@@ -60,7 +101,6 @@ export class UserResolver {
     return User.addFavoritePlace((user as User).id, placeId);
   }
 
-  @Authorized()
   @Mutation(() => User)
   async removeFavoritePlace(
     @Arg("placeId") placeId: string,
@@ -69,12 +109,12 @@ export class UserResolver {
     return User.deleteFavoritePlace((user as User).id, placeId);
   }
 
-  @Authorized()
-  @Query(() => Boolean)
-  async isInFavorites(
-    @Arg("placeId") placeId: string,
-    @Ctx() { user }: Context,
-  ): Promise<boolean> {
-    return User.isInFavorites((user as User).id, placeId);
+  private checkUserPermissions(currentUser: User, targetUserId: string): void {
+    if (
+      currentUser.role !== "webAdministrator" &&
+      currentUser.id !== targetUserId
+    ) {
+      throw new Error("Vous n'avez pas les droits pour modifier ce compte");
+    }
   }
 }

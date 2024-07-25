@@ -18,8 +18,8 @@ export async function createCityMock() {
 
 createCityMock()
   .then(() => {
-    process.stdout.write("Generated Cities Data saved to the database.");
+    console.log("\x1b[32mGenerated Cities Data saved to the database.\x1b[0m");
   })
   .catch((error) => {
-    process.stdout.write("Error creating cities:", error);
+    console.error("\x1b[31mError creating cities:\x1b[0m", error);
   });

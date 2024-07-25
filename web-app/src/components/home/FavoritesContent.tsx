@@ -1,7 +1,7 @@
-import { Place } from "@/gql/graphql";
+import { GetProfileQuery, Place } from "@/gql/generate/graphql";
 import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
-import { GET_FAVORITES } from "@/gql/queries";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import FavoritesByCategory from "./FavoritesByCategory";
 import Loader from "../loader/Loader";
 import { MdClose } from "react-icons/md";
@@ -13,7 +13,7 @@ import { IoMdList } from "react-icons/io";
 
 export default function FavoritesContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { data, loading, refetch } = useQuery(GET_FAVORITES);
+  const { data, loading, refetch } = useQuery<GetProfileQuery>(GET_PROFILE);
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
@@ -88,7 +88,7 @@ export default function FavoritesContent() {
     );
   };
 
-  if (data) {
+  if (!loading && data?.myProfile?.favoritesPlaces) {
     const { favoritesPlaces } = data.myProfile;
     organizedFavorites = organizeFavoritePlaceByCategories(favoritesPlaces);
   }

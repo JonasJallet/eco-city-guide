@@ -9,6 +9,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  QueryFailedError,
   Unique,
 } from "typeorm";
 import { Geometry } from "geojson";
@@ -18,6 +19,7 @@ import { GeoJSONPoint } from "../types/scalar/geoJSONPoint";
 import Category from "./category";
 import User from "./user";
 import City from "./city";
+import { getCache } from "../cache";
 
 @Entity()
 @ObjectType()
@@ -77,22 +79,22 @@ class Place extends BaseEntity {
 
     if (place) {
       if (!place.name) {
-        throw new Error("Place name cannot be empty.");
+        throw new Error("Le nom du lieu ne peut pas être vide.");
       }
       this.name = place.name;
 
       if (!place.description) {
-        throw new Error("Place description cannot be empty.");
+        throw new Error("La description du lieu ne peut pas être vide.");
       }
       this.description = place.description;
 
       if (!place.coordinates) {
-        throw new Error("Place coordinates cannot be empty.");
+        throw new Error("Les coordonnées du lieu ne peuvent pas être vides.");
       }
       this.coordinates = place.coordinates;
 
       if (!place.address) {
-        throw new Error("Place address cannot be empty.");
+        throw new Error("L'adresse du lieu ne peut pas être vide.");
       }
       this.address = place.address;
     }
@@ -114,20 +116,45 @@ class Place extends BaseEntity {
     }
 
     let city = await City.getCityByName(placeData.city);
-
     if (!city) {
       city = await City.saveNewCity(placeData.city);
     }
-
     newPlace.city = city;
 
-    return await newPlace.save();
+    await Place.deleteCache();
+
+    try {
+      return await newPlace.save();
+    } catch (error) {
+      if (
+        error instanceof QueryFailedError &&
+        error.message.includes("custom_unique_place")
+      ) {
+        throw new Error("Un lieu avec ce nom et ces coordonnées existe déjà.");
+      }
+
+      if (
+        error instanceof QueryFailedError &&
+        error.message.includes("The 'coordinates' in GeoJSON are not an array")
+      ) {
+        throw new Error("Vous devez sélectionner une adresse de la liste.");
+      }
+
+      throw error;
+    }
   }
 
   static async getPlaces(
     city?: string,
     categoryIds?: string[],
   ): Promise<Place[]> {
+    const cache = await getCache();
+    const cacheKey = "get-all-places";
+
+    const cachedResult = await cache.get(cacheKey);
+    if (cachedResult) {
+      return JSON.parse(cachedResult);
+    }
     let whereClause: any = {};
 
     if (categoryIds && categoryIds.length > 0) {
@@ -138,9 +165,12 @@ class Place extends BaseEntity {
       whereClause.city = { name: city };
     }
 
-    return await Place.find({
+    const databaseResult = await Place.find({
       where: whereClause,
     });
+
+    cache.set(cacheKey, JSON.stringify(databaseResult), { EX: 1800 });
+    return databaseResult;
   }
 
   static async getPlaceById(id: string): Promise<Place> {
@@ -154,6 +184,7 @@ class Place extends BaseEntity {
   static async deletePlace(id: string): Promise<Place> {
     const place = await Place.getPlaceById(id);
     await Place.delete(id);
+    await Place.deleteCache();
     return place;
   }
 
@@ -172,7 +203,13 @@ class Place extends BaseEntity {
 
     await place.save();
     await place.reload();
+    await Place.deleteCache();
     return place;
+  }
+
+  static async deleteCache() {
+    const cache = await getCache();
+    await cache.del("get-all-places");
   }
 }
 

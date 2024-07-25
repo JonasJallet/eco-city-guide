@@ -1,6 +1,7 @@
+import { getCache } from "../cache";
 import { getDataSource } from "../database";
 
-export function resetDatabase() {
+export function resetDatabaseAndCache() {
   beforeEach(async () => {
     const database = await getDataSource();
     for (const entity of database.entityMetadatas) {
@@ -9,10 +10,14 @@ export function resetDatabase() {
         `TRUNCATE "${entity.tableName}" RESTART IDENTITY CASCADE;`,
       );
     }
+    const cache = await getCache();
+    await cache.flushAll();
   });
 
   afterAll(async () => {
     const database = await getDataSource();
     await database.destroy();
+    const cache = await getCache();
+    await cache.quit();
   });
 }

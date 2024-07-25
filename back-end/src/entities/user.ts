@@ -87,7 +87,7 @@ class User extends BaseEntity {
     const newUser = new User(userData);
     const existingEmail = await User.getUserByEmail(userData.email);
     if (existingEmail) {
-      throw new Error("Account with this email already exist.");
+      throw new Error("Un compte avec cet email existe déjà.");
     }
 
     return await newUser.save();
@@ -117,8 +117,28 @@ class User extends BaseEntity {
 
   static async updateUser(id: string, partialUser: UpdateUser): Promise<User> {
     const user = await User.getUserById(id);
-    Object.assign(user, partialUser);
 
+    if (partialUser.password && user.hashedPassword !== partialUser.password) {
+      partialUser.password = await hash(partialUser.password, 10);
+    }
+
+    if (partialUser.email && user.email !== partialUser.email) {
+      const userWithEmailAlreadyUsed: null | User = await User.getUserByEmail(
+        partialUser.email,
+      );
+      if (userWithEmailAlreadyUsed) {
+        throw new Error("Un compte avec cet email existe déjà.");
+      }
+    }
+    const newDataUser = {
+      firstName: partialUser.firstName,
+      lastName: partialUser.lastName,
+      email: partialUser.email,
+      hashedPassword: partialUser.password,
+      role: partialUser.role,
+    };
+
+    Object.assign(user, newDataUser);
     await user.save();
     await user.reload();
     return user;
@@ -142,6 +162,14 @@ class User extends BaseEntity {
     const user = await this.getUserWithEmailAndPassword({ email, password });
     const session = await UserSession.saveNewSession(user);
     return { user, session };
+  }
+
+  static async signOut(
+    user: User,
+  ): Promise<{ user: User; sessions: UserSession[] }> {
+    let sessions = await UserSession.getUserSessionsByUserId(user.id);
+    await UserSession.deleteSessions(sessions);
+    return { user, sessions };
   }
 
   static async getUserWithSessionId(sessionId: string): Promise<User | null> {

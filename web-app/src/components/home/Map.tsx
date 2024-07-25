@@ -1,36 +1,73 @@
 import L, { LatLng } from "leaflet";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  MapContainer,
-  Marker,
-  TileLayer,
-  Popup,
-  LayersControl,
-} from "react-leaflet";
+import { MapContainer, Marker, TileLayer, LayersControl } from "react-leaflet";
 import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 import SurroundingPlacesContext, {
   SurroundingPlacesContextType,
 } from "@/contexts/SurroundingPlacesContext";
-import { CenterOfTheMap } from "./CenterOfTheMap";
+import { SearchCategoryOnMap } from "./SearchCategoryOnMap";
 import { LocateButton } from "./LocateButton";
+import { CategoriesSearchFilter } from "./CategoriesSearchFilter";
+import PlaceSearchBar from "./PlaceSearchBar";
+import { Category, Place, PlacesQuery } from "@/gql/generate/graphql";
+import { getSurroundingPlacesAroundPoint } from "@/utils/getSurroundingPlacesAroundPoint";
+import { useQuery } from "@apollo/client";
+import { GET_PLACES } from "@/gql/requests/queries";
 import { SideBarContentEnum } from "./sideBarContent.type";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
 import FullscreenButton from "./FullScreenButton";
+import Initials from "./Initials";
+import MapResizeHandler from "./MapResize";
 
 export default function Map() {
-  const { place } = useContext(PlaceContext) as PlaceContextType;
+  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
-  const { surroundingPlaces, setSurroundingPlaces } = useContext(
+  const { surroundingPlaces, setSurroundingPlaces, setCategory } = useContext(
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
   const [mapRenderingCenterPoint, setMapRenderingCenterPoint] = useState([
     47.068703, 2.747125,
   ]);
+
   const [zoom, setZoom] = useState(6);
+  const [category, setCategorySelected] = useState<Category | undefined>(
+    undefined,
+  );
+  const [isCategorySelected, setIsCategorySelected] = useState(false);
+  const [centerOfTheMap, setCenterOfTheMap] = useState<LatLng>();
+  const [zoomLevel, setZoomLevel] = useState(6);
+
+  const { data: dataPlaces } = useQuery<PlacesQuery>(GET_PLACES);
+  useEffect(() => {
+    if (
+      category !== undefined &&
+      centerOfTheMap?.lat !== undefined &&
+      centerOfTheMap?.lng !== undefined &&
+      dataPlaces?.places
+    ) {
+      const surroundingPlaces = getSurroundingPlacesAroundPoint(
+        dataPlaces.places,
+        [centerOfTheMap.lat, centerOfTheMap.lng],
+        zoomLevel,
+        category.name,
+      );
+
+      setSurroundingPlaces(surroundingPlaces);
+      setCategory(category);
+      setSideBarEnum(SideBarContentEnum.PLACES_BY_CATEGORY);
+    }
+  }, [
+    category,
+    centerOfTheMap,
+    dataPlaces?.places,
+    zoomLevel,
+    setSurroundingPlaces,
+    setSideBarEnum,
+  ]);
 
   useEffect(() => {
     if (place !== undefined) {
@@ -66,29 +103,57 @@ export default function Map() {
     }
   }, [place]);
 
-  const handleMarkerClick = () => {
+  const handleMarkerClick = (place: Place) => {
+    setPlace(place);
     setSideBarEnum(SideBarContentEnum.PLACE);
   };
 
   const layers = [
     {
       name: "Par défaut",
-      url: "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png",
+      url: `https://wxs.ign.fr/choisirgeoportail/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/png&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
+      options: {
+        bounds: [
+          [-75, -180],
+          [81, 180],
+        ] as L.LatLngBoundsExpression,
+      },
     },
     {
       name: "Satellite",
-      url: "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png",
+      url: `https://wxs.ign.fr/choisirgeoportail/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/jpeg&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
+      options: {
+        bounds: [
+          [-75, -180],
+          [81, 180],
+        ] as L.LatLngBoundsExpression,
+      },
     },
   ];
 
   return (
-    <>
-      <div className="flex h-full w-full z-10">
+    <div className="h-full w-full flex justify-center">
+      <div className="grid grid-cols-1 items-center m-5 absolute z-20 sm:grid-cols-2 md:grid-cols-3">
+        <div className="col-span-2">
+          <PlaceSearchBar category={category?.name} />
+        </div>
+        <div className="col-span-1">
+          <CategoriesSearchFilter
+            setCategorySelected={setCategorySelected}
+            setIsCategorySelected={setIsCategorySelected}
+          />
+        </div>
+      </div>
+      <div className="absolute z-20 right-0 mt-6 mr-28">
+        <Initials />
+      </div>
+      <div className="flex h-full w-full relative z-10">
         <MapContainer
           key={mapRenderingCenterPoint.toString()}
           center={[mapRenderingCenterPoint[0], mapRenderingCenterPoint[1]]}
           zoom={zoom}
           touchZoom={false}
+          doubleClickZoom={false}
           scrollWheelZoom={true}
           className="h-full w-full"
         >
@@ -100,42 +165,45 @@ export default function Map() {
                   checked={index === 0 ? true : false}
                   name={layer.name}
                 >
-                  <TileLayer url={layer.url} />
+                  <TileLayer
+                    url={layer.url}
+                    attribution='<a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>'
+                    bounds={layer.options?.bounds}
+                  />
                 </LayersControl.BaseLayer>
               );
             })}
           </LayersControl>
           <LocateButton />
           <FullscreenButton />
-          <CenterOfTheMap />
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
+          <MapResizeHandler />
+          <SearchCategoryOnMap
+            setCenterOfTheMap={setCenterOfTheMap}
+            setZoomLevel={setZoomLevel}
+            category={category}
+            isCategorySelected={isCategorySelected}
+            setIsCategorySelected={setIsCategorySelected}
           />
           {surroundingPlaces.length > 0 &&
             surroundingPlaces.map((place, index) => (
               <Marker
+                key={index}
                 position={[
                   place.coordinates.coordinates[0] as number,
                   place.coordinates.coordinates[1] as number,
                 ]}
                 eventHandlers={{
-                  click: () => handleMarkerClick(),
+                  click: () => handleMarkerClick(place),
                 }}
                 icon={L.icon({
                   iconSize: [40, 40],
                   shadowSize: [50, 64],
                   iconUrl: "/images/marker.png",
                 })}
-              >
-                {/* <Popup>
-                  Ceci est un nom
-                  <br /> NOTE
-                </Popup> */}
-              </Marker>
+              ></Marker>
             ))}
         </MapContainer>
       </div>
-    </>
+    </div>
   );
 }

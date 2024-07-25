@@ -5,10 +5,10 @@ import { faker } from "@faker-js/faker";
 import City from "../entities/city";
 import Category from "../entities/category";
 
-const minLatitude = 48.85499;
-const maxLatitude = 48.86251;
-const minLongitude = 2.225056;
-const maxLongitude = 2.415;
+const minLatitude = 48.8;
+const maxLatitude = 48.93;
+const minLongitude = 2.22;
+const maxLongitude = 2.43;
 
 export interface PlaceInterface {
   name: string;
@@ -26,7 +26,7 @@ export class PlaceMockFactory {
     this.typeFactory = new TypeFactory<DeepPartial<PlaceInterface>>(
       async () => ({
         name: "Eco-" + faker.commerce.department(),
-        description: faker.lorem.lines(),
+        description: faker.lorem.sentence({ min: 3, max: 21 }),
         coordinates: {
           type: "Point",
           coordinates: [

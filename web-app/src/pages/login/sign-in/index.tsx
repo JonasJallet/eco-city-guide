@@ -1,42 +1,21 @@
 import {
-  GetMyProfileSignInQuery,
-  SignInFormMutation,
-  SignInFormMutationVariables,
-} from "@/gql/graphql";
-import { gql, useMutation, useQuery } from "@apollo/client";
+  GetProfileQuery,
+  SignInMutation,
+  SignInMutationVariables,
+} from "@/gql/generate/graphql";
+import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { SIGN_IN } from "@/gql/requests/mutations";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import logo from "../../../../public/images/logo.png";
 import Image from "next/image";
-
-export const SIGN_IN_FORM = gql`
-  mutation SignInForm($email: String!, $password: String!) {
-    signIn(email: $email, password: $password) {
-      id
-      email
-      firstName
-      lastName
-    }
-  }
-`;
-
-export const GET_MY_PROFILE_SIGN_IN = gql`
-  query GetMyProfileSignIn {
-    myProfile {
-      id
-      email
-      firstName
-      lastName
-    }
-  }
-`;
 
 export default function SignInPage() {
   const router = useRouter();
 
-  const { data: myProfileData, refetch } = useQuery<GetMyProfileSignInQuery>(
-    GET_MY_PROFILE_SIGN_IN,
-  );
+  const { data: myProfileData, refetch } =
+    useQuery<GetProfileQuery>(GET_PROFILE);
 
   useEffect(() => {
     if (myProfileData?.myProfile) {
@@ -44,21 +23,21 @@ export default function SignInPage() {
     }
   }, [myProfileData]);
 
-  const [formData, setFormData] = useState<SignInFormMutationVariables>({
+  const [formData, setFormData] = useState<SignInMutationVariables>({
     email: "",
     password: "",
   });
 
   const updateFormData = (
-    partialFormData: Partial<SignInFormMutationVariables>,
+    partialFormData: Partial<SignInMutationVariables>,
   ) => {
     setFormData({ ...formData, ...partialFormData });
   };
 
   const [signInMutation, { error }] = useMutation<
-    SignInFormMutation,
-    SignInFormMutationVariables
-  >(SIGN_IN_FORM);
+    SignInMutation,
+    SignInMutationVariables
+  >(SIGN_IN);
 
   const signIn = async () => {
     try {
@@ -86,11 +65,11 @@ export default function SignInPage() {
             aria-label="form"
           >
             <h1 className="text-center text-2xl mb-4 text-dark_text_color font-bold font-sans">
-              Se connecter
+              Connexion
             </h1>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                 type="email"
                 name="email"
                 id="email"
@@ -104,7 +83,7 @@ export default function SignInPage() {
             </div>
             <div>
               <input
-                className="w-full bg-white-200 px-4 py-2 rounded-3xl focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
+                className="w-full bg-white-200 px-4 py-2 rounded-3xl transition-all duration-300 outline-none  focus:outline-none mb-2 border border-tertiary_color hover:border-white hover:bg-input_hover_bg"
                 type="password"
                 name="password"
                 id="password"

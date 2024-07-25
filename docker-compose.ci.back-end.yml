@@ -5,10 +5,16 @@ services:
       target: ci
     environment:
       - TEST_DATABASE_URL=postgres://postgres:password@test-database:5432/postgres
+      - CACHE_URL=redis://cache
     depends_on:
       - test-database
+      - cache
 
   test-database:
     image: postgis/postgis:15-3.4
     environment:
       - POSTGRES_PASSWORD=password
+
+  cache:
+    container_name: cache
+    image: redis
