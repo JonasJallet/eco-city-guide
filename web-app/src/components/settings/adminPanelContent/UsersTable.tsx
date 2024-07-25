@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import UserEdition from "./User";
 import EditUserForm from "../../forms/edit/EditUserForm";
 import CreateUserForm from "@/components/forms/create/CreateUserForm";
+import Loader from "@/components/loader/Loader";
+import { toast } from "react-toastify";
 
 function UsersTable() {
   const [isEditionPanelAdmin, setIsEditionPanelAdmin] = useState(false);
@@ -33,9 +35,9 @@ function UsersTable() {
 
   const { data: usersData, loading, error, refetch } = useQuery(GET_USERS);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
 
-  if (error) return <p>Error</p>;
+  if (error) return toast.error(error.message);
 
   const sortedUsers = [...(usersData?.users || [])].sort((a, b) => {
     const firstElementIncludes =

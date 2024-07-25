@@ -5,6 +5,8 @@ import EditPlaceForm from "../../forms/edit/EditPlaceForm";
 import CreatePlaceForm from "@/components/forms/create/CreatePlaceForm";
 import { Place, PlacesQuery } from "@/gql/generate/graphql";
 import { GET_PLACES } from "@/gql/requests/queries";
+import Loader from "@/components/loader/Loader";
+import { toast } from "react-toastify";
 
 function PlacesTable() {
   const [isEditionPanelAdmin, setIsEditionPanelAdmin] = useState(false);
@@ -38,9 +40,9 @@ function PlacesTable() {
     refetch,
   } = useQuery<PlacesQuery>(GET_PLACES, {});
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
 
-  if (error) return <p>Error</p>;
+  if (error) return toast.error(error.message);
 
   const sortedPlaces = [...(placesData?.places || [])].sort((a, b) => {
     const firstElementIncludes =

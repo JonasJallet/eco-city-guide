@@ -5,6 +5,8 @@ import EditCategoryForm from "../../forms/edit/EditCategoryForm";
 import CreateCategoryForm from "@/components/forms/create/CreateCategoryForm";
 import { Category, GetCategoriesQuery } from "@/gql/generate/graphql";
 import { GET_CATEGORIES } from "@/gql/requests/queries";
+import Loader from "@/components/loader/Loader";
+import { toast } from "react-toastify";
 
 function CategoriesTable() {
   const [isEditionPanelAdmin, setIsEditionPanelAdmin] = useState(false);
@@ -38,9 +40,9 @@ function CategoriesTable() {
     refetch,
   } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
 
-  if (error) return <p>Error</p>;
+  if (error) return toast.error(error.message);
 
   const sortedCategories = [...(categoriesData?.categories || [])].sort(
     (a, b) => {
