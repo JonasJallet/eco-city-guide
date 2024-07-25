@@ -11,10 +11,31 @@ export const mockWithData_GetMyProfile: MockedResponse[] = [
       data: {
         myProfile: {
           _typename: "User",
+          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
           email: "jj@jj.com",
           firstName: "jjj",
-          id: "ffba84fc-2d80-4633-bbaf-bfd2a6ee6b36",
           lastName: "JJJ",
+          hashedPassword: "zzzzzzzzzzzzz",
+          role: "",
+          userInitials: "",
+          favoritesPlaces: {
+            id: "1",
+            createdAt: "",
+            address: "",
+            coordinates: [0.0, 0.0],
+            categories: {
+              id: "1",
+              name: "",
+              icon: "",
+            },
+            city: {
+              id: "1",
+              name: "",
+              coordinates: [0.0, 0.0],
+            },
+            description: "aaaaaaaaa",
+            name: "aaaaaaaaa",
+          },
         },
       },
     },
