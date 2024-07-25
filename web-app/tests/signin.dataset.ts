@@ -1,10 +1,11 @@
-import { GET_MY_PROFILE_SIGN_IN, SIGN_IN_FORM } from "@/pages/login/sign-in";
+import { SIGN_IN } from "@/gql/requests/mutations";
+import { GET_PROFILE } from "@/gql/requests/queries";
 import { MockedResponse } from "@apollo/client/testing";
 
 export const mockWithData_GetMyProfile: MockedResponse[] = [
   {
     request: {
-      query: GET_MY_PROFILE_SIGN_IN,
+      query: GET_PROFILE,
     },
     result: {
       data: {
@@ -23,7 +24,7 @@ export const mockWithData_GetMyProfile: MockedResponse[] = [
 export const mocksWithUndefinedData_GetMyProfile: MockedResponse[] = [
   {
     request: {
-      query: GET_MY_PROFILE_SIGN_IN,
+      query: GET_PROFILE,
     },
     result: undefined,
   },
@@ -32,7 +33,7 @@ export const mocksWithUndefinedData_GetMyProfile: MockedResponse[] = [
 export const mockWithData_SignInForm = [
   {
     request: {
-      query: SIGN_IN_FORM,
+      query: SIGN_IN,
       variables: {
         email: "jj@jj.com",
         password: "123456789012",
@@ -55,7 +56,7 @@ export const mockWithData_SignInForm = [
 export const mockWithInvalidData_SignInForm = [
   {
     request: {
-      query: SIGN_IN_FORM,
+      query: SIGN_IN,
       variables: {
         email: "axhje@lpdhdue.com",
         password: "123456789012",
