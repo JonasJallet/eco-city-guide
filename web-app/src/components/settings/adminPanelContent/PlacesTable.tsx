@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import PlaceEdition from "./Place";
-import PlaceEditionForm from "./PlaceEditionForm";
-import CreatePlaceForm from "@/components/forms/CreatePlaceForm";
+import EditPlaceForm from "../../forms/edit/EditPlaceForm";
+import CreatePlaceForm from "@/components/forms/create/CreatePlaceForm";
 import { Place, PlacesQuery } from "@/gql/generate/graphql";
 import { GET_PLACES } from "@/gql/requests/queries";
 
@@ -105,7 +105,7 @@ function PlacesTable() {
         </tbody>
       </table>
       {isCreationPanelAdmin && (
-        <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-gray-800 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-2 rounded-lg shadow-lg max-w-md max-h-[90vh] overflow-y-auto">
             <CreatePlaceForm
               setIsCreationPanelAdmin={setIsCreationPanelAdmin}
@@ -115,9 +115,9 @@ function PlacesTable() {
         </div>
       )}
       {isEditionPanelAdmin && currentPlace && (
-        <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <PlaceEditionForm
+        <div className="fixed inset-0 z-50 bg-gray-800 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-2 rounded-lg shadow-lg max-w-md max-h-[90vh] overflow-y-auto">
+            <EditPlaceForm
               place={currentPlace}
               setIsEditionPanelAdmin={closeEditionPanelAdmin}
               refetch={refetch}

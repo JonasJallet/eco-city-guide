@@ -7,10 +7,10 @@ import { useMutation } from "@apollo/client";
 import { useContext, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
-import { SideBarContentEnum } from "../home/sideBarContent.type";
+import { SideBarContentEnum } from "../../home/sideBarContent.type";
 import { toast } from "react-toastify";
 
-export default function CreateCategoriesForm({
+export default function CreateCategoryForm({
   setIsCreationPanelAdmin,
   refetchCategoryData,
 }: {
@@ -37,10 +37,10 @@ export default function CreateCategoriesForm({
       });
 
       if (data) {
+        setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
         if (refetchCategoryData) refetchCategoryData();
         toast.success("La catégorie a bien été créée !");
       }
-      setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
     } catch (error) {}
   };
 
@@ -122,7 +122,7 @@ export default function CreateCategoriesForm({
               onSubmit={(event) => {
                 handleFormSubmit(event);
               }}
-              className="flex items-center justify-center text-center w-full mt-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
+              className="flex items-center justify-center text-center w-full mt-6 mb-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
             >
               <IoMdAddCircleOutline className="text-xl" />
               <p className="ms-4 text-lg">Ajouter</p>

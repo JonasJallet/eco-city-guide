@@ -1,5 +1,5 @@
-import CreateCategoriesForm from "../forms/CreateCategoriesForm";
-import CreatePlaceForm from "../forms/CreatePlaceForm";
+import CreateCategoryForm from "../forms/create/CreateCategoryForm";
+import CreatePlaceForm from "../forms/create/CreatePlaceForm";
 import FavoritesContent from "./FavoritesContent";
 import PlaceContent from "./PlaceContent";
 import PlacesByCategoryContent from "./PlacesByCategory";
@@ -29,7 +29,7 @@ export default function SideBarContent({
     case SideBarContentEnum.CREATE_CATEGORY:
       contentComponent = (
         <div className="h-screen">
-          <CreateCategoriesForm />
+          <CreateCategoryForm />
         </div>
       );
       break;

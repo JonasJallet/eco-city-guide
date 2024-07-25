@@ -1,16 +1,25 @@
 import { User } from "@/gql/generate/graphql";
 import { GET_USERS } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserEdition from "./User";
-import UserEditionForm from "./UserEditionForm";
-import CreateUserForm from "@/components/forms/CreateUserForm";
+import EditUserForm from "../../forms/edit/EditUserForm";
+import CreateUserForm from "@/components/forms/create/CreateUserForm";
 
 function UsersTable() {
   const [isEditionPanelAdmin, setIsEditionPanelAdmin] = useState(false);
   const [isCreationPanelAdmin, setIsCreationPanelAdmin] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [searchUser, setSearchUser] = useState("");
+
+  useEffect(() => {
+    if (isEditionPanelAdmin || isCreationPanelAdmin) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [isEditionPanelAdmin, isCreationPanelAdmin]);
 
   const openEditionPanelAdmin = (user: User) => {
     setCurrentUser(user);
@@ -93,8 +102,8 @@ function UsersTable() {
           </tbody>
         </table>
         {isCreationPanelAdmin && (
-          <div className="w-screen h-screen bg-white fixed inset-0 px-2 z-10 overflow-hidden flex items-center justify-center">
-            <div className="pb-12 border border-gray-300 rounded-2xl">
+          <div className="fixed inset-0 z-50 bg-gray-800 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-2 rounded-lg shadow-lg overflow-y-auto">
               <CreateUserForm
                 setIsCreationPanelAdmin={setIsCreationPanelAdmin}
                 refetch={refetch}
@@ -103,12 +112,14 @@ function UsersTable() {
           </div>
         )}
         {isEditionPanelAdmin && currentUser && (
-          <div className="w-screen h-screen fixed inset-0 px-2 z-10 overflow-hidden flex items-center justify-center">
-            <UserEditionForm
-              user={currentUser}
-              setIsEditionPanelAdmin={closeEditionPanelAdmin}
-              refetch={refetch}
-            />
+          <div className="fixed inset-0 z-50 bg-gray-800 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-2 rounded-lg shadow-lg overflow-y-auto">
+              <EditUserForm
+                user={currentUser}
+                setIsEditionPanelAdmin={closeEditionPanelAdmin}
+                refetch={refetch}
+              />
+            </div>
           </div>
         )}
       </div>

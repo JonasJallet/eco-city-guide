@@ -17,7 +17,7 @@ import axios from "axios";
 import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
-import { SideBarContentEnum } from "../home/sideBarContent.type";
+import { SideBarContentEnum } from "../../home/sideBarContent.type";
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
 
@@ -284,7 +284,7 @@ export default function CreatePlaceForm({
           )}
           <button
             type="submit"
-            className="flex items-center justify-center text-center w-full mt-4 mb-12 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
+            className="flex items-center justify-center text-center w-full mt-6 mb-4 border bg-tertiary_color rounded-3xl px-4 py-2 text-white tracking-wide font-semibold font-sans transition-all duration-300 hover:bg-white hover:text-tertiary_color hover:border hover:border-tertiary_color"
           >
             <IoMdAddCircleOutline className="text-xl" />
             <p className="ms-4 text-lg">Ajouter</p>
