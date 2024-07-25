@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import PlaceEdition from "./Place";
 import PlaceEditionForm from "./PlaceEditionForm";
@@ -11,6 +11,15 @@ function PlacesTable() {
   const [isCreationPanelAdmin, setIsCreationPanelAdmin] = useState(false);
   const [currentPlace, setCurrentPlace] = useState<Place | null>(null);
   const [searchPlace, setSearchPlace] = useState("");
+
+  useEffect(() => {
+    if (isEditionPanelAdmin || isCreationPanelAdmin) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [isEditionPanelAdmin, isCreationPanelAdmin]);
 
   const openEditionPanelAdmin = (place: Place) => {
     setCurrentPlace(place);
@@ -61,9 +70,7 @@ function PlacesTable() {
           name="searchPlace"
         />
         <button
-          onClick={() => {
-            setIsCreationPanelAdmin(true);
-          }}
+          onClick={() => setIsCreationPanelAdmin(true)}
           className="mx-3 px-2 font-semibold bg-white text-blue-400 border-2 border-blue-400 rounded-3xl duration-200 hover:text-white hover:border-blue-400 hover:bg-blue-400"
         >
           Créer
@@ -98,8 +105,8 @@ function PlacesTable() {
         </tbody>
       </table>
       {isCreationPanelAdmin && (
-        <div className="bg-white fixed inset-0 px-2 z-10 flex items-center overflow-y-auto justify-center">
-          <div className="my-4 border border-gray-300 rounded-2xl">
+        <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-2 rounded-lg shadow-lg max-w-md max-h-[90vh] overflow-y-auto">
             <CreatePlaceForm
               setIsCreationPanelAdmin={setIsCreationPanelAdmin}
               refetchPlaceData={refetch}
@@ -108,13 +115,14 @@ function PlacesTable() {
         </div>
       )}
       {isEditionPanelAdmin && currentPlace && (
-        <div className=" bg-white fixed inset-0 px-2 z-10 flex items-center justify-center">
-          <PlaceEditionForm
-            key={currentPlace.id}
-            place={currentPlace}
-            setIsEditionPanelAdmin={closeEditionPanelAdmin}
-            refetch={refetch}
-          />
+        <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <PlaceEditionForm
+              place={currentPlace}
+              setIsEditionPanelAdmin={closeEditionPanelAdmin}
+              refetch={refetch}
+            />
+          </div>
         </div>
       )}
     </div>

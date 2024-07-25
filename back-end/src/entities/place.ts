@@ -133,6 +133,13 @@ class Place extends BaseEntity {
         throw new Error("Un lieu avec ce nom et ces coordonnées existe déjà.");
       }
 
+      if (
+        error instanceof QueryFailedError &&
+        error.message.includes("The 'coordinates' in GeoJSON are not an array")
+      ) {
+        throw new Error("Vous devez sélectionner une adresse de la liste.");
+      }
+
       throw error;
     }
   }
