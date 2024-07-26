@@ -23,7 +23,7 @@ import MapResizeHandler from "./MapResize";
 
 export default function Map() {
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
-  const { setSideBarEnum } = useContext(
+  const { sideBarEnum, setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
   const { surroundingPlaces, setSurroundingPlaces, setCategory } = useContext(
@@ -77,6 +77,11 @@ export default function Map() {
       setZoom(15);
     }
   }, [place]);
+
+  useEffect(() => {
+    if (sideBarEnum === SideBarContentEnum.NO_CONTENT)
+      setCategorySelected(undefined);
+  }, [sideBarEnum]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -176,7 +181,6 @@ export default function Map() {
           </LayersControl>
           <LocateButton />
           <FullscreenButton />
-          <MapResizeHandler />
           <SearchCategoryOnMap
             setCenterOfTheMap={setCenterOfTheMap}
             setZoomLevel={setZoomLevel}
@@ -184,6 +188,7 @@ export default function Map() {
             isCategorySelected={isCategorySelected}
             setIsCategorySelected={setIsCategorySelected}
           />
+          <MapResizeHandler />
           {surroundingPlaces.length > 0 &&
             surroundingPlaces.map((place, index) => (
               <Marker
