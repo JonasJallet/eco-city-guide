@@ -27,7 +27,7 @@ import {
 } from "@/gql/generate/graphql";
 
 export default function PlaceContent() {
-  const { place } = useContext(PlaceContext) as PlaceContextType;
+  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
   const { setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
@@ -71,8 +71,8 @@ export default function PlaceContent() {
 
   const handleCloseButton = () => {
     setSideBarEnum(SideBarContentEnum.NO_CONTENT);
+    setPlace(undefined);
   };
-  const { coordinates } = place?.coordinates;
 
   return (
     <div className="flex flex-col h-screen w-80">
@@ -103,7 +103,8 @@ export default function PlaceContent() {
                 <MdGpsFixed className="w-6 h-6" />
               </div>
               <p>
-                {coordinates[0]}, {coordinates[1]}
+                {place?.coordinates.coordinates[0]},{" "}
+                {place?.coordinates.coordinates[1]}
               </p>
             </div>
             <div className="flex flex-wrap gap-2 rounded-2xl mb-2 mt-4 px-4">
