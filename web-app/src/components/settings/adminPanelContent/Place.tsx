@@ -56,7 +56,7 @@ export default function Place({
           <p>{place.city?.name || "-"}</p>
         </td>
         <td className="py-3 px-2 flex justify-center items-center text-center">
-          <p className="min-w-56 max-w-96 h-24 overflow-y-auto">
+          <p className="min-w-56 max-w-96 h-24 overflow-y-auto content-center">
             {place.description || "-"}
           </p>
         </td>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import PlaceEdition from "./Place";
+import PlaceList from "./Place";
 import EditPlaceForm from "../../forms/edit/EditPlaceForm";
 import CreatePlaceForm from "@/components/forms/create/CreatePlaceForm";
 import { Place, PlacesQuery } from "@/gql/generate/graphql";
@@ -90,7 +90,7 @@ function PlacesTable() {
           </tr>
           {!placesData?.places || placesData?.places.length !== 0 ? (
             sortedPlaces?.map((place: Place) => (
-              <PlaceEdition
+              <PlaceList
                 key={place.id}
                 place={place}
                 openEditionPanelAdmin={openEditionPanelAdmin}
