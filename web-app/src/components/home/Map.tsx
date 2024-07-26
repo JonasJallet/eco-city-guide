@@ -137,7 +137,7 @@ export default function Map() {
   ];
 
   return (
-    <div className="h-full w-full flex justify-center">
+    <div className="h-full w-full flex justify-center mr-20">
       <div className="grid grid-cols-1 items-center m-5 absolute z-20 sm:grid-cols-2 md:grid-cols-3">
         <div className="col-span-2">
           <PlaceSearchBar category={category?.name} />
