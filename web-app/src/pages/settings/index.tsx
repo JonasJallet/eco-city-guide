@@ -446,7 +446,7 @@ export default function Settings() {
               ) : (
                 favorites && (
                   <div className="flex flex-col items-center">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2 min-w-[784px]">
                       <div
                         className={`flex justify-start mt-4 md:col-span-3 sm:col-span-2 col-span-1 ${filteredFavorites.length > 0 ? "" : "ml-10 md:ml-0"}`}
                       >

@@ -82,17 +82,19 @@ export default function CategoriesFilter({
               <li
                 key={index}
                 className="flex items-center rounded-lg cursor-pointer"
-                onClick={() => handleCheckboxChange(category.name!)}
               >
                 <input
                   id={`category-${index}`}
                   type="checkbox"
                   checked={selectedCategories.includes(category.name as string)}
                   className="w-4 h-4 rounded text-primary-600"
+                  onChange={() => handleCheckboxChange(category.name!)}
+                  onClick={(e) => e.stopPropagation()}
                 />
                 <label
-                  id={category.name}
+                  htmlFor={`category-${index}`}
                   className="ml-2 text-sm font-medium text-gray-900 cursor-pointer"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {category.name}
                 </label>
