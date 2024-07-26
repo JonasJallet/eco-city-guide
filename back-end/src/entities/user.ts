@@ -50,7 +50,7 @@ class User extends BaseEntity {
     default: UserRole.user,
   })
   @Field()
-  role: UserRole = UserRole.user;
+  role!: UserRole;
 
   @Column({ unique: true })
   @Field()
@@ -79,6 +79,7 @@ class User extends BaseEntity {
       this.lastName = user.lastName;
       this.email = user.email;
       this.hashedPassword = user.password;
+      this.role = user.role ?? UserRole.user;
     }
   }
 

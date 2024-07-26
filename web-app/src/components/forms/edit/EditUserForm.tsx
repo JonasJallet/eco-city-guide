@@ -116,6 +116,7 @@ export default function EditUserForm({
               className="px-4 py-2 cursor-pointer rounded-3xl transition-all duration-300 outline-none  focus:outline-none hover:border-white hover:bg-input_hover_bg mb-2 border border-tertiary_color"
               name="role"
               id="role"
+              value={updatedUser.role}
               onChange={(event) => {
                 setUpdatedUser({ ...updatedUser, role: event.target.value });
               }}
