@@ -1,7 +1,7 @@
 import { Category } from "@/gql/generate/graphql";
 import { GET_CATEGORIES } from "@/gql/requests/queries";
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TbCategoryPlus } from "react-icons/tb";
 
 interface Props {
@@ -44,10 +44,10 @@ export function CategoriesSearchFilter({
         <p>Catégories</p>
       </button>
       {categoriesList?.length > 0 && (
-        <div className="h-44 w-36 animate-fade flex flex-col absolute z-20 top-8 rounded-b-3xl border border-tertiary_color bg-white overflow-y-auto">
+        <div className="h-44 w-36 animate-fade flex flex-col absolute z-20 top-8 rounded-b-3xl border border-tertiary_color bg-white overflow-y-auto overflow-x-hidden">
           {categoriesList.map((category, index) => (
             <div
-              className="w-full m-1 px-3 rounded-3xl hover:bg-input_hover_bg cursor-pointer"
+              className="w-full my-1 px-3 hover:bg-input_hover_bg cursor-pointer"
               onClick={() => {
                 handleSelectedCategory(category);
               }}

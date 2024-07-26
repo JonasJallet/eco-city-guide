@@ -86,6 +86,7 @@ export default function CreatePlaceForm({
       if (data) {
         if (refetchPlaceData) refetchPlaceData();
         setPlace(data.createPlace as Place);
+        setSideBarEnum(SideBarContentEnum.PLACE);
         toast.success("Le lieu a bien été créé !");
       }
       setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;

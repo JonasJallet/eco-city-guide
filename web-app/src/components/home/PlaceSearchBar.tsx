@@ -16,7 +16,7 @@ export default function PlaceSearchBar({ category }: { category?: string }) {
   const { sideBarEnum, setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
-  const { data: placesData } = useQuery(GET_PLACES, {
+  const { data: placesData, refetch } = useQuery(GET_PLACES, {
     variables: { category },
   });
 
@@ -51,7 +51,8 @@ export default function PlaceSearchBar({ category }: { category?: string }) {
     if (category) {
       setSearchPlace(category);
     }
-  }, [category]);
+    refetch();
+  }, [category, refetch]);
 
   useEffect(() => {
     if (sideBarEnum === SideBarContentEnum.NO_CONTENT) {

@@ -668,6 +668,10 @@ video {
   margin: 2rem;
 }
 
+.m-0 {
+  margin: 0px;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -691,6 +695,16 @@ video {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 .mb-1 {
@@ -819,6 +833,10 @@ video {
 
 .mt-72 {
   margin-top: 18rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
 }
 
 .line-clamp-2 {
@@ -993,6 +1011,14 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.w-40 {
+  width: 10rem;
+}
+
+.w-44 {
+  width: 11rem;
 }
 
 .min-w-11 {
@@ -1176,6 +1202,10 @@ video {
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
 }
 
 .overflow-x-scroll {
