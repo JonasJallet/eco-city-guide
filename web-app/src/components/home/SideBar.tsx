@@ -30,8 +30,6 @@ export default function SideBar() {
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
 
-  const { setPlace } = useContext(PlaceContext) as PlaceContextType;
-
   const { data } = useQuery<GetProfileQuery>(GET_PROFILE);
   const router = useRouter();
 
@@ -48,9 +46,8 @@ export default function SideBar() {
       enumValue === SideBarContentEnum.FAVORITES
     ) {
       setSurroundingPlaces([]);
-      setPlace(undefined);
     }
-  }, [enumValue, setSurroundingPlaces, setPlace]);
+  }, [enumValue, setSurroundingPlaces]);
 
   const user = data?.myProfile;
   const administrator =
