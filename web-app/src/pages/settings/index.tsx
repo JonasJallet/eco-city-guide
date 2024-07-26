@@ -32,7 +32,7 @@ export default function Settings() {
   );
   const [isModalOpened, SetIsModalOpened] = useState(false);
   const [activeItemNavBarSettings, setActiveItemNavBarSettings] =
-    useState("Admin");
+    useState("Profil");
   const [favorites, setFavorites] = useState<Place[]>([]);
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
@@ -86,6 +86,13 @@ export default function Settings() {
     if (dataProfile) {
       setFormData(dataProfile);
       setFavorites(data?.myProfile.favoritesPlaces as Place[]);
+    }
+
+    if (
+      data?.myProfile.role === "webAdministrator" ||
+      data?.myProfile.role === "cityAdministrator"
+    ) {
+      setActiveItemNavBarSettings("Admin");
     }
   }, [data]);
 
@@ -163,7 +170,8 @@ export default function Settings() {
 
       if (data && data.deleteUser) {
         toast.success("Votre compte a bien été supprimé !");
-        router.push("/home");
+        await router.push("/home");
+        location.reload();
       }
     } catch (error) {}
   };

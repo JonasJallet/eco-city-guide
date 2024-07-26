@@ -18,7 +18,7 @@ function AdminPanel() {
   return (
     <div className="mb-10">
       <h2 className="font-bold font-sans text-2xl text-dark_text_color mt-10 text-center ">
-        Panel Administrateur
+        Panneau Administrateur
       </h2>
       <div className="m-10">
         <div className="flex text-gray-500 font-medium">
