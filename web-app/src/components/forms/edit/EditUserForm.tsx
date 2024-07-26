@@ -111,9 +111,7 @@ export default function EditUserForm({
             }}
           />
           <div className="flex flex-col">
-            <label className="ml-4" htmlFor="role">
-              Rôle
-            </label>
+            <label htmlFor="role">Rôle</label>
             <select
               className="px-4 py-2 cursor-pointer rounded-3xl transition-all duration-300 outline-none  focus:outline-none hover:border-white hover:bg-input_hover_bg mb-2 border border-tertiary_color"
               name="role"
@@ -123,19 +121,19 @@ export default function EditUserForm({
               }}
             >
               <option className="cursor-pointer" value={UserRole.user}>
-                User
+                Utilisateur
               </option>
               <option
                 className="cursor-pointer"
                 value={UserRole.cityAdministrator}
               >
-                City Administrator
+                Administrateur de ville
               </option>
               <option
                 className="cursor-pointer"
                 value={UserRole.webAdministrator}
               >
-                Web Administrator
+                Administrateur du site
               </option>
             </select>
           </div>

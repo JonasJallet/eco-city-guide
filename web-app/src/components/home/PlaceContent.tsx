@@ -5,7 +5,13 @@ import DisplayPanelContext, {
   DisplayPanelType,
 } from "@/contexts/DisplayPanelContext";
 import { SideBarContentEnum } from "./sideBarContent.type";
-import { MdClose, MdLocationPin, MdStar, MdStarBorder } from "react-icons/md";
+import {
+  MdClose,
+  MdGpsFixed,
+  MdLocationPin,
+  MdStar,
+  MdStarBorder,
+} from "react-icons/md";
 import {
   ADD_FAVORITE_PLACE,
   REMOVE_FAVORITE_PLACE,
@@ -66,6 +72,7 @@ export default function PlaceContent() {
   const handleCloseButton = () => {
     setSideBarEnum(SideBarContentEnum.NO_CONTENT);
   };
+  const { coordinates } = place?.coordinates;
 
   return (
     <div className="flex flex-col h-screen w-80">
@@ -84,11 +91,19 @@ export default function PlaceContent() {
           </div>
           <div className="px-4 mt-5">
             <div className="flex items-center">
-              <div className="text-lg text-tertiary_color mr-2">
+              <div className="text-lg text-tertiary_color mr-2 my-4">
                 <MdLocationPin className="w-6 h-6" />
               </div>
               <p>
                 {place.address}, {place.city.name}
+              </p>
+            </div>
+            <div className="flex items-center">
+              <div className="text-lg text-tertiary_color mr-2 my-4">
+                <MdGpsFixed className="w-6 h-6" />
+              </div>
+              <p>
+                {coordinates[0]}, {coordinates[1]}
               </p>
             </div>
             <div className="flex flex-wrap gap-2 rounded-2xl mb-2 mt-4 px-4">
