@@ -36,13 +36,15 @@ function AdminPanel() {
             <TbCategory className="w-6 h-6 mr-1" />
             Catégories
           </span>
-          <span
-            onClick={() => setActiveItemAdminPanel("UsersTable")}
-            className={`flex items-center py-2 px-4 ${activeItemAdminPanel === "UsersTable" ? "bg-slate-100" : "bg-slate-300 cursor-pointer  hover:bg-slate-400 hover:text-white"} rounded-t-xl rounded-tl-3xl transition-all duration-200`}
-          >
-            <HiOutlineUsers className="w-6 h-6 mr-1" />
-            Utilisateurs
-          </span>
+          {userRole === "webAdministrator" && (
+            <span
+              onClick={() => setActiveItemAdminPanel("UsersTable")}
+              className={`flex items-center py-2 px-4 ${activeItemAdminPanel === "UsersTable" ? "bg-slate-100" : "bg-slate-300 cursor-pointer hover:bg-slate-400 hover:text-white"} rounded-t-xl rounded-tl-3xl transition-all duration-200`}
+            >
+              <HiOutlineUsers className="w-6 h-6 mr-1" />
+              Utilisateurs
+            </span>
+          )}
         </div>
         <section className="bg-slate-100 rounded-r-xl rounded-b-xl">
           {activeItemAdminPanel === "PlacesTable" && <PlacesTable />}
