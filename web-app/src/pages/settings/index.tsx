@@ -32,7 +32,7 @@ export default function Settings() {
   );
   const [isModalOpened, SetIsModalOpened] = useState(false);
   const [activeItemNavBarSettings, setActiveItemNavBarSettings] =
-    useState("Admin");
+    useState("Profil");
   const [favorites, setFavorites] = useState<Place[]>([]);
   const [inputType, setInputType] = useState<string>("text");
   const [showCancelButton, setShowCancelButton] = useState(false);
@@ -86,6 +86,13 @@ export default function Settings() {
     if (dataProfile) {
       setFormData(dataProfile);
       setFavorites(data?.myProfile.favoritesPlaces as Place[]);
+    }
+
+    if (
+      data?.myProfile.role === "webAdministrator" ||
+      data?.myProfile.role === "cityAdministrator"
+    ) {
+      setActiveItemNavBarSettings("Admin");
     }
   }, [data]);
 
@@ -163,7 +170,8 @@ export default function Settings() {
 
       if (data && data.deleteUser) {
         toast.success("Votre compte a bien été supprimé !");
-        router.push("/home");
+        await router.push("/home");
+        location.reload();
       }
     } catch (error) {}
   };
@@ -446,7 +454,7 @@ export default function Settings() {
               ) : (
                 favorites && (
                   <div className="flex flex-col items-center">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 mt-2 min-w-[784px]">
                       <div
                         className={`flex justify-start mt-4 md:col-span-3 sm:col-span-2 col-span-1 ${filteredFavorites.length > 0 ? "" : "ml-10 md:ml-0"}`}
                       >

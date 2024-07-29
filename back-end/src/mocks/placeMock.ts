@@ -19,7 +19,7 @@ export async function createPlacesWithCategory() {
 
   for (const category of await categories()) {
     const placesData: DeepPartial<PlaceInterface>[] = [];
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 60; i++) {
       const placeData: DeepPartial<PlaceInterface> = await placeFactory.create([
         category.id,
       ]);

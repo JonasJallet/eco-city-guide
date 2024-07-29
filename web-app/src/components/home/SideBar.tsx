@@ -15,7 +15,6 @@ import { GetProfileQuery } from "@/gql/generate/graphql";
 import SurroundingPlacesContext, {
   SurroundingPlacesContextType,
 } from "@/contexts/SurroundingPlacesContext";
-import PlaceContext, { PlaceContextType } from "@/contexts/PlaceContext";
 
 export default function SideBar() {
   const [enumValue, setEnumValue] = useState<SideBarContentEnum>(
@@ -29,8 +28,6 @@ export default function SideBar() {
   const { setSurroundingPlaces } = useContext(
     SurroundingPlacesContext,
   ) as SurroundingPlacesContextType;
-
-  const { setPlace } = useContext(PlaceContext) as PlaceContextType;
 
   const { data } = useQuery<GetProfileQuery>(GET_PROFILE);
   const router = useRouter();
@@ -48,9 +45,8 @@ export default function SideBar() {
       enumValue === SideBarContentEnum.FAVORITES
     ) {
       setSurroundingPlaces([]);
-      setPlace(undefined);
     }
-  }, [enumValue, setSurroundingPlaces, setPlace]);
+  }, [enumValue, setSurroundingPlaces]);
 
   const user = data?.myProfile;
   const administrator =
@@ -70,7 +66,9 @@ export default function SideBar() {
 
   return (
     <>
-      <SideBarContent enumValue={enumValue} />
+      <div className="fixed top-0 right-0 flex z-20">
+        <SideBarContent enumValue={enumValue} />
+      </div>
       <div className="fixed top-0 right-0 flex z-20">
         <div
           className={`flex flex-col items-center w-20 h-screen py-6 space-y-8 bg-white ${

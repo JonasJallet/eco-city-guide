@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 import PlaceContext from "@/contexts/PlaceContext";
 import { PlaceContextType } from "@/contexts/PlaceContext";
 import { Place } from "@/gql/generate/graphql";
+import DisplayPanelContext, {
+  DisplayPanelType,
+} from "@/contexts/DisplayPanelContext";
+import { SideBarContentEnum } from "../home/sideBarContent.type";
 
 interface Props {
   favorite: Place;
@@ -13,10 +17,14 @@ export default function FavoriteCard({ favorite, removeFromFavorites }: Props) {
   const [clickedFavorite, setClickedFavorite] = useState(false);
   const router = useRouter();
 
-  const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { setPlace } = useContext(PlaceContext) as PlaceContextType;
+  const { setSideBarEnum } = useContext(
+    DisplayPanelContext,
+  ) as DisplayPanelType;
 
   const handleDisplayFavoriteOnMap = (favorite: Place) => {
     setPlace(favorite);
+    setSideBarEnum(SideBarContentEnum.PLACE);
     router.push("/home");
   };
 

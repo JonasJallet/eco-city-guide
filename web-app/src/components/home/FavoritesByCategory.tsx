@@ -31,6 +31,7 @@ export default function FavoritesByCategoryContent({
 
   const handleSelectedFavorite = (favorite: Place) => {
     setPlace(favorite);
+    setSideBarEnum(SideBarContentEnum.PLACE);
   };
 
   const handleRemoveFavorite = async (

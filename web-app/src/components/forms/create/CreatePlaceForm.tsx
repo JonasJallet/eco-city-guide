@@ -84,11 +84,14 @@ export default function CreatePlaceForm({
         variables: formData,
       });
       if (data) {
-        if (refetchPlaceData) refetchPlaceData();
-        setPlace(data.createPlace as Place);
+        refetchPlaceData?.();
+        if (!setIsCreationPanelAdmin) {
+          setPlace(data.createPlace as Place);
+          setSideBarEnum(SideBarContentEnum.PLACE);
+        }
         toast.success("Le lieu a bien été créé !");
+        setIsCreationPanelAdmin?.(false);
       }
-      setIsCreationPanelAdmin ? setIsCreationPanelAdmin(false) : null;
     } catch (error) {}
   };
 

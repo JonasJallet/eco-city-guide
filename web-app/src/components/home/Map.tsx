@@ -23,7 +23,7 @@ import MapResizeHandler from "./MapResize";
 
 export default function Map() {
   const { place, setPlace } = useContext(PlaceContext) as PlaceContextType;
-  const { setSideBarEnum } = useContext(
+  const { sideBarEnum, setSideBarEnum } = useContext(
     DisplayPanelContext,
   ) as DisplayPanelType;
   const { surroundingPlaces, setSurroundingPlaces, setCategory } = useContext(
@@ -79,6 +79,11 @@ export default function Map() {
   }, [place]);
 
   useEffect(() => {
+    if (sideBarEnum === SideBarContentEnum.NO_CONTENT)
+      setCategorySelected(undefined);
+  }, [sideBarEnum]);
+
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.permissions.query({ name: "geolocation" }).then((result) => {
         if (result.state === "granted" || result.state === "prompt") {
@@ -132,7 +137,7 @@ export default function Map() {
   ];
 
   return (
-    <div className="h-full w-full flex justify-center">
+    <div className="h-full w-full flex justify-center mr-20">
       <div className="grid grid-cols-1 items-center m-5 absolute z-20 sm:grid-cols-2 md:grid-cols-3">
         <div className="col-span-2">
           <PlaceSearchBar category={category?.name} />
@@ -176,7 +181,6 @@ export default function Map() {
           </LayersControl>
           <LocateButton />
           <FullscreenButton />
-          <MapResizeHandler />
           <SearchCategoryOnMap
             setCenterOfTheMap={setCenterOfTheMap}
             setZoomLevel={setZoomLevel}
@@ -184,6 +188,7 @@ export default function Map() {
             isCategorySelected={isCategorySelected}
             setIsCategorySelected={setIsCategorySelected}
           />
+          <MapResizeHandler />
           {surroundingPlaces.length > 0 &&
             surroundingPlaces.map((place, index) => (
               <Marker
