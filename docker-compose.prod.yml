@@ -1,5 +1,6 @@
 services:
   back-end:
+    container_name: back-end
     build:
       context: ./back-end
       target: prod
@@ -14,6 +15,7 @@ services:
       - 4000
 
   web-app:
+    container_name: web-app
     build:
       context: ./web-app
       target: prod
@@ -23,6 +25,7 @@ services:
       - 3000
 
   database:
+    container_name: database
     image: postgis/postgis:15-3.4
     volumes:
       - database-data:/var/lib/postgresql/data
@@ -32,6 +35,7 @@ services:
       test: pg_isready -U postgres
 
   gateway:
+    container_name: gateway
     image: nginx
     depends_on:
       - back-end
