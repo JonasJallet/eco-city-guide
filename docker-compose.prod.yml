@@ -5,7 +5,7 @@ services:
       context: ./back-end
       target: prod
     environment:
-      - DATABASE_URL=postgres://postgres@database:5432/postgres
+      - DATABASE_URL="postgres://postgres:password@database:5432/postgres"
       - NODE_ENV=production
       - CACHE_URL=redis://cache
     depends_on:
