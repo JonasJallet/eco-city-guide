@@ -31,6 +31,8 @@ services:
       - database-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
     healthcheck:
       test: pg_isready -U postgres
 
