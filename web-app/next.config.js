@@ -4,7 +4,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/",
+        source: "/projects/eco-city-guide/demo",
         destination: "/home",
       },
       {
