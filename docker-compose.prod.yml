@@ -5,7 +5,7 @@ services:
       context: ./back-end
       target: prod
     environment:
-      - DATABASE_URL=postgres://postgres:password@database:5432/postgres
+      - DATABASE_URL=postgres://root:root@database:5432/ecocityguide
       - NODE_ENV=production
       - CACHE_URL=redis://cache
     depends_on:
@@ -30,11 +30,11 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=ecocityguide
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
     healthcheck:
-      test: pg_isready -U postgres
+      test: pg_isready -U root
 
   gateway:
     container_name: gateway

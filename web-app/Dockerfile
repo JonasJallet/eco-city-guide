@@ -12,5 +12,8 @@ FROM base as dev
 CMD npm run dev
 
 FROM base as prod
-RUN npm run build && npm run tailwind
-CMD npm run start 
+RUN npm run build
+RUN echo "Build completed, running tailwind..."
+RUN npm run tailwind
+RUN echo "Tailwind completed, ready for start !"
+CMD npm run start

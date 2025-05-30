@@ -15,4 +15,6 @@ FROM base as ci
 CMD npm run test
 
 FROM base as prod
+RUN npm run build
+RUN echo "Build completed, ready for start !"
 CMD npm run start
